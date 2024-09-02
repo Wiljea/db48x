@@ -102,6 +102,168 @@ static const cstring basic_equations[] =
     "  '(V_n)=IFTE((x_m)≤(a_m);1;0)*(P_N)+(w_N/m)*((L_m)-(x_m))'"
     "}",
 
+    "Electricity", nullptr,
+// 67 eqns
+    "Coulomb's Law & E Field",  "{ "
+    "  '(F_N)=1/(4*Ⓒπ*Ⓒε0*εr)*((q1_C)*(q2_C)/(r_m)^2)' "
+    "  '(E_(N/C))=(F_N)/(qtest_C)' "
+    "}",
+
+    "E Field Infinite Line",  "{ "
+    "  '(E_(N/C))=1/(2*Ⓒπ*Ⓒε0*εr)*((λ_(C/m))/(r_m)' "
+	"  '(λ_(C/m))=(Q_C)/(L_m)' "
+    "}",
+
+    "E Field Finite Line",  "{ "
+    "  '(E_(N/C))=1/(4*Ⓒπ*Ⓒε0*εr)*((λ_(C/m))/(r_m)*((SIN(θ1_r)-SIN(θ2_r))' "
+	"  '(λ_(C/m))=(Q_C)/(L_m)' "
+    "}",
+
+    "E Field Infinite Plate",  "{ "
+    "  '(E_(N/C))=(σ_(μC/cm^2))/(2*Ⓒε0*εr)' "
+	"  '(σ_(μC/m^2))=(Q_μC)/(A_(cm^2))' "
+    "}",
+
+    "Ohm's Law & Power",  "{ "
+    "  '(V_V)=(I_A)*(R_Ω)' "
+	"  '(P_W)=(V_V)*(I_A)' "
+	"  '(P_W)=(I_A)^2*(R_Ω)' "
+	"  '(P_W)=(V_V)^2/(R_Ω)' "
+    "}",
+
+    "Volt Divider",  "{ "
+    "  '(V1_V)=(V_V)*((R1_Ω)/((R1_Ω)+(R2_Ω)))' "
+    "}",
+
+    "Current Divider",  "{ "
+    "  '(I1_A)=(I_A)*((R2_Ω)/((R1_Ω)+(R2_Ω)))' "
+    "}",
+
+    "Wire Resistance",  "{ "
+    "  '(R_Ω)=(ρ_(Ω*m))*(L_m)/(A_(m^2))' "
+    "}",
+
+    "Resistivity & Conductivity",  "{ "
+    "  '(ρ_(Ω*m))=(ρ0_(Ω*m))*(1+(αT_K^-1)*((T_K)-(T0_K)))' "
+	"  '(σ_(S/m))=1/(ρ_(Ω*m))' "
+    "}",
+
+    "Series & Parallel R",  "{ "
+    "  '(Rs_Ω)=(R1_Ω)+(R2_Ω)'"
+	"  '1/(Rp_Ω)=1/(R1_Ω)+1/(R2_Ω)' "
+    "}",
+
+    "Series & Parallel C",  "{ "
+    "  '1/(Cs_μF)=1/(C1_μF)+1/(C2_μF)' "
+	"  '(Cp_μF)=(C1_μF)+(C2_μF)' "
+    "}",
+
+    "Series & Parallel L",  "{ "
+    "  '(Ls_mH)=(L1_mH)+(L2_mH)' "
+	"  '1/(Lp_mH)=1/(L1_mH)+1/(L2_mH)' "
+    "}",
+
+    "Capacitive Energy",  "{ "
+    "  '(E_J)=(1/2)*(C_μF)*(V_V)^2' "
+	"  '(E_J)=(1/2)*(q_μC)*(V_V)' "
+	"  '(E_J)=(q_μC)^2/(2*(C_μF))' "
+    "}",
+
+    "Volumic Density Electric Energy",  "{ "
+    "  '(uE_(J/m^3))=(1/2)*Ⓒε0*εr*(E_(V/m))^2' "
+	"}",
+
+    "Inductive Energy",  "{ "
+    "  '(E_J)=(1/2)*(L_mH)*(I_A)^2' "
+    "}",
+
+    "RLC Current Delay",  "{ "
+    "  'TAN(φs_°)=((XL_Ω)-(XC_Ω))/(R_Ω)' "
+	"  'TAN(φp_°)=(1/(XC_Ω)-1/(XL_Ω))*(R_Ω)' "
+	"  '(XC_Ω)=1/((ω_(r/s))*(C_μF))' "
+	"  '(XL_Ω)=(ω_(r/s))*(L_mH)' "
+	"  '(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
+    "}",
+
+    "DC Capacitor Current",  "{ "
+    "  '(I_A)=(C_μF)*((ΔV_V)/(Δt_s))' "
+	"  '(ΔV_V)=(Vf_V)-(Vi_V)' "
+	"  '(Δt_μs)=(tf_μs)-(ti_μs)' "
+    "}",
+
+    "Capacitor Charge",  "{ "
+    "  '(q_C)=(C_μF)*(V_V)' "
+    "}",
+
+    "DC Inductor Voltage",  "{ "
+    "  '(V_V)=-(L_mH)*((ΔI_A)/(Δt_μs))' "
+	"  '(ΔI_A)=(If_A)-(Ii_A)' "
+	"  '(Δt_μs)=(tf_μs)-(ti_μs)' "
+    "}",
+
+    "RC Transient",  "{ "
+    "  '(V_V)=(Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_ms))/((R_Ω)*(μC_F)))' "
+    "}",
+
+    "RL Transient",  "{ "
+    "  '(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_μs))/((R_Ω)*(L_mH)))' "
+    "}",
+
+    "Resonant Frequency",  "{ "
+    "  'Qs=1/(R_Ω)*√((L_mH)/(C_μF))' "
+	"  'Qp=(R_Ω)*√((C_μF)/(L_mH))' "
+	"  '(ω0_(r/s))=2*(Ⓒπ_r)*(f0_Hz) "
+	"  '(ω0_(r/s))=1_r/√((L_mH)*(C_μF))' "
+    "}",
+
+    "Plate Capacitor",  "{ "
+    "  '(C_μF)=Ⓒε0*εr*(A_(cm^2))/(d_cm)' "
+	"  '(ΔV_V)=(Ein_(V/m))*(d_cm)' "
+    "  '(Ein_(N/C))=(σ_(μC/cm^2))/(Ⓒε0*εr)' "
+	"  '(σ_(μC/m^2))=(Q_μC)/(A_(cm^2))' "
+    "}",
+
+    "Cylindrical Capacitor",  "{ "
+    "  '(C_μF)=2*Ⓒπ*Ⓒε0*εr*(L_cm)/(LN((ro_cm)/(ri_cm)))' "
+	"  '(ΔV_V)=(Q_μC)*(LN((ro_cm)/(ri_cm)))/(2*Ⓒπ*Ⓒε0*εr*(L_cm))' "
+    "}",
+
+    "Solenoid Inductance",  "{ "
+    "  '(L_mH)=Ⓒμ0*μr*(n_cm^-1)^2*(A_(cm^2))*(h_cm)' "
+    "}",
+
+    "Toroid Inductance",  "{ "
+    "  '(L_mH)=Ⓒμ0*μr*N^2*(h_cm)/(2*Ⓒπ)*LN((ro_cm)/(ri_cm))' "
+    "}",
+
+    "Sinusoidal Voltage",  "{ "
+    "  '(V_V)=(Vmax_V)*SIN((ω_(r/s))*(t_μs)+(φ_°))' "
+	"  '(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
+    "}",
+
+    "Sinusoidal Current",  "{ "
+    "  '(I_A)=(Imax_A)*SIN((ω_(r/s))*(t_s)+(φ_°))' "
+	"  '(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
+    "}",
+
+    // Example of the following in https://en.wikipedia.org/wiki/Drift_velocity#Numerical_example 
+    "Drift Speed % Current Density",  "{ "
+    "  '(vd_(m/s))=(I_A)/((n_(m^-3))*Ⓒqe*(A_(cm^2)))' "
+    "  '(J_(A/m^2))=(vd_(m/s))*(ρ_(C/m^3)) "
+    "  '(J_(A/m^2))=(σ_(S/m))*(E_(V_m))' "
+    "}",
+	
+    // Example of the following in https://en.wikipedia.org/wiki/Electron_mobility#Examples 
+    "Electron % Hole Mobilities",  "{ "
+    "  '(J_(A/m^2))=(Je_(A/m^2))+(Jh_(A/m^2))' "
+    "  '(Je_(A/m^2))=Ⓒqe*(ne_(m^-3))*(μe_(cm^2/(V*s)))*(E_(V/m)) "
+    "  '(Jh_(A/m^2))=Ⓒqe*(nh_(m^-3))*(μh_(cm^2/(V*s)))*(E_(V/m)) "
+    "  '(μe_(cm^2/(V*s)))=Ⓒqe*(τc_s)/(meeff_kg)' "
+    "  '(μh_(cm^2/(V*s)))=Ⓒqe*(τc_s)/(mheff_kg)' "
+    "  '(σ_(S/m)=Ⓒqe*((μe_(cm^2/(V*s)))*(ne_(m^-3))+(μh_(cm^2/(V*s)))*(nh_(m^-3)))' "
+    "}",
+
+
     // ------------------------------------------------------------------------
     //   Physics
     // ------------------------------------------------------------------------
