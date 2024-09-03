@@ -137,7 +137,7 @@ Names are sorted in decreasing order of size, and for the same size,
 in alphabetical order.
 
 `'A*Foo*G(X;Y;cos Z)`  ▶ `'A*Foo*G(X;Y;cos Z)` `[ Foo A G X Y Z ]`
-`'(U_V)=(I_A)*(R_Ω)'`  ▶ `'(U_V)=(I_A)*(R_Ω)'` `[ I R U ]`
+`'(U_V)=(I_A)*(R_Ω)'`  ▶ `'(U_V)=(I_A)*(R_Ω)'` `[ I R U ]`
 
 As a DB48X extension, this command also applies to programs, list and
 arrays. Another extension is the [`ExpressionVariables`](#expressionvariables)
@@ -155,7 +155,7 @@ If there are units in the expression, the units are returned in the resulting
 list.
 
 `'A*Foo*G(X;Y;cos Z)`  ▶ `{ Foo A G X Y Z }`
-`'(U_V)=(I_A)*(R_Ω)'`  ▶ `{ (I_A) (R_Ω) (U_V) }`
+`'(U_V)=(I_A)*(R_Ω)'`  ▶ `{ (I_A) (R_Ω) (U_V) }`
 
 This is a variation of the HP command [`LNAME`](#listexpressionnames), which is
 a bit more convenient to use in programs.

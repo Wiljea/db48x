@@ -115,12 +115,12 @@ static const cstring basic_equations[] =
     "}",
 
     "E Field Infinite Line",  "{ "
-    "  '(E_(N/C))=1/(2*Ⓒπ*Ⓒε0*εr)*((λ_(C/m))/(r_m)' "
+    "  '(E_(N/C))=1/(2*Ⓒπ*Ⓒε0*εr)*(λ_(C/m))/(r_m)' "
     "  '(λ_(C/m))=(Q_C)/(L_m)' "
     "}",
 
     "E Field Finite Line",  "{ "
-    "  '(E_(N/C))=1/(4*Ⓒπ*Ⓒε0*εr)*((λ_(C/m))/(r_m)*((SIN(θ1_r)-SIN(θ2_r))' "
+    "  '(E_(N/C))=1/(4*Ⓒπ*Ⓒε0*εr)*(λ_(C/m))/(r_m)*(SIN(θ1_°)-SIN(θ2_°))' "
     "  '(λ_(C/m))=(Q_C)/(L_m)' "
     "}",
 
@@ -211,13 +211,13 @@ static const cstring basic_equations[] =
     "}",
 
     "RL Transient",  "{ "
-    "  '(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_μs))/((R_Ω)*(L_mH)))' "
+    "  '(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_μs))/((R_Ω)*(L_mH))))' "
     "}",
 
     "Resonant Frequency",  "{ "
     "  'Qs=1/(R_Ω)*√((L_mH)/(C_μF))' "
     "  'Qp=(R_Ω)*√((C_μF)/(L_mH))' "
-    "  '(ω0_(r/s))=2*(Ⓒπ_r)*(f0_Hz) "
+    "  '(ω0_(r/s))=2*(Ⓒπ_r)*(f0_Hz)' "
     "  '(ω0_(r/s))=1/√((L_mH)*(C_μF))' "
     "}",
 
@@ -253,21 +253,21 @@ static const cstring basic_equations[] =
 
     // Example of the following in
     // https://en.wikipedia.org/wiki/Drift_velocity#Numerical_example
-    "Drift Speed % Current Density",  "{ "
+    "Drift Speed & Current Density",  "{ "
     "  '(vd_(m/s))=(I_A)/((n_(m^-3))*Ⓒqe*(A_(cm^2)))' "
-    "  '(J_(A/m^2))=(vd_(m/s))*(ρ_(C/m^3)) "
+    "  '(J_(A/m^2))=(vd_(m/s))*(ρ_(C/m^3))' "
     "  '(J_(A/m^2))=(σ_(S/m))*(E_(V_m))' "
     "}",
 
     // Example of the following in
     // https://en.wikipedia.org/wiki/Electron_mobility#Examples
-    "Electron % Hole Mobilities",  "{ "
+    "Electron & Hole Mobilities",  "{ "
     "  '(J_(A/m^2))=(Je_(A/m^2))+(Jh_(A/m^2))' "
-    "  '(Je_(A/m^2))=Ⓒqe*(ne_(m^-3))*(μe_(cm^2/(V*s)))*(E_(V/m)) "
-    "  '(Jh_(A/m^2))=Ⓒqe*(nh_(m^-3))*(μh_(cm^2/(V*s)))*(E_(V/m)) "
+    "  '(Je_(A/m^2))=Ⓒqe*(ne_(m^-3))*(μe_(cm^2/(V*s)))*(E_(V/m))' "
+    "  '(Jh_(A/m^2))=Ⓒqe*(nh_(m^-3))*(μh_(cm^2/(V*s)))*(E_(V/m))' "
     "  '(μe_(cm^2/(V*s)))=Ⓒqe*(τc_s)/(meeff_kg)' "
     "  '(μh_(cm^2/(V*s)))=Ⓒqe*(τc_s)/(mheff_kg)' "
-    "  '(σ_(S/m)=Ⓒqe*((μe_(cm^2/(V*s)))*(ne_(m^-3))+(μh_(cm^2/(V*s)))*(nh_(m^-3)))' "
+    "  '(σ_(S/m))=Ⓒqe*((μe_(cm^2/(V*s)))*(ne_(m^-3))+(μh_(cm^2/(V*s)))*(nh_(m^-3)))' "
     "}",
 
     // ------------------------------------------------------------------------
@@ -322,8 +322,8 @@ static const cstring basic_equations[] =
     "  '(M_(kg/s))=(ρ_(kg/m^3))*(Q_(m^3/s))' "
     "  '(Q_(m^3/s))=(A_(m^2))*(vavg_(m/s))' "
     "  '(A_(m^2))=Ⓒπ*(D_m)^2/4' "
-    "  'Re=(D_m)*(vavg_(m/s))*((ρ_(kg/m^3))*(μ_(kg/(m*s)))' "
-    "  '(n_((m^2)/s))=(μ_(kg/(m*s)))/(ρ_(kg/m^3))' "
+    "  'Reynolds=(D_m)*(vavg_(m/s))*(ρ_(kg/m^3))*(μ_(kg/(m*s)))' "
+    "  '(n_(m^2/s))=(μ_(kg/(m*s)))/(ρ_(kg/m^3))' "
     "}",
 
     // ------------------------------------------------------------------------
@@ -405,8 +405,8 @@ static const cstring basic_equations[] =
     "}",
 
     "Polytropic Processes",  "{ "
-    "'(Pf_psi)/(Pi_psi)=((Vf_(ft^3))/(Vi_(ft^3)))^(-n)' "
-    "'(Tf_°F)/(Ti_°F)=((Pf_psi)/(Pi_psi))^((n-1)/n)' "
+    "'(Pf_atm)/(Pi_atm)=((Vf_(ft^3))/(Vi_(ft^3)))^(-n)' "
+    "'(Tf_°F)/(Ti_°F)=((Pf_atm)/(Pi_atm))^((n-1)/n)' "
     "}",
 
     "Isentropic Flow",  "{ "
@@ -437,8 +437,8 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     // 17 eqns
     "Heat Capacity",  "{ "
-    "'(Q_kJ))=(m_kg)*(c_(kJ/(kg*K)))*(ΔT_°C)' "
-    "'(Q_kJ))=(m_kg)*(c_(kJ/(kg*K)))*((Tf_°C)-(Ti_°C))' "
+    "'(Q_kJ)=(m_kg)*(c_(kJ/(kg*K)))*(ΔT_°C)' "
+    "'(Q_kJ)=(m_kg)*(c_(kJ/(kg*K)))*((Tf_°C)-(Ti_°C))' "
     "}",
 
     "Thermal Expansion",  "{ "
@@ -453,7 +453,7 @@ static const cstring basic_equations[] =
 
     "Convection",  "{ "
     "'(q_W)=(h_(W/(m^2*K)))*(A_(m^2))*(ΔT_°C)' "
-    "'(q_W)=(h_(W/(m^2*K)))*(A_(m^2))(Th_°C)-(Tc_°C)' "
+    "'(q_W)=(h_(W/(m^2*K)))*(A_(m^2))*((Th_°C)-(Tc_°C))' "
     "}",
 
     "Conduction + Convection",  "{ "
@@ -480,47 +480,47 @@ static const cstring basic_equations[] =
     // WARNING both HP50G & HP50G_AUR.pdf used a variables rw absent from all
     // equations
     "Straight Wire Infinite",  "{ "
-    "'(B_T)=Ⓒμ0*Ⓒμr*(I_A)/(2*Ⓒπ*(r_cm))' "
+    "'(B_T)=Ⓒμ0*μr*(I_A)/(2*Ⓒπ*(r_cm))' "
     "}",
 
     "Straight Wire Finite",  "{ "
-    "'(B_T)=Ⓒμ0*Ⓒμr*(I_A)/(a*Ⓒπ*(r_m))*(COS(θ1_r)-COS(θ2_r))' "
+    "'(B_T)=Ⓒμ0*μr*(I_A)/(a*Ⓒπ*(r_m))*(COS(θ1_°)-COS(θ2_°))' "
     "}",
 
     "Force Between Wires",  "{ "
-    "'(Fba_N)=(Ⓒμ0*Ⓒμr*(Ib_A)*(Ia_A)*(L_cm))/(2*Ⓒπ*(d_m))' "
+    "'(Fba_N)=(Ⓒμ0*μr*(Ib_A)*(Ia_A)*(L_cm))/(2*Ⓒπ*(d_m))' "
     "}",
 
     "B Field In Infinite Solenoid",  "{ "
-    "'(B_T)=Ⓒμ0*Ⓒμr*(I_A)*n' "
+    "'(B_T)=Ⓒμ0*μr*(I_A)*n' "
     "}",
 
     "B Field In Finite Solenoid",  "{ "
-    "'(B_T)=(1/2)*Ⓒμ0*Ⓒμr*(I_A)*n*(COS(α2_r)-COS(α1_r))' "
+    "'(B_T)=(1/2)*Ⓒμ0*μr*(I_A)*n*(COS(α2_°)-COS(α1_°))' "
     "}",
 
     "B Field In Toroid",  "{ "
-    "'(B_T)=(Ⓒμ0*Ⓒμr*(I_A)*N)/(2*Ⓒπ)*(2/((ro_cm)+(ri_cm)))' "
+    "'(B_T)=(Ⓒμ0*μr*(I_A)*N)/(2*Ⓒπ)*(2/((ro_cm)+(ri_cm)))' "
     "}",
 
     "Hall Effect",  "{ "
-    "'(VH_V)=((I_A)*(B_T))/((n_(1/m^3))*ABS(q_C))*(l_m))' "
+    "'(VH_V)=((I_A)*(B_T))/((n_(1/m^3))*ABS(q_C))*(l_m)' "
     "}",
 
     "Cyclotron Mouvement",  "{ "
-    "'(Rc_m)=((m_kg)*(v_(m/s)))/(ABS(q_C))*(B_T))' "
+    "'(Rc_m)=((m_kg)*(v_(m/s)))/(ABS(q_C)*(B_T))' "
     "'(fc_Hz)=(ABS(q_C)*(B_T))/(2*Ⓒπ*(m_kg))' "
     "'(T_s)=1/(fc_Hz)' "
     "}",
 
     "Helicoidal Mouvement",  "{ "
-    "'(Rc_m)=((m_kg)*(v_(m/s))*SIN(θ_°))/(ABS(q_C))*(B_T))' "
+    "'(Rc_m)=((m_kg)*(v_(m/s))*SIN(θ_°))/(ABS(q_C)*(B_T))' "
     "'(T_s)=(2*Ⓒπ*(Rc_m))/((v_(m/s))*SIN(θ_°))' "
     "'(Dpitch_m)=(v_(m/s))*COS(θ_°)*(T_s)' "
     "}",
 
     "Volumic Density Magnetic Energy",  "{ "
-    "'(uB_(J/m^3))=(1/(2*Ⓒμ0*Ⓒμr))*(B_T)^2' "
+    "'(uB_(J/m^3))=(1/(2*Ⓒμ0*μr))*(B_T)^2' "
     "}",
 
     // ------------------------------------------------------------------------
@@ -535,39 +535,39 @@ static const cstring basic_equations[] =
     "}",
 
     "Object In Free Fall",  "{ "
-    "'(y_ft)=(y0_ft)+(v0_(ft/s))*(t_s)-1/2*Ⓒg*(t_s)^2' "
-    "'(y_ft)=(y0_ft)+(v_(ft/s))*(t_s)+1/2*Ⓒg*(t_s)^2' "
-    "'(v_(ft/s))=(v0_(ft/s))-Ⓒg*(t_s)' "
-    "'(v_(ft/s))^2=(v0_(ft/s))^2-2*Ⓒg*((y_ft)-(y0_ft))' "
+    "'(y_m)=(y0_m)+(v0_(m/s))*(t_s)-1/2*Ⓒg*(t_s)^2' "
+    "'(y_m)=(y0_m)+(v_(m/s))*(t_s)+1/2*Ⓒg*(t_s)^2' "
+    "'(v_(m/s))=(v0_(m/s))-Ⓒg*(t_s)' "
+    "'(v_(m/s))^2=(v0_(m/s))^2-2*Ⓒg*((y_m)-(y0_m))' "
     "}",
 
     "Projectile Motion",  "{ "
-    "'(x_ft)=(x0_ft)+(v0_(ft/s))*COS(θ0_°)*(t_s)' "
-    "'(y_ft)=(y0_ft)+(v0_(ft/s))*SIN(θ0_°)*(t_s)-1/2*Ⓒg*(t_s)^2' "
-    "'(vx_(ft/s))=(v0_(ft/s))*COS(θ0_r)' "
-    "'(vy_(ft/s))=(v0_(ft/s))*SIN(θ0_r)-Ⓒg*(t_s)' "
-    "'(R_m)=((v0_(m/s))^2)/Ⓒg*SIN(2*(θ0_r))' "
+    "'(x_m)=(x0_m)+(v0_(m/s))*COS(θ0_°)*(t_s)' "
+    "'(y_m)=(y0_m)+(v0_(m/s))*SIN(θ0_°)*(t_s)-1/2*Ⓒg*(t_s)^2' "
+    "'(v0x_(m/s))=(v0_(m/s))*COS(θ0_°)' "
+    "'(v0y_(m/s))=(v0_(m/s))*SIN(θ0_°)-Ⓒg*(t_s)' "
+    "'(R_m)=((v0_(m/s))^2)/Ⓒg*SIN(2*(θ0_°))' "
     "}",
 
     "Angular Motion",  "{ "
-    "'(θ_°)=(θ0_°)+(ω0_(r/min))*(t_s)+1/2*(α_(r/min^2))*(t_s)^2' "
-    "'(θ_°)=(θ0_°)+(ω_(r/min))*(t_s)-1/2*(α_(r/min^2))*(t_s)^2' "
-    "'(θ_°)=(θ0_°)+1/2*((ω0_(r/min))+(ω_(r/min)))*(t_s)' "
-    "'(ω_(r/min))=(ω0_(r/min))+(α_(r/min^2))*(t_s)' "
+    "'(θ_°)=(θ0_°)+(ω0_rpm)*(t_s)+1/2*(α_(rpm^2))*(t_s)^2' "
+    "'(θ_°)=(θ0_°)+(ω_rpm)*(t_s)-1/2*(α_(rpm^2))*(t_s)^2' "
+    "'(θ_°)=(θ0_°)+1/2*((ω0_rpm)+(ω_rpm))*(t_s)' "
+    "'(ω_rpm)=(ω0_rpm)+(α_(rpm^2))*(t_s)' "
     "}",
 
     "Circular Motion",  "{ "
-    "'(ω_(r/min))=(v_(ft/s))/(r_in)' "
-    "'(ar_(ft/s^2))=(v_(ft/s))^2/(r_in)' "
-    "'(ω_(r/min))=2*(Ⓒπ_r)*(N_(rpm))' "
+    "'(ω_rpm)=(v_(m/s))/(r_cm)' "
+    "'(ar_(m/s^2))=(v_(m/s))^2/(r_cm)' "
+    "'(ω_rpm)=2*(Ⓒπ_r)*(N_rpm)' "
     "}",
 
     "Terminal Velocity",  "{ "
-    "'(v_(ft/s))=√((2*(m_lb)*Ⓒg)/(Cd*(ρ_(lb/ft^3))*(A_in^2)))' "
+    "'(v_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(lb/ft^3))*(A_cm^2)))' "
     "}",
 
     "Escape Velocity",  "{ "
-    "'(v_(ft/s))=√((2*ⒸG*(M_lb))/(R_mi))' "
+    "'(v_(m/s))=√((2*ⒸG*(M_kg))/(R_mi))' "
     "}",
 
 
@@ -619,21 +619,21 @@ static const cstring basic_equations[] =
     "}",
 
     "Malus Law",  "{ "
-    "'I_(W/m^2)/I0_(W/m^2)=(COS(θ_r))^2' "
-    "'I0_(W/m^2)=(1/(2*Ⓒμ0*Ⓒc))*(E0_(V/m))^2' "
+    "'(I_(W/m^2))/(I0_(W/m^2))=(COS(θ_°))^2' "
+    "'(I0_(W/m^2))=(1/(2*Ⓒμ0*Ⓒc))*(E0_(V/m))^2' "
     "}",
 
     "2 Slits Young Interference",  "{ "
-    "'I_(W/m^2)/Imax_(W/m^2)=4*(COS(Δφ_r)/2)^2' "
-    "'(Δφ_r)=(2*Ⓒπ*(d_μm)*SIN(θ_r))/(λ_nm)' "
-    "'TAN(θ_r)=(y_m)/(L_m)' "
+    "'(I_(W/m^2))/(Imax_(W/m^2))=4*(COS(Δφ_°)/2)^2' "
+    "'(Δφ_°)=(2*Ⓒπ*(d_μm)*SIN(θ_°))/(λ_nm)' "
+    "'TAN(θ_°)=(y_m)/(L_m)' "
     "'(Δyint_m)=(λ_nm)*(L_m)/(d_μm)' "
     "}",
 
     "One Slit Diffraction",  "{ "
-    "'I_(W/m^2)/Imax_(W/m^2)=(IFTE(α_r;SIN(α)/α;1))^2' "
-    "'(α_r)=(Ⓒπ*(a_μm)*SIN(θ_r))/(λ_nm)' "
-    "'TAN(θ_r)=(y_m)/(L_m)' "
+    "'(I_(W/m^2))/(Imax_(W/m^2))=(IFTE(α_°;SIN(α)/α;1))^2' "
+    "'(α_°)=(Ⓒπ*(a_μm)*SIN(θ_°))/(λ_nm)' "
+    "'TAN(θ_°)=(y_m)/(L_m)' "
     "'(Δydiff_m)=2*(λ_nm)*(L_m)/(a_μm)' "
     "}",
 
@@ -661,17 +661,17 @@ static const cstring basic_equations[] =
     "}",
 
     "Torsional Pendulum",  "{ "
-    "'(ω_(r/s))=√(((G_kPa)*(J_(mm^4)))/((L_cm)*(I_(kg*m^2))))' "
+    "'(ω_(r/s))=√(((G_kPa)*(J_(cm^4)))/((L_cm)*(I_(kg*m^2))))' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
 
     "Simple Harmonic",  "{ "
     "'(x_cm)=(xm_cm)*COS((ω0_(r/s))*(t_s)+(φ_°))' "
-    "'(v_(m/s))=-(ω0_(r/s))*(xm_m)*SIN((ω0_(r/s))*(t_s)+(φ_r))' "
-    "'(a_(m/s^2))=-(ω0_(r/s))^2*(xm_m)*COS((ω0_(r/s))*(t_s)+(φ_r))' "
+    "'(v_(m/s))=-(ω0_(r/s))*(xm_m)*SIN((ω0_(r/s))*(t_s)+(φ_°))' "
+    "'(a_(m/s^2))=-(ω0_(r/s))^2*(xm_m)*COS((ω0_(r/s))*(t_s)+(φ_°))' "
     "'(ω0_(r/s))=√((k_(N/m))/(m_kg))' "
-    "'(E_J)=(!/2)*(m_kg)*((ω0_(r/s))*(xm_m))^2' "
+    "'(E_J)=(1/2)*(m_kg)*((ω0_(r/s))*(xm_m))^2' "
     "}",
     // Ref.: https://scholar.harvard.edu/files/david-morin/files/waves_oscillations.pdf
     "Underdamped Oscillations",  "{ "
@@ -681,7 +681,7 @@ static const cstring basic_equations[] =
     "'(ωu_(r/s))=(ω0_(r/s))*√(1-((γ_(r/s))/(2*(ω0_(r/s))))^2)' "
     "'(v_(m/s))=(xm_m)*EXP(-(γ_(r/s))*(t_s)/2)*(-((γ_(r/s))/2)*COS((ωu_(r/s))*(t_s)+(φ_°))-(ωu_(r/s))*SIN((ωu_(r/s))*(t_s)+(φ_°)))' "
     "'(a_(m^2/s))=-((ω0_(r/s))^2*(x_m)+(γ_(r/s))*(v_m/s))' "
-    "'(E_J)=(!/2)*(k_(N/m))*(x_m))^2+(1/2)*(m_kg)*(v_(m/s))^2' "
+    "'(E_J)=(1/2)*(k_(N/m))*(x_m)^2+(1/2)*(m_kg)*(v_(m/s))^2' "
     "'Q=(ω0_(r/s))/(γ_(r/s))' "
     "}",
     // Ref.: https://scholar.harvard.edu/files/david-morin/files/waves_oscillations.pdf
@@ -694,7 +694,7 @@ static const cstring basic_equations[] =
     "'TAN(φ_°)=-((γ_(r/s))*(ω_(r/s)))/((ω0_(r/s))^2-(ω_(r/s))^2)' "
     "'(v_(m/s))=-(xp_m)*(ω_(r/s))*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*(-((γ_(r/s))/2)*COS((ωh_(r/s))*(t_s)+(θ_°))-(ωh_(r/s))*SIN((ωh_(r/s))*(t_s)+(θ_°)))' "
     "'(a_(m^2/s))=-((ω0_(r/s))^2*(x_m)+(γ_(r/s))*(v_m/s))+((Fd_N)/(m_kg))*COS((ω_(r/s))*(t_s))' "
-    "'(E_J)=(!/2)*(k_(N/m))*(x_m))^2+(1/2)*(m_kg)*(v_(m/s))^2' "
+    "'(E_J)=(1/2)*(k_(N/m))*(x_m)^2+(1/2)*(m_kg)*(v_(m/s))^2' "
     "'Q=(ω0_(r/s))/(γ_(r/s))' "
     "}",
 
@@ -705,50 +705,50 @@ static const cstring basic_equations[] =
     "Circle",  "{ "
     "'(A_(cm^2))=Ⓒπ*(r_cm)^2' "
     "'(C_cm)=2*Ⓒπ*(r_cm)' "
-    "'(I_(mm^4))=1/4*Ⓒπ*(r_cm)^4' "
-    "'(J_(mm^4))=1/2*Ⓒπ*(r_cm)^4' "
-    "'(Id_(mm^4))=(I_(mm^4))+(A_(cm^2))*(d_cm)^2' "
+    "'(I_(cm^4))=1/4*Ⓒπ*(r_cm)^4' "
+    "'(J_(cm^4))=1/2*Ⓒπ*(r_cm)^4' "
+    "'(Id_(cm^4))=(I_(cm^4))+(A_(cm^2))*(d_cm)^2' "
     "}",
 
     "Ellipse",  "{ "
-    "'(A_(m^2))=Ⓒπ*(b_μm)*(h_μin)' "
-    "'(C_m)=2*Ⓒπ*√(((b_μm)^2+(h_μin)^2)/2)' "
-    "'(I_(mm^4))=1/4*Ⓒπ*(b_μm)*(h_μin)^3' "
-    "'(J_(mm^4))=1/4*Ⓒπ*(b_μm)*(h_μm)*((b_μin)^2+(h_μin)^2)' "
-    "'(Id_(mm^4))=(I_(mm^4)+(A_(cm^2))*(d_ft)^2' "
+    "'(A_(cm^2))=Ⓒπ*(b_cm)*(h_cm)' "
+    "'(C_cm)=2*Ⓒπ*√(((b_cm)^2+(h_cm)^2)/2)' "
+    "'(I_(cm^4))=1/4*Ⓒπ*(b_cm)*(h_cm)^3' "
+    "'(J_(cm^4))=1/4*Ⓒπ*(b_cm)*(h_cm)*((b_cm)^2+(h_cm)^2)' "
+    "'(Id_(cm^4))=(I_(cm^4))+(A_(cm^2))*(d_cm)^2' "
     "}",
 
     "Rectangle",  "{ "
-    "'(A_(m^2))=(b_chain)*(h_rd)' "
-    "'(P_cm)=2*((b_chain)+(h_rd))' "
-    "'(I_(m^4))=1/12*(b_chain)*(h_rd)^3' "
-    "'(J_(km^4))=1/12*(b_chain)*(h_rd)*((b_chain)^2+(h_rd)^2)' "
-    "'(Id_(km^4))=(I_(km^4))+(A_(cm^2))*(d_in)^2' "
+    "'(A_(cm^2))=(b_cm)*(h_cm)' "
+    "'(P_cm)=2*((b_cm)+(h_cm))' "
+    "'(I_(m^4))=1/12*(b_cm)*(h_cm)^3' "
+    "'(J_(cm^4))=1/12*(b_cm)*(h_cm)*((b_cm)^2+(h_cm)^2)' "
+    "'(Id_(cm^4))=(I_(cm^4))+(A_(cm^2))*(d_cm)^2' "
     "}",
 
     "Regular Polygon",  "{ "
-    "'(A_(m^2))=(1/4*n*(L_yd)^2)/TAN((180_°)/n)' "
-    "'(P_cm)=n*(L_yd)' "
-    "'(rs_cm)=((L_yd)/2)/TAN((180_°)/n)' "
-    "'(rv_cm)=((L_yd)/2)/SIN((180_°)/n)' "
+    "'(A_(cm^2))=(1/4*n*(L_yd)^2)/TAN((180_°)/n)' "
+    "'(P_cm)=n*(L_cm)' "
+    "'(rs_cm)=((L_cm)/2)/TAN((180_°)/n)' "
+    "'(rv_cm)=((L_cm)/2)/SIN((180_°)/n)' "
     "'(θ_°)=(n-2)/n*(180_°)' "
     "'(β_°)=(360_°)/n' "
     "}",
 
     "Circular Ring",  "{ "
-    "'(A_(cm^2))=Ⓒπ*((ro_μ)^2-(ri_Å)^2)' "
-    "'(I_(mm^4))=Ⓒπ/4*((ro_μ)^4-(ri_Å)^4)' "
-    "'(J_(mm^4))=Ⓒπ/2*((ro_μ)^4-(ri_Å)^4)' "
-    "'(Id_(mm^4))=(I_(m^4))+(A_(m^2))*(d_m)^2' "
+    "'(A_(cm^2))=Ⓒπ*((ro_cm)^2-(ri_cm)^2)' "
+    "'(I_(cm^4))=Ⓒπ/4*((ro_cm)^4-(ri_cm)^4)' "
+    "'(J_(cm^4))=Ⓒπ/2*((ro_cm)^4-(ri_cm)^4)' "
+    "'(Id_(cm^4))=(I_(m^4))+(A_(m^2))*(d_cm)^2' "
     "}",
 
     "Triangle",  "{ "
-    "'(A_(in^2))=(b_in)*(h_in)/2' "
-    "'(P_in)=(b_in)+√((v_in)^2+(h_in)^2)+√(((b_in)-(v_in))^2+(h_in)^2)' "
-    "'(Ix_(in^4))=1/36*(b_in)*(h_in)^3' "
-    "'(Iy_(in^4))=1/36*(b_in)*(h_in)*((b_in)^2+(v_in)^2-(b_in)*(v_in))' "
-    "'(J_(in^4))=1/36*(b_in)*(h_in)*((b_in)^2+(v_in)^2+(h_in)^2-(b_in)*(v_in))' "
-    "'(Id_(in^4))=(I_(in^4))+(A_(in^2))*(d_in)^2' "
+    "'(A_(in^2))=(b_cm)*(h_cm)/2' "
+    "'(P_cm)=(b_cm)+√((v_cm)^2+(h_cm)^2)+√(((b_cm)-(v_cm))^2+(h_cm)^2)' "
+    "'(Ix_(cm^4))=1/36*(b_cm)*(h_cm)^3' "
+    "'(Iy_(cm^4))=1/36*(b_cm)*(h_cm)*((b_cm)^2+(v_cm)^2-(b_cm)*(v_cm))' "
+    "'(J_(cm^4))=1/36*(b_cm)*(h_cm)*((b_cm)^2+(v_cm)^2+(h_cm)^2-(b_cm)*(v_cm))' "
+    "'(Id_(cm^4))=(I_(cm^4))+(A_(in^2))*(d_cm)^2' "
     "}",
 
     // ------------------------------------------------------------------------
@@ -766,25 +766,25 @@ static const cstring basic_equations[] =
     //WARNING mass units in the example of HP50G_AUR (12.2) is lbs...
     // is it lbf or lb (lb probably)
     "Cylinder",  "{ "
-    "'(V_(in^3))=Ⓒπ*(r_in)^2*(h_in)' "
-    "'(A_(in^2))=2*Ⓒπ*(r_in)^2+2*Ⓒπ*(r_in)*(h_in)' "
-    "'(Ixx_(lb*in^2))=(1/4)*(m_lb)*(r_in)^2+(1/12)*(m_lb)*(h_in)^2' "
-    "'(Izz_(lb*in^2))=(1/2)*(m_lb)*(r_in)^2' "
-    "'(Id_(lb*m^2))=(Ixx_(kg*m^2))+(m_lb)*(d_m)^2')' "
+    "'(V_(cm^3))=Ⓒπ*(r_cm)^2*(h_cm)' "
+    "'(A_(cm^2))=2*Ⓒπ*(r_cm)^2+2*Ⓒπ*(r_cm)*(h_cm)' "
+    "'(Ixx_(kg*cm^2))=(1/4)*(m_kg)*(r_cm)^2+(1/12)*(m_kg)*(h_cm)^2' "
+    "'(Izz_(kg*cm^2))=(1/2)*(m_kg)*(r_cm)^2' "
+    "'(Id_(kg*m^2))=(Ixx_(kg*m^2))+(m_kg)*(d_m)^2' "
     "}",
 
     "Parallelepiped",  "{ "
-    "'(V_(in^3))=(b_in)*(h_in)*(t_in)' "
-    "'(A_(in^2))=2*((b_in)*(h_in)+(b_m)*(t_in)+(h_in)*(t_in))' "
-    "'(I_(lb*in^2))=(1/12)*(m_lb)*((h_in)^2+(t_in)^2)' "
-    "'(Id_(lb*in^2))=(I_(lb*in^2))+(m_lb)*(d_in)^2')' "
+    "'(V_(cm^3))=(b_cm)*(h_cm)*(t_cm)' "
+    "'(A_(cm^2))=2*((b_cm)*(h_cm)+(b_m)*(t_cm)+(h_cm)*(t_cm))' "
+    "'(I_(kg*cm^2))=(1/12)*(m_kg)*((h_cm)^2+(t_cm)^2)' "
+    "'(Id_(kg*cm^2))=(I_(kg*cm^2))+(m_kg)*(d_cm)^2' "
     "}",
 
     "Sphere",  "{ "
     "'(V_(cm^3))=(4/3)*Ⓒπ*(r_cm)^3' "
     "'(A_(cm^2))=4*Ⓒπ*(r_cm)^2' "
     "'(I_(kg*m^2))=(2/5)*(m_kg)*(r_cm)^2' "
-    "'(Id_(lb*in^2))=(I_(kg*m^2))+(m_kg)*(d_cm)^2')' "
+    "'(Id_(kg*cm^2))=(I_(kg*m^2))+(m_kg)*(d_cm)^2' "
     "}",
 
     // ------------------------------------------------------------------------
@@ -796,7 +796,7 @@ static const cstring basic_equations[] =
     // ERROR in gm formula in HP50G_AUR.pdf: μm=μn (OK)
     // ERROR in 4th formula of HP50G_AUR.pdf αR=>αF
     "PN Step Junctions",  "{ "
-    "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN(((NA_(cm^-3))*(ND_(cm^-3)))/(ni^2)' "
+    "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3)))/(ni^2)' "
     "'(xd_μ)=√((2*Ⓒεsi*Ⓒε0)/Ⓒqe*((Vbi_V)-(Va_V))*(1/(NA_(cm^-3))+1/(ND_(cm^-3))))' "
     "'(Cj_(pF/cm^2))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "
     "'(Emax_(V/m))=2*((Vbi_V)-(Va_V))/(xd_μ)' "
@@ -811,13 +811,13 @@ static const cstring basic_equations[] =
     "NMOS Transistor",  "{ "
     "'(We_μ)=(W_μ)-2*(ΔW_μ)' "
     "'(Le_μ)=(L_m)-2*(ΔL_μ)' "
-    "'(Cox_(pF/cm^2))=(Ⓒεox*Ⓒε0)/(tox_Å)' "
+    "'(Cox_(pF/cm^2))=(Ⓒεox*Ⓒε0)/(tox_nm)' "
     "'(IDS_mA)=(Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_μ)/(Le_μ))*(((VGS_V)-(Vt_V))*(VDS_V)-(VDS_V)^2/2)*(1+(λ_(1/V))*(VDS_V))' "
-    "'(γ_(V^0.5))=√((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm^2))' "
-    "'(Vt_V)=(Vt0_V)+(γ_(V^0.5))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
+    "'(γ_(V^(1/2)))=√((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm^2))' "
+    "'(Vt_V)=(Vt0_V)+(γ_(V^(1/2)))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
     "'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/ni)' "
     "'(gds_S)=(IDS_mA)*(λ_(V^-1))' "
-    "'(gm_(mA/V))=√((Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1)*(VDS_V)))*2*(IDS_mA))' "
+    "'(gm_(mA/V))=√((Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1))*(VDS_V))*2*(IDS_mA))' "
     "'(VDsat_V)=(VGS_V)-(Vt_V)' "
     "}",
 
@@ -840,7 +840,7 @@ static const cstring basic_equations[] =
     "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/ni)' "
     "'(xdmax_μ)=√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3)))*((Vbi_V)-(VGS_V)+(VDS_V)))' "
     "'(G0_S)=Ⓒqe*(ND_(cm^-3))*(μn_((cm^2)/(V*s)))*(((a_μ)*(W_μ))/(L_μ))' "
-    "'(ID_mA)=(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(*Ⓒqe*(ND_(cm^-3))*(a_μ)^2)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))' "
+    "'(ID_mA)=(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))' "
     "'(VDsat_V)=(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)/(2*Ⓒεsi*Ⓒε0)-((Vbi_V)-(VGS_V))' "
     "'(Vt_V)=(Vbi_V)-(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)/(2*Ⓒεsi*Ⓒε0)' "
     "'(gm_(mA/V))=(G0_S)*(1-√(((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)^2))*((Vbi_V)-(VGS_V))))' "
@@ -851,33 +851,33 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     //16  eqns
     "Normal Stress",  "{ "
-    "'(σ_psi)=(E_psi)*ε' "
-    "'ε=(δ_in)/(L_ft)' "
-    "'(σ_Pa)=(P_lbf)/(A_in^2)' "
+    "'(σ_atm)=(E_atm)*ε' "
+    "'ε=(δ_cm)/(L_m)' "
+    "'(σ_Pa)=(P_N)/(A_cm^2)' "
     "}",
 
     "Shear Stress",  "{ "
-    "'(τ_psi)=(G_psi)*(γ_°)' "
-    "'(γ_°)=((r_in)*(φ_°))/(L_ft)' "
-    "'(τ_psi)=((T_(ft*lbf))*(r_in))/(J_(in^4))' "
+    "'(τ_atm)=(G_atm)*(γ_°)' "
+    "'(γ_°)=((r_cm)*(φ_°))/(L_m)' "
+    "'(τ_atm)=((T_(cm*N))*(r_cm))/(J_(cm^4))' "
     "}",
 
     "Stress On An Element",  "{ "
     "'(σx1_kPa)=((σx_kPa)+(σy_kPa))/2+((σx_kPa)-(σy_kPa))/2*COS(2*(θ_°))+(τxy_kPa)*SIN(2*(θ_°))' "
     "'(σx1_kPa)+(σy1_kPa)=(σx_kPa)+(σy_kPa)' "
-    "'(τx1y1_kPa)=-(((σx_kPa)-(σy_kPa))/2*)*SIN(2*(θ_°))+(τxy_kPa)*(σy_kPa)' "
+    "'(τx1y1_kPa)=-(((σx_kPa)-(σy_kPa))/2)*SIN(2*(θ_°))+(τxy_kPa)*(σy_kPa)' "
     "}",
 
     // WARNING Error in formula 1 of HP50G_AUR square missing HP50G takes
     // precedence
     "Mohr's Circle",  "{ "
-    "'(σ1_psi)=((σx_psi)+(σy_psi))/2+√((((σx_psi)-(σy_psi))^2)/2+(τxy_psi)^2)' "
-    "'(σ1_psi)+(σ2_psi)=(σx_psi)+(σy_psi)' "
-    "'SIN(2*(θp1_°))=(τxy_psi)/√((((σx_psi)-(σy_psi))/2)^2+(τxy_psi)^2)' "
+    "'(σ1_atm)=((σx_atm)+(σy_atm))/2+√((((σx_atm)-(σy_atm))^2)/2+(τxy_atm)^2)' "
+    "'(σ1_atm)+(σ2_atm)=(σx_atm)+(σy_atm)' "
+    "'SIN(2*(θp1_°))=(τxy_atm)/√((((σx_atm)-(σy_atm))/2)^2+(τxy_atm)^2)' "
     "'(θp2_°)=(θp1_°)+(90_°)' "
-    "'(τmax_psi)=((σ1_psi)-(σ2_psi))/2' "
+    "'(τmax_atm)=((σ1_atm)-(σ2_atm))/2' "
     "'(θs_°)=(θp1_°)-(45_°)' "
-    "'(σavg_psi)=((σx_psi)+(σy_psi))/2' "
+    "'(σavg_atm)=((σx_atm)+(σy_atm))/2' "
     "}",
 
     // ------------------------------------------------------------------------
@@ -911,33 +911,33 @@ static const cstring basic_equations[] =
 
     "Doppler Effect",  "{ "
     "'(f_Hz)=(f0_Hz)*(((cair_(m/s))+(vr_(m/s)))/((cair_(m/s))-(vs_(m/s))))' "
-    "'(cair_(m/s))=√(1.4*((8,314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(cair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
     "}",
 
     "Mach Number",  "{ "
     "'M=(u_(m/s))/(cair_(m/s))' "
     "'SIN(θcone_°)=(cair_(m/s))/(u_(m/s))' "
-    "'(cair_(m/s))=√(1.4*((8,314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(cair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
     "}",
 
     "Standing Waves Cord",  "{ "
-    "'(y_m)=(ym_m)*SIN((k_(r/m))*(x_m))*COS(ω_(r/s))*(t_s))' "
+    "'(y_m)=(ym_m)*SIN((k_(r/m))*(x_m))*COS((ω_(r/s))*(t_s))' "
     "'(v_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(v_(m/s)))=√((T_N)/(ρ_(kg/m)))' "
+    "'(v_(m/s))=√((T_N)/(ρ_(kg/m)))' "
     "'(ffixed-fixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
     "'(ffixed-free_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
     "}",
 
     "Sound Wave Harmonics",  "{ "
-    "'(s_m)=(sm_m)*SIN((k_(r/m))*(x_m))*COS(ω_(r/s))*(t_s))' "
+    "'(s_m)=(sm_m)*SIN((k_(r/m))*(x_m))*COS((ω_(r/s))*(t_s))' "
     "'(cair_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(cair_(m/s))=√(1.4*((8,314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))(T_K))' "
-    "'(fopen-open_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
-    "'(fopen-close_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
+    "'(cair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(fopenopen_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
+    "'(fopenclose_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
     "}",
 
     "Beat Acoustics",  "{ "

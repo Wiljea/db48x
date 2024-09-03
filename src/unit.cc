@@ -665,7 +665,7 @@ static const cstring basic_units[] =
     "A",        "1_A",                  // Ampere
     "V",        "1_kg*m^2/(A*s^3)",     // Volt
     "C",        "1_A*s",                // Coulomb
-    "Ω",        "1_V/A",                // Ohm
+    "Ω",        "1_V/A",                // Ohm
     "F",        "1_C/V",                // Farad
 
     "Fdy",      "96487_A*s",            // Faraday
