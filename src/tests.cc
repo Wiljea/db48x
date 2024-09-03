@@ -30,6 +30,7 @@
 #include "tests.h"
 
 #include "dmcp.h"
+#include "equations.h"
 #include "recorder.h"
 #include "settings.h"
 #include "sim-dmcp.h"
@@ -116,6 +117,7 @@ TESTS(text,             "Text operations");
 TESTS(vectors,          "Vectors");
 TESTS(matrices,         "Matrices");
 TESTS(solver,           "Solver");
+TESTS(equations,        "Built-in equations");
 TESTS(colnbeams,        "Columns and Beams equations in library");
 TESTS(integrate,        "Numerical integration");
 TESTS(simplify,         "Auto-simplification of expressions");
@@ -170,7 +172,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            matrix_functions();
+            eqnlib_parsing();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -215,6 +217,7 @@ void tests::run(uint onlyCurrent)
         vector_functions();
         matrix_functions();
         solver_testing();
+        eqnlib_parsing();
         eqnlib_columns_and_beams();
         numerical_integration_testing();
         text_functions();
@@ -5625,6 +5628,36 @@ void tests::solver_testing()
 }
 
 
+void tests::eqnlib_parsing()
+// ----------------------------------------------------------------------------
+//   Test that we can parse every single builtin equation
+// ----------------------------------------------------------------------------
+{
+    BEGIN(equations);
+
+    size_t nbuiltins = equation::equations.nbuiltins;
+    const cstring *eq = equation::equations.builtins;
+
+    for (size_t i = 0; i < nbuiltins; i += 2)
+    {
+        if (eq[i+1])
+        {
+            istep(eq[i]);
+            test(CLEAR, eq[i+1], ENTER).noerror();
+        }
+        else
+        {
+            begin(eq[i], true);
+        }
+        if (!ok)
+        {
+            test(eq[i+1]);
+            break;
+        }
+    }
+}
+
+
 void tests::eqnlib_columns_and_beams()
 // ----------------------------------------------------------------------------
 //   Test that the solver works as expected
@@ -10134,11 +10167,61 @@ tests &tests::itest(cstring txt)
         case L'∜': itest(RSHIFT, KEY2, F4, F6, F6, F6, F6, LSHIFT, F3); NEXT;
         case L'⊿': itest(RSHIFT, KEY2, F4, F6, F6, F6, F6, F6, F5); NEXT;
         case L'∠': itest(RSHIFT, KEY2, F4, F6, F6, F6, F6, F6, F3); NEXT;
+        case L'Ⓒ': itest(RSHIFT, KEY2, F2, RSHIFT, F1); NEXT;
+        case L'Ⓔ': itest(RSHIFT, KEY2, F2, RSHIFT, F2); NEXT;
+        case L'Ⓛ': itest(RSHIFT, KEY2, F2, LSHIFT, F3); NEXT;
         case L'Ⓓ': itest(RSHIFT, KEY2, F2, F6, F6, F1); NEXT;
         case L'ⓧ': itest(RSHIFT, KEY2, F2, F6, F6, F2); NEXT;
         case L'°': itest(RSHIFT, KEY2, F2, F6, SHIFT, F3); NEXT;
         case L'⨯': itest(RSHIFT, KEY2, F4, LSHIFT, F6, LSHIFT, F1); NEXT;
         case L'⋅': itest(RSHIFT, KEY2, F4, LSHIFT, F6, LSHIFT, F2); NEXT;
+        case L'α': itest(RSHIFT, KEY2, LSHIFT, F1, F1); NEXT;
+        case L'β': itest(RSHIFT, KEY2, LSHIFT, F1, F2); NEXT;
+        case L'γ': itest(RSHIFT, KEY2, LSHIFT, F1, F3); NEXT;
+        case L'δ': itest(RSHIFT, KEY2, LSHIFT, F1, F4); NEXT;
+        case L'ε': itest(RSHIFT, KEY2, LSHIFT, F1, F5); NEXT;
+        case L'ζ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F1); NEXT;
+        case L'η': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F2); NEXT;
+        case L'ι': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F4); NEXT;
+        case L'κ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F5); NEXT;
+        case L'λ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F1); NEXT;
+        case L'μ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F2); NEXT;
+        case L'ν': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F3); NEXT;
+        case L'ξ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F4); NEXT;
+        case L'ο': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F5); NEXT;
+        case L'σ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F3); NEXT;
+        case L'τ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F4); NEXT;
+        case L'υ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F5); NEXT;
+        case L'φ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, F1); NEXT;
+        case L'χ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, F2); NEXT;
+        case L'ψ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, F3); NEXT;
+        case L'ω': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, F4); NEXT;
+
+        case L'Α': itest(RSHIFT, KEY2, LSHIFT, F1, LSHIFT, F1); NEXT;
+        case L'Β': itest(RSHIFT, KEY2, LSHIFT, F1, LSHIFT, F2); NEXT;
+        case L'Γ': itest(RSHIFT, KEY2, LSHIFT, F1, LSHIFT, F3); NEXT;
+        case L'Δ': itest(RSHIFT, KEY2, LSHIFT, F1, LSHIFT, F4); NEXT;
+        case L'Ε': itest(RSHIFT, KEY2, LSHIFT, F1, LSHIFT, F5); NEXT;
+        case L'Ζ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, LSHIFT, F1); NEXT;
+        case L'Η': itest(RSHIFT, KEY2, LSHIFT, F1, F6, LSHIFT, F2); NEXT;
+        case L'Θ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, LSHIFT, F3); NEXT;
+        case L'Ι': itest(RSHIFT, KEY2, LSHIFT, F1, F6, LSHIFT, F4); NEXT;
+        case L'Κ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, LSHIFT, F5); NEXT;
+        case L'Λ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, LSHIFT, F1); NEXT;
+        case L'Μ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, LSHIFT, F2); NEXT;
+        case L'Ν': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, LSHIFT, F3); NEXT;
+        case L'Ξ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, LSHIFT, F4); NEXT;
+        case L'Ο': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, LSHIFT, F5); NEXT;
+        case L'Π': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, LSHIFT, F1); NEXT;
+        case L'Ρ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, LSHIFT, F2); NEXT;
+        case L'Τ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, LSHIFT, F4); NEXT;
+        case L'Υ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, LSHIFT, F5); NEXT;
+        case L'Φ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, LSHIFT, F1); NEXT;
+        case L'Χ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, LSHIFT, F2); NEXT;
+        case L'Ψ': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, LSHIFT, F3); NEXT;
+        case L'Ω': itest(RSHIFT, KEY2, LSHIFT, F1, F6, F6, F6, F6, LSHIFT, F4); NEXT;
+        case L'∞': itest(RSHIFT, KEY2, F4, F6, F6, RSHIFT, F5); NEXT;
+        case L'ℏ': itest(RSHIFT, KEY2, F4, F6, F6, F6, F6, LSHIFT, F5); NEXT;
 #undef NEXT
         }
 
@@ -10756,12 +10839,8 @@ tests &tests::error(cstring msg, uint extrawait)
     if (msg && !err)
         explain("Expected error message [", msg, "], got none");
     if (msg && err && strcmp(cstring(err), msg) != 0)
-        explain("Expected error message [",
-                msg,
-                "], "
-                "got [",
-                err,
-                "]");
+        explain("Expected error message [", msg, "], "
+                "got [", err, "]");
     fail();
     return *this;
 }

@@ -94,6 +94,7 @@ struct tests
     void vector_functions();
     void matrix_functions();
     void solver_testing();
+    void eqnlib_parsing();
     void eqnlib_columns_and_beams();
     void numerical_integration_testing();
     void text_functions();
