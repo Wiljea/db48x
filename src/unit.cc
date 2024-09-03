@@ -727,15 +727,39 @@ static const cstring basic_units[] =
 
     "bit",      "1_bit",                // Bit
     "byte",     "8_bit",                // Byte
-    "B",        "1_byte",               // Byte
     "bps",      "1_bit/s",              // bit per second
     "baud",     "1_bps/SR",             // baud
+    "flops",    "1_flops",              // Floating point operation per second
 
+    "KiB",      "=",                    // Usual sizes with powers of two
+    "MiB",      "=",                    //
+    "GiB",      "=",                    //
+    "TiB",      "=",                    //
+    "PiB",      "=",                    //
+
+    "KB",       "=",                    // Usual sizes  with powers of 10
+    "MB",       "=",                    //
+    "GB",       "=",                    //
+    "TB",       "=",                    //
+    "PB",       "=",                    //
+
+    "B",        "1_byte",               // Byte
     "Bd",       "1_baud",               // baud (standard unit)
     "mips",     "1_mips",               // Million instructions per second
-    "flops",    "1_flops",              // Floating point operation per second
     "SR",       "1",                    // Symbol rate (default is 1)
-    "dB",       "1_dB"                  // decibel
+    "dB",       "1_dB",                  // decibel
+
+    "kbit/s",   "=",
+    "Mbit/s",   "=",
+    "Gbit/s",   "=",
+    "kbaud",    "=",
+    "kbps",     "=",
+
+    "Mflops",   "=",
+    "Gflops",   "=",
+    "Tflops",   "=",
+    "Pflops",   "=",
+    "Eflops",   "=",
 };
 
 
