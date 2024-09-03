@@ -193,7 +193,8 @@ void user_interface::edit(unicode c, modes m, bool autoclose)
     if (closing && autoclose)
     {
         byte *ed = rt.editor();
-        if (mode == PROGRAM || mode == DIRECT || is_algebraic(mode))
+        if (mode == PROGRAM || mode == DIRECT ||
+            (is_algebraic(mode) && c != '('))
             if (savec > 0 && ed[savec] != ' ')
                 insert(savec, ' ');
         size_t back = insert(cursor, closing);
