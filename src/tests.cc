@@ -6522,6 +6522,112 @@ void tests::symbolic_operations()
         .expect("'X↑2+3·X+7|X=Z+1|Z=sin(A+B)|A=42'")
         .test(RUNSTOP)
         .expect("'(sin(42+B)+1)²+3·(sin(42+B)+1)+7'");
+
+    step("Isolate a single variable, simple case")
+        .test(CLEAR, "'A+1=sin(X+B)+C' 'X' ISOL", ENTER)
+        .expect("'X=sin⁻¹(A-C+1)+2·i1·π-B'")
+        .test(RSHIFT, KEY7, F6);
+    step("Isolate an expression with implicit =0")
+        .test(CLEAR, "'A+X*B-C' 'X'", NOSHIFT, F3)
+        .expect("'X=(C-A)÷B'");
+    step("Isolate an expression that is already isolated")
+        .test(CLEAR, "'X=B+C' 'X'", NOSHIFT, F3)
+        .expect("'X=B+C'");
+    step("Isolated variable grouping")
+        .test(CLEAR, "'X=B-X' 'X'", NOSHIFT, F3)
+        .expect("'X=B÷2'");
+    step("Isolation failure")
+        .test(CLEAR, "'X=sin X+1' 'X'", NOSHIFT, F3)
+        .expect("'X-sin X=1'")
+        .test("X", NOSHIFT, F3)
+        .error("Unable to isolate");
+    step("Isolate a single variable, addition")
+        .test(CLEAR, "'A=X+B' X", NOSHIFT, F3).expect("'X=A-B'")
+        .test(CLEAR, "'A=B+X' X", NOSHIFT, F3).expect("'X=A-B'");
+    step("Isolate a single variable, subtraction")
+        .test(CLEAR, "'A=X-B' X", NOSHIFT, F3).expect("'X=A+B'")
+        .test(CLEAR, "'A=B-X' X", NOSHIFT, F3).expect("'X=B-A'");
+    step("Isolate a single variable, multiplication")
+        .test(CLEAR, "'A=X*B' X", NOSHIFT, F3).expect("'X=A÷B'")
+        .test(CLEAR, "'A=B*X' X", NOSHIFT, F3).expect("'X=A÷B'");
+    step("Isolate a single variable, division")
+        .test(CLEAR, "'A=X/B' X", NOSHIFT, F3).expect("'X=A·B'")
+        .test(CLEAR, "'A=B/X' X", NOSHIFT, F3).expect("'X=B÷A'");
+    step("Isolate a single variable, power")
+        .test(CLEAR, "'A=X^B' X", NOSHIFT, F3).expect("'X=A↑B⁻¹+exp(i1·π·ⅈ÷B)'")
+        .test(CLEAR, "'A=B^X' X", NOSHIFT, F3).expect("'X=ln A÷ln B'");
+    step("Isolate sin")
+        .test(CLEAR, "'sin X=A' X", NOSHIFT, F3)
+        .expect("'X=sin⁻¹ A+2·i1·π'");
+    step("Isolate cos")
+        .test(CLEAR, "'cos X=A' X", NOSHIFT, F3)
+        .expect("'X=cos⁻¹ A+2·i1·π'");
+    step("Isolate tan")
+        .test(CLEAR, "'tan X=A' X", NOSHIFT, F3)
+        .expect("'X=tan⁻¹ A+i1·π'");
+    step("Isolate asin")
+        .test(CLEAR, "'A=asin X' X", NOSHIFT, F3)
+        .expect("'X=sin A'");
+    step("Isolate acos")
+        .test(CLEAR, "'A=acos X' X", NOSHIFT, F3)
+        .expect("'X=cos A'");
+    step("Isolate atan")
+        .test(CLEAR, "'A=atan X' X", NOSHIFT, F3)
+        .expect("'X=tan A'");
+    step("Isolate sinh")
+        .test(CLEAR, "'sinh X=A' X", NOSHIFT, F3)
+        .expect("'X=sinh⁻¹ A+2·i1·π·ⅈ'");
+    step("Isolate cosh")
+        .test(CLEAR, "'cosh X=A' X", NOSHIFT, F3)
+        .expect("'X=cosh⁻¹ A+2·i1·π·ⅈ'");
+    step("Isolate tanh")
+        .test(CLEAR, "'tanh X=A' X", NOSHIFT, F3)
+        .expect("'X=tanh⁻¹ A+i1·π·ⅈ'");
+    step("Isolate asinh")
+        .test(CLEAR, "'A=asinh X' X", NOSHIFT, F3)
+        .expect("'X=sinh A'");
+    step("Isolate acosh")
+        .test(CLEAR, "'A=acosh X' X", NOSHIFT, F3)
+        .expect("'X=cosh A'");
+    step("Isolate atanh")
+        .test(CLEAR, "'A=atanh X' X", NOSHIFT, F3)
+        .expect("'X=tanh A'");
+    step("Isolate log")
+        .test(CLEAR, "'A=log X' X", NOSHIFT, F3)
+        .expect("'X=exp X'");
+    step("Isolate exp")
+        .test(CLEAR, "'A=exp X' X", NOSHIFT, F3)
+        .expect("'X-ln X=2·i1·π·ⅈ'");
+    step("Isolate log2")
+        .test(CLEAR, "'A=log2 X' X", NOSHIFT, F3)
+        .expect("'X=exp2 X'");
+    step("Isolate exp2")
+        .test(CLEAR, "'A=exp2 X' X", NOSHIFT, F3)
+        .expect("'X-log2 X=2·i1·π·ⅈ÷ln 2'");
+    step("Isolate log10")
+        .test(CLEAR, "'A=log10 X' X", NOSHIFT, F3)
+        .expect("'X=exp10 X'");
+    step("Isolate exp10")
+        .test(CLEAR, "'A=exp10 X' X", NOSHIFT, F3)
+        .expect("'X-log10 X=2·i1·π·ⅈ÷ln 10'");
+    step("Isolate log1p")
+        .test(CLEAR, "'A=log1p X' X", NOSHIFT, F3)
+        .expect("'X=expm1 X'");
+    step("Isolate expm1")
+        .test(CLEAR, "'A=expm1 X' X", NOSHIFT, F3)
+        .expect("'X-log1p X=2·i1·π·ⅈ'");
+    step("Isolate sq")
+        .test(CLEAR, "'A=sq X' X", NOSHIFT, F3)
+        .expect("'X=s1·√ A'");
+    step("Isolate sqrt")
+        .test(CLEAR, "'A=sqrt X' X", NOSHIFT, F3)
+        .expect("'X=A²'");
+    step("Isolate cubed")
+        .test(CLEAR, "'A=cubed X' X", NOSHIFT, F3)
+        .expect("'X=∛ A+exp(i1·π·ⅈ÷3)'");
+    step("Isolate cbrt")
+        .test(CLEAR, "'A=cbrt X' X", NOSHIFT, F3)
+        .expect("'X=A³'");
 }
 
 

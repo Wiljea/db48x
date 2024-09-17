@@ -806,7 +806,7 @@ MENU(AlgebraMenu,
 // ----------------------------------------------------------------------------
      "↓Match",          ID_MatchDown,
      "↑Match",          ID_MatchUp,
-     "Isolate",         ID_Unimplemented,
+     "Isolate",         ID_Isolate,
      "Apply",           ID_Apply,
      "Subst",           ID_Subst,
      "|",               ID_Where,

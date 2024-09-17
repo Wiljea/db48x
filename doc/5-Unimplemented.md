@@ -141,6 +141,7 @@ The following is a list of the HP50 RPL commands which are implemented in DB48X.
 * [IM](#im)
 * [INV](#inv)
 * [IP](#IntegerPart)
+* [ISOL](#isolate)
 * [KILL](#kill)
 * [LASTARG](#lastarg)
 * [LINE](#line)
@@ -455,7 +456,6 @@ The following is a list of unimplemented HP50 RPL commands which should be imple
 * INVMOD
 * IQUOT
 * IREMAINDER
-* ISOL
 * ISOM
 * ISPRIME?
 * I→R

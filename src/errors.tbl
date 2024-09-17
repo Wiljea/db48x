@@ -104,6 +104,8 @@ ERROR(internal,                 "Internal error, please report")
 ERROR(invalid_path,             "Invalid path, access denied")
 ERROR(purge_active_directory,   "Cannot purge active directory")
 ERROR(invalid_bitmap_file,      "Invalid bitmap file")
+ERROR(cannot_isolate,           "Unable to isolate")
+
 
 // Filesystem errors
 #ifndef FRROR

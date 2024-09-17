@@ -434,9 +434,11 @@ object_p directory::recall_all(object_p name, bool report_missing)
         // Check independent / dependent values for plotting
         symbol_p s = symbol_p(name);
         if (expression::independent && s->is_same_as(*expression::independent))
-            return *expression::independent_value;
+            return expression::independent_value
+                ? *expression::independent_value : nullptr;
         if (expression::dependent && s->is_same_as(*expression::dependent))
-            return *expression::dependent_value;
+            return expression::dependent_value
+                ? *expression::dependent_value : nullptr;
         break;
     }
 

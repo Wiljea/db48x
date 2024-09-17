@@ -35,6 +35,7 @@
 #include "grob.h"
 #include "integer.h"
 #include "parser.h"
+#include "polynomial.h"
 #include "precedence.h"
 #include "renderer.h"
 #include "settings.h"
@@ -48,11 +49,13 @@ RECORDER(rewrites,      16, "Expression rewrites");
 RECORDER(rewrites_done, 16, "Successful expression rewrites");
 
 
-symbol_g *expression::independent       = nullptr;
-object_g *expression::independent_value = nullptr;
-symbol_g *expression::dependent         = nullptr;
-object_g *expression::dependent_value   = nullptr;
-bool      expression::in_algebraic      = false;
+symbol_g *expression::independent                   = nullptr;
+object_g *expression::independent_value             = nullptr;
+symbol_g *expression::dependent                     = nullptr;
+object_g *expression::dependent_value               = nullptr;
+bool      expression::in_algebraic                  = false;
+bool      expression::contains_independent_variable = false;
+uint      expression::constant_index                = 0;
 
 
 
@@ -597,6 +600,7 @@ size_t expression::required_memory(id type, id op,
 //   - d, e, f: Expressions (non-constant), i.e. is_real returns false
 //   - i, j   : Positive integer values,i.e. type is ID_integer
 //   - k, l, m: Non-zero positive integer values,i.e. type is ID_integer
+//   - n      : An expression containing the independent variable
 //   - s, t   : Symbols, i.e. is_symbol returns true
 //   - u, v, w: Unique sub-expressions, i.e. u!=v, v!=w, u!=w
 //   - x, y, z: Arbitrary expression, can be identical to one another
@@ -628,6 +632,10 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
     while (len--)
     {
         object_p obj = rt.stack(eq + len);
+        if (symbol_g *ref = expression::independent)
+            if (symbol_p sym = obj->as<symbol>())
+                if (sym->is_same_as(*ref))
+                    expression::contains_independent_variable = true;
         if (!rt.append(obj->size(), byte_p(obj)))
             return nullptr;
     }
@@ -640,7 +648,7 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
 
 
 static bool must_be(symbol_p symbol, char low, char high)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Check a convention about a symbol
 // ----------------------------------------------------------------------------
 {
@@ -651,7 +659,7 @@ static bool must_be(symbol_p symbol, char low, char high)
 
 
 static inline bool must_be_constant(symbol_p symbol)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Convention for naming numerical constants in rewrite rules
 // ----------------------------------------------------------------------------
 {
@@ -660,7 +668,7 @@ static inline bool must_be_constant(symbol_p symbol)
 
 
 static inline bool must_be_non_constant(symbol_p symbol)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Convention for naming non-numerical constants in rewrite rules
 // ----------------------------------------------------------------------------
 {
@@ -669,7 +677,7 @@ static inline bool must_be_non_constant(symbol_p symbol)
 
 
 static inline bool must_be_integer(symbol_p symbol)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Convention for naming integers in rewrite rules
 // ----------------------------------------------------------------------------
 {
@@ -678,7 +686,7 @@ static inline bool must_be_integer(symbol_p symbol)
 
 
 static inline bool must_be_nonzero(symbol_p symbol)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Convention for naming non-zero integers in rewrite rules
 // ----------------------------------------------------------------------------
 {
@@ -687,7 +695,7 @@ static inline bool must_be_nonzero(symbol_p symbol)
 
 
 static inline bool must_be_symbol(symbol_p symbol)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Convention for identifying symbols in rewrite rules
 // ----------------------------------------------------------------------------
 {
@@ -696,11 +704,49 @@ static inline bool must_be_symbol(symbol_p symbol)
 
 
 static inline bool must_be_unique(symbol_p symbol)
-// ------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 //   Convention for naming unique terms in rewrite rules
 // ----------------------------------------------------------------------------
 {
     return must_be(symbol, 'u', 'w');
+}
+
+
+static inline bool must_contain_the_independent_variable(symbol_p symbol)
+// ----------------------------------------------------------------------------
+//   Convention for naming an expression that contains independent variable
+// ----------------------------------------------------------------------------
+{
+    return must_be(symbol, 'n', 'o');
+}
+
+
+static inline bool must_not_contain_the_independent_variable(symbol_p symbol)
+// ----------------------------------------------------------------------------
+//   Convention for naming an expression that does not contain independent var
+// ----------------------------------------------------------------------------
+{
+    return must_be(symbol, 'p', 'q');
+}
+
+
+static inline char some_index(symbol_p symbol)
+// ----------------------------------------------------------------------------
+//   Convention for naming a constant when generating non-principal solutions
+// ----------------------------------------------------------------------------
+{
+    uint idx   = 1 + Settings.ExplicitWildcards();
+    char first = object::payload(symbol)[idx];
+    switch(first)
+    {
+        // See definitions of intk, natk and signk below
+    case '#':   return 'i';
+    case '+':   return 'n';
+    case '-':   return 's';
+    case '@':   return '@';     // Pi
+    case '!':   return '!';     // i
+    default: return 0;
+    }
 }
 
 
@@ -723,6 +769,7 @@ static size_t check_match(size_t eq, size_t eqsz,
 {
     size_t eqs = eq;
     size_t locals = rt.locals();
+
     while (fromsz && eqsz && !program::interrupted())
     {
         // Check what we match against
@@ -749,6 +796,7 @@ static size_t check_match(size_t eq, size_t eqsz,
             }
 
             // Get the value matching the symbol
+            expression::contains_independent_variable = false;
             ftop = grab_arguments(eq, eqsz);
             if (!ftop)
                 return 0;
@@ -796,6 +844,16 @@ static size_t check_match(size_t eq, size_t eqsz,
                 else if (must_be_symbol(name))
                 {
                     if (!ftop->as_quoted<symbol>())
+                        return 0;
+                }
+                else if (must_contain_the_independent_variable(name))
+                {
+                    if (!expression::contains_independent_variable)
+                        return 0;
+                }
+                else if (must_not_contain_the_independent_variable(name))
+                {
+                    if (expression::contains_independent_variable)
                         return 0;
                 }
 
@@ -891,15 +949,38 @@ static inline algebraic_p build_expr(expression_p eqin,
                     // Check if we find the matching pattern in local
                     symbol_p name    = symbol_p(tobj);
                     object_p found   = nullptr;
-                    size_t   symbols = rt.locals() - locals;
-                    for (size_t l = 0; !found && l < symbols; l += 2)
+
+                    if (char c = some_index(name))
                     {
-                        symbol_p existing = symbol_p(rt.local(l));
-                        if (!existing)
-                            continue;
-                        if (existing->is_same_as(name))
-                            found = rt.local(l+1);
+                        if (c == '@')
+                        {
+                            found = constant::lookup("π");
+                        }
+                        else if (c == '!')
+                        {
+                            found = constant::lookup("ⅈ");
+                        }
+                        else
+                        {
+                            char buf[24];
+                            snprintf(buf, sizeof(buf),
+                                     "%c%u", c, ++expression::constant_index);
+                            found = symbol::make(buf);
+                        }
                     }
+                    else
+                    {
+                        size_t   symbols = rt.locals() - locals;
+                        for (size_t l = 0; !found && l < symbols; l += 2)
+                        {
+                            symbol_p existing = symbol_p(rt.local(l));
+                            if (!existing)
+                                continue;
+                            if (existing->is_same_as(name))
+                                found = rt.local(l+1);
+                        }
+                    }
+
                     if (found)
                     {
                         tobj = found;
@@ -934,16 +1015,10 @@ static inline algebraic_p build_expr(expression_p eqin,
             // Need to evaluate e.g. 3-1 to get 2
             size_t depth = rt.depth();
             if (eq->run() == object::OK)
-            {
                 if (rt.depth() == depth+1)
-                {
                     if (object_p computed = rt.pop())
-                    {
                         if (algebraic_g eqa = computed->as_algebraic())
                             return eqa;
-                    }
-                }
-            }
             eq = nullptr;
         }
     }
@@ -2510,8 +2585,12 @@ static eq_symbol<'j'>     j;
 static eq_symbol<'k'>     k;    // Positive non-zero integers
 static eq_symbol<'l'>     l;
 static eq_symbol<'m'>     m;
+static eq_symbol<'n'>     n;    // Contains independent variable
+static eq_symbol<'o'>     o;
+static eq_symbol<'p'>     p;    // Other, does not contain independent variable
+static eq_symbol<'q'>     q;
 static eq_symbol<'n'>     s;    // Symbols
-static eq_symbol<'o'>     t;
+static eq_symbol<'t'>     t;
 static eq_symbol<'u'>     u;    // Unique subexpressions
 static eq_symbol<'v'>     v;
 static eq_symbol<'w'>     w;
@@ -2519,7 +2598,7 @@ static eq_symbol<'x'>     x;    // Any subexpression
 static eq_symbol<'y'>     y;
 static eq_symbol<'z'>     z;
 
-// Wildcards that must be sorted
+// Wildcards that need not be sorted (e.g. matches if A<B or A>B)
 static eq_symbol<'A'>     A;    // Numerical constants
 static eq_symbol<'B'>     B;
 static eq_symbol<'C'>     C;
@@ -2531,8 +2610,12 @@ static eq_symbol<'J'>     J;
 static eq_symbol<'K'>     K;    // Positive non-zero integers
 static eq_symbol<'L'>     L;
 static eq_symbol<'M'>     M;
+static eq_symbol<'N'>     N;    // Contains independent variable
+static eq_symbol<'O'>     O;
+static eq_symbol<'P'>     P;    // Other, does not contain independent variable
+static eq_symbol<'Q'>     Q;
 static eq_symbol<'N'>     S;    // Symbols
-static eq_symbol<'O'>     T;
+static eq_symbol<'T'>     T;
 static eq_symbol<'U'>     U;    // Unique subexpressions
 static eq_symbol<'V'>     V;
 static eq_symbol<'W'>     W;
@@ -2547,11 +2630,15 @@ static eq_integer<1>      one;
 static eq_integer<2>      two;
 static eq_integer<3>      three;
 static eq_integer<4>      four;
+static eq_integer<10>     ten;
 static eq_always          always;
 
-// Sign and integer value for non-princpal solutions
+// Sign and integer value for non-princpal solutions, see some_index() function
 static eq_symbol<'#'>     intk;
+static eq_symbol<'+'>     natk;
 static eq_symbol<'-'>     signk;
+static eq_symbol<'@'>     kpi;
+static eq_symbol<'!'>     ki;
 
 
 bool expression::split_equation(expression_g &left, expression_g &right) const
@@ -3142,5 +3229,184 @@ COMMAND_BODY(Where)
     }
     if (!rt.error())
         rt.type_error();
+    return ERROR;
+}
+
+
+expression_p expression::isolate(symbol_r sym) const
+// ----------------------------------------------------------------------------
+//   Isolate the variable in the expression
+// ----------------------------------------------------------------------------
+{
+    save<symbol_g *> sindep(independent, (symbol_g *) &sym);
+    save<object_g *> sindval(independent_value, nullptr);
+    save<uint>       sconstant(constant_index, 0);
+    expression_g eq = this;
+    if (eq)
+    {
+        expression_g left, right;
+        if (!split_equation(left, right))
+        {
+            algebraic_g l = +eq;
+            algebraic_g r = zero.as_expression();
+            eq = expression::make(ID_TestEQ, l, r);
+        }
+        if (left)
+            if (symbol_p lsym = left->as_quoted<symbol>())
+                if (lsym->is_same_as(sym))
+                    if (eq->rewrites(N==P, one) != eq)
+                        return eq;
+    }
+    if (!eq)
+        return nullptr;
+
+    expression_g result = Settings.PrincipalSolution()
+        ? eq->rewrites(
+            // Move the independent variable to the left
+            P == N,                 N == P,
+            N == O + P,             N - O == P,
+            N == P + O,             N - O == P,
+            N == O - P,             N - O == -P,
+            N == P - O,             N + O == P,
+            N == O * P,             N / O == P,
+            N == P * O,             N / O == P,
+            N == O / P,             N / O == inv(P),
+            N == P / O,             N * O == P,
+
+            // Binary operations
+            N + Q == P,             N == P - Q,
+            Q + N == P,             N == P - Q,
+            N - Q == P,             N == P + Q,
+            Q - N == P,             N == Q - P,
+            N * Q == P,             N == P / Q,
+            Q * N == P,             N == P / Q,
+            N / Q == P,             N == P * Q,
+            Q / N == P,             N == Q / P,
+            (N ^ Q) == P,           N == (P ^ inv(Q)),
+            (Q ^ N) == P,           N == log(P) / log(Q),
+
+            // Reversible functions
+            inv(N) == P,            N == inv(P),
+            sin(N) == P,            N == asin(P),
+            cos(N) == P,            N == acos(P),
+            tan(N) == P,            N == atan(P),
+            sinh(N) == P,           N == asinh(P),
+            cosh(N) == P,           N == acosh(P),
+            tanh(N) == P,           N == atanh(P),
+            asin(N) == P,           N == sin(P),
+            acos(N) == P,           N == cos(P),
+            atan(N) == P,           N == tan(P),
+            asinh(N) == P,          N == sinh(P),
+            acosh(N) == P,          N == cosh(P),
+            atanh(N) == P,          N == tanh(P),
+
+            log(N) == P,            N == exp(N),
+            exp(N) == P,            N == log(N),
+            log2(N) == P,           N == exp2(N),
+            exp2(N) == P,           N == log2(N),
+            log10(N) == P,          N == exp10(N),
+            exp10(N) == P,          N == log10(N),
+            log1p(N) == P,          N == expm1(N),
+            expm1(N) == P,          N == log1p(N),
+
+            sq(N) == P,             N == sqrt(P),
+            sqrt(N) == P,           N == sq(P),
+            cubed(N) == P,          N == cbrt(P),
+            cbrt(N) == P,           N == cubed(P)
+            )
+        : eq->rewrites(
+            // Move the independent variable to the left
+            P == N,                 N == P,
+            N == O + P,             N - O == P,
+            N == P + O,             N - O == P,
+            N == O - P,             N - O == -P,
+            N == P - O,             N + O == P,
+            N == O * P,             N / O == P,
+            N == P * O,             N / O == P,
+            N == O / P,             N / O == inv(P),
+            N == P / O,             N * O == P,
+
+            // Binary operations
+            N + Q == P,             N == P - Q,
+            Q + N == P,             N == P - Q,
+            N - Q == P,             N == P + Q,
+            Q - N == P,             N == Q - P,
+            N * Q == P,             N == P / Q,
+            Q * N == P,             N == P / Q,
+            N / Q == P,             N == P * Q,
+            Q / N == P,             N == Q / P,
+            (N ^ Q) == P,           N == (P ^ inv(Q)) + exp(intk*kpi*ki/Q),
+            (Q ^ N) == P,           N == log(P) / log(Q),
+
+            // Reversible functions
+            inv(N) == P,            N == inv(P),
+            sin(N) == P,            N == asin(P) + two*intk*kpi,
+            cos(N) == P,            N == acos(P) + two*intk*kpi,
+            tan(N) == P,            N == atan(P) + intk*kpi,
+            sinh(N) == P,           N == asinh(P) + two*intk*kpi*ki,
+            cosh(N) == P,           N == acosh(P) + two*intk*kpi*ki,
+            tanh(N) == P,           N == atanh(P) + intk*kpi*ki,
+            asin(N) == P,           N == sin(P),
+            acos(N) == P,           N == cos(P),
+            atan(N) == P,           N == tan(P),
+            asinh(N) == P,          N == sinh(P),
+            acosh(N) == P,          N == cosh(P),
+            atanh(N) == P,          N == tanh(P),
+
+            log(N) == P,            N == exp(N),
+            exp(N) == P,            N == log(N) + two*intk*kpi*ki,
+            log2(N) == P,           N == exp2(N),
+            exp2(N) == P,           N == log2(N) + two*intk*kpi*ki/log(two),
+            log10(N) == P,          N == exp10(N),
+            exp10(N) == P,          N == log10(N) + two*intk*kpi*ki/log(ten),
+            log1p(N) == P,          N == expm1(N),
+            expm1(N) == P,          N == log1p(N) + two*intk*kpi*ki,
+
+            sq(N) == P,             N == signk*sqrt(P),
+            sqrt(N) == P,           N == sq(P),
+            cubed(N) == P,          N == cbrt(P) + exp(intk*kpi*ki/three),
+            cbrt(N) == P,           N == cubed(P)
+            );
+
+    if (+result == +eq)
+    {
+        rt.cannot_isolate_error();
+        return nullptr;
+    }
+    if (result && Settings.AutoSimplify())
+        result = result->simplify();
+    return result;
+}
+
+
+COMMAND_BODY(Isolate)
+// ----------------------------------------------------------------------------
+//   Isolate a variable from an expression
+// ----------------------------------------------------------------------------
+{
+    if (object_p exprobj = rt.stack(1))
+    {
+        expression_g expr = exprobj->as<expression>();
+        if (!expr)
+            if (equation_p eqn = expr->as<equation>())
+                if (object_p eqnval = eqn->value())
+                    if (expression_p eqnexpr = eqnval->as<expression>())
+                        expr = eqnexpr;
+        if (!expr)
+            if (polynomial_p poly = expr->as<polynomial>())
+                if (algebraic_p alg = poly->as_expression())
+                    if (expression_p eqn = alg->as<expression>())
+                        expr = eqn;
+
+        if (expr)
+            if (object_p varobj = rt.stack(0))
+                if (symbol_g var = varobj->as_quoted<symbol>())
+                    if (expression_p res = expr->isolate(var))
+                        if (rt.drop() && rt.top(res))
+                            return OK;
+
+        if (!rt.error())
+            rt.type_error();
+    }
     return ERROR;
 }

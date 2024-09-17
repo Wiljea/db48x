@@ -3994,6 +3994,7 @@ The following is a list of the HP50 RPL commands which are implemented in DB50X.
 * [IM](#im)
 * [INV](#inv)
 * [IP](#IntegerPart)
+* [ISOL](#isolate)
 * [KILL](#kill)
 * [LASTARG](#lastarg)
 * [LINE](#line)
@@ -4308,7 +4309,6 @@ The following is a list of unimplemented HP50 RPL commands which should be imple
 * INVMOD
 * IQUOT
 * IREMAINDER
-* ISOL
 * ISOM
 * ISPRIME?
 * I→R
@@ -10016,6 +10016,24 @@ Examples:
 * `'A+B+0' {'X+0' 'X' } ↓Match` returns `'A+B' 1`
 * `'A+B+C' { 'X+Y' 'Y-X' } ↓Match` returns `'C-(B-A)' 2`
 * `'(A+B)^3' { 'X^N' 'X*X^(N-1)' } ↓Match` returns `(A+B)*(A+B)^2`.
+
+
+## Isolate (ISOL)
+
+Isolate variable: Returns an expression that rearranges an expression given in
+stack level 2 to “isolate” a variable specified in stack level 1.
+
+For example, `A+1=sin(X+B)+C' 'X' ISOL` will produce `X=sin⁻¹(A-C+1)+2·i1·π-B`.
+
+When the `PrincipalSolution` flag is not set, the resulting expression may
+contain numbered variables such as `i1` as parameters. Variables that begin with
+`i` represent arbitrary signed integers. Variables that begin with `n` represent
+arbitrary natural numbers. Variables that begin with `s` represent arbitrary
+signs.
+
+The command will generate `Unable to isolate` if the expression cannot be
+reorganized, for example because it contains functions that have no known
+inverse.
 
 
 ## AutoSimplify

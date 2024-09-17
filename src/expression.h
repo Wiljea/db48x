@@ -259,6 +259,7 @@ struct expression : program
                                   algebraic_g  factor,
                                   algebraic_g &scale,
                                   algebraic_g &exponent);
+    expression_p isolate(symbol_r sym) const;
 
 
     // ========================================================================
@@ -336,6 +337,8 @@ public:
     static symbol_g    *dependent;
     static object_g    *dependent_value;
     static bool         in_algebraic;
+    static bool         contains_independent_variable;
+    static uint         constant_index;
 };
 
 
@@ -619,6 +622,7 @@ FUNCTION(ReorderTerms);
 FUNCTION(Simplify);
 
 COMMAND_DECLARE(Apply, 2);
+COMMAND_DECLARE(Isolate, 2);
 COMMAND_DECLARE_SPECIAL(Where, arithmetic, 2, PREC_DECL(WHERE); );
 NFUNCTION(Subst, 2, static bool can_be_symbolic(uint) { return true; } );
 
