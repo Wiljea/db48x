@@ -111,22 +111,22 @@ static const cstring basic_equations[] =
 
     "Coulomb's Law & E Field",  "{ "
     "  '(F_N)=1/(4*Ⓒπ*Ⓒε0*εr)*((q1_C)*(q2_C)/(r_m)^2)' "
-    "  '(E_(N/C))=(F_N)/(qtest_C)' "
+    "  '(Er_(N/C))=(F_N)/(qtest_C)' "
     "}",
 
     "E Field Infinite Line",  "{ "
-    "  '(E_(N/C))=1/(2*Ⓒπ*Ⓒε0*εr)*(λ_(C/m))/(r_m)' "
+    "  '(Er_(N/C))=1/(2*Ⓒπ*Ⓒε0*εr)*((λ_(C/m))/(r_m)' "
     "  '(λ_(C/m))=(Q_C)/(L_m)' "
     "}",
 
     "E Field Finite Line",  "{ "
-    "  '(E_(N/C))=1/(4*Ⓒπ*Ⓒε0*εr)*(λ_(C/m))/(r_m)*(SIN(θ1_°)-SIN(θ2_°))' "
+    "  '(Er_(N/C))=1/(4*Ⓒπ*Ⓒε0*εr)*((λ_(C/m))/(r_m)*((SIN(θ1_r)-SIN(θ2_r))' "
     "  '(λ_(C/m))=(Q_C)/(L_m)' "
     "}",
 
     "E Field Infinite Plate",  "{ "
-    "  '(E_(N/C))=(σ_(μC/cm^2))/(2*Ⓒε0*εr)' "
-    "  '(σ_(μC/m^2))=(Q_μC)/(A_(cm^2))' "
+    "  '(Ep_(N/C))=(σ_(μC/cm^2))/(2*Ⓒε0*εr)' "
+    "  '(σ_(μC/cm^2))=(Q_μC)/(A_(cm^2))' "
     "}",
 
     "Ohm's Law & Power",  "{ "
@@ -207,7 +207,7 @@ static const cstring basic_equations[] =
     "}",
 
     "RC Transient",  "{ "
-    "  '(V_V)=(Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_ms))/((R_Ω)*(μC_F)))' "
+    "  '(V_V)=(Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_ms))/((R_Ω)*(C_F)))' "
     "}",
 
     "RL Transient",  "{ "
@@ -419,10 +419,22 @@ static const cstring basic_equations[] =
     "Real Gas Law",  "{ "
     "'(P_atm)*(V_l)=(n_gmol)*Z*ⒸR*(T_°C)' "
     "'(m_kg)=(n_gmol)*(MW_(g/gmol))' "
+    "'Tr=(T_K)/(Tc_K)' "
+    "'Pr=(P_Pa)/(Pc_Pa)' "
+    "'ρr= 0,27*(Pr/(Z*Tr))' "
+    "'Z=1+(0.31506237-1.04670990/Tr-0.57832729/Tr^3)*ρr+(0.53530771-0.61232032/Tr)*ρr^2+0.61232032*0.10488813*ρr^5/Tr+0.68157001*ρr^2/Tr^3*(1+0.68446549*ρr^2)*exp(-0.68446549*ρr^2)' "
     "}",
 
     "Real Gas State Change",  "{ "
     "'((Pf_atm)*(Vf_l))/(Zf*(Tf_°C))=((Pi_atm)*(Vi_l))/(Zi*(Ti_°C))' "
+    "'Tri=(Ti_K)/(Tc_K)' "
+    "'Pri=(Pi_Pa)/(Pc_Pa)' "
+    "'ρri= 0,27*(Pri/(Zi*Tri))' "
+    "'Zi=1+(0.31506237-1.04670990/Tri-0.57832729/Tri^3)*ρri+(0.53530771-0.61232032/Tri)*ρri^2+0.61232032*0.10488813*ρri^5/Tri+0.68157001*ρri^2/Tri^3*(1+0.68446549*ρri^2)*exp(-0.68446549*ρri^2)' "
+    "'Trf=(Tf_K)/(Tc_K)' "
+    "'Prf=(Pf_Pa)/(Pc_Pa)' "
+    "'ρrf= 0,27*(Prf/(Zf*Trf))' "
+    "'Zf=1+(0.31506237-1.04670990/Trf-0.57832729/Trf^3)*ρrf+(0.53530771-0.61232032/Trf)*ρrf^2+0.61232032*0.10488813*ρrf^5/Trf+0.68157001*ρrf^2/Trf^3*(1+0.68446549*ρrf^2)*exp(-0.68446549*ρrf^2)' "
     "}",
 
     "Kinetic Theory",  "{ "
@@ -447,20 +459,20 @@ static const cstring basic_equations[] =
     "}",
 
     "Conduction",  "{ "
-    "'(q_W)=((k_(W/(m*K)))*(A_(m^2))/(L_m))*(ΔT_°C)' "
-    "'(q_W)=((k_(W/(m*K)))*(A_(m^2))/(L_m))*((Th_°C)-(Tc_°C))' "
+    "'(qr_W)=((k_(W/(m*K)))*(A_(m^2))/(L_m))*(ΔT_°C)' "
+    "'(qr_W)=((k_(W/(m*K)))*(A_(m^2))/(L_m))*((Th_°C)-(Tc_°C))' "
     "}",
 
     "Convection",  "{ "
-    "'(q_W)=(h_(W/(m^2*K)))*(A_(m^2))*(ΔT_°C)' "
-    "'(q_W)=(h_(W/(m^2*K)))*(A_(m^2))*((Th_°C)-(Tc_°C))' "
+    "'(qr_W)=(h_(W/(m^2*K)))*(A_(m^2))*(ΔT_°C)' "
+    "'(qr_W)=(h_(W/(m^2*K)))*(A_(m^2))*((Th_°C)-(Tc_°C))' "
     "}",
 
     "Conduction + Convection",  "{ "
-    "'(q_W)=(A_(m^2))*(ΔT_°C)/(1/(h1_(W/(m^2*K)))+(L1_cm)/(k1_(W/(m*K)))+(L2_cm)/(k2_(W/(m*K)))+(L3_cm)/(k3_(W/(m*K)))+1/(h3_(W/(m^2*K))))' "
-    "'(q_W)=(A_(m^2))*((Th_°C)-(Tc_°C))/(1/(h1_(W/(m^2*K)))+(L1_cm)/(k1_(W/(m*K)))+(L2_cm)/(k2_(W/(m*K)))+(L3_cm)/(k3_(W/(m*K)))+1/(h3_(W/(m^2*K))))' "
-    "'(U_(W/(m^2*K)))=(q_W)/((A_(m^2))*(ΔT_°C))' "
-    "'(U_(W/(m^2*K)))=(q_W)/((A_(m^2))*((Th_°C)-(Tc_°C)))' "
+    "'(qr_W)=(A_(m^2))*(ΔT_°C)/(1/(h1_(W/(m^2*K)))+(L1_cm)/(k1_(W/(m*K)))+(L2_cm)/(k2_(W/(m*K)))+(L3_cm)/(k3_(W/(m*K)))+1/(h3_(W/(m^2*K))))' "
+    "'(qr_W)=(A_(m^2))*((Th_°C)-(Tc_°C))/(1/(h1_(W/(m^2*K)))+(L1_cm)/(k1_(W/(m*K)))+(L2_cm)/(k2_(W/(m*K)))+(L3_cm)/(k3_(W/(m*K)))+1/(h3_(W/(m^2*K))))' "
+    "'(U_(W/(m^2*K)))=(qr_W)/((A_(m^2))*(ΔT_°C))' "
+    "'(U_(W/(m^2*K)))=(qr_W)/((A_(m^2))*((Th_°C)-(Tc_°C)))' "
     "}",
 
     // WARNING The db48x needs the Black-Body Integral function F0λ(T_K,λ_nm)
@@ -480,11 +492,11 @@ static const cstring basic_equations[] =
     // WARNING both HP50G & HP50G_AUR.pdf used a variables rw absent from all
     // equations
     "Straight Wire Infinite",  "{ "
-    "'(B_T)=Ⓒμ0*μr*(I_A)/(2*Ⓒπ*(r_cm))' "
+    "'(B_T)=Ⓒμ0*IFTE((r_m)≤(rw_m);Ⓒμr*(r_m)*(I_A)/(2*Ⓒπ*(rw_cm)^2);(I_A)/(2*Ⓒπ*(r_cm)))' "
     "}",
 
     "Straight Wire Finite",  "{ "
-    "'(B_T)=Ⓒμ0*μr*(I_A)/(a*Ⓒπ*(r_m))*(COS(θ1_°)-COS(θ2_°))' "
+    "'(B_T)=Ⓒμ0*IFTE((r_m)≤(rw_m);Ⓒμr*(r_m)*(I_A)/(2*Ⓒπ*(rw_cm)^2);(I_A)/(2*Ⓒπ*(r_cm)))*(COS(θ1_r)-COS(θ2_r))' "
     "}",
 
     "Force Between Wires",  "{ "
@@ -492,11 +504,11 @@ static const cstring basic_equations[] =
     "}",
 
     "B Field In Infinite Solenoid",  "{ "
-    "'(B_T)=Ⓒμ0*μr*(I_A)*n' "
+    "'(B_T)=Ⓒμ0*μr*(I_A)*nl' "
     "}",
 
     "B Field In Finite Solenoid",  "{ "
-    "'(B_T)=(1/2)*Ⓒμ0*μr*(I_A)*n*(COS(α2_°)-COS(α1_°))' "
+    "'(B_T)=(1/2)*Ⓒμ0*μr*(I_A)*nl*(COS(α2_°)-COS(α1_°))' "
     "}",
 
     "B Field In Toroid",  "{ "
@@ -504,7 +516,7 @@ static const cstring basic_equations[] =
     "}",
 
     "Hall Effect",  "{ "
-    "'(VH_V)=((I_A)*(B_T))/((n_(1/m^3))*ABS(q_C))*(l_m)' "
+    "'(VH_V)=((I_A)*(B_T))/((n_(1/m^3))*ABS(q_C))*(L_m)' "
     "}",
 
     "Cyclotron Mouvement",  "{ "
@@ -515,7 +527,7 @@ static const cstring basic_equations[] =
 
     "Helicoidal Mouvement",  "{ "
     "'(Rc_m)=((m_kg)*(v_(m/s))*SIN(θ_°))/(ABS(q_C)*(B_T))' "
-    "'(T_s)=(2*Ⓒπ*(Rc_m))/((v_(m/s))*SIN(θ_°))' "
+    "'(T_s)=(2*Ⓒπ*(Rc_m))/((v_(m/s))*ABS(SIN(θ_°)))' "
     "'(Dpitch_m)=(v_(m/s))*COS(θ_°)*(T_s)' "
     "}",
 
@@ -534,19 +546,24 @@ static const cstring basic_equations[] =
     "'(v_(m/s))=(v0_(m/s))+(a_(m/s^2))*(t_s)' "
     "}",
 
+//Ref.: https://fr.wikipedia.org/wiki/Pesanteur#cite_ref-10:~:text=sur%20les%20plantes.-,Variation%20en%20fonction%20du%20lieu,-%5Bmodifier%20%7C
     "Object In Free Fall",  "{ "
-    "'(y_m)=(y0_m)+(v0_(m/s))*(t_s)-1/2*Ⓒg*(t_s)^2' "
-    "'(y_m)=(y0_m)+(v_(m/s))*(t_s)+1/2*Ⓒg*(t_s)^2' "
-    "'(v_(m/s))=(v0_(m/s))-Ⓒg*(t_s)' "
-    "'(v_(m/s))^2=(v0_(m/s))^2-2*Ⓒg*((y_m)-(y0_m))' "
+    "'(y_ft)=(y0_ft)+(v0_(ft/s))*(t_s)-1/2*(gloc_(m/s^2))*(t_s)^2' "
+    "'(y_ft)=(y0_ft)+(v_(ft/s))*(t_s)+1/2*gloc_(m/s^2)*(t_s)^2' "
+    "'(v_(ft/s))=(v0_(ft/s))-gloc_(m/s^2)*(t_s)' "
+    "'(v_(ft/s))^2=(v0_(ft/s))^2-2*gloc_(m/s^2)*((y_ft)-(y0_ft))' "
+    "'gloc_(m/s^2)=ⒸG*(Mp_kg)/(r_m)^2' "
+    "'gearth_(m/s^2)=9.780327*(1+5.3024E-3*(SIN(φ))^2-5.8E-6*(sin(φ))^2-3.086E-7*(h_m))' "
     "}",
 
     "Projectile Motion",  "{ "
     "'(x_m)=(x0_m)+(v0_(m/s))*COS(θ0_°)*(t_s)' "
     "'(y_m)=(y0_m)+(v0_(m/s))*SIN(θ0_°)*(t_s)-1/2*Ⓒg*(t_s)^2' "
-    "'(v0x_(m/s))=(v0_(m/s))*COS(θ0_°)' "
-    "'(v0y_(m/s))=(v0_(m/s))*SIN(θ0_°)-Ⓒg*(t_s)' "
+    "'(vcx_(m/s))=(v0_(m/s))*COS(θ0_°)' "
+    "'(vcy_(m/s))=(v0_(m/s))*SIN(θ0_°)-Ⓒg*(t_s)' "
     "'(R_m)=((v0_(m/s))^2)/Ⓒg*SIN(2*(θ0_°))' "
+    "'(hmax_m)=((v0_(m/s))^2)/(2*Ⓒg)*(SIN(θ0_r))^2' "
+    "'(tf_s)=(2*(v0_(m/s)))/Ⓒg*SIN(θ0_r)' "
     "}",
 
     "Angular Motion",  "{ "
@@ -556,18 +573,20 @@ static const cstring basic_equations[] =
     "'(ω_rpm)=(ω0_rpm)+(α_(rpm^2))*(t_s)' "
     "}",
 
-    "Circular Motion",  "{ "
-    "'(ω_rpm)=(v_(m/s))/(r_cm)' "
-    "'(ar_(m/s^2))=(v_(m/s))^2/(r_cm)' "
+    "Uniform Circular Motion",  "{ "
+    "'(ω_rpm)=(v_(m/s))/(rc_cm)' "
+    "'(ar_(m/s^2))=(v_(m/s))^2/(rc_cm)' "
     "'(ω_rpm)=2*(Ⓒπ_r)*(N_rpm)' "
     "}",
 
     "Terminal Velocity",  "{ "
-    "'(v_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(lb/ft^3))*(A_cm^2)))' "
+    "'(vt_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(kg/m^3))*(Ah_cm^2)))' "
+    "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/(vt_(m/s)))' "
     "}",
 
-    "Escape Velocity",  "{ "
-    "'(v_(m/s))=√((2*ⒸG*(M_kg))/(R_mi))' "
+    "Escape & Orbital Velocity",  "{ "
+    "'(ve_(m/s))=√((2*ⒸG*(Mp_kg))/(R_m))' "
+    "'(vo_(m/s))=√((ⒸG*(Mp_kg))/(R_m))' "
     "}",
 
 
@@ -586,6 +605,16 @@ static const cstring basic_equations[] =
     "'SIN(θc_°)=n1/n2' "
     "'n1=Ⓒc/(v1_(m/s))' "
     "'n2=Ⓒc/(v2_(m/s))' "
+    "}",
+
+//Ref.: https://mppolytechnic.ac.in/mp-staff/notes_upload_photo/AS273fiberoptics.pdf
+    "Fiber Optic",  "{ "
+    "'SIN(θc_°)=n2/n1' "
+	"'nf0=Ⓒc/(vf0_(m/s))' "
+	"'nf1=Ⓒc/(vf1_(m/s))' "
+	"'nf2=Ⓒc/(vf2_(m/s))' "
+	"'SIN(θ0_°)=(√(nf1^2-nf2^2))/nf0' "
+	"'NA=(√(nf1^2-nf2^2))/nf0'"
     "}",
 
     "Brewster's Law",  "{ "
@@ -610,29 +639,30 @@ static const cstring basic_equations[] =
     "'1/(u_cm)+1/(v_cm)=1/(f_cm)' "
     "'1/(f_cm)=(n-1)*(1/(r1_cm)-1/(r2_cm))' "
     "'m=-(v_cm)/(u_cm)' "
-    "'n=Ⓒc/(v_(m/s))' "
+    "'n=Ⓒc/(vn_(m/s))' "
     "}",
 
     "Rayleigh's Criterion",  "{ "
-    "'SIN(θ_°)=1.21966989*(λ_nm)/(d_m)' "
-    "'TAN(θ_°)=(y_m)/(L_m)' "
+    "'SIN(θr_°)=1.21966989*(λ_nm)/(d_m)' "
+    "'TAN(θr_°)=(y_m)/(L_m)' "
     "}",
 
     "Malus Law",  "{ "
     "'(I_(W/m^2))/(I0_(W/m^2))=(COS(θ_°))^2' "
+    "'Ix_(W/m^2)/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))+(COS(θ_°))^2' "
     "'(I0_(W/m^2))=(1/(2*Ⓒμ0*Ⓒc))*(E0_(V/m))^2' "
     "}",
 
     "2 Slits Young Interference",  "{ "
     "'(I_(W/m^2))/(Imax_(W/m^2))=4*(COS(Δφ_°)/2)^2' "
-    "'(Δφ_°)=(2*Ⓒπ*(d_μm)*SIN(θ_°))/(λ_nm)' "
+    "'(Δφ_r)=(2*(Ⓒπ_r)*(d_μm)*SIN(θ_°))/(λ_nm)' "
     "'TAN(θ_°)=(y_m)/(L_m)' "
     "'(Δyint_m)=(λ_nm)*(L_m)/(d_μm)' "
     "}",
 
     "One Slit Diffraction",  "{ "
-    "'(I_(W/m^2))/(Imax_(W/m^2))=(IFTE(α_°;SIN(α)/α;1))^2' "
-    "'(α_°)=(Ⓒπ*(a_μm)*SIN(θ_°))/(λ_nm)' "
+    "'(I_(W/m^2))/(Imax_(W/m^2))=(IFTE(Δα_°;SIN(Δα/2)/(Δα/2);1))^2' "
+    "'(Δα_r)=(2*(Ⓒπ_r)*(a_μm)*SIN(θ_°))/(λ_nm)' "
     "'TAN(θ_°)=(y_m)/(L_m)' "
     "'(Δydiff_m)=2*(λ_nm)*(L_m)/(a_μm)' "
     "}",
@@ -686,13 +716,13 @@ static const cstring basic_equations[] =
     "}",
     // Ref.: https://scholar.harvard.edu/files/david-morin/files/waves_oscillations.pdf
     "Driven Damped Oscillations",  "{ "
-    "'(x_m)=(xp_m)*COS((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*COS((ωh_(r/s))*(t_s)+(θ_°))' "
+    "'(x_m)=(xp_m)*COS((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*COS((ωu_(r/s))*(t_s)+(θ_°))' "
     "'(γ_(r/s))=(b_(kg/s))/(m_kg)' "
     "'(ω0_(r/s))=√((k_(N/m))/(m_kg))' "
-    "'(ωh_(r/s))=(ω0_(r/s))*√(1-((γ_(r/s))/(2*(ω0_(r/s))))^2)' "
+    "'(ωu_(r/s))=(ω0_(r/s))*√(1-((γ_(r/s))/(2*(ω0_(r/s))))^2)' "
     "'(xp_m)=((Fd_N)/(m_kg))/√(((ω0_(r/s))^2-(ω_(r/s))^2)^2+((γ_(r/s))*(ω_(r/s)))^2)' "
     "'TAN(φ_°)=-((γ_(r/s))*(ω_(r/s)))/((ω0_(r/s))^2-(ω_(r/s))^2)' "
-    "'(v_(m/s))=-(xp_m)*(ω_(r/s))*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*(-((γ_(r/s))/2)*COS((ωh_(r/s))*(t_s)+(θ_°))-(ωh_(r/s))*SIN((ωh_(r/s))*(t_s)+(θ_°)))' "
+    "'(v_(m/s))=-(xp_m)*(ω_(r/s))*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*(-((γ_(r/s))/2)*COS((ωu_(r/s))*(t_s)+(θ_°))-(ωu_(r/s))*SIN((ωu_(r/s))*(t_s)+(θ_°)))' "
     "'(a_(m^2/s))=-((ω0_(r/s))^2*(x_m)+(γ_(r/s))*(v_m/s))+((Fd_N)/(m_kg))*COS((ω_(r/s))*(t_s))' "
     "'(E_J)=(1/2)*(k_(N/m))*(x_m)^2+(1/2)*(m_kg)*(v_(m/s))^2' "
     "'Q=(ω0_(r/s))/(γ_(r/s))' "
@@ -890,7 +920,7 @@ static const cstring basic_equations[] =
     "'(k_(r/cm))=2*(Ⓒπ_r)/(λ_cm)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "'(vy_(cm/s))=-(ym_cm)*(ω_(r/s))*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(ay_(cm/(s^2)))=-(ym_cm)*(ω_(r/s))^2*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(ay_(cm/(s^2)))=-(ω_(r/s))^2*(ym_cm)' "
     "}",
 
     "Longitudinal Waves",  "{ "
@@ -899,45 +929,51 @@ static const cstring basic_equations[] =
     "'(k_(r/cm))=2*(Ⓒπ_r)/(λ_cm)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(as_(cm/(s^2)))=-(sm_cm)*(ω_(r/s))^2*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(as_(cm/(s^2)))=-(ω_(r/s))^2*(s_cm)' "
     "}",
 
     "Sound Waves",  "{ "
-    "'(v_(m/s))=√((B_kPa)/(ρ_(kg/(m^3))))' "
-    "'(I_(W/(m^2)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*(ω_(r/s))^2*(sm_cm)^2' "
-    "'(β_dB)=10*LOG((I_(W/(m^2)))/(ⒸI0_(W/(m^2))))' "
+    "'(s_cm)=(sm_cm)*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(as_(cm/(s^2)))=-(ω_(r/s))^2*(s_cm)' "
+    "'(Δp_Pa)=-(Δpm_Pa)*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
+    "'(v_(m/s))=√((B_kPa)/(ρ_(kg/(m^3))))' "
+    "'(Δpm_Pa)=(ρ_(kg/(m^3)))*(ω_(r/s))*(v_(m/s))*(sm_cm)' "
+    "'(I_(W/(m^2)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*(ω_(r/s))^2*(sm_cm)^2' "
+    "'(I_(W/(m^2))=(Ps_W)/(4*Ⓒπ*(r_m)^2)' "
+    "'(β_dB)=10*LOG((I_(W/(m^2)))/(ⒸI0_(W/(m^2))))' "
     "}",
 
     "Doppler Effect",  "{ "
-    "'(f_Hz)=(f0_Hz)*(((cair_(m/s))+(vr_(m/s)))/((cair_(m/s))-(vs_(m/s))))' "
-    "'(cair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(f_Hz)=(f0_Hz)*(((cair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
+    "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
     "}",
 
     "Mach Number",  "{ "
-    "'M=(u_(m/s))/(cair_(m/s))' "
-    "'SIN(θcone_°)=(cair_(m/s))/(u_(m/s))' "
-    "'(cair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'M=(u_(m/s))/(vsair_(m/s))' "
+    "'SIN(θcone_°)=(vsair_(m/s))/(u_(m/s))' "
+    "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
     "}",
 
-    "Standing Waves Cord",  "{ "
+    "String Standing Waves",  "{ "
     "'(y_m)=(ym_m)*SIN((k_(r/m))*(x_m))*COS((ω_(r/s))*(t_s))' "
     "'(v_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(v_(m/s))=√((T_N)/(ρ_(kg/m)))' "
+    "'(v_(m/s))=√((T_N)/(μ_(kg/m)))' "
     "'(ffixed-fixed_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
     "'(ffixed-free_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
     "}",
 
     "Sound Wave Harmonics",  "{ "
     "'(s_m)=(sm_m)*SIN((k_(r/m))*(x_m))*COS((ω_(r/s))*(t_s))' "
-    "'(cair_(m/s))=(λ_m)*(f_Hz)' "
+    "'(vsair_(m/s))=(λ_m)*(f_Hz)' "
     "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(cair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
-    "'(fopenopen_Hz)=(ninteger*(v_(m/s)))/(2*(L_m))' "
-    "'(fopenclose_Hz)=(nodd*(v_(m/s)))/(4*(L_m))' "
+    "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
+    "'(fopenopen_Hz)=(ninteger*(vsair_(m/s)))/(2*(L_m))' "
+    "'(fopenclose_Hz)=(nodd*(vsair_(m/s)))/(4*(L_m))' "
     "}",
 
     "Beat Acoustics",  "{ "
@@ -1041,9 +1077,9 @@ static const cstring basic_equations[] =
 
     "Gravitational Redshift",  "{ "
     "'z=(λ∞_nm)/(λe_nm)-1' "
-    "'(λ∞_nm)/(λe_nm)=1/√(1-((rs_m)/(Re_m)))' "
+    "'(λ∞_nm)/(λe_nm)=1/√(1-((rs_m)/(Rem_m)))' "
     "'(λ1_nm)/(λ2_nm)=√((1-(rs_m)/(R1_m))/(1-(rs_m)/(R2_m)))' "
-    "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Re_m))' "
+    "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Rem_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
 
@@ -1069,9 +1105,10 @@ static const cstring basic_equations[] =
     "'γG1=1/√(1-(2*(MGu_m))/(R+h1))' "
     "'γG2=1/√(1-(2*(MGu_m))/(R+h2))' "
     "'(MGu_m)=ⒸG*(M_kg)/Ⓒc^2' "
+    "'(ω_(r/s))=(2*Ⓒπ)/(Tday_s)' "
     "}",
 
-    "B H Schwarchild Geometry",  "{ "
+    "B H Schwarzschild Geometry",  "{ "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "'(ve_(m/s))=2*ⒸG*(M_kg)/(rs_m)' "
     "'(Vs_(m^3))=(4/3)*Ⓒπ*(rs_m)^3' "
@@ -1089,13 +1126,106 @@ static const cstring basic_equations[] =
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "'(tev_s)=(5120*Ⓒπ*(ⒸG)^2*(M_kg)^3)/(Ⓒℏ*(Ⓒc)^4)' "
     "'Mxsun=(M_kg)/(1.9885*10^30_kg)' "
-    "'MxSagAM=(M_kg)/(8.54*10^36_kg)' "
+    "'MxSagA=(M_kg)/(8.54*10^36_kg)' "
     "'Mxearth=(M_kg)/(5.972168*10^24_kg)' "
     "'txyr=(t_s)/(3.15576*10^7_s)' "
     "}"
-    // Total 506 eqns as of 24-08-26 (506/315=1.61) Remains to be added a Chapter on Modern Physics w
+  
+    // ------------------------------------------------------------------------
+    "Modern Physics", nullptr,
+    // ------------------------------------------------------------------------
+    //61 equs 53 vars in 8 sections
+    "Planck & Wien Comparison",  "{ "
+    "'(eb_(W/m^2))=Ⓒσ*(T_°K)^4' "
+	"'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
+	"'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
+	"'(f1_Hz)=Ⓒk*4*(T_K)/Ⓒh' "
+	"'(f2_Hz)=Ⓒk*9*(T_K)/Ⓒh' "
+	"'FrPl12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^3/expm1(x);X)' "
+	"'FrWn12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^3/expm1(x);X)' "
+	"'%rFr12=ABS(FrPl12-FrWn12)/FrPl12' "
+	"'(f3_Hz)=Ⓒk*0,01*(T_K)/Ⓒh' "
+	"'(f4_Hz)=Ⓒk*2,5*(T_K)/Ⓒh' "
+	"'FrPl34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f3_Hz)/(Ⓒk*(T_K));x^3/exp(x);X)' "
+	"'FrWn34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f4_Hz)/(Ⓒk*(T_K));x^3/exp(x);X)' "
+	"'%rFr34=ABS(FrPl34-FrWn34)/FrPl34' "
+	"'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
+    "}",
 
+    "Planck & Rayleigh-Jeans Comparison",  "{ "
+    "'(eb_(W/m^2))=Ⓒσ*(T_°K)^4' "
+	"'(ebfafb_(W/m^2))=Frfafb*(eb_(W/m^2))' "
+	"'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
+	"'(f1_Hz)=Ⓒk*1,7*(T_K)/Ⓒh' "
+	"'(f2_Hz)=Ⓒk*3,7*(T_K)/Ⓒh' "
+	"'FrPl12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^3/expm1(x);X)' "
+	"'FrRJ12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^2;X)' "
+	"'%rFr12=ABS(FrPl12-FrWn12)/FrPl12' "
+	"'(f3_Hz)=Ⓒk*0,001*(T_K)/Ⓒh' "
+	"'(f4_Hz)=Ⓒk*0,05*(T_K)/Ⓒh' "
+	"'FrPl34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f3_Hz)/(Ⓒk*(T_K));x^3/exp(x);X)' "
+	"'FrRJ34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f4_Hz)/(Ⓒk*(T_K));x^2;X)' "
+	"'%rFr34=ABS(FrPl34-FrWn34)/FrPl34' "
+	"'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
+    "}",
+
+    "Photoelectric Effect",  "{ "
+    "'(Kmax_J)=Ⓒqe*(Vo_V)' "
+	"'(Eph)=Ⓒh*(f_Hz)' "
+	"'Ⓒh*(f_Hz)=(φ_eV)+(Kmax_eV)' "
+	"'(φ_eV)=Ⓒh*(f0_Hz)' "
+    "}",
+
+    "Compton Effect",  "{ "
+    "'(Kmax_J)=((γ-1))*Ⓒme*Ⓒc^2' "
+	"'β=(v_(m/s))/Ⓒc' "
+	"'γ=1/√(1-β^2)' "
+	"'(Eph)=Ⓒh*(f_Hz)' "
+	"'Ⓒh*Ⓒc/(λ_nm)=Ⓒh*Ⓒc/(λp_nm)+(K_J)' "
+	"'(λp_nm)-(λ_nm)=Ⓒλc*(1-COS(θ_°))' "
+    "}",
+
+    "De Broglie Wave",  "{ "
+	"'(λ_nm)=Ⓒh/(p_(kg*m/s))' "
+	"'(K_eV)=(p_(kg*m/s))^2/(2*(m_kg))' "
+	"'(p_(kg*m/s))=(m_kg)*(v_(m/s))' "
+	"'2*(d_nm)*SIN(θ_°)=n*(λ_nm)' "
+    "}",
+
+    "Bohr Atomic Model",  "{ "
+    "'(Eph)=Ⓒh*(f_Hz)' "
+	"'Ⓒh*(f_Hz)'=(Enp_eV)-(En_eV)' "
+	"'(En_eV)=-(Ⓒme*Ⓒqe^4*Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/n^2)' "
+	"'(Enp_eV)=-(Ⓒme*Ⓒqe^4Z^2)/(8*Ⓒε0^2*Ⓒh^2)*(1/np^2)' "
+	"'(r_m)=n^2*(Ⓒε0*Ⓒh^2)/(Ⓒπ*Ⓒme*Ⓒqe^2)' "
+    "}",
+
+// We need activity units : 1 Bq = 1 disintegration/s & 1 Ci = 3.7e10 Bq
+    "Radioactivity",  "{ "
+    "'(T1/2_s)=ln(2)/(λ_s^-1)' "
+	"'N=N0*exp((λ_s^-1)*(t_s))' "
+	"'(A0_Bq)=(λ_s^-1)*N0' "
+	"'(A_Bq)=(A0_Bq)*exp((λ_s^-1)*(t_s))' "
+	"'N0=(m_kg)*ⒸNA/(MW_(g/mol))' "
+    "}",
+
+// We need the constant for the mass of the neutral H atom mH = 1.007825 u
+// The definition of the mass unit u need to be revised: i u = 1.66053 90689 2e-27 kg
+    "Nuclear Physics",  "{ "
+	"'A=N+Z' "
+    "'(R_m)=(1.2e-15_m)*A^(1/3)' "
+	"'(V_m^3)=4/3*Ⓒπ*R^3 "
+	"'(EB_MeV)=(Z*ⒸmH+N*Ⓒmn-mX)*Ⓒc^2' "
+	"'(EBse_MeV)=(1_MeV)*(15.75*A-17.8*A^(2/3)-0.711*Z*(Z-1)/A^(1/3)-23.7*(A-2*Z)^2/A+11.18/(A^(1/2))*IFTE((Z mod 2=0)and(N mod 2=0);1;IFTE((Z mod 2=1)and(N mod 2=1);-1;0))) "
+	"'(Qα_MeV)=((mX_u)-(my_u)-4.002603_u)*Ⓒc^2' "
+	"'(Qβ-_MeV)=((mX_u)-(my_u))*Ⓒc^2' "
+	"'(Qβ+_MeV)=((mX_u)-(my_u)-2*Ⓒme)*Ⓒc^2' "
+	"'(Q-_MeV)=((ma_u)+(mX_u)-(my_u)-(mb_u))*Ⓒc^2' "
+    "}",
+    
 };
+// Total 590 eqns & 625 vars as of 24-09-17 (590/315=1.87; 625/397=1.58 ) 
+
 //   clang-format on
 
 
