@@ -521,7 +521,7 @@ PARSE_BODY(integer)
     // Check if we finish with something indicative of a fraction or real number
     if (!endp)
     {
-        if (*s == Settings.DecimalSeparator() ||
+        if (*s == '.' || *s == ',' ||
             utf8_codepoint(s) == Settings.ExponentSeparator())
             return SKIP;
     }

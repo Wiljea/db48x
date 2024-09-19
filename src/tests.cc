@@ -172,7 +172,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            symbolic_operations();
+            data_types();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -848,8 +848,15 @@ void tests::data_types()
         .test(CLEAR, LSHIFT, O, LSHIFT, F6, F6);
     step("Comma as decimal dot is accepted after changing flag")
         .test(CLEAR, "0,123", ENTER).type(object::ID_decimal).expect("0,123");
+    step("Dot as decimal dot is accepted after selecting comma separator")
+        .test(CLEAR, "0,123", ENTER).type(object::ID_decimal).expect("0,123");
     step("Restoring dot as decimal separator")
-        .test(F5, ENTER, BSP).type(object::ID_decimal).expect("0.123");;
+        .test(F5, ENTER, BSP).type(object::ID_decimal).expect("0.123");
+    step("Do not generate extra object when wrong decimal is used")
+        .test(CLEAR, "{ 0,123 4.567 }", ENTER).expect("{ 0.123 4.567 }");
+    step("Do not generate extra object when wrong decimal is used")
+        .test(CLEAR, F6, "{ 0,123 4.567 }", ENTER).expect("{ 0,123 4,567 }")
+        .test(F5).expect("{ 0.123 4.567 }");
 
     step("Symbols");
     cstring symbol = "ABC123Z";
