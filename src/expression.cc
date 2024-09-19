@@ -1,5 +1,5 @@
 // ****************************************************************************
-//  expression.cc                                                   DB48X project
+//  expression.cc                                                DB48X project
 // ****************************************************************************
 //
 //   File Description:
@@ -43,10 +43,10 @@
 #include "utf8.h"
 #include "variables.h"
 
-RECORDER(equation,      16, "Processing of equations and algebraic objects");
-RECORDER(equation_error,16, "Errors with equations");
-RECORDER(rewrites,      16, "Expression rewrites");
-RECORDER(rewrites_done, 16, "Successful expression rewrites");
+RECORDER(expression,            16, "Expressions and algebraic objects");
+RECORDER(expression_error,      16, "Errors with expressions");
+RECORDER(rewrites,              16, "Expression rewrites");
+RECORDER(rewrites_done,         16, "Successful expression rewrites");
 
 
 symbol_g *expression::independent                   = nullptr;
@@ -61,7 +61,7 @@ uint      expression::constant_index                = 0;
 
 // ============================================================================
 //
-//    Equation
+//    Expression
 //
 // ============================================================================
 
@@ -79,10 +79,10 @@ EVAL_BODY(expression)
 
 PARSE_BODY(expression)
 // ----------------------------------------------------------------------------
-//    Try to parse this as an equation
+//    Try to parse this as an expression
 // ----------------------------------------------------------------------------
 {
-    // If already parsing an equation, let upper parser deal with quote
+    // If already parsing an expression, let upper parser deal with quote
     if (p.precedence)
         return SKIP;
 
@@ -97,10 +97,10 @@ PARSE_BODY(expression)
 
 HELP_BODY(expression)
 // ----------------------------------------------------------------------------
-//   Help topic for equations
+//   Help topic for expressions
 // ----------------------------------------------------------------------------
 {
-    return utf8("Equations");
+    return utf8("Expressions");
 }
 
 
@@ -131,7 +131,7 @@ symbol_p expression::render(uint depth, int &precedence, bool editing)
 {
     if (rt.depth() <= depth)
     {
-        record(equation_error, "Rendering at depth %u with stack depth %u",
+        record(expression_error, "Rendering at depth %u with stack depth %u",
                depth, rt.depth());
         return nullptr;
     }
@@ -143,7 +143,7 @@ symbol_p expression::render(uint depth, int &precedence, bool editing)
         {
             if (rt.depth() != depth)
             {
-                record(equation_error,
+                record(expression_error,
                        "Rendering %s arity %u at depth %u with stack depth %u",
                        name(obj->type()), arity, depth, rt.depth());
                 return nullptr;
@@ -329,7 +329,7 @@ size_t expression::render(const expression *o, renderer &r, bool quoted)
         else
         {
             size_t remove = rt.depth() - depth;
-            record(equation_error, "Malformed equation, %u removed", remove);
+            record(expression_error, "Malformed equation, %u removed", remove);
             rt.drop(remove);
         }
     }
@@ -624,7 +624,7 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
     }
     if (arity)
     {
-        record(equation, "Argument gets %u beyond size %u", arity, eqsz);
+        record(expression, "Argument gets %u beyond size %u", arity, eqsz);
         return nullptr;
     }
 
@@ -726,7 +726,7 @@ static inline bool must_not_contain_the_independent_variable(symbol_p symbol)
 //   Convention for naming an expression that does not contain independent var
 // ----------------------------------------------------------------------------
 {
-    return must_be(symbol, 'p', 'q');
+    return must_be(symbol, 'p', 'r');
 }
 
 
@@ -1976,7 +1976,7 @@ grob_p expression::graph(grapher &g, uint depth, int &precedence)
 {
     if (rt.depth() <= depth)
     {
-        record(equation_error, "Graphing at depth %u with stack depth %u",
+        record(expression_error, "Graphing at depth %u with stack depth %u",
                depth, rt.depth());
         return nullptr;
     }
@@ -1988,7 +1988,7 @@ grob_p expression::graph(grapher &g, uint depth, int &precedence)
         {
             if (rt.depth() != depth)
             {
-                record(equation_error,
+                record(expression_error,
                        "Graphing %s arity %u at depth %u with stack depth %u",
                        name(obj->type()), arity, depth, rt.depth());
                 return nullptr;
@@ -2279,7 +2279,7 @@ GRAPH_BODY(expression)
         else
         {
             size_t remove = rt.depth() - depth;
-            record(equation_error, "Malformed equation, %u removed", remove);
+            record(expression_error, "Malformed equation, %u removed", remove);
             rt.drop(remove);
         }
     }
@@ -2589,7 +2589,8 @@ static eq_symbol<'n'>     n;    // Contains independent variable
 static eq_symbol<'o'>     o;
 static eq_symbol<'p'>     p;    // Other, does not contain independent variable
 static eq_symbol<'q'>     q;
-static eq_symbol<'n'>     s;    // Symbols
+static eq_symbol<'r'>     r;
+static eq_symbol<'s'>     s;    // Symbols
 static eq_symbol<'t'>     t;
 static eq_symbol<'u'>     u;    // Unique subexpressions
 static eq_symbol<'v'>     v;
@@ -2614,7 +2615,8 @@ static eq_symbol<'N'>     N;    // Contains independent variable
 static eq_symbol<'O'>     O;
 static eq_symbol<'P'>     P;    // Other, does not contain independent variable
 static eq_symbol<'Q'>     Q;
-static eq_symbol<'N'>     S;    // Symbols
+static eq_symbol<'R'>     R;
+static eq_symbol<'S'>     S;    // Symbols
 static eq_symbol<'T'>     T;
 static eq_symbol<'U'>     U;    // Unique subexpressions
 static eq_symbol<'V'>     V;
@@ -3285,6 +3287,16 @@ expression_p expression::isolate(symbol_r sym) const
             (N ^ Q) == P,           N == (P ^ inv(Q)),
             (Q ^ N) == P,           N == log(P) / log(Q),
 
+            // Basic simplifications
+            N + N == P,             N == P / two,
+            N + Q*N == P,           N == P / (one + Q),
+            Q*N + N == P,           N == P / (one + Q),
+            Q*N + R*N == P,         N == P / (Q+R),
+            N - N == P,             zero == P,
+            N - Q*N == P,           N == P / (one - Q),
+            Q*N - N == P,           N == P / (Q - one),
+            Q*N - R*N == P,         N == P / (Q-R),
+
             // Reversible functions
             inv(N) == P,            N == inv(P),
             sin(N) == P,            N == asin(P),
@@ -3337,6 +3349,16 @@ expression_p expression::isolate(symbol_r sym) const
             Q / N == P,             N == Q / P,
             (N ^ Q) == P,           N == (P ^ inv(Q)) + exp(intk*kpi*ki/Q),
             (Q ^ N) == P,           N == log(P) / log(Q),
+
+            // Basic simplifications
+            N + N == P,             N == P / two,
+            N + X*N == P,           N == P / (one + X),
+            X*N + N == P,           N == P / (one + X),
+            X*N + Y*N == P,         N == P / (X+Y),
+            N - N == P,             zero == P,
+            N - Q*N == P,           N == P / (one - Q),
+            Q*N - N == P,           N == P / (Q - one),
+            Q*N - R*N == P,         N == P / (Q-R),
 
             // Reversible functions
             inv(N) == P,            N == inv(P),
