@@ -1068,20 +1068,17 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 
 ## Modern Physics
 The variables in the Modern Physics section are:
-//53 variables; 87 eqns
+//53-16=37 variables; 47 eqns
 * `β`: Velocity relativistic speed ratio
 * `φ`: Work function of the substance (dim.: energy, in SI: eV)
 * `θ`: Diffused photon angle of deflection (Photoelectric Effect, Compton Effect), or Angle between incident photon and cristallographic plane (DeBroglie Wave)
 * `γ`: Lorentz relativistic factor
 * `%rFr12`: Relative % of change between distribution fractions integrated from f1 to f2
 * `%rFr34`: Relative % of change between distribution fractions integrated from f3 to f4
-* `λ`: Wavelength of the incident photon (Compton Effect), or Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
+* `λ`: Wavelength of the incident photon (Compton Effect)
 * `λp`: Wavelength of the diffused photon
-* `A`: Area, or Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number (Nuclear Physics)
-* `A0`: Initial total activity (dim.: number of decay/time, in SI: becquerel, Bq)
+* `A`: Area, or Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq)
 * `d`: Interatomic distance between cristallographic plane
-* `EB`: Nuclear binding energy (dim.: energy, in SI: MeV)
-* `EBse`: Semiempirical nuclear binding energy (dim.: energy, in SI: MeV)
 * `En`: Electron energy in level n (dim.: energy, in SI: eV)
 * `Enp`: Electron energy in level np (dim.: energy, in SI: eV)
 * `ebfafb`: Emissive power in the range fa to fb (dim.: energy/time·area, in SI: W/m^2)
@@ -1103,23 +1100,10 @@ The variables in the Modern Physics section are:
 * `Kmax`: Maximum kinetic energy of photoelectron (dim.: energy; in SI: eV)
 * `p`: Momentum (dim.: mas·speed, in SI: kg·m/s)
 * `m`: Mass
-* `ma`: Mass of incident particle a (In SI: u)
-* `mb`: Mass of outgoing particle b (In SI: u)
-* `mX`: Mass of reactant neutral atom X (In SI: u)
-* `mY`: Mass of product neutral atom X (In SI: u)
-* `MW`: Mass weight (dim.: mass/mol, in SI: g/mol)
-* `N`: Number of nucleid (Radioactivity), or Number of neutron (Nuclear Physics)
-* `N0`: Initial number of nucleid
 * `q`: Heat transfer rate (dim.: energy/time, in SI: watt, W)
-* `Q`: Net energy balance of a nuclear reaction (dim.: energy, in SI: MeV)
-* `Qα`: Net energy balance of an α disintegration (dim.: energy, in SI: MeV)
-* `Qβ-`: Net energy balance of a β- disintegration (dim.: energy, in SI: MeV)
-* `Qβ+`: Net energy balance of a β- disintegration (dim.: energy, in SI: MeV)
 * `r`: Radius of electron orbit in level n
 * `T`: Temperature
-* `T1/2`: Half-life of radionucleide (dim.: time)
 * `V0`: Stopping potential (dim.: energy/charge, In SI: volt,V)
-* `Z`: Number of proton
 
 #### Planck & Wien Comparison
 
@@ -1141,6 +1125,57 @@ In this section 2 comparisons are done between the Planck and Rayleigh-Jeans spe
 
 #### Bohr Atomic Model
 
-#### Radioactivity
+## Nuclear Physics
+The variables in the Nuclear Physics section are:
+//38 variables; 26 eqns
+* `λ`: Decay constant (Radioactivity) (dim.: 1/time, in SI: s^-1)
+* `A`: Total activity (Radioactivity) (dim.: number of decay/time, in SI: becquerel, Bq), or Mass number (Nuclear Physics)
+* `AXα`: Mass number of the radionuclide X undergoing α decay  
+* `AYα`: Mass number of the daughter nuclide Y from α decay
+* `AXβ-`: Mass number of the radionuclide X undergoing β- decay
+* `AYβ-`: Mass number of the daughter nuclide Y from β- decay
+* `AXβ+`: Mass number of the radionuclide X undergoing β+ decay
+* `AYβ+`: Mass number of the daughter nuclide Y from β+ decay
+* `Aa`: Mass number of the incident nuclide or particle a
+* `Ab`: Mass number of the product nuclide or particle b
+* `AX`: Mass number of the reactant nuclide X
+* `AY`: Mass number of the product nuclide Y
+* `A0`: Initial total activity (dim.: number of decay/time, in SI: becquerel, Bq)
+* `EB`: Nuclear binding energy (dim.: energy, in SI: MeV)
+* `EBse`: Semiempirical nuclear binding energy (dim.: energy, in SI: MeV)
+* `ma`: Mass of incident nuclide or particle a (In SI: u)
+* `mb`: Mass of outgoing nuclide or particle b (In SI: u)
+* `mX`: Mass of reactant neutral atom X (In SI: u)
+* `mY`: Mass of product neutral atom X (In SI: u)
+* `MW`: Mass weight (dim.: mass/mol, in SI: g/mol)
+* `N`: Number of nucleid (Radioactivity), or Number of neutron (Nuclear Physics)
+* `N0`: Initial number of nucleid
+* `Q`: Net energy balance of a nuclear reaction (dim.: energy, in SI: MeV)
+* `Qα`: Net energy balance of an α decay (dim.: energy, in SI: MeV)
+* `Qβ-`: Net energy balance of a β- decay (dim.: energy, in SI: MeV)
+* `Qβ+`: Net energy balance of a β+ decay (dim.: energy, in SI: MeV)
+* `R`: Radius of the nucleus having A nucleons
+* `T1/2`: Half-life of radionuclide (dim.: time)
+* `Z`: Number of proton
+* `ZXα`: Proton number of the radionuclide X undergoing α decay  
+* `ZYα`: Proton number of the daughter nuclide Y from α decay
+* `ZXβ-`: Proton number of the radionuclide X undergoing β- decay
+* `ZYβ-`: Proton number of the daughter nuclide Y from β- decay
+* `ZXβ+`: Proton number of the radionuclide X undergoing β+ decay
+* `ZYβ+`: Proton number of the daughter nuclide Y from β+ decay
+* `Za`: Proton number of the incident nuclide or charge of the incident particle a
+* `Zb`: Proton number of the incident nuclide or or charge of the product particle b
+* `ZX`: Proton number of the reactant nuclide X
+* `ZY`: Proton number of the product nuclide Y
 
-#### Nuclear Physics
+#### Radioactivity 
+
+#### Radius & Binding Energy
+
+#### α Decay
+
+#### β- Decay
+
+#### β+ Decay
+
+#### General Nuclear Reaction
