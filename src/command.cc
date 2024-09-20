@@ -801,20 +801,7 @@ COMMAND_BODY(ToProgram)
 {
     if (object_p top = rt.top())
     {
-        if (polynomial_p poly = top->as<polynomial>())
-        {
-            top = poly->as_expression();
-            if (!top)
-                return ERROR;
-        }
-        if (equation_p eq = top->as<equation>())
-        {
-            top = eq->value();
-            if (!top)
-                return ERROR;
-        }
-
-        if (expression_p expr = top->as<expression>())
+        if (expression_p expr = expression::as_expression(top))
         {
             if (object_p clone = rt.clone(expr))
             {

@@ -2287,6 +2287,25 @@ GRAPH_BODY(expression)
 }
 
 
+expression_p expression::as_expression(object_p obj)
+// ----------------------------------------------------------------------------
+//   Convert an object to an expression, including polynomials and equations
+// ----------------------------------------------------------------------------
+{
+    if (!obj)
+        return nullptr;
+    if (expression_p expr = obj->as<expression>())
+        return expr;
+    if (equation_p eqn = obj->as<equation>())
+        return as_expression(eqn->value());
+    if (polynomial_p poly = obj->as<polynomial>())
+        return as_expression(poly->as_expression());
+    if (algebraic_g alg = obj->as_algebraic())
+        return make(alg);
+    return nullptr;
+}
+
+
 expression_p expression::current_equation(bool error)
 // ----------------------------------------------------------------------------
 //   Return content of EQ variable
@@ -2322,6 +2341,25 @@ expression_p expression::current_equation(bool error)
     }
     expression_p eq = expression_p(obj);
     return eq;
+}
+
+
+object::result expression::variable_command(command_fn callback)
+// ----------------------------------------------------------------------------
+//   Process a command that applies to a variable name
+// ----------------------------------------------------------------------------
+{
+    if (object_p exprobj = rt.stack(1))
+        if (expression_g expr = expression::as_expression(exprobj))
+            if (object_p varobj = rt.stack(0))
+                if (symbol_g var = varobj->as_quoted<symbol>())
+                    if (expression_p res = (expr->*callback)(var))
+                        if (rt.drop() && rt.top(res))
+                            return OK;
+
+    if (!rt.error())
+        rt.type_error();
+    return ERROR;
 }
 
 
@@ -3146,8 +3184,8 @@ NFUNCTION_BODY(Subst)
 //   Perform a substitution without evaluating the resulting expression
 // ----------------------------------------------------------------------------
 {
-    if (expression_g pat = args[1]->as<expression>())
-        if (expression_g repl = args[0]->as<expression>())
+    if (expression_g pat = expression::as_expression(args[1]))
+        if (expression_g repl = expression::as_expression(args[0]))
             return substitute(pat, repl);
 
     if (args[1]->is_real() || args[1]->is_complex())

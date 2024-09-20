@@ -100,18 +100,11 @@ struct expression : program
     }
 
 
-    static expression_p as_expression(object_p obj)
-    {
-        if (!obj)
-            return nullptr;
-        if (expression_p ex = obj->as<expression>())
-            return ex;
-        if (algebraic_g alg = obj->as_algebraic())
-            return make(alg);
-        return nullptr;
-    }
-
+    static expression_p as_expression(object_p obj);
     static expression_p current_equation(bool error);
+
+    typedef expression_p (expression::*command_fn)(symbol_r name) const;
+    static result variable_command(command_fn callback);
 
 
     // ========================================================================
