@@ -1226,8 +1226,8 @@ COMMAND_BODY(dot)
                 }
             }
             rt.drop(rt.depth() - depth);
-            rt.push(+ya);
             rt.push(+xa);
+            rt.push(+ya);
         }
         else if ((xa || x->is_symbolic()) && (ya || y->is_symbolic()))
         {

@@ -701,15 +701,10 @@ struct object
     }
 
 
-    algebraic_p as_algebraic() const
+    algebraic_p as_algebraic() const;
     // ------------------------------------------------------------------------
     //   Return an object as an algebraic if possible, or nullptr
     // ------------------------------------------------------------------------
-    {
-        if (is_algebraic())
-            return algebraic_p(this);
-        return nullptr;
-    }
 
 
     static bool is_algebraic_or_list(id ty)

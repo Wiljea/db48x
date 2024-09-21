@@ -1318,6 +1318,18 @@ int object::as_truth(bool error) const
 }
 
 
+algebraic_p object::as_algebraic() const
+// ----------------------------------------------------------------------------
+//   Return the value as an algebraic if possible
+// ----------------------------------------------------------------------------
+{
+    object_p untagged = tag::strip(this);
+    if (untagged && untagged->is_algebraic())
+        return algebraic_p(untagged);
+    return nullptr;
+}
+
+
 bool object::is_zero(bool error) const
 // ----------------------------------------------------------------------------
 //   Check if an object is zero

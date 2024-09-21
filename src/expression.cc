@@ -3184,12 +3184,12 @@ NFUNCTION_BODY(Subst)
 //   Perform a substitution without evaluating the resulting expression
 // ----------------------------------------------------------------------------
 {
+    if (args[1]->is_real() || args[1]->is_complex())
+        return args[1];
+
     if (expression_g pat = expression::as_expression(args[1]))
         if (expression_g repl = expression::as_expression(args[0]))
             return substitute(pat, repl);
-
-    if (args[1]->is_real() || args[1]->is_complex())
-        return args[1];
 
     rt.type_error();
     return nullptr;
