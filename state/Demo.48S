@@ -1,57 +1,63 @@
 @@ ---------------------------------------------------------------------------
 @@
-@@	 Comparing relativistic and classical kinetic energy
+@@	Comparing relativistic and classical kinetic energy
 @@
 @@ ---------------------------------------------------------------------------
 
 «
-        @ Select drawing range
-        -0.2 1.2 XRNG
-        -0.2 1.5 YRNG
+	@ Select drawing range
+	-0.2 1.2 XRNG
+	-0.2 1.5 YRNG
 
-        @ Draw the C limit on the right
-        5 LineWidth
-        0.7 0.7 0.9 RGB Foreground
-        1-5ⅈ 1+5ⅈ Line
+	@ Draw the C limit on the right
+	5 LineWidth
+	0.7 0.7 0.9 RGB Foreground
+	1-5ⅈ 1+5ⅈ Line
 
-        @ Draw axes
+	@ Draw axes
 	0 0 0 RGB Foreground
 	1 LineWidth
-        DrawAxes
+	DrawAxes
 
-        @ Draw the classical case (red)
-        0.7 0 0 RGB Foreground
-        3 LineWidth
+	@ Draw the classical case (red)
+	0.7 0 0 RGB Foreground
+	3 LineWidth
 	'1/2*sq(x)' Function
-        "Classical" { 0.7 0.2 0 } Disp
+	"Classical" { 0.7 0.2 0 } Disp
 
-        @ Draw the relativistic case (green)
-        2 LineWidth
-        0 0.7 0 RGB Foreground
+	@ Draw the relativistic case (green)
+	2 LineWidth
+	0 0.7 0 RGB Foreground
 	'ifte(x<1;1/(1-sq(x))-1;2)' Function
-        "Relativistic" { 0.4 1.0 0 } Disp
+	"Relativistic" { 0.4 1.0 0 } Disp
 
-        @ Axes labels
-        0 0 0.5 RGB Foreground
-        "Kinetic Energy" { -.13 1.35 0 } Disp
-        "Speed" { 1.03 -0.03 0 } Disp
-        "c" { 0.95 -0.005 1 } Disp
-        "0.1·c ↑" { 0.095 -0.005 1 } Disp
+	@ Axes labels
+	0 0 0.5 RGB Foreground
+	"Kinetic Energy" { -.13 1.35 0 } Disp
+	"Speed" { 1.03 -0.03 0 } Disp
+	"c" { 0.95 -0.005 1 } Disp
+	"0.1·c ↑" { 0.095 -0.005 1 } Disp
 
-        1 LineWidth
-        #0 Foreground
+	1 LineWidth
+	#0 Foreground
 »
 'KineticEnergy' STO
 
 
 
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Evaluate performance of unit conversions
+@@
+@@ ---------------------------------------------------------------------------
+
 «
-«
-        0 25 for i
-                i 1_m/s * 1_km/yr convert drop
-        next
-»
-        TEVAL
+	«
+		0 25 for i
+			i 1_m/s * 1_km/yr convert drop
+		next
+	»
+	TEVAL
 »
 
 'UnitBenchmark' STO
@@ -179,7 +185,7 @@
 @@	 This is inspired by https://www.youtube.com/watch?v=vwI5xbqIM7g
 
 «
-        if Depth 1 < then 1000 end
+	if Depth 1 < then 1000 end
 	«
 		3 Over Duplicate 2 ≤
 		Swap 2 mod or
@@ -599,7 +605,7 @@
 
 		ClearLCD
 		#0 Foreground
-		"	 Rounded Rect "	{ 10#75 10#180 0 true true } Disp
+		"	 Rounded Rect " { 10#75 10#180 0 true true } Disp
 		0 LineWidth
 		0 300
 		for i
@@ -747,9 +753,9 @@
 @@ ---------------------------------------------------------------------------
 
 «
-        0 399 for x
-                {} x R->B + 0 239 random R->B + pixon
-        next
+	0 399 for x
+		{} x R->B + 0 239 random R->B + pixon
+	next
 »
 'RandomPlot' STO
 
@@ -761,9 +767,9 @@
 @@ ---------------------------------------------------------------------------
 
 «
-        0 25000 start
-                {} 0 399 random R->B + 0 239 random R->B + pixon
-        next
+	0 25000 start
+		{} 0 399 random R->B + 0 239 random R->B + pixon
+	next
 »
 'RandomXYPlot' STO
 
@@ -774,21 +780,25 @@
 @@
 @@ ---------------------------------------------------------------------------
 
-{ 'SQ(AA)+SQ(BB)=SQ(CC)'
+«
+	{
+		'SQ(AA)+SQ(BB)=SQ(CC)'
 
-  'sin(α)/a=sin(β)/b'
-  'sin(β)/b=sin(γ)/c'
-  'sin(α)/b=sin(γ)/c'
-  'α+β+γ=180'
-  's=(a+b+c)/2'
-  'A=sqrt(s*(s-a)*(s-b)*(s-c))'
-  'sq(c)=sq(a)+sq(b)-2*a*b*cos(γ)'
-  'sq(b)=sq(a)+sq(c)-2*a*c*cos(β)'
-  'sq(a)=sq(b)+sq(c)-2*b*c*cos(α)'
-} STEQ
+		'sin(α)/a=sin(β)/b'
+		'sin(β)/b=sin(γ)/c'
+		'sin(α)/b=sin(γ)/c'
+		'α+β+γ=180'
+		's=(a+b+c)/2'
+		'A=sqrt(s*(s-a)*(s-b)*(s-c))'
+		'sq(c)=sq(a)+sq(b)-2*a*b*cos(γ)'
+		'sq(b)=sq(a)+sq(c)-2*a*c*cos(β)'
+		'sq(a)=sq(b)+sq(c)-2*b*c*cos(α)'
+	} STEQ
 
-10_m 'AA' STO
-85_ft 'BB' STO
-1_cm 'CC' STO
+	10_m 'AA' STO
+	85_ft 'BB' STO
+	1_cm 'CC' STO
 
-VariablesMenu
+	SolvingMenu
+»
+'EquationSolving' STO
