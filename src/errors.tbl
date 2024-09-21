@@ -105,6 +105,7 @@ ERROR(invalid_path,             "Invalid path, access denied")
 ERROR(purge_active_directory,   "Cannot purge active directory")
 ERROR(invalid_bitmap_file,      "Invalid bitmap file")
 ERROR(cannot_isolate,           "Unable to isolate")
+ERROR(unknown_derivative,       "Unknown derivative")
 
 
 // Filesystem errors

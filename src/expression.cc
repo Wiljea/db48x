@@ -206,7 +206,14 @@ symbol_p expression::render(uint depth, int &precedence, bool editing)
             symbol_g rtxt = render(depth, rprec, editing);
             symbol_g ltxt = render(depth, lprec, editing);
             int      prec = obj->precedence();
-            if (prec != precedence::FUNCTION)
+            id       oid  = obj->type();
+            if (oid == ID_Derivative)
+            {
+                symbol_g arg = parentheses(ltxt);
+                precedence = precedence::FUNCTION;
+                return op + rtxt + arg;
+            }
+             else if (prec != precedence::FUNCTION)
             {
                 if (op->is_alpha())
                 {
@@ -222,7 +229,7 @@ symbol_p expression::render(uint depth, int &precedence, bool editing)
             }
             else
             {
-                if (obj->type() == ID_xroot)
+                if (oid == ID_xroot)
                     std::swap(ltxt, rtxt);
                 symbol_g arg = ltxt + symbol::make(';') + rtxt;
                 arg = parentheses(arg);
@@ -597,10 +604,13 @@ size_t expression::required_memory(id type, id op,
 //
 //   Names of wildcards have a special role based on the initial letter:
 //   - a, b, c: Constant values (numbers), i.e. is_real returns true
+//              c must not be zero
 //   - d, e, f: Expressions (non-constant), i.e. is_real returns false
 //   - i, j   : Positive integer values,i.e. type is ID_integer
 //   - k, l, m: Non-zero positive integer values,i.e. type is ID_integer
-//   - n      : An expression containing the independent variable
+//   - n, o   : An expression containing the independent variable
+//   - p, q, r: An expression not containing the independent variable
+//              r must not be zero
 //   - s, t   : Symbols, i.e. is_symbol returns true
 //   - u, v, w: Unique sub-expressions, i.e. u!=v, v!=w, u!=w
 //   - x, y, z: Arbitrary expression, can be identical to one another
@@ -647,96 +657,121 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
 }
 
 
-static bool must_be(symbol_p symbol, char low, char high)
+static inline char wildcard_category(symbol_p symbol)
 // ----------------------------------------------------------------------------
-//   Check a convention about a symbol
-// ----------------------------------------------------------------------------
-{
-    uint idx   = 1 + Settings.ExplicitWildcards();
-    char first = tolower(object::payload(symbol)[idx]);
-    return first >= low && first <= high;
-}
-
-
-static inline bool must_be_constant(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming numerical constants in rewrite rules
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'a', 'c');
-}
-
-
-static inline bool must_be_non_constant(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming non-numerical constants in rewrite rules
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'd', 'f');
-}
-
-
-static inline bool must_be_integer(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming integers in rewrite rules
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'i', 'm');
-}
-
-
-static inline bool must_be_nonzero(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming non-zero integers in rewrite rules
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'k', 'm');
-}
-
-
-static inline bool must_be_symbol(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for identifying symbols in rewrite rules
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 's', 't');
-}
-
-
-static inline bool must_be_unique(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming unique terms in rewrite rules
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'u', 'w');
-}
-
-
-static inline bool must_contain_the_independent_variable(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming an expression that contains independent variable
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'n', 'o');
-}
-
-
-static inline bool must_not_contain_the_independent_variable(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming an expression that does not contain independent var
-// ----------------------------------------------------------------------------
-{
-    return must_be(symbol, 'p', 'r');
-}
-
-
-static inline char some_index(symbol_p symbol)
-// ----------------------------------------------------------------------------
-//   Convention for naming a constant when generating non-principal solutions
+//  The wildcard category is defined by the first letter in the name
 // ----------------------------------------------------------------------------
 {
     uint idx   = 1 + Settings.ExplicitWildcards();
     char first = object::payload(symbol)[idx];
+    return first;
+}
+
+
+static inline bool must_be(char first, char low, char high)
+// ----------------------------------------------------------------------------
+//   Check a convention about a symbol
+// ----------------------------------------------------------------------------
+{
+    return first >= low && first <= high;
+}
+
+
+static inline bool must_be(char first, cstring list)
+// ----------------------------------------------------------------------------
+//   Check a convention about a symbol
+// ----------------------------------------------------------------------------
+{
+    return strchr(list, first);
+}
+
+
+static inline bool must_be_constant(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming numerical constants in rewrite rules
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 'a', 'c');
+}
+
+
+static inline bool must_be_non_constant(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming non-numerical constants in rewrite rules
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 'd', 'f');
+}
+
+
+static inline bool must_be_integer(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming integers in rewrite rules
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 'i', 'm');
+}
+
+
+static inline bool must_be_nonzero(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming non-zero integers in rewrite rules
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, "klmcr");
+}
+
+
+static inline bool must_be_symbol(char first)
+// ----------------------------------------------------------------------------
+//   Convention for identifying symbols in rewrite rules
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 's', 't');
+}
+
+
+static inline bool must_be_unique(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming unique terms in rewrite rules
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 'u', 'w');
+}
+
+
+static inline bool must_contain_the_independent_variable(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming an expression that contains independent variable
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 'n', 'o');
+}
+
+
+static inline bool must_be_the_independent_variable(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming an expression that contains independent variable
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, '=', '=');
+}
+
+
+static inline bool must_not_contain_the_independent_variable(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming an expression that does not contain independent var
+// ----------------------------------------------------------------------------
+{
+    return must_be(first, 'p', 'r');
+}
+
+
+static inline char some_index(char first)
+// ----------------------------------------------------------------------------
+//   Convention for naming a constant when generating non-principal solutions
+// ----------------------------------------------------------------------------
+{
     switch(first)
     {
         // See definitions of intk, natk and signk below
@@ -745,18 +780,17 @@ static inline char some_index(symbol_p symbol)
     case '-':   return 's';
     case '@':   return '@';     // Pi
     case '!':   return '!';     // i
+    case '=':   return '=';     // Current independent variable
     default: return 0;
     }
 }
 
 
-static bool must_be_sorted(symbol_p symbol)
+static bool must_be_sorted(char first)
 // ----------------------------------------------------------------------------
 //   Convention for naming terms in rewrite rules that need to be sorted
 // ----------------------------------------------------------------------------
 {
-    uint idx   = 1 + Settings.ExplicitWildcards();
-    char first = object::payload(symbol)[idx];
     return first >= 'a' && first <= 'z';
 }
 
@@ -804,9 +838,11 @@ static size_t check_match(size_t eq, size_t eqsz,
             if (!found)
             {
                 // Check if we expect an integer value
-                bool want_cst = must_be_constant(name);
-                bool want_int = must_be_integer(name);
-                bool want_var = must_be_non_constant(name);
+                char wcat     = wildcard_category(name);
+                char cat      = tolower(wcat);
+                bool want_cst = must_be_constant(cat);
+                bool want_int = must_be_integer(cat);
+                bool want_var = must_be_non_constant(cat);
                 if (want_cst || want_int || want_var)
                 {
                     // At this point, if we have a numerical value, it was
@@ -827,12 +863,12 @@ static size_t check_match(size_t eq, size_t eqsz,
                     if ((want_int && fty != object::ID_integer)         ||
                         (want_cst && !object::is_real(fty))             ||
                         (want_var && object::is_real(fty))              ||
-                        (must_be_nonzero(name) && ftop->is_zero()))
+                        (must_be_nonzero(cat) && ftop->is_zero(false)))
                         return 0;
                 }
 
                 // Check if the name must be unique in the locals
-                else if (must_be_unique(name))
+                else if (must_be_unique(cat))
                 {
                     for (size_t l = 0; l < symbols; l += 2)
                     {
@@ -841,29 +877,42 @@ static size_t check_match(size_t eq, size_t eqsz,
                             return 0;
                     }
                 }
-                else if (must_be_symbol(name))
+                else if (must_be_symbol(cat))
                 {
                     if (!ftop->as_quoted<symbol>())
                         return 0;
                 }
-                else if (must_contain_the_independent_variable(name))
+                else if (must_be_the_independent_variable(cat))
+                {
+                    bool isvar = false;
+                    if (expression::independent)
+                        if (symbol_p ivar = *expression::independent)
+                            if (symbol_p sym = ftop->as_quoted<symbol>())
+                                isvar = sym->is_same_as(ivar);
+                    if (!isvar)
+                        return 0;
+                }
+                else if (must_contain_the_independent_variable(cat))
                 {
                     if (!expression::contains_independent_variable)
                         return 0;
                 }
-                else if (must_not_contain_the_independent_variable(name))
+                else if (must_not_contain_the_independent_variable(cat))
                 {
                     if (expression::contains_independent_variable)
+                        return 0;
+                    if (must_be_nonzero(cat) && ftop->is_zero(false))
                         return 0;
                 }
 
                 // Check if things must be sorted
-                if (must_be_sorted(name))
+                if (must_be_sorted(wcat))
                 {
                     for (size_t l = 0; l < symbols; l += 2)
                     {
                         symbol_p ename = symbol_p(rt.local(l));
-                        if (must_be_sorted(ename))
+                        char ecat = wildcard_category(ename);
+                        if (must_be_sorted(ecat))
                         {
                             object_p existing = rt.local(l+1);
                             if (!existing)
@@ -947,10 +996,11 @@ static inline algebraic_p build_expr(expression_p eqin,
                 if (tobj->type() == object::ID_symbol)
                 {
                     // Check if we find the matching pattern in local
-                    symbol_p name    = symbol_p(tobj);
-                    object_p found   = nullptr;
+                    symbol_p name  = symbol_p(tobj);
+                    char     cat   = tolower(wildcard_category(name));
+                    object_p found = nullptr;
 
-                    if (char c = some_index(name))
+                    if (char c = some_index(cat))
                     {
                         if (c == '@')
                         {
@@ -959,6 +1009,12 @@ static inline algebraic_p build_expr(expression_p eqin,
                         else if (c == '!')
                         {
                             found = constant::lookup("ⅈ");
+                        }
+                        else if (c == '=')
+                        {
+                            found = expression::independent
+                                ? *expression::independent
+                                : nullptr;
                         }
                         else
                         {
@@ -984,7 +1040,7 @@ static inline algebraic_p build_expr(expression_p eqin,
                     if (found)
                     {
                         tobj = found;
-                        if (must_be_integer(name)|| must_be_constant(name))
+                        if (must_be_integer(cat)|| must_be_constant(cat))
                             compute = true;
                     }
                 }
@@ -2679,6 +2735,7 @@ static eq_symbol<'+'>     natk;
 static eq_symbol<'-'>     signk;
 static eq_symbol<'@'>     kpi;
 static eq_symbol<'!'>     ki;
+static eq_symbol<'='>     indep;
 
 
 bool expression::split_equation(expression_g &left, expression_g &right) const
@@ -3444,29 +3501,77 @@ COMMAND_BODY(Isolate)
 //   Isolate a variable from an expression
 // ----------------------------------------------------------------------------
 {
-    if (object_p exprobj = rt.stack(1))
+    return expression::variable_command(&expression::isolate);
+}
+
+
+expression_p expression::derivative(symbol_r sym) const
+// ----------------------------------------------------------------------------
+//   Compute the derivative of the
+// ----------------------------------------------------------------------------
+{
+    save<symbol_g *> sindep(independent, (symbol_g *) &sym);
+    save<object_g *> sindval(independent_value, nullptr);
+    save<uint>       sconstant(constant_index, 0);
+    expression_g     eq     = this;
+    eq = expression::make(ID_Derivative, algebraic_g(eq), algebraic_g(sym));
+    expression_g result = eq->rewrites(
+        R|indep,                zero,           // Non-zero expr without var
+        indep|indep,            one,
+        (X + Y)|indep,          (X|indep)+(Y|indep),
+        (X - Y)|indep,          (X|indep)-(Y|indep),
+        (X * Y)|indep,          X*(Y|indep) + (X|indep)*Y,
+        (X / Y)|indep,          ((X|indep)*Y-X*(Y|indep))/sq(Y),
+        (X ^ K)|indep,          K*(X^(K-one)) * (X|indep),
+
+        (-X)|indep,             -(X|indep),
+        inv(X)|indep,           -(X|indep) / sq(X),
+        abs(X)|indep,           (X|indep)*X/abs(X),
+
+        sin(X)|indep,           cos(X)*(X|indep),
+        cos(X)|indep,           -sin(X)*(X|indep),
+        tan(X)|indep,           (one + sq(tan(X)))*(X|indep),
+        sinh(X)|indep,          cosh(X)*(X|indep),
+        cosh(X)|indep,          sinh(X)*(X|indep),
+        tanh(X)|indep,          (X|indep)/(cosh(X)),
+
+        asin(X)|indep,          (X|indep)/sqrt(one-sq(X)),
+        acos(X)|indep,          -(X|indep)/sqrt(one-sq(X)),
+        atan(X)|indep,          (X|indep)/(one+sq(X)),
+        asinh(X)|indep,         (X|indep)/sqrt(one+sq(X)),
+        acosh(X)|indep,         (X|indep)/sqrt(sq(X)-one),
+        atanh(X)|indep,         (X|indep)/(one-sq(X)),
+
+        log(X)|indep,           (X|indep)/X,
+        exp(X)|indep,           (X|indep)*exp(X),
+        log2(X)|indep,          (X|indep)/(log(two)*X),
+        exp2(X)|indep,          log(two)*(X|indep)*exp2(X),
+        log10(X)|indep,         (X|indep)/(log(ten)*X),
+        exp10(X)|indep,         log(ten)*(X|indep)*exp10(X),
+        log1p(X)|indep,         (X|indep)/(X+one),
+        expm1(X)|indep,         (X|indep)/expm1(X),
+
+        sq(X)|indep,            two*X*(X|indep),
+        sqrt(X)|indep,          (X|indep)/(two * sqrt(X)),
+        cubed(X)|indep,         three*sq(X)*(X|indep),
+        cbrt(X)|indep,          (X|indep)/(three*(sq(cbrt(X))))
+        );
+
+    if (+result == +eq)
     {
-        expression_g expr = exprobj->as<expression>();
-        if (!expr)
-            if (equation_p eqn = expr->as<equation>())
-                if (object_p eqnval = eqn->value())
-                    if (expression_p eqnexpr = eqnval->as<expression>())
-                        expr = eqnexpr;
-        if (!expr)
-            if (polynomial_p poly = expr->as<polynomial>())
-                if (algebraic_p alg = poly->as_expression())
-                    if (expression_p eqn = alg->as<expression>())
-                        expr = eqn;
-
-        if (expr)
-            if (object_p varobj = rt.stack(0))
-                if (symbol_g var = varobj->as_quoted<symbol>())
-                    if (expression_p res = expr->isolate(var))
-                        if (rt.drop() && rt.top(res))
-                            return OK;
-
-        if (!rt.error())
-            rt.type_error();
+        rt.unknown_derivative_error();
+        return nullptr;
     }
-    return ERROR;
+    if (result && Settings.AutoSimplify())
+        result = result->simplify();
+    return result;
+}
+
+
+COMMAND_BODY(Derivative)
+// ----------------------------------------------------------------------------
+//   Compute the derivative of an expression
+// ----------------------------------------------------------------------------
+{
+    return expression::variable_command(&expression::derivative);
 }

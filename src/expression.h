@@ -188,10 +188,12 @@ struct expression : program
     //   Apply a series of rewrites
     // ------------------------------------------------------------------------
     {
-        uint         rwcount = rep ? Settings.MaxRewrites() : 10;
+        uint         rwcount = rep ? Settings.MaxRewrites() : 1;
         expression_g eq      = this;
         expression_g last    = nullptr;
         bool         intr    = false;
+        settings::SaveExplicitWildcards ewc(false);
+        settings::SaveAutoSimplify as(false);
         do
         {
             last = eq;
@@ -221,8 +223,6 @@ struct expression : program
               typename ...args>
     expression_p rewrites(args... rest) const
     {
-        settings::SaveExplicitWildcards ewc(false);
-        settings::SaveAutoSimplify as(false);
         static constexpr byte_p rwdata[] = { rest.as_bytes()... };
         return do_rewrites<down,conds,rep>(sizeof...(rest), rwdata, nullptr);
     }
@@ -253,6 +253,7 @@ struct expression : program
                                   algebraic_g &scale,
                                   algebraic_g &exponent);
     expression_p isolate(symbol_r sym) const;
+    expression_p derivative(symbol_r sym) const;
 
 
     // ========================================================================
@@ -498,6 +499,17 @@ struct eq
     eq<args..., y..., leb(object::ID_pow)>
     pow(eq<y...>) { return eq<args..., y..., leb(object::ID_pow)>(); }
 
+    template<byte ...y>
+    eq<args..., y..., lb(object::ID_Derivative), hb(object::ID_Derivative)>
+    deriv(eq<y...>) { return eq<args..., y...,
+                                lb(object::ID_Derivative),
+                                hb(object::ID_Derivative)>(); }
+    template<byte ...y>
+    eq<args..., y..., lb(object::ID_Derivative), hb(object::ID_Derivative)>
+    operator|(eq<y...>) { return eq<args..., y...,
+                                    lb(object::ID_Derivative),
+                                    hb(object::ID_Derivative)>(); }
+
     // Comparisons
     template<byte ...y>
     eq<args..., y..., leb(object::ID_TestLT)>
@@ -575,6 +587,7 @@ EQ_FUNCTION(im);
 EQ_FUNCTION(arg);
 EQ_FUNCTION(conj);
 
+
 #undef EQ_FUNCTION
 
 // Pi constant
@@ -598,7 +611,8 @@ struct eq_always : eq<object::ID_True>
     }
 };
 
-//
+
+
 // ============================================================================
 //
 //   User commands
@@ -616,6 +630,7 @@ FUNCTION(Simplify);
 
 COMMAND_DECLARE(Apply, 2);
 COMMAND_DECLARE(Isolate, 2);
+COMMAND_DECLARE(Derivative, 2);
 COMMAND_DECLARE_SPECIAL(Where, arithmetic, 2, PREC_DECL(WHERE); );
 NFUNCTION(Subst, 2, static bool can_be_symbolic(uint) { return true; } );
 

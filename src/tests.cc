@@ -10521,6 +10521,7 @@ tests &tests::itest(cstring txt)
         case L'Σ': k = A;           alpha = true;  shift = true; break;
         case L'∏': k = A;           alpha = true; xshift = true; break;
         case L'∆': k = B;           alpha = true; xshift = true; break;
+        case L'∂': k = D;           alpha = true;  shift = true; break;
         case L'≤': k = J;           alpha = true; xshift = true; break;
         case L'≠': k = K;           alpha = true; xshift = true; break;
         case L'≥': k = L;           alpha = true; xshift = true; break;

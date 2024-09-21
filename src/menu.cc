@@ -1206,6 +1206,7 @@ MENU(DifferentiationMenu,
 // ----------------------------------------------------------------------------
 //   Symbolic and numerical differentiation
 // ----------------------------------------------------------------------------
+     "∂",       ID_Derivative,
      "Num",     ID_Unimplemented,
      "Symb",    ID_Unimplemented,
      "Diff",    ID_Unimplemented,

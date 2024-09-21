@@ -512,9 +512,7 @@ NAMED(ToPolynomial, "→Polynomial")    ALIAS(ToPolynomial, "→Poly")
 NAMED(FromPolynomial, "Polynomial→")  ALIAS(FromPolynomial, "Poly→")
 CMD(Apply)
 CMD(Isolate)                    ALIAS(Isolate, "Isol")
-
-// Differentiation
-
+OP(Derivative, "∂")
 
 // Complex numbers
 NAMED(RealToRectangular, "ℝ→ℂ")
