@@ -129,12 +129,14 @@ GRAPH_BODY(tag)
     object_p obj  = o->tagged_object();
     grob_g   go   = obj->graph(g);
     coord    vo   = g.voffset;
-    g.reduce_font();
     symbol_g label = symbol::make(ltxt, llen);
     if (!label)
         return nullptr;
+    auto fid = g.font;
+    g.reduce_font();
     grob_g gl = object::do_graph(label, g);
     gl = expression::infix(g, 0, gl, 0, ":", vo, go);
+    g.font = fid;
     return gl;
 }
 
