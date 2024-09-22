@@ -331,6 +331,7 @@ public:
     static symbol_g    *dependent;
     static object_g    *dependent_value;
     static bool         in_algebraic;
+    static bool         differentiating;
     static bool         contains_independent_variable;
     static uint         constant_index;
 };
@@ -357,7 +358,7 @@ public:
     PARSE_DECL(funcall);
     EVAL_DECL(funcall);
 };
-
+GCP(funcall);
 
 
 
@@ -509,6 +510,21 @@ struct eq
     operator|(eq<y...>) { return eq<args..., y...,
                                     lb(object::ID_Derivative),
                                     hb(object::ID_Derivative)>(); }
+
+    template<byte ...y>
+    eq<leb(object::ID_funcall),
+       leb(sizeof...(args) + sizeof...(y)),
+       y..., args...>
+    call(eq<y...>) { return eq<leb(object::ID_funcall),
+                               leb(sizeof...(args)+sizeof...(y)),
+                               y..., args...>(); }
+    template<byte ...y>
+    eq<leb(object::ID_funcall),
+       leb(sizeof...(args) + sizeof...(y)),
+       y..., args...>
+    operator()(eq<y...>) { return eq<leb(object::ID_funcall),
+                                     leb(sizeof...(args)+sizeof...(y)),
+                                     y..., args...>(); }
 
     // Comparisons
     template<byte ...y>

@@ -54,6 +54,7 @@ object_g *expression::independent_value             = nullptr;
 symbol_g *expression::dependent                     = nullptr;
 object_g *expression::dependent_value               = nullptr;
 bool      expression::in_algebraic                  = false;
+bool      expression::differentiating               = false;
 bool      expression::contains_independent_variable = false;
 uint      expression::constant_index                = 0;
 
@@ -611,7 +612,7 @@ size_t expression::required_memory(id type, id op,
 //   - n, o   : An expression containing the independent variable
 //   - p, q, r: An expression not containing the independent variable
 //              r must not be zero
-//   - s, t   : Symbols, i.e. is_symbol returns true
+//   - s, t   : Symbols, i.e. is_symbol returns true, primed in derivative
 //   - u, v, w: Unique sub-expressions, i.e. u!=v, v!=w, u!=w
 //   - x, y, z: Arbitrary expression, can be identical to one another
 //
@@ -639,15 +640,29 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
     }
 
     size_t sz = len;
-    while (len--)
+    symbol_p sym = nullptr;
+    if (symbol_g *ref = expression::independent)
+        if (!expression::contains_independent_variable)
+            sym = *ref;
+    if (sym)
     {
-        object_p obj = rt.stack(eq + len);
-        if (symbol_g *ref = expression::independent)
-            if (symbol_p sym = obj->as<symbol>())
-                if (sym->is_same_as(*ref))
-                    expression::contains_independent_variable = true;
-        if (!rt.append(obj->size(), byte_p(obj)))
-            return nullptr;
+        while (len--)
+        {
+            object_p obj = rt.stack(eq + len);
+            if (sym->found_in(obj))
+                expression::contains_independent_variable = true;
+            if (!rt.append(obj->size(), byte_p(obj)))
+                return nullptr;
+        }
+    }
+    else
+    {
+        while (len--)
+        {
+            object_p obj = rt.stack(eq + len);
+            if (!rt.append(obj->size(), byte_p(obj)))
+                return nullptr;
+        }
     }
     eq += sz;
     eqsz -= sz;
@@ -940,10 +955,38 @@ static size_t check_match(size_t eq, size_t eqsz,
         }
         else
         {
-            // If not a symbol, we need an exact match
+            // Not a symbol. Check if this exists at all
             object_p top = rt.stack(eq);
-            if (!top || !top->is_same_as(ftop))
+            if (!top)
                 return 0;
+
+            // If it's a function call, need to match its arguemnts
+            if (fty == object::ID_funcall)
+            {
+                if (top->type() != object::ID_funcall)
+                    return 0;
+                funcall_p fcftop = funcall_p(+ftop);
+                funcall_p fctop = funcall_p(+top);
+                size_t depth = rt.depth();
+                if (!fcftop->expand_without_size())
+                    return 0;
+                size_t fcfromsz = rt.depth() - depth;
+                if (!fctop->expand_without_size())
+                {
+                    rt.drop(fcfromsz);
+                    return 0;
+                }
+                size_t fcsz = rt.depth() - depth - fcfromsz;
+                size_t fcmatch = check_match(0, fcsz, fcsz, fcfromsz);
+                rt.drop(rt.depth() - depth);
+                if (!fcmatch)
+                    return 0;
+            }
+            // If not a symbol, we need an exact match
+            else if (!top->is_same_as(ftop))
+            {
+                return 0;
+            }
             eq++;
             eqsz--;
         }
@@ -961,13 +1004,13 @@ static size_t check_match(size_t eq, size_t eqsz,
 }
 
 
-static inline algebraic_p build_expr(expression_p eqin,
-                                     uint         eqst,
-                                     expression_r to,
-                                     uint         matchsz,
-                                     uint         locals,
-                                     uint        &rwcount,
-                                     bool        &replaced)
+static algebraic_p build_expr(expression_p eqin,
+                              uint         eqst,
+                              expression_r to,
+                              uint         matchsz,
+                              uint         locals,
+                              uint        &rwcount,
+                              bool        &replaced)
 // ----------------------------------------------------------------------------
 //   Build an expression by rewriting
 // ----------------------------------------------------------------------------
@@ -976,6 +1019,7 @@ static inline algebraic_p build_expr(expression_p eqin,
     expression_g eq       = eqin;
     size_t       where    = 0;
     bool         compute  = +eq == +to;
+    object::id   eqty     = to->type();
 
     // Copy from the original
     for (expression::iterator it = eq->begin(); it != eq->end(); ++it)
@@ -1039,16 +1083,41 @@ static inline algebraic_p build_expr(expression_p eqin,
 
                     if (found)
                     {
-                        tobj = found;
+                        if (expression::differentiating)
+                            if (must_be_symbol(cat))
+                                if (symbol_g sym = found->as_quoted<symbol>())
+                                    found = +(sym + symbol::make("′"));
                         if (must_be_integer(cat)|| must_be_constant(cat))
                             compute = true;
+                        tobj = found;
+
                     }
                 }
 
                 // Only copy the payload of equations
                 size_t tobjsize = tobj->size();
-                if (expression_p teq = tobj->as<expression>())
-                    tobj = teq->objects(&tobjsize);
+                object::id tty = tobj->type();
+                if (tty == object::ID_expression || tty == object::ID_funcall)
+                {
+                    object_p srcobj = *it;
+                    if (srcobj->type() == tty)
+                    {
+                        expression_p src = expression_p(srcobj);
+                        expression_g sub = expression_p(tobj);
+                        uint subrw = 0;
+                        bool subrepl = false;
+                        algebraic_g sval = build_expr(src, 0, sub, ~0U,
+                                                      locals, subrw, subrepl);
+                        if (!sval || sval->type() != tty)
+                            return nullptr;
+                        tobj = +sval;
+                        tobjsize = tobj->size();
+                    }
+                    else
+                    {
+                        tobj = expression_p(tobj)->objects(&tobjsize);
+                    }
+                }
                 if (!rt.append(tobjsize, byte_p(tobj)))
                     return nullptr;
             }
@@ -1060,8 +1129,7 @@ static inline algebraic_p build_expr(expression_p eqin,
     }
 
     // Restart anew with replaced equation
-    eq = expression_p(list::make(object::ID_expression,
-                                 scr.scratch(), scr.growth()));
+    eq = expression_p(list::make(eqty, scr.scratch(), scr.growth()));
 
     if (eq)
     {
@@ -1148,15 +1216,13 @@ expression_p expression::rewrite(expression_r from,
         replaced = false;
 
         // Expand 'from' on the stack and remember where it starts
-        for (object_p obj : *from)
-            if (!rt.push(obj))
-                goto err;
+        if (!from->expand_without_size())
+            goto err;
         fromsz = rt.depth() - depth;
 
         // Expand this equation on the stack, and remember where it starts
-        for (object_p obj : *eq)
-            if (!rt.push(obj))
-                goto err;
+        if (!eq->expand_without_size())
+            goto err;
         eqsz = rt.depth() - depth - fromsz;
 
         // Keep checking sub-expressions until we find a match
@@ -3519,10 +3585,14 @@ expression_p expression::derivative(symbol_r sym) const
     save<symbol_g *> sindep(independent, (symbol_g *) &sym);
     save<object_g *> sindval(independent_value, nullptr);
     save<uint>       sconstant(constant_index, 0);
+    save<bool>       sdiff(differentiating, true);
     expression_g     eq     = this;
     eq = expression::make(ID_Derivative, algebraic_g(eq), algebraic_g(sym));
     expression_g result = eq->rewrites(
         R|indep,                zero,           // Non-zero expr without var
+
+        (S(X))|indep,           (X|indep)*S(X),
+
         indep|indep,            one,
         (X + Y)|indep,          (X|indep)+(Y|indep),
         (X - Y)|indep,          (X|indep)-(Y|indep),

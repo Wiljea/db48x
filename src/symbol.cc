@@ -33,10 +33,11 @@
 #include "command.h"
 #include "constants.h"
 #include "equations.h"
-#include "library.h"
 #include "expression.h"
 #include "grob.h"
+#include "library.h"
 #include "parser.h"
+#include "polynomial.h"
 #include "renderer.h"
 #include "runtime.h"
 #include "unit.h"
@@ -216,6 +217,50 @@ int symbol::compare(utf8 x, utf8 y, size_t len)
     return Settings.IgnoreSymbolCase()
         ? strncasecmp(cstring(x), cstring(y), len)
         : strncmp(cstring(x), cstring(y), len);
+}
+
+
+bool symbol::found_in(object_p obj) const
+// ----------------------------------------------------------------------------
+//   Check if the symbol is found in another object
+// ----------------------------------------------------------------------------
+{
+    if (obj)
+    {
+        id ty = obj->type();
+        switch(ty)
+        {
+        case ID_symbol:
+        {
+            if (is_same_as(symbol_p(obj)))
+                return true;
+            break;
+        }
+        case ID_expression:
+        case ID_program:
+        case ID_funcall:
+        case ID_list:
+        case ID_array:
+        {
+            for (object_p it : *(expression_p(obj)))
+                if (found_in(it))
+                    return true;
+            break;
+        }
+        case ID_polynomial:
+        {
+            polynomial_p poly = polynomial_p(obj);
+            size_t nvars = poly->variables();
+            for (size_t v = 0; v < nvars; v++)
+                if (found_in(+poly->variable(v)))
+                    return true;
+            break;
+        }
+        default:
+            break;
+        }
+    }
+    return false;
 }
 
 

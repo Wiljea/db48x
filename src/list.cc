@@ -643,6 +643,28 @@ bool list::expand() const
 }
 
 
+bool list::expand_deep(uint32_t which) const
+// ----------------------------------------------------------------------------
+//   Expand list content, expending inner expressions/programs/lists
+// ----------------------------------------------------------------------------
+{
+    for (object_p obj : *this)
+    {
+        id ty = obj->type();
+        if (uint(ty) < 32 && ((1U<<uint(ty)) & which))
+        {
+            if (!list_p(obj)->expand_deep(which))
+                return false;
+        }
+        else if (!rt.push(obj))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 PARSE_BODY(list)
 // ----------------------------------------------------------------------------
 //    Try to parse this as an list

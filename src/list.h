@@ -219,6 +219,7 @@ struct list : text
 
     bool expand_without_size(size_t *size = nullptr) const;
     bool expand() const;
+    bool expand_deep(uint32_t which) const;
     // ------------------------------------------------------------------------
     //   Expand items to the stack, and return number of them
     // ------------------------------------------------------------------------
