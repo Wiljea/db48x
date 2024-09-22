@@ -2193,6 +2193,12 @@ grob_p expression::graph(grapher &g, uint depth, int &precedence)
                 rv = g.voffset;
                 lg = suscript(g, 0, oid == ID_comb ? "C" : "P", rv, rg, -1);
                 return lg;
+            case ID_Derivative:
+                rg = prefix(g, 0, "∂", rv, rg);
+                rg = ratio(g, "∂", rg);
+                rv = g.voffset;
+                lg = prefix(g, rv, rg, lv, lg);
+                return lg;
 
             default: break;
             }
@@ -3526,7 +3532,8 @@ expression_p expression::derivative(symbol_r sym) const
 
         (-X)|indep,             -(X|indep),
         inv(X)|indep,           -(X|indep) / sq(X),
-        abs(X)|indep,           (X|indep)*X/abs(X),
+        abs(X)|indep,           (X|indep)*sign(X),
+        sign(X)|indep,          zero,
 
         sin(X)|indep,           cos(X)*(X|indep),
         cos(X)|indep,           -sin(X)*(X|indep),
@@ -3574,4 +3581,59 @@ COMMAND_BODY(Derivative)
 // ----------------------------------------------------------------------------
 {
     return expression::variable_command(&expression::derivative);
+}
+
+
+PARSE_BODY(Derivative)
+// ----------------------------------------------------------------------------
+//   The syntax for derivative is something like ∂X(sin X)
+// ----------------------------------------------------------------------------
+{
+    utf8    source = p.source;
+    size_t  max    = p.length;
+    size_t  parsed = 0;
+
+    // First character must be a constant marker
+    unicode cp = utf8_codepoint(source);
+    if (cp != L'∂')
+        return SKIP;
+    parsed = utf8_next(source, parsed, max);
+
+    // In command mode, just return the Derivative object
+    if (!p.precedence)
+    {
+        p.length = parsed;
+        p.out = object::static_object(ID_Derivative);
+        return p.out ? OK : ERROR;
+    }
+
+    // Parse the name
+    parser namep(p, source + parsed, LOWEST);
+    result nres = symbol::do_parse(namep);
+    if (nres != OK)
+        return nres;
+    algebraic_g name = symbol_p(+namep.out);
+    ASSERT(name->type() == ID_symbol);
+
+    // Parse the expression
+    parser exprp(p, source + parsed + namep.length, LOWEST);
+    result eres = expression::list_parse(ID_expression, exprp, '(', ')');
+    if (eres != OK)
+        return eres;
+    algebraic_g expr = expression_p(+exprp.out);
+
+    expression_g res = expression::make(ID_Derivative, expr, name);
+    p.out = +res;
+    p.length = parsed + namep.length + exprp.length;
+    return p.out ? OK : ERROR;
+}
+
+
+INSERT_BODY(Derivative)
+// ----------------------------------------------------------------------------
+//   Insert the derivative symbol
+// ----------------------------------------------------------------------------
+{
+    int key = ui.evaluating;
+    return ui.insert_softkey(key, "", "", false);
 }

@@ -630,7 +630,10 @@ FUNCTION(Simplify);
 
 COMMAND_DECLARE(Apply, 2);
 COMMAND_DECLARE(Isolate, 2);
-COMMAND_DECLARE(Derivative, 2);
+COMMAND_DECLARE_SPECIAL(Derivative, algebraic, 2,
+                        PREC_DECL(SYMBOL);
+                        INSERT_DECL(Derivative);
+                        PARSE_DECL(Derivative););
 COMMAND_DECLARE_SPECIAL(Where, arithmetic, 2, PREC_DECL(WHERE); );
 NFUNCTION(Subst, 2, static bool can_be_symbolic(uint) { return true; } );
 

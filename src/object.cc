@@ -300,6 +300,9 @@ retry:
     case ':':                   // Tagged objects
         r = tag::do_parse(p);
         break;
+    case L'∂':
+        r = Derivative::do_parse(p);
+        break;
 
     default:
         // Symbols and commands
