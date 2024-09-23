@@ -253,9 +253,8 @@ bool text::compile_and_run() const
     if (cmds)
     {
         // We successfully parsed the line, execute it
-        rt.drop();
         save<bool> no_halt(program::halted, false);
-        return cmds->run(false);
+        return cmds->run(false) == OK;
     }
     return false;
 }

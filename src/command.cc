@@ -222,7 +222,7 @@ COMMAND_BODY(Compile)
     {
         if (text_p tobj = obj->as<text>())
         {
-            if (tobj->compile_and_run())
+            if (rt.drop() && tobj->compile_and_run())
                 return OK;
         }
         else
