@@ -127,6 +127,7 @@ struct tests
     void quotient_and_remainder();
     void expression_operations();
     void random_number_generation();
+    void object_structure();
     void regression_checks();
     void demo_setup();
     void demo_ui();

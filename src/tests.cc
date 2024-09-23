@@ -128,6 +128,7 @@ TESTS(catalog,          "Catalog of commands");
 TESTS(cycle,            "Cycle command for quick conversions");
 TESTS(rotate,           "Shift and rotate instructions");
 TESTS(flags,            "User flags");
+TESTS(explode,          "Extracting object structure");
 TESTS(regressions,      "Regression checks");
 TESTS(plotting,         "Plotting, graphing and charting");
 TESTS(graphics,         "Graphic commands");
@@ -172,7 +173,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            data_types();
+            object_structure();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -250,6 +251,7 @@ void tests::run(uint onlyCurrent)
         quotient_and_remainder();
         expression_operations();
         random_number_generation();
+        object_structure();
         regression_checks();
         demo_ui();
         demo_math();
@@ -9225,6 +9227,54 @@ void tests::random_number_generation()
               "{} 0 399 random R→B + 0 239 random R→B + pixon "
               "next", LENGTHY(2500), ENTER)
         .image("random-graph");
+}
+
+
+void tests::object_structure()
+// ----------------------------------------------------------------------------
+//   Extracting structure from an object
+// ----------------------------------------------------------------------------
+{
+    BEGIN(explode);
+
+    step("Obj→ on rectangular complex value")
+        .test(CLEAR, "1ⅈ2", ENTER, RSHIFT, N, F4).got("2", "1");
+    step("Obj→ on polar complex value")
+        .test(CLEAR, "1∡90", ENTER, RSHIFT, N, F4).got("¹/₂", "1");
+    step("Obj→ on unit objects")
+        .test(CLEAR, "123_km/h", ENTER, RSHIFT, N, F4).got("'km÷h'", "123");
+    step("Obj→ on program")
+        .test(CLEAR, LSHIFT, RUNSTOP, "A B + 5 *", ENTER, RSHIFT, N, F4)
+        .got("5", "×", "5", "+", "B", "A");
+    step("Obj→ on expression")
+       .test(CLEAR, LSHIFT, "'5*(A+B)'", ENTER, RSHIFT, N, F4)
+        .got("5", "×", "+", "B", "A", "5");
+    step("Obj→ on list")
+        .test(CLEAR, LSHIFT, "{ A B + 5 * }", ENTER, RSHIFT, N, F4)
+        .got("5", "×", "5", "+", "B", "A");
+    step("Obj→ on user-defined function call")
+        .test(CLEAR, LSHIFT, "'F(A+B;C*D;E-F)'", ENTER, RSHIFT, N, F4)
+        .expect("1").test(BSP).expect("'F(A+B;C·D;E-F)'")
+        .test(F4).got("[ F 'E-F' 'C·D' 'A+B' ]");
+    step("Obj→ on vector")
+        .test(CLEAR, LSHIFT, "[a b c d]", ENTER, RSHIFT, N, F4)
+        .got("{ 4 }", "d", "c", "b", "a");
+    step("Obj→ on matrix")
+        .test(CLEAR, LSHIFT, "[[a b][c d]]", ENTER, RSHIFT, N, F4)
+        .got("{ 2 2 }", "d", "c", "b", "a");
+    step("Obj→ on polynomial")
+        .test(CLEAR, LSHIFT, "'X-Y+3*(X+Y^2)' →Poly", ENTER)
+        .expect("4·X-Y+3·Y↑2")
+        .test(RSHIFT, N, F4).expect("'4·X+-1·Y+3·Y²'")
+        .test(F4).got("12","+","×","x²","Y","3","+","×","Y","-1","×","X","4");
+    step("Obj→ on text")
+        .test(CLEAR, "\"1 2 + 3 *\"", ENTER, RSHIFT, N, F4).got("9");
+    step("Obj→ on fractions")
+        .test(CLEAR, "1/2", ENTER, RSHIFT, N, F4).got("2", "1");
+    step("Obj→ on tags")
+        .test(CLEAR, ":abc:1.5", ENTER, RSHIFT, N, F4)
+        .got("\"abc \"", "1.5");
+
 }
 
 

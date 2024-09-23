@@ -899,7 +899,7 @@ MENU(ProgramMenu,
      "Stack",   ID_StackMenu,
 
      "Debug",   ID_DebugMenu,
-     "Obj",     ID_ObjectMenu,
+     "Objects", ID_ObjectMenu,
      "List",    ID_ListMenu,
      "Flag",    ID_FlagsMenu,
                 ID_Version);
