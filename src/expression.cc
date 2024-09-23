@@ -279,25 +279,11 @@ size_t expression::render(const expression *o, renderer &r, bool quoted)
 //   1 2 3 5 * + - 2 3 * +
 {
     size_t depth   = rt.depth();
-    bool   ok      = true;
     bool   funcall = o->type() == ID_funcall;
 
     // First push all things so that we have the outermost operators first
-    for (object_p obj : *o)
-    {
-        ASSERT(obj);
-        ok = rt.push(obj);
-        if (!ok)
-            break;
-    }
-
-    if (!ok)
-    {
-        // We ran out of memory pushing things
-        if (size_t remove = rt.depth() - depth)
-            rt.drop(remove);
+    if (!o->expand_without_size())
         return 0;
-    }
 
     int      prec   = 0;
     symbol_g result = render(depth, prec, r.editing());
@@ -2346,26 +2332,12 @@ GRAPH_BODY(expression)
 {
     expression_g expr  = o;
     size_t       depth = rt.depth();
-    bool         ok    = true;
     bool         funcall = o->type() == ID_funcall;
     save<bool>   sexpr(g.expression, true);
 
     // First push all things so that we have the outermost operators first
-    for (object_p obj : *expr)
-    {
-        ASSERT(obj);
-        ok = rt.push(obj);
-        if (!ok)
-            break;
-    }
-
-    if (!ok)
-    {
-        // We ran out of memory pushing things
-        if (size_t remove = rt.depth() - depth)
-            rt.drop(remove);
+    if (!expr->expand_without_size())
         return nullptr;
-    }
 
     int    prec   = 0;
     grob_g result = graph(g, depth, prec);
