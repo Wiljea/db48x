@@ -262,6 +262,13 @@ COMMAND_BODY(Explode)
             rt.push(obj);
         }
         break;
+    case ID_funcall:
+        if (list_p lst = funcall_p(obj)->args())
+        {
+            rt.top(lst);
+            return OK;
+        }
+        break;
     case ID_array:
         if (rt.drop())
         {

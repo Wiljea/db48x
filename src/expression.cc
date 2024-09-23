@@ -604,7 +604,7 @@ size_t expression::required_memory(id type, id op,
 //
 //   Lowercase names must be sorted, i.e. x<=y and u<v.
 
-static expression_p grab_arguments(size_t &eq, size_t &eqsz)
+static object_p grab_arguments(size_t &eq, size_t &eqsz)
 // ----------------------------------------------------------------------------
 //   Fetch an argument using the arity to know how many things to use
 // ----------------------------------------------------------------------------
@@ -630,6 +630,17 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
     if (symbol_g *ref = expression::independent)
         if (!expression::contains_independent_variable)
             sym = *ref;
+
+    if (sz == 1)
+    {
+        object_p obj = rt.stack(eq);
+        if (sym && sym->found_in(obj))
+            expression::contains_independent_variable = true;
+        eq += sz;
+        eqsz -= sz;
+        return obj;
+    }
+
     if (sym)
     {
         while (len--)
@@ -652,9 +663,8 @@ static expression_p grab_arguments(size_t &eq, size_t &eqsz)
     }
     eq += sz;
     eqsz -= sz;
-    list_p list = list::make(object::ID_expression,
-                             scr.scratch(), scr.growth());
-    return expression_p(list);
+    list_p a = list::make(object::ID_expression, scr.scratch(), scr.growth());
+    return a;
 }
 
 
@@ -2573,6 +2583,37 @@ EVAL_BODY(funcall)
 }
 
 
+array_p funcall::args() const
+// ----------------------------------------------------------------------------
+//   Return an array with the arguments to the funcall
+// ----------------------------------------------------------------------------
+{
+    size_t depth = rt.depth();
+    if (!expand_without_size())
+        return nullptr;
+    scribble scr;
+    while (object_p obj = arg(depth))
+        if (!rt.append(obj->size(), byte_p(obj)))
+            return nullptr;
+    return array_p(list::make(ID_array, scr.scratch(), scr.growth()));
+}
+
+
+object_p funcall::arg(uint depth) const
+// ----------------------------------------------------------------------------
+//   Return the outermost argument found in a function call
+// ----------------------------------------------------------------------------
+{
+    if (rt.depth() <= depth)
+        return nullptr;
+    size_t sz = rt.depth() - depth;
+    size_t eq = 0;
+    object_p result = grab_arguments(eq, sz);
+    rt.drop(eq);
+    return result;
+}
+
+
 COMMAND_BODY(Apply)
 // ----------------------------------------------------------------------------
 //   Apply arguments to build a function call
@@ -2802,13 +2843,18 @@ bool expression::split_equation(expression_g &left, expression_g &right) const
             {
                 size_t eq = 1;
                 size_t len = rt.depth() - depth - eq;
-                if (expression_g r = grab_arguments(eq, len))
+                if (object_g r = grab_arguments(eq, len))
                 {
-                    if (expression_g l = grab_arguments(eq, len))
+                    if (object_g l = grab_arguments(eq, len))
                     {
-                        right = r;
-                        left = l;
-                        result = true;
+                        expression_g ra = expression::as_expression(r);
+                        expression_g la = expression::as_expression(l);
+                        if (la && ra)
+                        {
+                            right = ra;
+                            left = la;
+                            result = true;
+                        }
                     }
                 }
             }
@@ -2874,10 +2920,8 @@ expression_p expression::expand() const
         // Group terms
         v + u,          u + v,
         X + v + u,      X + u + v,
-        A + X,          X + A,
         v * u,          u * v,
         X * v * u,      X * u * v,
-        X * A,          A * X,
 
         // Sign change simplifications
         X + (-Y),       X - Y,
@@ -2960,10 +3004,8 @@ expression_p expression::collect() const
         X + (-Y),       X - Y,
 
         // Group terms
-        X * A,          A * X,
         X * v * u,      X * u * v,
         v * u,          u * v,
-        A + X,          X + A,
         X + v + u,      X + u + v,
         v + u,          u + v,
 

@@ -1313,6 +1313,9 @@ void tests::interactive_stack_operations()
     step("Interactive stack revert")
         .test(RSHIFT, F4)
         .image_noheader("istack-22", 0, 1000);
+    step("Interactive stack DropN")
+        .test(KEY2, LSHIFT, F2)
+        .image_noheader("istack-22b", 0, 1000);
     step("Interactive stack value sort")
         .test(NOSHIFT, KEY3, RSHIFT, F2)
         .image_noheader("istack-23", 0, 1000);
@@ -1323,64 +1326,27 @@ void tests::interactive_stack_operations()
     step("Interactive stack DupN and sort")
         .test(ENTER, CLEAR, "111 222 333 444", ENTER,
               UP, KEY3, LSHIFT, F1, KEY6, RSHIFT, F2, ENTER)
-        .expect("222")
-        .test(BSP).expect("222")
-        .test(BSP).expect("333")
-        .test(BSP).expect("333")
-        .test(BSP).expect("444")
-        .test(BSP).expect("444")
-        .test(BSP).expect("111")
-        .test(BSP).noerror()
-        .test(BSP).error("Too few arguments");
+        .got("222", "222", "333", "333", "444", "444", "111");
 
     step("Interactive stack DupN and non-reverted sort")
         .test(ENTER, CLEAR, "123 456 789 ABC", ENTER,
               UP, KEY3, LSHIFT, F1, KEY6, RSHIFT, F3, ENTER)
-        .expect("'ABC'")
-        .test(BSP).expect("'ABC'")
-        .test(BSP).expect("789")
-        .test(BSP).expect("789")
-        .test(BSP).expect("456")
-        .test(BSP).expect("456")
-        .test(BSP).expect("123")
-        .test(BSP).noerror()
-        .test(BSP).error("Too few arguments");
+        .got("789", "789", "456", "456", "'ABC'", "'ABC'", "123");
 
     step("Interactive stack DupN and reverted sort")
         .test(ENTER, CLEAR, "123 456 789 ABC", ENTER,
               UP, KEY3, LSHIFT, F1, KEY6, RSHIFT, F3, RSHIFT, F4, ENTER)
-        .expect("456")
-        .test(BSP).expect("456")
-        .test(BSP).expect("789")
-        .test(BSP).expect("789")
-        .test(BSP).expect("'ABC'")
-        .test(BSP).expect("'ABC'")
-        .test(BSP).expect("123")
-        .test(BSP).noerror()
-        .test(BSP).error("Too few arguments");
+        .got("'ABC'", "'ABC'", "456", "456", "789", "789", "123");
 
     step("Interactive stack Keep")
         .test(ENTER, CLEAR, "123 456 789 ABC DEF GHI", ENTER,
               UP, UP, UP, LSHIFT, F3, ENTER)
-        .expect("'GHI'")
-        .test(BSP).expect("'DEF'")
-        .test(BSP).expect("'ABC'")
-        .test(BSP).noerror()
-        .test(BSP).error("Too few arguments");
+        .got("'GHI'", "'DEF'", "'ABC'");
 
    step("Interactive stack Swap and Level")
         .test(ENTER, CLEAR, "123 456 789 ABC DEF GHI", ENTER,
               UP, UP, UP, RSHIFT, F5, RSHIFT, F6, ENTER)
-        .expect("3")
-        .test(BSP).expect("'GHI'")
-        .test(BSP).expect("'DEF'")
-        .test(BSP).expect("789")
-        .test(BSP).expect("'ABC'")
-        .test(BSP).expect("456")
-        .test(BSP).expect("123")
-        .test(BSP).noerror()
-        .test(BSP).error("Too few arguments");
-
+       .got("3", "'GHI'", "'DEF'", "789", "'ABC'", "456", "123");
 }
 
 
@@ -5219,19 +5185,19 @@ void tests::sorting_functions()
 
     step("Value sort (SORT)")
         .test(CLEAR, "{ 7 2.5 3 9.2 \"DEF\" 8.4 \"ABC\" } SORT", ENTER)
-        .expect("{ \"ABC\" \"DEF\" 2.5 3 7 8.4 9.2 }");
+        .expect("{ 2.5 3 7 8.4 9.2 \"ABC\" \"DEF\" }");
     step("Reverse list (REVLIST)")
          .test("revlist", ENTER)
-         .expect("{ 9.2 8.4 7 3 2.5 \"DEF\" \"ABC\" }");
+         .expect("{ \"DEF\" \"ABC\" 9.2 8.4 7 3 2.5 }");
     step("Memory sort (QUICKSORT)")
         .test("QUICKSORT", ENTER)
-        .expect("{ \"ABC\" \"DEF\" 3 7 2.5 8.4 9.2 }");
+        .expect("{ 2.5 8.4 9.2 3 7 \"ABC\" \"DEF\" }");
     step("Reverse memory sort (ReverseQuickSort)")
         .test("reverseQuickSort", ENTER)
-        .expect("{ 9.2 8.4 2.5 7 3 \"DEF\" \"ABC\" }");
+        .expect("{ \"DEF\" \"ABC\" 7 3 9.2 8.4 2.5 }");
     step("Reverse sort (ReverseSort)")
         .test("ReverseSort", ENTER)
-        .expect("{ 9.2 8.4 7 3 2.5 \"DEF\" \"ABC\" }");
+        .expect("{ \"DEF\" \"ABC\" 9.2 8.4 7 3 2.5 }");
     step("Min function (integer)")
         .test(CLEAR, "1 2 MIN", ENTER).expect("1");
     step("Max function (integer)")

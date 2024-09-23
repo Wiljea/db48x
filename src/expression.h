@@ -350,8 +350,8 @@ struct funcall : expression
     funcall(id type, id op, algebraic_g args[], uint arity)
         : expression(type, op, args, arity) {}
 
-    static grob_p   graph(grapher &g, uint depth, int &precedence);
-    static symbol_p render(uint depth, int &precedence, bool edit);
+    object_p arg(uint depth) const;
+    array_p  args() const;
 
 public:
     OBJECT_DECL(funcall);

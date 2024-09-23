@@ -1502,7 +1502,7 @@ int object::compare_to(object_p other) const
     id ty = type();
     id oty = other->type();
     if (ty != oty)
-        return ty < oty ? -1 : 1;
+        return ty > oty ? -1 : 1;
     size_t sz = size();
     size_t osz = other->size();
     size_t ssz = sz < osz ? sz : osz;
