@@ -9938,7 +9938,7 @@ tests &tests::istep(cstring name)
     cstring blk = "                                                        ";
     size_t  off = utf8_length(utf8(sname));
     cstring pad = blk + (off < 56 ? off : 56);
-    fprintf(stderr, "%3u: %03u %3u.%u:  %s%s",
+    fprintf(stderr, "|%3u: %03u %3u.%u: %s%s",
             tindex, sindex, spent / 1000, spent / 100 % 10, sname, pad);
     cindex = 0;
     count++;
