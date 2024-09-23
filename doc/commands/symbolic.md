@@ -106,6 +106,33 @@ The command will generate `Unable to isolate` if the expression cannot be
 reorganized, for example because it contains functions that have no known
 inverse.
 
+## ∂ (Derivative)
+
+Compute the derivative function for an expression. The algebraic syntax for `∂` is `'∂name(expr)'` For example, `'∂x(sin(2*x^2)'` computes `4*X*cos(2*X^2)`
+
+When differentiating a user-defined function named `F`, DB48X will generate `F′`
+as the name for the derivative function. Note that this differ from HP
+calculators, which would use `d1F`. If `F` has multiple parameters, then the
+partial derivative relative to the first argument will be denoted as `F′₁`,
+the partial derivative relative to the second argument will be denoted as
+`F′₂` and so on.
+
+For built-in functions that have no known derivative, such as `GAMMA`, DB48X
+will generate an `Unknown derivative` error. Note that this differs from HP
+calculators, which would generate a `d1GAMMA` function in that case.
+
+The behaviour of the HP derivative function `∂` depends on whether it is in an
+algebraic object (stepwise differentiation) or whether it is used in stack
+syntax (full differentiation). The DB48X variant always perform full
+differentiation irrespective of the syntax used.
+
+The _HP50G advanced reference manual_ indicates that `∂` substitutes the value
+of global variables. For example, if `Y` contains `X+3*X^2`, `'Y' 'X' ∂` is
+expected to return `1+6*X`. It actually returns `0`, unless you evaluate `Y`
+first. DB48X matches the actual behaviour of the HP50G and not the documented
+one. To get the documented behaviour, evaluate the expression prior to computing
+its derivative.
+
 
 ## AutoSimplify
 

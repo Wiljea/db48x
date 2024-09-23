@@ -672,6 +672,18 @@ operate on these items when it makes sense. Therefore:
   `COS(2*X)`, whereas `∂X(SIN(2*X))` evaluates as `2*COS(2*X)`. DB48X does not
   recognize this `dn` notation.
 
+* The behaviour of the HP derivative function `∂` depends on whether it is in an
+  algebraic object (stepwise differentiation) or whether it is used in stack
+  syntax (full differentiation). The DB48X variant always perform full
+  differentiation irrespective of the syntax used.
+
+* The _HP50G advanced reference manual_ indicates that `∂` substitutes the value
+  of global variables. For example, if `Y` contains `X+3*X^2`, `'Y' 'X' ∂` is
+  expected to return `1+6*X`. It actually returns `0`, unless you evaluate `Y`
+  first. DB48X matches the actual behaviour of the HP50G and not the documented
+  one.
+
+
 ### Unicode support
 
 DB48X has almost complete support for Unicode, and stores text internally using
