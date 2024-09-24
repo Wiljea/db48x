@@ -1385,6 +1385,7 @@ bool runtime::run_select_start_step(bool for_loop, bool has_step)
 
     bool down = false;
     algebraic_g step;
+    object::id  ty = for_loop ? object::ID_ForStep : object::ID_StartStep;
     if (has_step)
     {
         object_p obj = rt.pop();
@@ -1393,7 +1394,6 @@ bool runtime::run_select_start_step(bool for_loop, bool has_step)
         step = obj->as_algebraic();
         if (!step)
         {
-            object::id ty = for_loop?object::ID_ForStep:object::ID_StartStep;
             object_p cmd = command::static_object(ty);
             rt.command(cmd).type_error();
             return false;
@@ -1408,25 +1408,25 @@ bool runtime::run_select_start_step(bool for_loop, bool has_step)
     }
 
     // Increment and compare with last iteration
-    algebraic_g cur  = Returns[0]->as_algebraic();
-    algebraic_g last = Returns[1]->as_algebraic();
+    algebraic_g cur  = Returns[0] ? Returns[0]->as_algebraic() : nullptr;
+    algebraic_g last = Returns[1] ? Returns[1]->as_algebraic() : nullptr;
     if (!cur || !last)
     {
-        object::id ty = for_loop?object::ID_ForStep:object::ID_StartStep;
         object_p cmd = command::static_object(ty);
         rt.command(cmd);
         return false;
     }
     cur = cur + step;
     last = down ? (cur < last) : (cur > last);
-    Returns[0] = cur;
+    if (cur)
+        Returns[0] = cur;
 
     // Write the current value in the variable if it's a for loop
     if (for_loop)
         rt.local(0, cur);
 
     // Check the truth value
-    int finished = last->as_truth(true);
+    int finished = last ? last->as_truth(true) : -1;
     if (finished < 0)
         return false;
 
