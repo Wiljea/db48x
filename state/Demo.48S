@@ -1,9 +1,20 @@
+Directory {
+
+@@ ===========================================================================
+@@
+@@	Physics
+@@
+@@ ===========================================================================
+
+Physics directory {
+
 @@ ---------------------------------------------------------------------------
 @@
 @@	Comparing relativistic and classical kinetic energy
 @@
 @@ ---------------------------------------------------------------------------
 
+KineticEnergy
 «
 	@ Select drawing range
 	-0.2 1.2 XRNG
@@ -41,101 +52,16 @@
 	1 LineWidth
 	#0 Foreground
 »
-'KineticEnergy' STO
+}
 
 
-
-@@ ---------------------------------------------------------------------------
+@@ ===========================================================================
 @@
-@@	 Evaluate performance of unit conversions
+@@	Mathematics
 @@
-@@ ---------------------------------------------------------------------------
+@@ ===========================================================================
 
-«
-	«
-		0 25 for i
-			i 1_m/s * 1_km/yr convert drop
-		next
-	»
-	TEVAL
-»
-
-'UnitBenchmark' STO
-
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 Beep
-@@
-@@ ---------------------------------------------------------------------------
-
-«
-	0 50 for n
-		 2 n 12 / 1 + ^ 55 * 1/10 BEEP
-	next
-»
-'Beeps' STO
-
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 IFTE evaluation test
-@@
-@@ ---------------------------------------------------------------------------
-
-«
-	Duplicate 1 =
-	« Drop "One" »
-	« 1 < "Less" "More" IFTE »
-	IFTE
-
-	'1=1' '1+1' '1*3' IFTE
-»
-'IfTEEval' STO
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 If Then Else expression evaluation
-@@
-@@ ---------------------------------------------------------------------------
-
-«
-  -> x << IF 'x<1' THEN "less" ELSE "more" END >>
-»
-'IfThenElseEval' STO
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 Case statement test
-@@
-@@ ---------------------------------------------------------------------------
-
-«
-	CASE
-		DUP "A" == THEN "Alpha" END
-		DUP "B" == THEN "Beta"	END
-		DUP "C" == THEN "Gamma" END
-		"D"		  WHEN "Delta" END
-	END
-»
-'CaseTest' STO
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 RPL recursion test - Demonstrate we don't consume memory in that case
-@@
-@@ ---------------------------------------------------------------------------
-@@	 In such a case, the HP48 or HP50 will slowly consume memory
-«
-	1 + DUP 1 DISP MEM 2 DISP Recurse
-»
-'Recurse' STO
-
+Math directory {
 
 @@ ---------------------------------------------------------------------------
 @@
@@ -146,6 +72,8 @@
 @@	  - Long stopping time: 1161, 2223, 2463, 2919, 3711, 6171
 @@	  - High trajectory value: 138367, 159487, 270271, 665215, 704511
 @@	  See https://en.wikipedia.org/wiki/Collatz_conjecture for more info
+
+Collatz
 «
 	DUP "	  " + 1 DISP MEM 2 DISP
 
@@ -158,7 +86,6 @@
 		Collatz
 	END
 »
-'Collatz' STO
 
 
 @@ ---------------------------------------------------------------------------
@@ -168,13 +95,13 @@
 @@ ---------------------------------------------------------------------------
 @@	  This is a case where the DM42 and DM32 will do much better than HP's
 @@	  because of the tail recursion optimizations shown above.
+
+CollatzBenchmark
 «
 	 Ticks
 	 989345275647 Collatz
 	 Ticks Rot -
 »
-'CBench' STO
-
 
 
 @@ ---------------------------------------------------------------------------
@@ -184,6 +111,7 @@
 @@ ---------------------------------------------------------------------------
 @@	 This is inspired by https://www.youtube.com/watch?v=vwI5xbqIM7g
 
+CountPrimes
 «
 	if Depth 1 < then 1000 end
 	«
@@ -216,14 +144,111 @@
 		Count
 	»
 »
-'CountPrimes' STO
 
 
 @@ ---------------------------------------------------------------------------
 @@
-@@	 Graphic test
+@@	 Multiple equations solver
 @@
 @@ ---------------------------------------------------------------------------
+
+EquationSolving
+«
+	{
+		'SQ(AA)+SQ(BB)=SQ(CC)'
+
+		'sin(α)/a=sin(β)/b'
+		'sin(β)/b=sin(γ)/c'
+		'sin(α)/b=sin(γ)/c'
+		'α+β+γ=180'
+		's=(a+b+c)/2'
+		'A=sqrt(s*(s-a)*(s-b)*(s-c))'
+		'sq(c)=sq(a)+sq(b)-2*a*b*cos(γ)'
+		'sq(b)=sq(a)+sq(c)-2*a*c*cos(β)'
+		'sq(a)=sq(b)+sq(c)-2*b*c*cos(α)'
+	} STEQ
+
+	10_m 'AA' STO
+	85_ft 'BB' STO
+	1_cm 'CC' STO
+
+	SolvingMenu
+»
+}
+
+
+
+
+@@ ===========================================================================
+@@
+@@	Graphics
+@@
+@@ ===========================================================================
+
+Graphics directory {
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Curve plotting examples
+@@
+@@ ---------------------------------------------------------------------------
+
+Plotting
+«
+	Degrees
+	#0 Foreground
+
+	1 LineWidth
+	'sin(325*X)*lgamma(X)' Function
+
+	2 LineWidth
+	'X' Polar
+
+	3 LineWidth
+	16#AAAAAAAAAAAAAAAA Foreground
+	« '9.5*sin(31.27*X)' Eval '5.5*cos(42.42*X)' Eval RealToComplex » Parametric
+
+	#0 Foreground
+
+	0 WAIT DROP
+
+	[ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ]
+	25 * sin BarPlot
+
+	0 WAIT DROP
+
+	CLLCD
+	16#CCCCCCCCCCCCCCCC Foreground
+	[ [ 1 -1 ] [2 -2] [3 -3] [4 -4] [5 -6] [7 -8] [9 -10] ]
+	33 * cos 2 * BarPlot
+
+	0 WAIT DROP
+
+	CLLCD
+
+	[ [ -5 -5 ] [ -3 0 ] [ -5 5] [ 0 3 ] [ 5 5 ] [ 3 0 ] [ 5 -5 ] [ 0 -3 ] [-5 -5] ]
+	DUP
+	NoCurveFilling
+	16#1111111111111111 Foreground
+	12 LineWidth
+	ScatterPlot
+
+	CurveFilling
+	16#0 Foreground
+	1 LineWidth
+	ScatterPlot
+»
+
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Walking man graphic test from HP50G advanced reference
+@@
+@@ ---------------------------------------------------------------------------
+
+WalkMan
 «
 	@ A little character, from p 2-39 of HP50G advanced reference
 	@ This tests the compatibility for GROB format
@@ -246,87 +271,9 @@
 				0.01 WAIT 1
 			END
 		STEP
-		»
- »
-'WalkMan' STO
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 Summation loop (FP performance test)
-@@
-@@ ---------------------------------------------------------------------------
-«
-	@ Summation loop
-	@ See https://www.hpmuseum.org/forum/thread-9750.html
-	Radians
-	«
-		0 1 1000
-		for x
-			x tan⁻¹ sin exp ∛ +
-		next
 	»
-	TEval
 »
-'SumTestWithLoop' STO
 
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 Summation loop (FP performance test, using sum command)
-@@
-@@ ---------------------------------------------------------------------------
-«
-	@ Summation loop
-	@ See https://www.hpmuseum.org/forum/thread-9750.html
-	Radians
-	« x 1 1000 'cbrt(exp(sin(atan(x))))' sum »
-	TEval
-»
-'SumTestWithFunction' STO
-
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 NQueens benchmark
-@@
-@@ ---------------------------------------------------------------------------
-
-«
-	«
-		@ User RPL program lifted straight from
-		@ https://www.hpmuseum.org/cgi-sys/cgiwrap/hpmuseum/articles.cgi?read=700
-		0
-		do
-			8 Swap 1 +
-			while
-				Duplicate2
-				do
-					1 -
-				until
-					Duplicate2 5 + Pick - norm Duplicate2 - × not
-				end
-			repeat
-				Drop
-				while
-					Swap Duplicate 1 same
-				repeat
-					-
-				end
-				1 - Swap
-			end
-			Drop
-		until
-			Duplicate 8 same
-		end
-		→List
-	»
-	@ Compute execution duration of that code
-	TEval
-»
-'NQueens' STO
 
 
 @@ ---------------------------------------------------------------------------
@@ -335,6 +282,7 @@
 @@
 @@ ---------------------------------------------------------------------------
 
+Lines
 «
 	@ Helper program to draw a line at index i
 	«
@@ -381,7 +329,6 @@
 		next
 	»
 »
-'Lines' STO
 
 
 
@@ -391,6 +338,7 @@
 @@
 @@ ---------------------------------------------------------------------------
 
+Texts
 «
 	@ Restore foreground and background in case we interrupted another program
 	0 Gray Foreground
@@ -534,7 +482,6 @@
 		0.2 Wait
 	next
 »
-'Texts' STO
 
 
 
@@ -544,6 +491,7 @@
 @@
 @@ ---------------------------------------------------------------------------
 
+Shapes
 «
 	@ Helper program to generate the coordinates
 	«
@@ -636,10 +584,7 @@
 		next
 		{ } Clip
 	»
-
-
 »
-'Shapes' STO
 
 
 
@@ -649,6 +594,7 @@
 @@
 @@ ---------------------------------------------------------------------------
 
+Patterns
 «
 	Ticks
 
@@ -689,61 +635,7 @@
 	{ 10#140 10#150 2 1 1 } Disp
 	0 Wait DROP
 »
-'Patterns' STO
 
-
-
-@@ ---------------------------------------------------------------------------
-@@
-@@	 Curve plotting examples
-@@
-@@ ---------------------------------------------------------------------------
-
-«
-	Degrees
-	#0 Foreground
-
-	1 LineWidth
-	'sin(325*X)*lgamma(X)' Function
-
-	2 LineWidth
-	'X' Polar
-
-	3 LineWidth
-	16#AAAAAAAAAAAAAAAA Foreground
-	« '9.5*sin(31.27*X)' Eval '5.5*cos(42.42*X)' Eval RealToComplex » Parametric
-
-	#0 Foreground
-
-	0 WAIT DROP
-
-	[ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ]
-	25 * sin BarPlot
-
-	0 WAIT DROP
-
-	CLLCD
-	16#CCCCCCCCCCCCCCCC Foreground
-	[ [ 1 -1 ] [2 -2] [3 -3] [4 -4] [5 -6] [7 -8] [9 -10] ]
-	33 * cos 2 * BarPlot
-
-	0 WAIT DROP
-
-	CLLCD
-
-	[ [ -5 -5 ] [ -3 0 ] [ -5 5] [ 0 3 ] [ 5 5 ] [ 3 0 ] [ 5 -5 ] [ 0 -3 ] [-5 -5] ]
-	DUP
-	NoCurveFilling
-	16#1111111111111111 Foreground
-	12 LineWidth
-	ScatterPlot
-
-	CurveFilling
-	16#0 Foreground
-	1 LineWidth
-	ScatterPlot
-»
-'Plotting' STO
 
 
 @@ ---------------------------------------------------------------------------
@@ -752,12 +644,13 @@
 @@
 @@ ---------------------------------------------------------------------------
 
+RandomPlot
 «
 	0 399 for x
 		{} x R->B + 0 239 random R->B + pixon
 	next
 »
-'RandomPlot' STO
+
 
 
 @@ ---------------------------------------------------------------------------
@@ -766,39 +659,228 @@
 @@
 @@ ---------------------------------------------------------------------------
 
+RandomXYPlot
 «
 	0 25000 start
 		{} 0 399 random R->B + 0 239 random R->B + pixon
 	next
 »
-'RandomXYPlot' STO
+}
 
+
+@@ ===========================================================================
+@@
+@@	Sound
+@@
+@@ ===========================================================================
+
+Sound directory {
 
 @@ ---------------------------------------------------------------------------
 @@
-@@	 Multiple equations solver
+@@	 Beep
 @@
 @@ ---------------------------------------------------------------------------
 
+Beeps
 «
-	{
-		'SQ(AA)+SQ(BB)=SQ(CC)'
-
-		'sin(α)/a=sin(β)/b'
-		'sin(β)/b=sin(γ)/c'
-		'sin(α)/b=sin(γ)/c'
-		'α+β+γ=180'
-		's=(a+b+c)/2'
-		'A=sqrt(s*(s-a)*(s-b)*(s-c))'
-		'sq(c)=sq(a)+sq(b)-2*a*b*cos(γ)'
-		'sq(b)=sq(a)+sq(c)-2*a*c*cos(β)'
-		'sq(a)=sq(b)+sq(c)-2*b*c*cos(α)'
-	} STEQ
-
-	10_m 'AA' STO
-	85_ft 'BB' STO
-	1_cm 'CC' STO
-
-	SolvingMenu
+	0 50 for n
+		 2 n 12 / 1 + ^ 55 * 1/10 BEEP
+	next
 »
-'EquationSolving' STO
+}
+
+
+@@ ===========================================================================
+@@
+@@	RPL Syntax and examples
+@@
+@@ ===========================================================================
+
+RPL directory {
+@@ ---------------------------------------------------------------------------
+@@
+@@	 IFTE evaluation test
+@@
+@@ ---------------------------------------------------------------------------
+
+IfTETest
+«
+	Duplicate 1 =
+	« Drop "One" »
+	« 1 < "Less" "More" IFTE »
+	IFTE
+
+	'1=1' '1+1' '1*3' IFTE
+»
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 If Then Else expression evaluation
+@@
+@@ ---------------------------------------------------------------------------
+
+IfThenElseEval
+«
+  -> x << IF 'x<1' THEN "less" ELSE "more" END >>
+»
+
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Case statement test
+@@
+@@ ---------------------------------------------------------------------------
+
+CaseTest
+«
+	CASE
+		DUP "A" == THEN "Alpha" END
+		DUP "B" == THEN "Beta"	END
+		DUP "C" == THEN "Gamma" END
+		"D"		  WHEN "Delta" END
+	END
+»
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 RPL recursion test - Demonstrate we don't consume memory in that case
+@@
+@@ ---------------------------------------------------------------------------
+@@	 In such a case, the HP48 or HP50 will slowly consume memory
+
+Recurse
+«
+	1 + DUP 1 DISP MEM 2 DISP Recurse
+»
+
+
+}
+
+
+
+@@ ===========================================================================
+@@
+@@	Performance tests
+@@
+@@ ===========================================================================
+
+Perf directory {
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Summation loop (FP performance test)
+@@
+@@ ---------------------------------------------------------------------------
+
+SumTestWithLoop
+«
+	@ Summation loop
+	@ See https://www.hpmuseum.org/forum/thread-9750.html
+	Radians
+	«
+		0 1 1000
+		for x
+			x tan⁻¹ sin exp ∛ +
+		next
+	»
+	TEval
+»
+
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Summation loop (FP performance test, using sum command)
+@@
+@@ ---------------------------------------------------------------------------
+
+SumTestWithFunction
+«
+	@ Summation loop
+	@ See https://www.hpmuseum.org/forum/thread-9750.html
+	Radians
+	« x 1 1000 'cbrt(exp(sin(atan(x))))' sum »
+	TEval
+»
+
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 NQueens benchmark
+@@       https://www.hpmuseum.org/cgi-sys/cgiwrap/hpmuseum/articles.cgi
+@@
+@@ ---------------------------------------------------------------------------
+
+NQueens
+«
+	«
+		@ User RPL program lifted straight from
+		@ https://www.hpmuseum.org/cgi-sys/cgiwrap/hpmuseum/articles.cgi?read=700
+		0
+		do
+			8 Swap 1 +
+			while
+				Duplicate2
+				do
+					1 -
+				until
+					Duplicate2 5 + Pick - norm Duplicate2 - × not
+				end
+			repeat
+				Drop
+				while
+					Swap Duplicate 1 same
+				repeat
+					-
+				end
+				1 - Swap
+			end
+			Drop
+		until
+			Duplicate 8 same
+		end
+		→List
+	»
+	@ Compute execution duration of that code
+	TEval
+»
+
+
+
+@@ ---------------------------------------------------------------------------
+@@
+@@	 Evaluate performance of unit conversions
+@@
+@@ ---------------------------------------------------------------------------
+
+UnitBenchmark
+«
+	«
+		0 25 for i
+			i 1_m/s * 1_km/yr convert drop
+		next
+	»
+	TEVAL
+»
+}
+
+
+}
+'Demos' STO
+
+
+@@ ===========================================================================
+@@
+@@	 Add a text that shows which key to use
+@@
+@@ ===========================================================================
+
+"Demos state file loaded.
+Use the VAR key to access Demos.
+▼      Demos are in this directory"
+
+VariablesMenu
