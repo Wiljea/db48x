@@ -69,7 +69,8 @@ color-%:
 
 # installation steps
 COPY=cp
-install: install-pgm install-qspi install-keymap install-help install-demo install-config
+install: install-pgm install-qspi install-keymap install-help \
+	install-demo install-config install-library
 	$(EJECT)
 	@echo "# Installed $(VERSION)"
 install-fast: install-pgm
@@ -90,6 +91,9 @@ install-demo:
 install-config:
 	mkdir -p $(MOUNTPOINT)config/
 	$(COPY) config/*.csv $(MOUNTPOINT)config/
+install-library:
+	mkdir -p $(MOUNTPOINT)library/
+	$(COPY) library/*.48s $(MOUNTPOINT)library/
 
 sim: sim/$(TARGET).mak
 	cd sim; $(MAKE) -f $(<F) TARGET=$(shell awk '/^TARGET/ { print $$3; }' sim/$(TARGET).mak)
@@ -162,7 +166,8 @@ dist: all
 		help/$(TARGET).md		\
 		help/*.bmp help/*/*.bmp		\
 		state/*.48[sSbB]		\
-		config/*.csv
+		config/*.csv			\
+		library/*.48[sSbB]
 	@echo "# Distributing $(VERSION)"
 
 $(VERSION_H): $(BUILD)/version-$(VERSION).h

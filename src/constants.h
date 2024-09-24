@@ -71,10 +71,12 @@ struct constant : algebraic
         id         value;       // Menu command for the value
         id         command;     // Menu command for third-level row
         cstring    file;        // CSV file for names and definitions
-        builtins_p builtins;    // Builtins defintions
+        cstring    library;     // Path for library files
+        builtins_p builtins;    // Builtins definitions
         size_t     nbuiltins;   // Number of entries in builtins[]
         runtime &  (*error)();  // Emit error message
         symbol_p   (*label)(symbol_r); // Menu label adustment
+        bool       (*show_builtins)(); // How to check if we show builtins
     };
     typedef const config &config_r;
 

@@ -1351,6 +1351,7 @@ symbol_g unit_file::next(bool menu)
     uint     column   = 0;
     bool     quoted   = false;
     symbol_g sym      = nullptr;
+    uint     pos      = position();
     scribble scr;
 
     while (valid())
@@ -1376,10 +1377,14 @@ symbol_g unit_file::next(bool menu)
                     break;
                 }
                 if (column == 1 && !menu)
+                {
+                    seek(pos);
                     break;
+                }
             }
             scr.clear();
             column = 0;
+            pos = position();
         }
         else if (quoted)
         {

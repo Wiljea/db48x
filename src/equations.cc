@@ -1285,6 +1285,15 @@ static symbol_p equation_label(symbol_r sym)
 }
 
 
+static bool show_builtin_equations()
+// ----------------------------------------------------------------------------
+//   Show the builtin equations
+// ----------------------------------------------------------------------------
+{
+    return Settings.ShowBuiltinEquations();
+}
+
+
 const equation::config equation::equations =
 // ----------------------------------------------------------------------------
 //  Define the configuration for the equations
@@ -1300,10 +1309,12 @@ const equation::config equation::equations =
     .value          = ID_EquationValue,
     .command        = ID_EquationSolver,
     .file           = "config/equations.csv",
+    .library        = "library",
     .builtins       = basic_equations,
     .nbuiltins      = sizeof(basic_equations) / sizeof(*basic_equations),
     .error          = invalid_equation_error,
-    .label          = equation_label
+    .label          = equation_label,
+    .show_builtins  = show_builtin_equations
 };
 
 
@@ -1465,6 +1476,7 @@ HELP_BODY(EquationName)
 // ----------------------------------------------------------------------------
 {
     int key = ui.evaluating;
+    rt.command(o);
     if (constant_p cst = equation::do_key(equation::equations, key))
         if (equation_p eq = cst->as<equation>())
             return eq->help();
