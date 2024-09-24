@@ -945,6 +945,13 @@ void tests::data_types()
     test(CHS).type(object::ID_neg_big_fraction).expect(mbf);
     test(DOWN, CHS, ENTER).type(object::ID_big_fraction).expect(mbf+1);
 
+    step("Directory from command line")
+        .test(CLEAR, "DIR { A 2 B 3 }", ENTER)
+        .want("Directory { A 2 B 3 }");
+    step("Empty directory on command line")
+        .test(CLEAR, "DIR A 2 B 3", ENTER)
+        .got("3", "'B'", "2", "'A'", "Directory {}");
+
     step("Graphic objects")
         .test(CLEAR,
               "GROB 9 15 "

@@ -52,60 +52,83 @@ PARSE_BODY(directory)
 //    A directory has the following structure:
 //        Directory { Name1 Value1 Name2 Value2 ... }
 {
-    cstring ref = cstring(utf8(p.source));
-    size_t maxlen = p.length;
+    cstring ref   = cstring(utf8(p.source));
+    size_t  max   = p.length;
     cstring label = "directory";
-    size_t len = strlen(label);
-    if (len <= maxlen
-        && strncasecmp(ref, label, len) == 0
-        && is_separator(utf8(ref + len)))
+    size_t  len   = strlen(label);
+    bool    isdir = false;
+
+    do
     {
-        gcutf8 body = utf8(ref + len);
-        maxlen -= len;
-        if (object_g obj = object::parse(body, maxlen))
+        isdir = (len <= max
+                 && strncasecmp(ref, label, len) == 0
+                 && is_separator(utf8(ref + len)));
+    } while (!isdir && len > 3 && (len = 3));
+
+    if (isdir)
+    {
+        utf8 body = utf8(ref + len);
+        max -= len;
+        size_t ws = utf8_skip_whitespace(body, max);
+        if (ws < max && body[ws] == '{')
         {
-            if (obj->type() == ID_list)
+            if (object_g obj = object::parse(body, max))
             {
-                // Check that we only have names in there
-                uint    count  = 0;
-                gcbytes bytes  = obj->payload();
-                byte_p  ptr    = bytes;
-                size_t  size   = leb128<size_t>(ptr);
-                gcbytes start  = ptr;
-                size_t  offset = 0;
-
-                // Loop on all objects inside the list
-                while (offset < size)
+                if (obj->type() == ID_list)
                 {
-                    object_p obj = object_p(byte_p(start) + offset);
-                    size_t   objsize = obj->size();
+                    // Check that we only have names in there
+                    uint    count  = 0;
+                    gcbytes bytes  = obj->payload();
+                    byte_p  ptr    = bytes;
+                    size_t  size   = leb128<size_t>(ptr);
+                    gcbytes start  = ptr;
+                    size_t  offset = 0;
 
-                    if ((count & 1) == 0)
+                    // Loop on all objects inside the list
+                    while (offset < size)
                     {
-                        if (obj->type() != ID_symbol)
+                        object_p obj = object_p(byte_p(start) + offset);
+                        size_t   objsize = obj->size();
+
+                        if ((count & 1) == 0)
                         {
-                            rt.error("Invalid name in directory").source(body);
-                            return ERROR;
+                            // In directories, we accept Eq as a name,
+                            // and with the right option, we may have
+                            // numbered variables as well
+                            if (obj->arity() != 0)
+                            {
+                                body = p.source + len + ws;
+                                rt.malformed_directory_error().source(body);
+                                return ERROR;
+                            }
                         }
+                        count++;
+
+                        // Loop on next object
+                        offset += objsize;
                     }
-                    count++;
 
-                    // Loop on next object
-                    offset += objsize;
+                    // We should have an even number of items here
+                    if (count & 1)
+                    {
+                        body = p.source + len + ws;
+                        rt.malformed_directory_error().source(body);
+                        return SKIP;
+                    }
+
+                    // If we passed all these tests, build a directory
+                    p.out    = rt.make<directory>(ID_directory, start, size);
+                    p.length = max + len;
+                    return p.out ? OK : ERROR;
                 }
-
-                // We should have an even number of items here
-                if (count & 1)
-                {
-                    rt.malformed_directory_error().source(body);
-                    return SKIP;
-                }
-
-                // If we passed all these tests, build a directory
-                p.out    = rt.make<directory>(ID_directory, start, size);
-                p.length = maxlen + len;
-                return OK;
             }
+        }
+        else
+        {
+            // The word 'DIR' alone denotes an empty directory on HP calculators
+            p.out = rt.make<directory>(ID_directory, rt.allocate(0), 0);
+            p.length = ws + len;
+            return p.out ? OK : ERROR;
         }
     }
 
@@ -119,10 +142,21 @@ bool directory::render_name(object_p name, object_p obj, void *arg)
 // ----------------------------------------------------------------------------
 {
     renderer &r = *((renderer *) arg);
+    r.wantCR();
     name->render(r);
-    r.indent();
-    obj->render(r);
-    r.unindent();
+    if (obj->is_algebraic())
+    {
+        r.wantSpace();
+        obj->render(r);
+    }
+    else
+    {
+        r.indent();
+        r.wantCR();
+        obj->render(r);
+        r.unindent();
+    }
+    r.wantCR();
     return true;
 }
 
