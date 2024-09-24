@@ -67,34 +67,6 @@ dm32-%:
 color-%:
 	$(MAKE) COLOR=color $*
 
-# installation steps
-COPY=cp
-install: install-pgm install-qspi install-keymap install-help \
-	install-demo install-config install-library
-	$(EJECT)
-	@echo "# Installed $(VERSION)"
-install-fast: install-pgm
-	$(EJECT)
-install-pgm: all
-	$(COPY) $(TARGET).$(PGM) $(MOUNTPOINT)
-install-qspi: all
-	$(COPY) $(QSPI) $(MOUNTPOINT)
-install-keymap: keymap.bin
-	$(COPY) $< $(MOUNTPOINT)
-install-help: help/$(TARGET).md
-	mkdir -p $(MOUNTPOINT)help/ $(MOUNTPOINT)help/img
-	$(COPY) help/$(TARGET).md help/*.bmp $(MOUNTPOINT)help/
-	$(COPY) help/$(TARGET).md help/img/*.bmp $(MOUNTPOINT)help/img/
-install-demo:
-	mkdir -p $(MOUNTPOINT)state/
-	$(COPY) state/*.48S $(MOUNTPOINT)state/
-install-config:
-	mkdir -p $(MOUNTPOINT)config/
-	$(COPY) config/*.csv $(MOUNTPOINT)config/
-install-library:
-	mkdir -p $(MOUNTPOINT)library/
-	$(COPY) library/*.48s $(MOUNTPOINT)library/
-
 sim: sim/$(TARGET).mak
 	cd sim; $(MAKE) -f $(<F) TARGET=$(shell awk '/^TARGET/ { print $$3; }' sim/$(TARGET).mak)
 sim/$(TARGET).mak: sim/$(TARGET).pro Makefile $(VERSION_H)
@@ -156,11 +128,7 @@ $(TTF2FONT): $(TTF2FONT).cpp $(TOOLS)/ttf2font/Makefile src/ids.tbl
 
 TAR_OPTS=$(TAR_OPTS_$(shell uname))
 TAR_OPTS_Darwin=--no-mac-metadata --no-fflags --no-xattrs --no-acls
-dist: all
-	cp $(BUILD)/$(TARGET)_qspi.bin  .
-	tar cvfz $(TARGET)-v$(VERSION).tgz 	\
-		$(TAR_OPTS)			\
-		$(TARGET).$(PGM)		\
+TAR_FILES=	$(TARGET).$(PGM)		\
 		$(TARGET)_qspi.bin		\
 		keymap.bin			\
 		help/$(TARGET).md		\
@@ -168,6 +136,18 @@ dist: all
 		state/*.48[sSbB]		\
 		config/*.csv			\
 		library/*.48[sSbB]
+
+# installation steps
+COPY=cp
+install: all
+	cp $(BUILD)/$(TARGET)_qspi.bin  .
+	tar cf - $(TAR_OPTS) $(TAR_FILES) | tar xvf - -C $(MOUNTPOINT)
+	$(EJECT)
+	@echo "# Installed $(VERSION)"
+
+dist: all
+	cp $(BUILD)/$(TARGET)_qspi.bin  .
+	tar cvfz $(TARGET)-v$(VERSION).tgz $(TAR_OPTS) $(TAR_FILES)
 	@echo "# Distributing $(VERSION)"
 
 $(VERSION_H): $(BUILD)/version-$(VERSION).h
