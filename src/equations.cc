@@ -317,6 +317,7 @@ static const cstring basic_equations[] =
    // absent of all actual eqns
     "Flow In Full Pipes",  "{ "
     "  '(ρ_(kg/m^3))*((Ⓒπ*(D_m)^2)/4)*(vavg_(m/s))*((ΔP_Pa)/(ρ_(kg/m^3))+Ⓒg*(Δy_m)+(vavg_(m/s))^2*(2*f*((L_m)/(D_m))+ΣK/2))=(W_W)' "
+    "  'f=FANNING((ϵ_m)/(D_m);Reynolds)' "
     "  '(ΔP_Pa)=(P2_Pa)-(P1_Pa)' "
     "  '(Δy_m)=(y2_m)-(y1_m)' "
     "  '(M_(kg/s))=(ρ_(kg/m^3))*(Q_(m^3/s))' "
@@ -826,7 +827,8 @@ static const cstring basic_equations[] =
     // ERROR in gm formula in HP50G_AUR.pdf: μm=μn (OK)
     // ERROR in 4th formula of HP50G_AUR.pdf αR=>αF
     "PN Step Junctions",  "{ "
-    "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3)))/(ni^2)' "
+    "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3))/((ni_(cm^-3))^2))' "
+    "'(ni_(cm^-3))=SIDENS(T_K)' "
     "'(xd_μ)=√((2*Ⓒεsi*Ⓒε0)/Ⓒqe*((Vbi_V)-(Va_V))*(1/(NA_(cm^-3))+1/(ND_(cm^-3))))' "
     "'(Cj_(pF/cm^2))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "
     "'(Emax_(V/m))=2*((Vbi_V)-(Va_V))/(xd_μ)' "
@@ -845,7 +847,8 @@ static const cstring basic_equations[] =
     "'(IDS_mA)=(Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_μ)/(Le_μ))*(((VGS_V)-(Vt_V))*(VDS_V)-(VDS_V)^2/2)*(1+(λ_(1/V))*(VDS_V))' "
     "'(γ_(V^(1/2)))=√((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm^2))' "
     "'(Vt_V)=(Vt0_V)+(γ_(V^(1/2)))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
-    "'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/ni)' "
+    "'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
+    "'(ni_(cm^-3))=SIDENS(T_K)' "
     "'(gds_S)=(IDS_mA)*(λ_(V^-1))' "
     "'(gm_(mA/V))=√((Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1))*(VDS_V))*2*(IDS_mA))' "
     "'(VDsat_V)=(VGS_V)-(Vt_V)' "
@@ -867,7 +870,8 @@ static const cstring basic_equations[] =
     "}",
 
     "JFETs",  "{ "
-    "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/ni)' "
+    "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/(ni_(cm^-3)))' "
+    "'(ni_(cm^-3))=SIDENS(T_K)' "
     "'(xdmax_μ)=√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3)))*((Vbi_V)-(VGS_V)+(VDS_V)))' "
     "'(G0_S)=Ⓒqe*(ND_(cm^-3))*(μn_((cm^2)/(V*s)))*(((a_μ)*(W_μ))/(L_μ))' "
     "'(ID_mA)=(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))' "
@@ -1105,7 +1109,7 @@ static const cstring basic_equations[] =
     "'γG1=1/√(1-(2*(MGu_m))/(R+h1))' "
     "'γG2=1/√(1-(2*(MGu_m))/(R+h2))' "
     "'(MGu_m)=ⒸG*(M_kg)/Ⓒc^2' "
-    "'(ω_(r/s))=(2*Ⓒπ)/(Tday_s)' "
+    "'(ω_(r/s))=(2*(Ⓒπ_r))/(Tday_s)' "
     "}",
 
     "B H Schwarzschild Geometry",  "{ "
