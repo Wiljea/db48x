@@ -44,7 +44,10 @@ unit object. The numerical part of the unit object is ignored.
 
 `→Unit` is the reverse of `Unit→` or of `Obj→` applied to a unit object.
 
-`3000` `2_km` ▶ `3000_km`
+```rpl
+@ Will be 3000_km
+3000 2_km →Unit
+```
 
 
 ## ULIST

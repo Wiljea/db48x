@@ -8009,6 +8009,15 @@ void tests::online_help()
         .image_noheader("help-degrees");
     step("Exit and cleanup")
         .test(EXIT, CLEAR, EXIT);
+
+    step("Enter example from help file into command line")
+        .test(CLEAR, "\"ToUnit\" HELP", ENTER,
+              DOWN, DOWN, DOWN, DOWN, DOWN)
+        .image_noheader("help-example")
+        .test(ENTER)
+        .editor("@ Will be 3000_km\n3000 2_km →Unit")
+        .test(ENTER)
+        .expect("3 000 km");
 }
 
 

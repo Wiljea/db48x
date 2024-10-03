@@ -2912,6 +2912,7 @@ enum style_name
     BOLD,
     ITALIC,
     CODE,
+    VERBATIM,
     KEY,
     TOPIC,
     HIGHLIGHTED_TOPIC,
@@ -2944,6 +2945,7 @@ restart:
         { HelpBoldFont,     p::black,  p::white,   true, false, false, false },
         { HelpItalicFont,   p::black,  p::white,  false, true,  false, false },
         { HelpCodeFont,     p::black,  p::gray50, false, false, false, true  },
+        { HelpCodeFont,     p::black,  p::gray90, false, false, false, false },
         { HelpFont,         p::white,  p::black,  false, false, false, false },
         { HelpFont,         p::black,  p::gray50, false, false, true,  false },
         { HelpFont,         p::white,  p::gray10, false, false, false, false },
@@ -2981,14 +2983,16 @@ restart:
 
 
     // Select initial state
-    font_p     font      = styles[style].font;
-    coord      height    = font->height();
-    coord      x         = xleft;
-    coord      y         = ytop + 2 - line;
-    unicode    last      = '\n';
-    uint       lastTopic = 0;
-    uint       shown     = 0;
-    bool       hadTitle  = false;
+    font_p  font      = styles[style].font;
+    coord   height    = font->height();
+    coord   x         = xleft;
+    coord   y         = ytop + 2 - line;
+    unicode last      = '\n';
+    uint    lastTopic = 0;
+    uint    codeStart = 0;
+    uint    codeEnd   = 0;
+    uint    shown     = 0;
+    bool    hadTitle  = false;
 
     // Pun not indented
     helpfile.seek(help);
@@ -3022,7 +3026,12 @@ restart:
             unicode ch   = helpfile.get();
             bool    skip = false;
 
-            switch (ch)
+            if (style == VERBATIM && ch != '`')
+            {
+                newline = ch == '\n';
+                emit = ch == '\n' || ch == ' ';
+            }
+            else switch (ch)
             {
             case 0:
                 emit = true;
@@ -3041,7 +3050,6 @@ restart:
                 break;
 
             case '\n':
-
                 if (last == '\n' || last == ' ' || style <= SUBTITLE)
                 {
                     emit    = true;
@@ -3202,17 +3210,48 @@ restart:
             case '`':
                 if (last != '`' && helpfile.peek() != '`')
                 {
-                    if (style   == CODE)
-                        restyle  = NORMAL;
-                    else
-                        restyle  = CODE;
-                    skip         = true;
-                    emit         = true;
+                    restyle = style == CODE ? NORMAL : CODE;
+                    skip    = true;
+                    emit    = true;
                 }
                 else
                 {
-                    if (last == '`')
-                        skip  = true;
+                    if (widx == 2 && buffer[0] == '`' && buffer[1] == '`')
+                    {
+                        bool wasCode = style == VERBATIM;
+                        uint start = helpfile.position();
+                        skip = true;
+                        emit = true;
+                        newline = true;
+                        restyle = wasCode ? NORMAL : VERBATIM;
+
+                        // Skip until end of line, e.g. ```rpl
+                        widx = 0;
+                        do
+                        {
+                            ch = helpfile.get();
+                            buffer[widx] = ch;
+                            if (widx < 3)
+                                widx++;
+                        } while (ch && ch != '\n');
+                        bool rpl = wasCode ||
+                            (widx == 3 &&
+                             tolower(buffer[0]) == 'r' &&
+                             tolower(buffer[1]) == 'p' &&
+                             tolower(buffer[2]) == 'l' &&
+                             buffer[3] == '\n');
+                        widx = 0;
+
+                        if (shown && rpl && !(codeStart && codeEnd))
+                        {
+                            uint end = helpfile.position();
+                            if (wasCode)
+                                codeEnd = start - 4;
+                            else
+                                codeStart = end;
+                        }
+
+                    }
                 }
                 break;
 
@@ -3245,7 +3284,7 @@ restart:
                 if (style == TOPIC || style == HIGHLIGHTED_TOPIC)
                 {
                     unicode n  = helpfile.get();
-                    if (n     != '(')
+                    if (n != '(')
                     {
                         ch      = n;
                         restyle = NORMAL;
@@ -3254,8 +3293,8 @@ restart:
                     }
 
                     static char  link[60];
-                    char        *p  = link;
-                    while (n       != ')')
+                    char        *p = link;
+                    while (n != ')')
                     {
                         n      = helpfile.get();
                         if (n != '#')
@@ -3355,7 +3394,6 @@ restart:
             }
         }
 
-
         // Compute width of word (or words in the case of titles)
         coord width = font->width(buffer, widx);
         size kwidth = 0;
@@ -3402,6 +3440,11 @@ restart:
         // Draw a decoration
         coord xl = x;
         coord xr = x + width;
+
+        if (restyle == style && x == xleft)
+            if (style == VERBATIM)
+                Screen.fill(xleft, y - 2, xright, y + height * 5 / 4 - 3, bg);
+
         if (underline)
         {
             if (draw)
@@ -3522,6 +3565,17 @@ restart:
         topic = lastTopic;
 
     Screen.clip(clip);
+    if (follow && codeStart && codeEnd)
+    {
+        helpfile.seek(codeStart);
+        while (helpfile.position() < codeEnd)
+        {
+            unicode c = helpfile.get();
+            edit(c, TEXT, false);
+        }
+        clear_help();
+        dirtyHelp = true;
+    }
     follow = false;
     return true;
 }
