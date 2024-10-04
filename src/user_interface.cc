@@ -2764,18 +2764,6 @@ void user_interface::load_help(utf8 topic, size_t len)
     command   = nullptr;
     follow    = false;
     dirtyHelp = true;
-
-    // Need to have the help file open here
-    if (!helpfile.valid())
-    {
-        helpfile.open(HELPFILE_NAME);
-        if (!helpfile.valid())
-        {
-            help = -1u;
-            line = 0;
-            return;
-        }
-    }
     dirtyMenu = true;
 
     if (!memcmp(topic, "http", 4))
@@ -2792,7 +2780,7 @@ void user_interface::load_help(utf8 topic, size_t len)
     // alternate spellings as well
     size_t     cmdlen = len;
     object::id cmd = command::lookup(topic, cmdlen);
-    byte       ref[80];
+    byte       ref[80];         // Length checked in the makefile
     size_t     refidx   = 0;
     if (cmdlen != len)
         cmd = object::id(0);
@@ -2804,8 +2792,79 @@ void user_interface::load_help(utf8 topic, size_t len)
     bool       matching = false;
     uint       topicpos = 0;
     bool       found    = false;
+    uint       idxpos   = 0;
 
-    helpfile.seek(0);
+    // Check if the index exists. If so, scan it
+    {
+        file_closer hfc(helpfile, HELPFILE_NAME);
+        file index(HELPINDEX_NAME, false);
+        if (index.valid())
+        {
+            for (char c = index.getchar(); !found && c; c = index.getchar())
+            {
+                if (c == '\n')
+                {
+                    uint filepos = atoi(cstring(ref));
+                    byte_p p = ref;
+                    byte_p end = ref + refidx;
+                    while (p < end && *p++ != ':')
+                        /* nop */;
+
+                    level = 0;
+                    while (p < end && *p++ == '#')
+                        level++;
+                    while (p < end && *p == ' ')
+                        p++;
+
+                    refidx = refidx - (p - ref);
+
+                    // For regular topics, just to a string comparison
+                    // We match markdown hyperlink style, i.e. case independent
+                    // and matching '-' in the topic to ' ' in the text
+                    found = refidx == len;
+                    for (uint i = 0; found && i < len; i++)
+                        found = (tolower(p[i]) == tolower(topic[i]) ||
+                                 (p[i] == ' ' && topic[i] == '-'));
+
+                    // If we do not match a direct comparison, check spellings
+                    // We only do that for second and third level sections
+                    if (!found && cmd && level >= 2)
+                        found = command::lookup(p, refidx) == cmd;
+
+                    if (found)
+                    {
+                        idxpos = filepos;
+                        break;
+                    }
+                    refidx = 0;
+                }
+                else
+                {
+                    ref[refidx++] = c;
+                }
+            }
+
+            // Not found in index, quit
+            if (!found)
+                goto notfound;
+            found = false;
+        }
+    }
+
+
+    // Need to have the help file open here
+    if (!helpfile.valid())
+    {
+        helpfile.open(HELPFILE_NAME);
+        if (!helpfile.valid())
+        {
+            help = -1u;
+            line = 0;
+            return;
+        }
+    }
+
+    helpfile.seek(idxpos);
     for (char c = helpfile.getchar(); !found && c; c = helpfile.getchar())
     {
         // Reset topic after newline
@@ -2878,6 +2937,7 @@ void user_interface::load_help(utf8 topic, size_t len)
     }
     else
     {
+    notfound:
         static char buffer[50];
         snprintf(buffer, sizeof(buffer), "No help for %.*s", int(len), topic);
         rt.command(object::static_object(object::ID_Help));
@@ -3301,17 +3361,14 @@ restart:
                             if (p < link + sizeof(link))
                                 *p++ = n;
                     }
-                    if (p < link + sizeof(link))
+                    p[-1] = 0;
+                    if (follow && style == HIGHLIGHTED_TOPIC)
                     {
-                        p[-1]                = 0;
-                        if (follow && style == HIGHLIGHTED_TOPIC)
-                        {
-                            if (topics_history)
-                                topics[topics_history-1] = shown;
-                            load_help(utf8(link));
-                            Screen.clip(clip);
-                            goto restart;
-                        }
+                        if (topics_history)
+                            topics[topics_history-1] = shown;
+                        load_help(utf8(link));
+                        Screen.clip(clip);
+                        goto restart;
                     }
                     restyle = NORMAL;
                     emit    = true;
