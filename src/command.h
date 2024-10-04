@@ -74,6 +74,13 @@ struct command : object
 public:
     PARSE_DECL(command);
     RENDER_DECL(command);
+
+public:
+    // Sorting command IDs for faster lookup, used in the catalog and parsing
+    static uint16_t *sorted_ids;
+    static size_t    sorted_ids_count;
+
+    static bool      initialize_sorted_ids();
 };
 
 
