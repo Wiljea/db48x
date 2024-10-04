@@ -185,8 +185,8 @@ static const cstring basic_equations[] =
     "RLC Current Delay",  "{ "
     "  'TAN(φs_°)=((XL_Ω)-(XC_Ω))/(R_Ω)' "
     "  'TAN(φp_°)=(1/(XC_Ω)-1/(XL_Ω))*(R_Ω)' "
-    "  '(XC_Ω)=1/((ω_(r/s))*(C_μF))' "
-    "  '(XL_Ω)=(ω_(r/s))*(L_mH)' "
+    "  '(XC_Ω)=1/(((ω_(r/s))/(1_r))*(C_μF))' "
+    "  '(XL_Ω)=(ω_(r/s))/(1_r)*(L_mH)' "
     "  '(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
 
@@ -349,18 +349,18 @@ static const cstring basic_equations[] =
     "'(Kf_J)=1/2*(I_(kg*m^2))*(ωf_(r/s))^2' "
     "'(W_J)=(τ_(N*m))*(θ_°)' "
     "'(W_J)=(Kf_J)-(KI_J)' "
-    "'(P_W)=(τ_(N*m))*(ω_(r/s))' "
+    "'(P_W)=(τ_(N*m))*(ω_(r/s))/(1_r)' "
     "'(Pavg_W)=(W_J)/(t_s)' "
     "'(ωf_(r/s))=(ωi_(r/s))+(α_(r/s^2))*(t_s)' "
-    "'(at_(m/s^2))=(α_(r/s^2))*(r_m)' "
+    "'(at_(m/s^2))=(α_(r/s^2))/(1_r)*(r_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(N_Hz)' "
     "'(ωi_(r/s))=2*(Ⓒπ_r)*(Ni_Hz)' "
     "'(ωf_(r/s))=2*(Ⓒπ_r)*(Nf_Hz)' "
     "}",
 
-    "Centripetal Porce",  "{ "
-    "'(F_N)=(m_kg)*(ω_(r/s))^2*(r_m)' "
-    "'(ω_(r/s))=(v_(m/s))/(r_m)' "
+    "Centripetal Force",  "{ "
+    "'(F_N)=(m_kg)*((ω_(r/s))/(1_r))^2*(r_m)' "
+    "'(ω_(r/s))=(v_(m/s))*(1_r)/(r_m)' "
     "'(ar_(m/s^2))=(v_(m/s))^2/(r_m)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(N_Hz)' "
     "}",
@@ -571,11 +571,12 @@ static const cstring basic_equations[] =
     "'(θ_°)=(θ0_°)+(ω0_rpm)*(t_s)+1/2*(α_(rpm^2))*(t_s)^2' "
     "'(θ_°)=(θ0_°)+(ω_rpm)*(t_s)-1/2*(α_(rpm^2))*(t_s)^2' "
     "'(θ_°)=(θ0_°)+1/2*((ω0_rpm)+(ω_rpm))*(t_s)' "
-    "'(ω_rpm)=(ω0_rpm)+(α_(rpm^2))*(t_s)' "
+// I am not sure of the following dur to rpm definition
+    "'(ω_rpm)=(ω0_rpm)+(α_(rpm^2))/(1_r)*(t_s)' "
     "}",
 
     "Uniform Circular Motion",  "{ "
-    "'(ω_rpm)=(v_(m/s))/(rc_cm)' "
+    "'(ω_rpm)=(v_(m/s))*(1_r)/(rc_cm)' "
     "'(ar_(m/s^2))=(v_(m/s))^2/(rc_cm)' "
     "'(ω_rpm)=2*(Ⓒπ_r)*(N_rpm)' "
     "}",
@@ -673,26 +674,26 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     // 36 equs
     "Mass-Spring System",  "{ "
-    "'(ω_(r/s))=√((k_(N/m))/(m_kg))' "
+    "'(ω_(r/s))=(1_r)*√((k_(N/m))/(m_kg))' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
 
     "Simple Pendulum",  "{ "
-    "'(ω_(r/s))=√(Ⓒg/(L_cm))' "
+    "'(ω_(r/s))=(1_r)*√(Ⓒg/(L_cm))' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
 
     "Conical Pendulum",  "{ "
-    "'(ω_(r/s))=√(Ⓒg/(h_cm))' "
+    "'(ω_(r/s))=(1_r)*√(Ⓒg/(h_cm))' "
     "'(h_m)=(L_m)*COS(θ_°)' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
 
     "Torsional Pendulum",  "{ "
-    "'(ω_(r/s))=√(((G_kPa)*(J_(cm^4)))/((L_cm)*(I_(kg*m^2))))' "
+    "'(ω_(r/s))=(1_r)*√(((G_kPa)*(J_(cm^4)))/((L_cm)*(I_(kg*m^2))))' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
@@ -717,14 +718,15 @@ static const cstring basic_equations[] =
     "}",
     // Ref.: https://scholar.harvard.edu/files/david-morin/files/waves_oscillations.pdf
     "Driven Damped Oscillations",  "{ "
-    "'(x_m)=(xp_m)*COS((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*COS((ωu_(r/s))*(t_s)+(θ_°))' "
-    "'(γ_(r/s))=(b_(kg/s))/(m_kg)' "
-    "'(ω0_(r/s))=√((k_(N/m))/(m_kg))' "
+    "'(x_m)=(xp_m)*COS((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))/(1_r)*(t_s)/2)*COS((ωu_(r/s))*(t_s)+(θ_°))' "
+    "'(γ_(r/s))=(1_r)*(b_(kg/s))/(m_kg)' "
+    "'(ω0_(r/s))=(1_r)*√((k_(N/m))/(m_kg))' "
     "'(ωu_(r/s))=(ω0_(r/s))*√(1-((γ_(r/s))/(2*(ω0_(r/s))))^2)' "
-    "'(xp_m)=((Fd_N)/(m_kg))/√(((ω0_(r/s))^2-(ω_(r/s))^2)^2+((γ_(r/s))*(ω_(r/s)))^2)' "
+    "'(xp_m)=(1_r)^2*((Fd_N)/(m_kg))/√(((ω0_(r/s))^2-(ω_(r/s))^2)^2+((γ_(r/s))*(ω_(r/s)))^2)' "
     "'TAN(φ_°)=-((γ_(r/s))*(ω_(r/s)))/((ω0_(r/s))^2-(ω_(r/s))^2)' "
-    "'(v_(m/s))=-(xp_m)*(ω_(r/s))*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))*(t_s)/2)*(-((γ_(r/s))/2)*COS((ωu_(r/s))*(t_s)+(θ_°))-(ωu_(r/s))*SIN((ωu_(r/s))*(t_s)+(θ_°)))' "
-    "'(a_(m^2/s))=-((ω0_(r/s))^2*(x_m)+(γ_(r/s))*(v_m/s))+((Fd_N)/(m_kg))*COS((ω_(r/s))*(t_s))' "
+// The next 7th equn doesn't appear (is not drawn on the screen) when doing NextEq in the SOLVER, but it goes on the stack with Eq> 
+    "'(v_(m/s))=-(xp_m)*(ω_(r/s))/(1_r)*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))/(1_r)*(t_s)/2)*(-((γ_(r/s))/(1_r)/2)*COS((ωu_(r/s))*(t_s)+(θ_°))-(ωu_(r/s))/(1_r)*SIN((ωu_(r/s))*(t_s)+(θ_°)))' "
+    "'(a_(m^2/s))=-(((ω0_(r/s)/(1_r)))^2*(x_m)+(γ_(r/s))/(1_r)*(v_m/s))+((Fd_N)/(m_kg))*COS((ω_(r/s))*(t_s))' "
     "'(E_J)=(1/2)*(k_(N/m))*(x_m)^2+(1/2)*(m_kg)*(v_(m/s))^2' "
     "'Q=(ω0_(r/s))/(γ_(r/s))' "
     "}",
@@ -923,8 +925,8 @@ static const cstring basic_equations[] =
     "'(v_(cm/s))=(λ_cm)*(f_Hz)' "
     "'(k_(r/cm))=2*(Ⓒπ_r)/(λ_cm)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(vy_(cm/s))=-(ym_cm)*(ω_(r/s))*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(ay_(cm/(s^2)))=-(ω_(r/s))^2*(ym_cm)' "
+    "'(vy_(cm/s))=-(ym_cm)*(ω_(r/s))/(1_r)*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(ay_(cm/(s^2)))=-((ω_(r/s))/(1_r))^2*(ym_cm)' "
     "}",
 
     "Longitudinal Waves",  "{ "
@@ -932,19 +934,19 @@ static const cstring basic_equations[] =
     "'(v_(m/s))=(λ_cm)*(f_Hz)' "
     "'(k_(r/cm))=2*(Ⓒπ_r)/(λ_cm)' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
-    "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(as_(cm/(s^2)))=-(ω_(r/s))^2*(s_cm)' "
+    "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))/(1_r)*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(as_(cm/(s^2)))=-((ω_(r/s))/(1_r))^2*(s_cm)' "
     "}",
 
     "Sound Waves",  "{ "
     "'(s_cm)=(sm_cm)*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(as_(cm/(s^2)))=-(ω_(r/s))^2*(s_cm)' "
+    "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))/(1_r)*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(as_(cm/(s^2)))=-((ω_(r/s))/(1_r))^2*(s_cm)' "
     "'(Δp_Pa)=-(Δpm_Pa)*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "'(v_(m/s))=√((B_kPa)/(ρ_(kg/(m^3))))' "
-    "'(Δpm_Pa)=(ρ_(kg/(m^3)))*(ω_(r/s))*(v_(m/s))*(sm_cm)' "
-    "'(I_(W/(m^2)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*(ω_(r/s))^2*(sm_cm)^2' "
+    "'(Δpm_Pa)=(ρ_(kg/(m^3)))*(ω_(r/s))/(1_r)*(v_(m/s))*(sm_cm)' "
+    "'(I_(W/(m^2)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*((ω_(r/s))/(1_r))^2*(sm_cm)^2' "
     "'(I_(W/m^2))=(Ps_W)/(4*Ⓒπ*(r_m)^2)' "
     "'(β_dB)=10*LOG((I_(W/(m^2)))/(ⒸI0_(W/(m^2))))' "
     "}",
@@ -1103,9 +1105,9 @@ static const cstring basic_equations[] =
     "Clocks at different heights",  "{ "
     "'γ21=(γv1/γv2)*(γG1/γG2)' "
     "'γv1=1/√(1-((v1_(m/s))/Ⓒc)^2)' "
-    "'(v1_m/s)=(ω_(r/s))*((R_km)+(h1_m))*COS(φ_°)' "
+    "'(v1_m/s)=(ω_(r/s))/(1_r)*((R_km)+(h1_m))*COS(φ_°)' "
     "'γv2=1/√(1-((v2_(m/s))/Ⓒc)^2)' "
-    "'(v2_m/s)=(ω_(r/s))*((R_km)+(h2_m))*COS(φ_°)' "
+    "'(v2_m/s)=(ω_(r/s))/(1_r)*((R_km)+(h2_m))*COS(φ_°)' "
     "'γG1=1/√(1-(2*(MGu_m))/(R+h1))' "
     "'γG2=1/√(1-(2*(MGu_m))/(R+h2))' "
     "'(MGu_m)=ⒸG*(M_kg)/Ⓒc^2' "
