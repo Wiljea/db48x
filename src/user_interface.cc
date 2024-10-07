@@ -5846,6 +5846,7 @@ void debug_printf(int row, cstring format, ...)
         coord y = row * h;
         Screen.text(0, y, utf8(buffer), HelpFont, pattern::white, pattern::black);
         ui.draw_dirty(0, y, LCD_W, y + h - 1);
+        refresh_dirty();
     }
 }
 
