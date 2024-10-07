@@ -4395,7 +4395,12 @@ bool user_interface::handle_editing(int key)
             else
             {
                 utf8 ed = rt.editor();
-                if (shift && cursor < isEditing)
+
+                if (~select && select != cursor)
+                {
+                    editor_clear();
+                }
+                else if (shift && cursor < isEditing)
                 {
                     // Shift + Backspace = Delete to right of cursor
                     uint after = utf8_next(ed, cursor, isEditing);
