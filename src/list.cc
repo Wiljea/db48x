@@ -488,6 +488,7 @@ intptr_t list::list_render(renderer &r, unicode open, unicode close) const
     list_g list        = this;
     id     lty         = type();
     bool   need_indent = lty == ID_program;
+    settings::SaveShowEquationBody sseb(false);
 
     for (object_p obj : *list)
     {
