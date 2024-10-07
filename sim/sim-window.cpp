@@ -435,7 +435,8 @@ void MainWindow::keyPressEvent(QKeyEvent * ev)
     {
         alt_held = true;
     }
-    else if (k >= Qt::Key_A && k <= Qt::Key_Z)
+    else if ((k >= Qt::Key_A && k <= Qt::Key_Z)    ||
+             (k >= Qt::Key_F1 && k <= Qt::Key_F6))
     {
         if (shift_held)
             key_push(KEY_UP);

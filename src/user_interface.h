@@ -206,6 +206,7 @@ protected:
     bool        handle_shifts(int &key, bool talpha);
     bool        handle_help(int &key);
     bool        handle_editing(int key);
+    bool        handle_editing_command(object::id lower, object::id higher);
     bool        handle_alpha(int key);
     bool        handle_functions(int key);
     bool        handle_digits(int key);

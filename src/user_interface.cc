@@ -3652,6 +3652,8 @@ bool user_interface::noHelpForKey(int key)
     // No help in alpha mode
     if (alpha && key < KEY_F1)
         return true;
+    if (transalpha)
+        return true;
 
     if (editing)
     {
@@ -4346,6 +4348,29 @@ bool user_interface::handle_editing(int key)
         }
     }
 
+    // Transient alpha editor keys (bring up the editor if needed)
+    switch(key)
+    {
+    case KEY_F1:
+        return handle_editing_command(EditMenu::ID_EditorSelect,
+                                      EditMenu::ID_EditorFlip);
+    case KEY_F2:
+        return handle_editing_command(EditMenu::ID_EditorWordLeft,
+                                      EditMenu::ID_EditorBegin);
+    case KEY_F3:
+        return handle_editing_command(EditMenu::ID_EditorWordRight,
+                                      EditMenu::ID_EditorEnd);
+    case KEY_F4:
+        return handle_editing_command(EditMenu::ID_EditorSearch,
+                                      EditMenu::ID_EditorReplace);
+    case KEY_F5:
+        return handle_editing_command(EditMenu::ID_EditorCut,
+                                      EditMenu::ID_EditorCopy);
+    case KEY_F6:
+        return handle_editing_command(EditMenu::ID_EditorPaste,
+                                      EditMenu::ID_EditorClear);
+    }
+
     if (isEditing)
     {
         record(user_interface, "Editing key %d", key);
@@ -4599,10 +4624,40 @@ bool user_interface::handle_editing(int key)
                 return true;
             }
             break;
+
         }
     }
 
     return consumed;
+}
+
+
+bool user_interface::handle_editing_command(object::id lo, object::id hi)
+// ----------------------------------------------------------------------------
+//   Handle F1-F6 in transient alpha mode
+// ----------------------------------------------------------------------------
+{
+    if (!transalpha)
+        return false;
+
+    // All these commands are editing commands, edit if needed
+    if (!rt.editing())
+    {
+        if (!rt.depth())
+            return false;
+
+        if (object_p obj = rt.pop())
+        {
+            editing = obj;
+            editingLevel = 0;
+            obj->edit();
+            dirtyEditor = true;
+        }
+    }
+
+    object_p cmd = command::static_object(lowercase ? lo : hi);
+    cmd->evaluate();
+    return true;
 }
 
 
