@@ -160,6 +160,7 @@ struct user_interface
     bool        current_word(utf8 &start, size_t &size);
     bool        at_end_of_number(bool want_polar=false);
     unicode     character_left_of_cursor();
+    bool        replace_character_left_of_cursor(unicode code);
     bool        replace_character_left_of_cursor(symbol_p sym);
     bool        replace_character_left_of_cursor(utf8 text, size_t len);
 

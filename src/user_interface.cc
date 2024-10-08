@@ -31,6 +31,7 @@
 
 #include "arithmetic.h"
 #include "blitter.h"
+#include "characters.h"
 #include "command.h"
 #include "dmcp.h"
 #include "expression.h"
@@ -1002,6 +1003,17 @@ unicode user_interface::character_left_of_cursor()
     utf8    prev = ed + ppos;
     unicode code = utf8_codepoint(prev);
     return code;
+}
+
+
+bool user_interface::replace_character_left_of_cursor(unicode code)
+// ----------------------------------------------------------------------------
+//   Replace a character code
+// ----------------------------------------------------------------------------
+{
+    byte buf[4];
+    size_t sz = utf8_encode(code, buf);
+    return replace_character_left_of_cursor(buf, sz);
 }
 
 
@@ -4744,6 +4756,26 @@ bool user_interface::handle_alpha(int key)
     }
     else
     {
+        if (menu_p m = menu())
+        {
+            menu::id mid = m->type();
+            if (mid >= menu::ID_CharactersMenu00 &&
+                mid <= menu::ID_CharactersMenu99)
+            {
+                character_menu_p cm = character_menu_p(m);
+                if (cm->transliterate(c))
+                {
+                    size_t edlen = rt.editing();
+                    utf8   ed    = rt.editor();
+                    if (ed && edlen)
+                    {
+                        uint ppos = utf8_previous(ed, cursor);
+                        if (ppos != cursor)
+                            remove(ppos, cursor - ppos);
+                    }
+                }
+            }
+        }
         edit(c, DIRECT);
         if (c == '"')
             alpha = true;
