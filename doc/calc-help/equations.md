@@ -30,9 +30,7 @@ The variables in the Columns and Beams section are:
 * `x`: Distance along beam
 * `y`: Deflection at x (dim.: length)
 
-For simply supported beams and cantilever beams (“Simple Deflection” through
-“Cantilever Shear”), the calculations differ depending upon the location of x
-relative to the loads.
+For simply supported beams and cantilever beams (“Simple Deflection” through “Cantilever Shear”), the calculations differ depending upon the location of 'x' relative to the loads.
 
 * Applied loads are positive downward.
 * The applied moment is positive counterclockwise.
@@ -47,6 +45,23 @@ These equations apply to a slender column (`K·L/r>100`) with length factor `K`.
 
 ![Elastic Buckling](img/ElasticBuckling.bmp)
 
+* Data to calculate `Pcr` (Critical load):
+   '''[Example](rpl:' 
+ⒺElasticBuckling|L=7.3152_m|r=4.1148_cm|E=199947961.502_kPa|A=53.0967_cm^2|K=0.7|I=8990598.7930_mm^4’)'''
+
+* To launch the calculation of `Pcr` (Critical load):
+   '''[Solution1](rpl: ⒺElasticBuckling ‘Pcr’ ROOT)'''
+
+* The answer for `Pcr` (Critical load):
+   '''[Answer1](rpl:' ⒺElasticBuckling|Pcr=676.6019_kN')'''
+
+
+* To launch the calculation of `σcr` (Critical stress):
+   '''[Solution2](rpl: ⒺElasticBuckling ‘σcr’ ROOT)'''
+
+* The answer for `σcr` (Critical stress):
+   '''[Answer2](rpl:' ⒺElasticBuckling|σcr=127428.2444_kPa')'''
+
 
 ### Eccentric Columns
 
@@ -54,42 +69,133 @@ These equations apply to a slender column (`K·L/r>100`) with length factor `K`.
 
 ![Eccentric Columns](img/EccentricColumns.bmp)
 
+* Data to calculate `σmax` (Maximum stress):
+   '''[Example](rpl:' 
+ⒺEccentricColumns|L=6.6542_m|A=187.9351_cm^2,|r=8.4836_cm|E=206842718.795_kPa|I=135259652.16_mm^4|K=1’)'''
+
+* To launch the calculation of `σmax` (Maximum stress):
+   '''[Solution](rpl: ⒺEccentricColumns ‘σmax’ ROOT)'''
+
+* The answer for `σmax` (Maximum stress):
+   '''[Answer](rpl:' ⒺEccentricColumns|σmax=140853.0970_kPa')'''
+
 
 ### Simple Deflection
 
 ![Simple Deflection](img/SimpleDeflection.bmp)
+
+* Data to calculate `y` (Deflection at x):
+   '''[Example](rpl:' 
+ⒺSimpleDeflection|L=20_ft|E=29000000_psi|I=40_in^4|a=10_ft|P=674.427_lbf|c=17_ft|M=3687.81_ft∗lbf|w=102.783_lbf/ft|x=9_ft’)'''
+
+* To launch the calculation of `y` (Deflection at x):
+   '''[Solution](rpl: ⒺSimpleDeflection ‘y’ ROOT)'''
+
+* The answer for `y` (Deflection at x):
+   '''[Answer](rpl:' ⒺSimpleDeflection|y=-0.6005_in')'''
 
 
 ### Simple Slope
 
 ![Simple Slope](img/SimpleSlope.bmp)
 
+* Data to calculate `θ` (Slope at `x`):
+   '''[Example](rpl:' 
+ⒺSimpleSlope|L=20_ft|E=29000000_psi|I=40_in^4|a=10_ft|P=674.427_lbf|c=17_ft|M=3687.81_ft∗lbf|w=102.783_lbf/ft|x=9_ft’)'''
+
+* To launch the calculation of `θ` (Slope at `x`):
+   '''[Solution](rpl: ⒺSimpleSlope ‘θ’ ROOT)'''
+
+* The answer for `θ` (Slope at `x`):
+   '''[Answer](rpl:' ⒺSimpleSlope|θ=-0.0876_°')'''
+
 
 ### Simple Moment
 
 ![Simple Moment](img/SimpleMoment.bmp)
+
+* Data to calculate `Mx` (Internal bending moment at x):
+   '''[Example](rpl:' 
+ⒺSimpleMoment|L=20_ft|a=10_ft|P=674.427_lbf|c=17_ft|M=3687.81_ft∗lbf|w=102.783_lbf/ft|x=9_ft’)'''
+
+* To launch the calculation of `Mx` (Internal bending moment at x):
+   '''[Solution](rpl: ⒺSimpleMoment ‘Mx’ ROOT)'''
+
+* The answer for `Mx` (Internal bending moment at x):
+   '''[Answer](rpl:' ⒺSimpleMoment|Mx=9782.1945_ft∗lbf')'''
 
 
 ### Simple Shear
 
 ![Simple Shear](img/SimpleShear.bmp)
 
+* Data to calculate `V` (Shear force at x):
+   '''[Example](rpl:' 
+ⒺSimpleShear|L=20_ft|a=10_ft|P=674.427_lbf|M=3687.81_ft∗lbf|w=102.783_lbf/ft|x=9_ft’)'''
+
+* To launch the calculation of `V` (Shear force at x):
+   '''[Solution](rpl: ⒺSimpleShear ‘V’ ROOT)'''
+
+* The answer for `V` (Shear force at x):
+   '''[Answer](rpl:' ⒺSimpleShear|V=624.387_lbf')'''
+
 
 ### Cantilever Deflection
 
 ![Cantilever Deflection](img/CantileverDeflection.bmp)
 
+* Data to calculate `y` (Deflection at x):
+   '''[Example](rpl:' 
+ⒺCantileverDeflection|L=10_ft|E=29000000_psi|I=15_in^4|P=500_lbf|M=800_lb*lbf|a=3_ft|c=6_ft|w=100_lbf/ft|x=8_ft’)'''
+
+* To launch the calculation of `y` (Deflection at x):
+   '''[Solution](rpl: ⒺCantileverDeflection ‘y’ ROOT)'''
+
+* The answer for `y` (Deflection at x):
+   '''[Answer](rpl:' ⒺCantileverDeflection|y=-0.3316_in')'''
+
+
 ### Cantilever Slope
 
 ![Cantilever Slope](img/CantileverSlope.bmp)
+
+* Data to calculate `θ` (Slope at `x`):
+   '''[Example](rpl:' 
+ⒺCantileverSlope|L=10_ft|E=29000000_psi|I=15_in^4|P=500_lbf|M=800_ft∗lbf|a=3_ft|c=6_ft|w=100_lbf/ft|x=8_ft’)'''
+
+* To launch the calculation of `θ` (Slope at `x`):
+   '''[Solution](rpl: ⒺCantileverSlope ‘θ’ ROOT)'''
+
+* The answer for `θ` (Slope at `x`):
+   '''[Answer](rpl:' ⒺCantileverSlope|θ=-0.2652_°')'''
+
 
 ### Cantilever Moment
 
 ![Cantilever Moment](img/CantileverMoment.bmp)
 
+* Data to calculate `Mx` (Internal bending moment at x):
+   '''[Example](rpl:' ⒺCantileverMoment|L=10_ft|P=500_lbf|M=800_ft∗lbf|a=3_ft|c=6_ft|w=100_lbf/ft|x=8_ft’)'''
+
+* To launch the calculation of `Mx` (Internal bending moment at x):
+   '''[Solution](rpl: ⒺCantileverMoment ‘Mx’ ROOT)'''
+
+* The answer for `Mx` (Internal bending moment at x):
+   '''[Answer](rpl:' ⒺCantileverMoment|Mx=-200_ft∗lbf')'''
+
+
 ### Cantilever Shear
 
 ![Cantilever Shear](img/CantileverShear.bmp)
+
+* Data to calculate `V` (Shear force at x):
+   '''[Example](rpl:'ⒺCantileverShear|L=10_ft|P=500_lbf|a=3_ft|x=8_ft|w=100_lbf/ft’)'''
+
+* To launch the calculation of `V` (Shear force at x):
+   '''[Solution](rpl: ⒺCantileverShear ‘V’ ROOT)'''
+
+* The answer for `V` (Shear force at x):
+   '''[Answer](rpl:' ⒺCantileverShear|V=200_lbf')'''
 
 
 ## Electricity
@@ -162,21 +268,21 @@ The variables in the Electricity section are:
 
 ### Coulomb's Law & E Field
 
-These equations describe the electrostatic force between two point charged particles and the electric field observed at the position of a test charge which replaces one of the two charges Q1 or Q2 in the expression of the electric force.
+These equations describe the electrostatic force between two point charged particles and the electric field observed at the position of a test charge which replaces one of the two charges 'Q1' or 'Q2' in the expression of the electric force.
 
 ### E Field Infinite Line
 
-The expression for the radial electric field at the distance r is approximately valid if the distance r is such that r << L and therefore also applies to a wire of finite length L.
+The expression for the radial electric field at the distance 'r' is approximately valid if this distance is such that 'r << L' and therefore also applies to a wire of finite length 'L'.
 
 ![E field infinite line](img/E Field Infinite Line.bmp)
 
 ### E Field Finite Line
 
-The expression of the radial electric field at the distance r depends on the subtended angles θ1 and θ2 relative to the ends of the wire of finite length L.
+The expression of the radial electric field at the distance 'r' depends on the subtended angles 'θ1' and 'θ2' relative to the ends of the wire of finite length 'L'.
 
 ### E Field Infinite Plate
 
-The expression of the perpendicular electric field is constant over an infinite plate and can approximate the field at a distance d from a finite plate if d is very small compare to the dimensions (length and width) of the plate.
+The expression of the perpendicular electric field is constant over an infinite plate and can approximate the field at a distance 'd' from a finite plate if it is very small compare to the dimensions (length and width) of the plate.
 
 ### Ohm's Law & Power
 
@@ -188,7 +294,7 @@ The expression of the perpendicular electric field is constant over an infinite 
 
 ### Resistivity & Conductivity
 
-The electrical resistivity ρ of most materials changes with temperature. If the temperature T does not vary too much, a linear approximation can be used around the reference point (ρ0; T0).
+The electrical resistivity 'ρ' of most materials changes with temperature. If the temperature 'T' does not vary too much, a linear approximation can be used around the reference point ('ρ0'; 'T0').
 
 ### Series & Parallel R
 
@@ -249,11 +355,11 @@ The variables in the Fluids section are:
 * `ΔP`: Pressure change (dim.: force/area, in SI: pascal, Pa)
 * `Δy`: Height change
 * `ΣK`: Total fitting coefficients
-* `f`: Fanning friction factor
 * `A`: Cross-sectional area
 * `A1, A2`: Initial and final ross-sectional areas
 * `D`: Diameter
 * `D1, D2`: Initial and final diameters
+* `f`: Fanning friction factor
 * `h`: Depth relative to P0 reference depth
 * `hL`: Head loss (dim.: area/time^2, in SI: m^2/s^2)
 * `L`: Length
@@ -271,7 +377,7 @@ The variables in the Fluids section are:
 
 ### Pressure At Depth
 
-This equation describes hydrostatic pressure for an incompressible fluid. Depth h is positive downwards from the reference.
+This equation describes hydrostatic pressure for an incompressible fluid. Depth 'h' is positive downwards from the reference.
 
 ### Bernoulli Equation
 
@@ -283,7 +389,7 @@ These equations extend Bernoulli’s equation to include power input (or output)
 
 ### Flow In Full Pipes
 
-These equations adapt Bernoulli’s equation for flow in a round, full pipe, including power input (or output) and frictional losses (with the fanning friction factor f).
+These equations adapt Bernoulli’s equation for flow in a round, full pipe, including power input (or output) and frictional losses (with the fanning friction factor 'f').
 
 ## Forces and Energy
 
@@ -376,7 +482,7 @@ These equations apply to an ideal gas.
 
 ### Polytropic Processes
 
-These equations describe a reversible pressure-volume change of an ideal gas such that P ∗Vn is constant. Special cases include isothermal processes (n=1), isentropic processes (n=k, the specific heat ratio), and constant-pressure processes (n=0).
+These equations describe a reversible pressure-volume change of an ideal gas such that 'P·Vn' is constant. Special cases include isothermal processes ('n = 1'), isentropic processes ('n = k', the specific heat ratio), and constant-pressure processes ('n = 0').
 
 ### Isentropic Flow
 
@@ -430,14 +536,11 @@ The variables in the Heat Transfer section are:
 
 ### Conduction + Convection
 
-If you have fewer than three layers, give the extra layers a zero thickness and any nonzero conductivity. The two
-temperatures are fluid temperatures – if instead you know a surface temperature, set the corresponding convective
-coefficient to 10^999999.
+If you have fewer than three layers, give the extra layers a zero thickness and any nonzero conductivity. The two temperatures are fluid temperatures – if instead you know a surface temperature, set the corresponding convective coefficient to 10^999999.
 
 ### Black Body Radiation
 
-F0λ(λ_m, T_K) is the black body emissive power Function which eturns the fraction of total black-body emissive power at
-temperature T_K between wavelengths 0 and λ_m. It is the integral of the Planck distribution.
+F0λ(λ_m, T_K) is the black body emissive power Function which returns the fraction of total black-body emissive power at temperature 'T_K' between wavelengths 0 and 'λ_m'. It is the integral of the Planck distribution.
 
 ## Magnetism
 
@@ -469,11 +572,11 @@ The variables in the Magnetism section are:
 
 #### Straight Wire Infinite
 
-The magnetic field expression differs depending upon whether the point (at r) is inside or outside the wire (of radius rw) and the calculations are done accordingly. The expression for the magnetic field at the distance r is approximately valid if the distance r is such that r << L and therefore also applies for a wire of finite length L.
+The magnetic field expression differs depending upon whether the point at 'r' is inside or outside the wire of radius 'rw' and the calculations are done accordingly. The expression for the magnetic field at the distance 'r' is approximately valid if the distance is such that 'r << L' and therefore also applies for a wire of finite length 'L'.
 
 #### Straight Wire Finite
 
-The expression for the magnetic field at the distance r depends on the subtended angles θ1 and θ2 relative to the ends of the wire of finite length L. The magnetic field expression differs depending upon whether the point (at r) is inside or outside the wire (of radius rw) and the calculations are done accordingly.
+The expression for the magnetic field at the distance r depends on the subtended angles θ1 and θ2 relative to the ends of the wire of finite length L. The magnetic field expression differs depending upon whether the point at 'r' is inside or outside the wire of radius 'rw' and the calculations are done accordingly.
 
 #### Force Between Wires
 
@@ -481,11 +584,11 @@ The force between wires is positive for an attractive force (for currents having
 
 #### B Field In Infinite Solenoid
 
-The expression for the magnetic field in the center is approximately valid if the radius of the solenoid < L and therefore also applies inside a solenoid of finite length L.
+The expression for the magnetic field in the center is approximately valid if the radius of the solenoid < 'L' and therefore also applies inside a solenoid of finite length 'L'.
 
 #### B Field In Finite Solenoid
 
-The expression for the magnetic field in the center depends on the subtended internal angles α1 and α2 relative to the top ends of the solenoid of finite length L.
+The expression for the magnetic field in the center depends on the subtended internal angles 'α1' and 'α2' relative to the top ends of the solenoid of finite length 'L'.
 
 ![B Field In Finite Solenoid](img/B Field In Finite Solenoid.bmp)
 
@@ -493,15 +596,15 @@ The expression for the magnetic field in the center depends on the subtended int
 
 #### Hall Effect
 
-The moving charge carrier is deflected by the magnetic field to create the Hall tension between the opposite sides of the conductor.
+The moving charge carrier is deflected by the magnetic field to create the Hall tension 'VH' between the opposite sides of the conductor.
 
 #### Cyclotron Mouvement
 
-Under the perpendicular magnetic field, the moving charge has a circular trajectory and turns at the cyclotron frequency with the rotation period T.
+Under the perpendicular magnetic field, the moving charge has a circular trajectory and turns at the cyclotron frequency with the rotation period 'T'.
 
 #### Helicoidal Mouvement
 
-Under the magnetic field lines (at angle θ with the speed vector), the moving charge has an helicoidal trajectory of pitch Dpitch, radius Rc and period T.
+Under the magnetic field lines (at angle 'θ' with the speed vector), the moving charge has an helicoidal trajectory of pitch 'Dpitch', radius 'Rc' and period 'T'.
 
 #### Volumic Density Magnetic Energy
 
@@ -547,13 +650,13 @@ The variables in the Motion section are:
 
 #### Object In Free Fall
 
-By definition, an object in free fall only experiences local gravitational acceleration (gloc). This depends on the mass of the star or planet and the distance (r) center to center (where we assume that the position is greater than the radius of the mass). For the Earth, we can calculate an approximate value (gearth) of the acceleration of gravity as a function of latitude (φ) and for an altitude (h) low compared to the Earth's radius (typically: a few thousand meters, valid in commercial aviation).
+By definition, an object in free fall only experiences local gravitational acceleration 'gloc'. This depends on the mass of the star or planet and the distance 'r' center to center (where we assume that the position is greater than the radius of the mass). For the Earth, we can calculate an approximate value 'gearth' of the acceleration of gravity as a function of latitude 'φ' and for an altitude 'h' low compared to the Earth's radius (typically: a few thousand meters, valid in commercial aviation).
 
-Reference: Commissions romandes de mathématique, de physique et de chimie, Formulaires et tables : Mathématiques, Physique, Chimie, Tricorne, 2000, 278
+// Reference: Commissions romandes de mathématique, de physique et de chimie, Formulaires et tables : Mathématiques, Physique, Chimie, Tricorne, 2000, 278
 
 #### Projectile Motion
 
-During the time of flight (tf), the motion of a projectile follows a symetric parabole of horizontal range (R) and of maximum height (hmax).
+During the time of flight 'tf', the motion of a projectile follows a symetric parabole of horizontal range 'R' and of maximum height 'hmax'.
 
 #### Angular Motion
 
@@ -607,10 +710,7 @@ The variables in the Optics section are:
 * `NA`: Numerical aperture of the optic fiber
 * `y`: distance between two image points on the observation screen (perpendicular to the optical axis)
 
-For reflection and refraction problems, the focal length and radius of curvature are positive in the direction of the
-outgoing light (reflected or refracted). The object distance is positive in front of the surface. The image distance is
-positive in the direction of the outgoing light (reflected or refracted). The magnification is positive for an upright
-image.
+For reflection and refraction problems, the focal length and radius of curvature are positive in the direction of the outgoing light (reflected or refracted). The object distance is positive in front of the surface. The image distance is positive in the direction of the outgoing light (reflected or refracted). The magnification is positive for an upright image.
 
 #### Refraction Law
 
@@ -632,7 +732,7 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 
 #### Malus Law
 
-If lineraly polarized light is incident on a perfect linear polarizer the transmitted light is the component at angle θ between the light polarisation direction and the polarizer transmission axis. The Malus law is given in terms of light irradiances. A relavistic version of the laws applies for X rays and more energetic electromagnetic radiations (with loss up to 10% in irradiance). The decrease in frequency (fx < fx0) and thefore in energy (hfx) of a transmitted photon is due to the movement of the interacting electron of the polarizer (Compton effect).
+If lineraly polarized light is incident on a perfect linear polarizer the transmitted light is the component at angle 'θ' between the light polarisation direction and the polarizer transmission axis. The Malus law is given in terms of light irradiances. A relavistic version of the laws applies for X rays and more energetic electromagnetic radiations (with loss up to 10% in irradiance). The decrease in frequency ('fx < fx0') and thefore in energy (hfx) of a transmitted photon is due to the movement of the interacting electron of the polarizer (Compton scattering).
 
 #### 2 Slits Young Interference
 
@@ -796,27 +896,15 @@ The variables in the Solid State Devices section are:
 
 #### PN Step Junctions
 
-These equations for a silicon PN-junction diode use a “two-sided step-junction” model–the doping density changes
-abruptly at the junction. The equation assume the current density is determined by minority carries injected across
-the depletion region and the PN junction is rectangular in its layout, The temperature should be between 77 and 500
-K.
+These equations for a silicon PN-junction diode use a “two-sided step-junction” model–the doping density changes abruptly at the junction. The equation assume the current density is determined by minority carries injected across the depletion region and the PN junction is rectangular in its layout, The temperature should be between 77 and 500 K.
 
 #### NMOS Transistor
 
-These equations for a silicon NMOS transistor use a two-port network model. They include linear and nonlinear
-regions in the device characteristics and are based on a gradual-channel approximation (the electric fields in the
-direction of current flow are small compared to those perpendicular to the flow). The drain current and
-transconductance calculations differ depending on whether the transistor is in the linear, saturated, or cutoff region.
-The equations assume the physical geometry of the device is a rectangle, second-order length-parameter effects are
-negligible, shot-channel, hot-carrier, and velocity-saturation effects are negligible, and subthreshold currents are
-negligible.
+These equations for a silicon NMOS transistor use a two-port network model. They include linear and nonlinear regions in the device characteristics and are based on a gradual-channel approximation (the electric fields in the direction of current flow are small compared to those perpendicular to the flow). The drain current and transconductance calculations differ depending on whether the transistor is in the linear, saturated, or cutoff region. The equations assume the physical geometry of the device is a rectangle, second-order length-parameter effects are negligible, shot-channel, hot-carrier, and velocity-saturation effects are negligible, and subthreshold currents are negligible.
 
 #### Bipolar Transistors
 
-These equations for an NPN silicon bipolar transistor are based on large-signal models developed by J.J. Ebers and
-J.L. Moll. The offset-voltage calculation differs depending on whether the transistor is saturated or not. The
-equations also include the special conditions when the emitter-base or collector-base junction is open, which are
-convenient for measuring transistor parameters.
+These equations for an NPN silicon bipolar transistor are based on large-signal models developed by J.J. Ebers and J.L. Moll. The offset-voltage calculation differs depending on whether the transistor is saturated or not. The equations also include the special conditions when the emitter-base or collector-base junction is open, which are convenient for measuring transistor parameters.
 
 #### JFETs
 
@@ -913,21 +1001,23 @@ The variables in the Waves section are:
 
 #### Doppler Effect
 
-In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of the sound in the air. The speed of the receiver relative to the air vr is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air va is subtracted from the speed of the sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
+In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of sound in the air. The speed of the receiver relative to the air 'vr' is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air 'va' is subtracted from the speed of sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
 
 #### Mach Number
 
-For an object moving at a supersonic speed, the shockwave describes a cone having the angle θcone at its tip where the opposite side is the distance travelled by the sound and the hypothenuse is the distance travelled by the object.
+For an object moving at a supersonic speed, the shockwave describes a cone having the angle 'θcone' at its tip where the opposite side is the distance travelled by the sound and the hypothenuse is the distance travelled by the object.
 
 #### String Standing Waves
 
-A string being fixed or free at its ends admits only discrete harmonics as standing waves on the string.
+A string being fixed or free at its ends admits only discrete harmonics as standing waves on the string. A string being fixed (or free) at both ends admits all integer harmonics. A string being being fixed at one end and free at the other end admits only all odd integer harmonics.
 
 #### Sound Wave Harmonics
 
-A tube being open or closed at its ends admits only discrete harmonics as standing waves of the sound in the air within the tube.
+A tube being open or closed at its ends admits only discrete harmonics as standing waves of the sound in the air within the tube. A tube being open (or closed) at both ends admits all integer harmonics. A tube being being open at one end and closed at the other end admits only all odd integer harmonics.
 
 #### Beat Acoustics
+
+In acoustics, a beat is an interference pattern between two sounds of slightly different frequencies, perceived as a periodic variation in amplitude whose rate is the difference of the two frequencies. The sum of two unit-amplitude sine waves can be expressed as a carrier wave of frequency 'favg' whose amplitude is modulated by an envelope wave of frequency 'fbeat'.
 
 #### Electromagnetic Waves
 
@@ -1023,27 +1113,27 @@ The variables in the Relativity section are:
 * `ve`: Escape velocity
 * `z`: Gravitational redshift parameter
 
-The relativistic transformations are parametrized by the real constant v representing a velocity confined to the x-direction. The respective inverse transformation is then parameterized by the negative of this velocity.
+The relativistic transformations are parametrized by the real constant 'v' representing a velocity confined to the x-direction. The respective inverse transformation is then parameterized by the negative of this velocity.
 
 #### Lorentz Transformation
 
-The primed reference frame (xp, yp, zp) is travelling with velocity v in the positive x direction. Therefore, the y and z coordinates of the rest frame remain unchanged.
+The primed reference frame ('xp', 'yp', 'zp') is travelling with velocity 'v' in the positive x direction. Therefore, the y and z coordinates of the rest frame remain unchanged.
 
 #### Time Dilation
 
-The dilation comes from the fact that the Lorentz factor γ is greater or equal to one and the proper time interval is multiplied by γ.
+The dilation comes from the fact that the Lorentz factor 'γ' is greater or equal to one and the proper time interval is multiplied by this factor.
 
 #### Space Contraction
 
-The contraction comes from the fact that the Lorentz factor γ is greater or equal to one and the proper space interval is divided by γ.
+The contraction comes from the fact that the Lorentz factor 'γ' is greater or equal to one and the proper space interval is divided by this factor.
 
 #### Velocity Superposition
 
-These expressions replace the usual Galilean addition of velocities. It can be checked that superposing with v = c leads to upx = c, hence the impossibility to superpose velocities to go beyond the velocity limit c. Since the velocity v is confined to the x-direction, the y and z components of velocity remain unchanged.
+These expressions replace the usual Galilean addition of velocities. It can be checked that superposing with 'v = c' leads to 'upx = c', hence the impossibility to superpose velocities to go beyond the velocity limit 'c'. Since the velocity 'v' is confined to the x-direction, the y and z components of velocity remain unchanged.
 
 #### Acceleration Superposition
 
-Even the velocity v is confined to the x-direction, all components of the observed acceleration are transformed in the moving frame.
+Even if the velocity 'v' is confined to the x-direction, all components of the observed acceleration are transformed in the moving frame.
 
 #### E & B Fields Transformation
 
@@ -1053,7 +1143,7 @@ Even the velocity v is confined to the x-direction, all components of the observ
 
 #### Energy & Momentum
 
-The total relativistic energy E and the norm of the momentum p form the invariant mo·c^2 which remains the same in all frames The kinetic energy K is the difference between the total relativistic energy E and the rest energy E0 = mo·c^2.
+The total relativistic energy 'E' and the norm of the momentum 'p' form the invariant 'mo·c^2' which remains the same in all frames. The kinetic energy 'K' is the difference between the total relativistic energy 'E' and the rest energy 'E0 = mo·c^2'.
 
 #### Gravitational Time Dilation
 
@@ -1061,11 +1151,11 @@ The total relativistic energy E and the norm of the momentum p form the invarian
 
 #### Circumnavigating Airplanes
 
-It is assumed that the planes are circumnavigating at the same altitude h, same latitude φ and the during same flight duration Δt measured in the airplanes. The ground is rotating with the planet at the angular frequency ω. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the velocities of the plane and the planet surface are << c (slow airplanes over a slow rotating planet).
+It is assumed that the planes are circumnavigating at the same altitude 'h', same latitude 'φ' and the during same flight duration 'Δt' measured in the airplanes. The ground is rotating with the planet at the angular frequency 'ω'. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the velocities of the plane and the planet surface are << 'c' (slow airplanes over a slow rotating planet).
 
 #### Clocks at different heights
 
-It is assumed that the two clocks are at rest with respect to the ground at a latitude φ and are rotating with the planet at the angular frequency ω. The clocks are at their respective heights h1 and h2 for inxtance at the top and bottom of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velociies at height h1 and h2 are << c (slow rotating planet).
+It is assumed that the two clocks are at rest with respect to the ground at a latitude 'φ' and are rotating with the planet at the angular frequency 'ω'. The clocks are at their respective heights 'h1' and 'h2' for inxtance at the top and bottom of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velociies at height 'h1' and 'h2' are << 'c' (slow rotating planet).
 
 #### B H Schwarzschild  Geometry
 
@@ -1073,7 +1163,6 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 
 ## Modern Physics
 The variables in the Modern Physics section are:
-
 
 * `β`: Velocity relativistic speed ratio
 * `φ`: Work function of the substance (dim.: energy, in SI: eV)
@@ -1113,21 +1202,27 @@ The variables in the Modern Physics section are:
 
 #### Planck & Wien Comparison
 
-In this section 2 comparisons are done between the Planck and Wien spectral distributiona. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature determines the frequency ranges for integration between f1 and f2, or between f3 and f4. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in Frfafb) to compute the corresponding enissive power and the heat transfer rate from the black-body.
+In this section, two comparisons are done between the Planck and Wien spectral distributiona. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature 'T' determines the frequency ranges for integration between 'f1' and 'f2', or between 'f3' and 'f4'. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in 'Frfafb') to compute the corresponding enissive power and the heat transfer rate from the black-body.
 
 ![Planck & Wien Comparison](img/Planck&Wien_Distributions.bmp)
 
 #### Planck & Rayleigh-Jeans Comparison
 
-In this section 2 comparisons are done between the Planck and Rayleigh-Jeans spectral distributiona. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature determines the frequency ranges for integration between f1 and f2, or between f3 and f4. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in Frfafb) to compute the corresponding enissive power and the heat transfer rate from the black-body.
+In this section, two comparisons are done between the Planck and Rayleigh-Jeans spectral distributiona. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature 'T' determines the frequency ranges for integration between 'f1' and 'f2', or between 'f3' and 'f4'. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in 'Frfafb') to compute the corresponding enissive power and the heat transfer rate from the black-body.
 
 ![Planck & Rayleigh-Jeans Comparison](img/Planck&Rayleigh-Jeans_Distributions.bmp)
 
 #### Photoelectric Effect
 
+Einstein explained the photoelectric effect with the energy quantification of the electromagnetic wave. The photoelectron is then emitted only if the energy 'E' of the incident photon is greather or equal to the work function 'φ' of the material. A simple energy budget equation determines the maximum kinetic energy 'Kmax' of the photoelectron.
+
 #### Compton Effect
 
+In the Compton effect, both energy and momentum are conserved during the collision of the incident photon and the electron, which underlines the fact that the photon must henceforth be considered as a particle. When a high frequency 'f' (or energy 'E = hf') photon scatters due to an interaction with a charged particle, there is a decrease in the energy of the photon emitted at an angle 'θ' and thus, an increase in its wavelength 'λp'. The energy of the ejected electron 'Kmax' is relativist.
+
 #### De Broglie Wave
+
+At all scales where measurements have been possible, matter exhibits wave-like behavior (e.g. Young interference for protons, even for molecules). More precisely, a beam of neutron can be diffracted just like a beam of light or a water wave as it is the case in the Bragg diffraction. Here, the interference is constructive when the phase difference between the matter wave reflected off different atomic planes at an angle 'θ' is a multiple of 2π, giving the Following condition: '2·d·SINθ = n·λ' with 'n' integer and where 'θ' is mesured between the refected waves trajectory and the atomic plane. 
 
 #### Bohr Atomic Model
 
@@ -1173,6 +1268,8 @@ The variables in the Nuclear Physics section are:
 * `Zb`: Proton number of the incident nuclide or or charge of the product particle b
 * `ZX`: Proton number of the reactant nuclide X
 * `ZY`: Proton number of the product nuclide Y
+
+For all nuclear reactions, including nuclear decays, we have charge conservation 'Zp = Z' and mass number conservation 'Mp = M' (the same number of nucleons). This therefore requires assigning numbers A and Z to incident particles 'a' and 'b' whether they are for example gamma photons ('A = 0', Z = 0'), positrons ('A = 0', Z = -1') or others. The reaction energy 'Q' is always calculated with the mass-energy equivalence by the mass difference between the reactants and the products. Spontaneous decays are for instance always exothermic 'Q > 0' while some nuclear reactions can be endothermic 'Q < 0'.
 
 #### Radioactivity
 
