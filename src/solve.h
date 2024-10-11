@@ -42,6 +42,14 @@ NFUNCTION(Root,3,
               return a == 1 || a == 2;
           }
 );
+NFUNCTION(MultipleEquationsSolver,3,
+          static bool can_be_symbolic(uint a)
+          {
+              return a == 1 || a == 2;
+          }
+);
+COMMAND_DECLARE(MultipleEquationsRoots, 1);
+
 
 COMMAND_DECLARE(StEq, 1);
 COMMAND_DECLARE(RcEq, 0);

@@ -49,62 +49,11 @@ RECORDER(solve, 16, "Numerical solver");
 RECORDER(solve_error, 16, "Numerical solver errors");
 
 
-NFUNCTION_BODY(Root)
-// ----------------------------------------------------------------------------
-//   Numerical solver
-// ----------------------------------------------------------------------------
-{
-    if (arity != 3)
-    {
-        rt.internal_error();
-        return nullptr;
-    }
-    algebraic_g &eqobj    = args[2];
-    algebraic_g &variable = args[1];
-    algebraic_g &guess    = args[0];
-    if (!eqobj || !variable || !guess)
-        return nullptr;
-
-    record(solve, "Solving %t for variable %t with guess %t",
-           +eqobj, +variable, +guess);
-
-    // Check that we have a variable name on stack level 1 and
-    // a proram or equation on level 2
-    symbol_g name = variable->as_quoted<symbol>();
-    id       eqty = eqobj->type();
-    if (eqty == ID_equation)
-    {
-        eqobj = algebraic_p(equation_p(+eqobj)->value());
-        if (!eqobj || !eqobj->is_algebraic())
-            return nullptr;
-        eqty = eqobj->type();
-    }
-    if ((eqty != ID_program && eqty != ID_expression) || !name)
-    {
-        rt.type_error();
-        return nullptr;
-    }
-
-    if (!eqobj->is_program())
-    {
-        rt.invalid_equation_error();
-        return nullptr;
-    }
-
-    // Actual solving
-    program_g eq = program_p(+eqobj);
-    if (algebraic_g x = solve(eq, +name, +guess))
-    {
-        size_t   nlen = 0;
-        gcutf8   ntxt = name->value(&nlen);
-        object_g top  = tag::make(ntxt, nlen, +x);
-        if (top && !rt.error())
-            return algebraic_p(+top);
-    }
-
-    return nullptr;
-}
-
+// ============================================================================
+//
+//   Numerical solver engine
+//
+// ============================================================================
 
 static inline void solver_command_error()
 // ----------------------------------------------------------------------------
@@ -429,41 +378,120 @@ algebraic_p solve(program_g eq, algebraic_g goal, object_g guess)
 }
 
 
+
+
+// ============================================================================
+//
+//   User-level solver commands
+//
+// ============================================================================
+
+NFUNCTION_BODY(Root)
+// ----------------------------------------------------------------------------
+//   Numerical solver
+// ----------------------------------------------------------------------------
+//   The DB48X numerical solver unifies what is `ROOT` and `MSLV` on HP50G.
+//   - With a single variable, e.g. `ROOT(sin(X)=0.5;X;0.5)`, it solves for
+//     the given variable
+//   - With multiple variables in a list or array, it solves for the variables
+//     in turn, in the
+{
+    algebraic_g &eqobj    = args[2];
+    algebraic_g &variable = args[1];
+    algebraic_g &guess    = args[0];
+    if (!eqobj || !variable || !guess)
+        return nullptr;
+
+    record(solve, "Solving %t for variable %t with guess %t",
+           +eqobj, +variable, +guess);
+
+    // Check that we have a variable name on stack level 1 and
+    // a proram or equation on level 2
+    symbol_g name = variable->as_quoted<symbol>();
+    id       eqty = eqobj->type();
+    if (eqty == ID_equation)
+    {
+        eqobj = algebraic_p(equation_p(+eqobj)->value());
+        if (!eqobj || !eqobj->is_algebraic())
+            return nullptr;
+        eqty = eqobj->type();
+    }
+    if ((eqty != ID_program && eqty != ID_expression) || !name)
+    {
+        rt.type_error();
+        return nullptr;
+    }
+
+    if (!eqobj->is_program())
+    {
+        rt.invalid_equation_error();
+        return nullptr;
+    }
+
+    // Actual solving
+    program_g eq = program_p(+eqobj);
+    if (algebraic_g x = solve(eq, +name, +guess))
+    {
+        size_t   nlen = 0;
+        gcutf8   ntxt = name->value(&nlen);
+        object_g top  = tag::make(ntxt, nlen, +x);
+        if (top && !rt.error())
+            return algebraic_p(+top);
+    }
+
+    return nullptr;
+}
+
+
+NFUNCTION_BODY(MultipleEquationsSolver)
+// ----------------------------------------------------------------------------
+//   Solve a set of equations one at a time
+// ----------------------------------------------------------------------------
+//   On DB48X, there is no difference between `MSLV` and `ROOT`
+{
+    return Root::evaluate(op, args, arity);
+}
+
+
+static algebraic_p check_name(algebraic_r x)
+// ----------------------------------------------------------------------------
+//   Check if the name exists, if so return its value, otherwise return 0
+// ----------------------------------------------------------------------------
+{
+    if (symbol_p name = x->as_quoted<symbol>())
+    {
+        if (object_p value = directory::recall_all(name, false))
+        {
+            if (value->is_real() || value->is_complex())
+                return algebraic_p(value);
+        }
+    }
+    return integer::make(0);
+}
+
+
+COMMAND_BODY(MultipleEquationsRoots)
+// ----------------------------------------------------------------------------
+//   Apply the multiple equation solver to the contents of EQ
+// ----------------------------------------------------------------------------
+{
+    if (list_g eqs = expression::current_equation(true, true))
+        if (list_g vars = eqs->names())
+            if (list_g values = vars->map(check_name))
+                if (rt.push(+eqs) && rt.push(+vars) && rt.push(+values))
+                    return run<Root>();
+    if (!rt.error())
+        rt.no_equation_error();
+    return ERROR;
+}
+
+
+
 // ============================================================================
 //
 //   Solving menu
 //
 // ============================================================================
-
-static bool is_well_defined(expression_r expr, symbol_p solving = nullptr)
-// ----------------------------------------------------------------------------
-//   Check if all variables but the one we solve for are defined
-// ----------------------------------------------------------------------------
-{
-    symbol_g sym = solving;
-    list_p vars = expr->names();
-    for (auto var : *vars)
-    {
-        if (symbol_p vsym = var->as<symbol>())
-        {
-            if (!sym || !sym->is_same_as(vsym))
-            {
-                if (!directory::recall_all(var, false))
-                {
-                    rt.some_undefined_name_error();
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            rt.some_invalid_name_error();
-            return false;
-        }
-    }
-    return true;
-}
-
 
 COMMAND_BODY(StEq)
 // ----------------------------------------------------------------------------
@@ -551,7 +579,7 @@ COMMAND_BODY(EvalEq)
     if (list_g eq = expression::current_equation(false, true))
     {
         expression_p expr = eq->as<expression>();
-        if (expr && is_well_defined(expr))
+        if (expr && expr->is_well_defined())
         {
             // We will run programs, do not save stack, etc.
             settings::PrepareForFunctionEvaluation willEvaluateFunctions;
@@ -815,7 +843,7 @@ COMMAND_BODY(SolvingMenuSolve)
                 value = integer::make(0);
             if (list_g eql = expression::current_equation(false, true))
                 if (expression_p eq = eql->as<expression>())
-                    if (value && is_well_defined(eq, sym))
+                    if (value && eq->is_well_defined(sym))
                         if (algebraic_p var = expression_variable_or_unit(idx))
                             if (algebraic_g res = solve(+eq, var, value))
                                 if (directory::store_here(sym, res))

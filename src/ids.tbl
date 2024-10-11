@@ -375,8 +375,12 @@ NAMED(comb, "Combinations")
 NAMED(perm, "Permutations")
 NAMED(Sum, "Σ")
 NAMED(Product, "∏")
+
 CMD(Root)
-NAMED(Integrate, "∫")   ALIAS(Integrate, "∫")
+CMD(MultipleEquationsSolver)
+CMD(MultipleEquationsRoots)     ALIAS(MultipleEquationsRoots, "MRoot")
+
+NAMED(Integrate, "∫")           ALIAS(Integrate, "∫")
 
 NAMED(cbrt, "∛")        ALIAS(cbrt, "CubeRoot")         ALIAS(cbrt, "∛")
 OP(hypot, "⊿")          ALIAS(hypot, "Hypothenuse")
