@@ -2483,7 +2483,7 @@ expression_p expression::get(object_p obj)
 }
 
 
-expression_p expression::current_equation(bool error)
+list_p expression::current_equation(bool all, bool error)
 // ----------------------------------------------------------------------------
 //   Return content of EQ variable
 // ----------------------------------------------------------------------------
@@ -2505,7 +2505,10 @@ expression_p expression::current_equation(bool error)
             break;
         case ID_list:
         case ID_array:
-            obj = list_p(obj)->at(0);
+            if (all)
+                more = false;
+            else
+                obj = list_p(obj)->at(0);
             break;
         case ID_expression:
         case ID_polynomial:
@@ -2516,7 +2519,7 @@ expression_p expression::current_equation(bool error)
             return nullptr;
         }
     }
-    expression_p eq = expression_p(obj);
+    list_p eq = list_p(obj);
     return eq;
 }
 

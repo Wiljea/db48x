@@ -5908,6 +5908,9 @@ void tests::eqnlib_columns_and_beams()
     step("Enter directory for solving")
         .test(CLEAR, "'SLVTST' CRDIR SLVTST", ENTER);
 
+    step("Select CurrentEquationsVariables")
+        .test(CLEAR, "CurrentEquationsVariables", ENTER);
+
     step("Solving Elastic Buckling")
         .test(CLEAR, RSHIFT, F, F2, RSHIFT, F1)
         .test("53.0967", NOSHIFT, F3)

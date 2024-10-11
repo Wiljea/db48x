@@ -500,7 +500,7 @@ COMMAND_BODY(RcEq)
 //   Store expression in `Equation` variable
 // ----------------------------------------------------------------------------
 {
-    if (expression_p expr = expression::current_equation(true))
+    if (list_p expr = expression::current_equation(false, true))
         if (rt.push(expr))
             return OK;
     return ERROR;
@@ -548,9 +548,10 @@ COMMAND_BODY(EvalEq)
 //   Evaluate the current equation
 // ----------------------------------------------------------------------------
 {
-    if (expression_g expr = expression::current_equation(true))
+    if (list_g eq = expression::current_equation(false, true))
     {
-        if (is_well_defined(expr))
+        expression_p expr = eq->as<expression>();
+        if (expr && is_well_defined(expr))
         {
             // We will run programs, do not save stack, etc.
             settings::PrepareForFunctionEvaluation willEvaluateFunctions;
@@ -581,6 +582,8 @@ COMMAND_BODY(EvalEq)
             }
         }
     }
+    if (!rt.error())
+        rt.no_equation_error();
     return ERROR;
 }
 
@@ -590,10 +593,11 @@ MENU_BODY(SolvingMenu)
 //   Process the MENU command for SolvingMenu
 // ----------------------------------------------------------------------------
 {
-    expression_p expr   = expression::current_equation(false);
-    list_g       vars   = expr ? expr->names() : nullptr;
-    size_t       nitems = vars ? vars->items() : 0;
-    items_init(mi, nitems+1, 3, 1);
+    bool   all    = Settings.AllEquationVariables();
+    list_p expr   = expression::current_equation(all, false);
+    list_g vars   = expr ? expr->names() : nullptr;
+    size_t nitems = vars ? vars->items() : 0;
+    items_init(mi, nitems + 1, 3, 1);
     if (!vars)
         return false;
 
@@ -645,7 +649,7 @@ MENU_BODY(SolvingMenu)
         ui.marker(k + 2 * ui.NUM_SOFTKEYS, L'▶', false);
     }
 
-    if (expression_p expr = expression::current_equation(false))
+    if (list_p expr = expression::current_equation(false, false))
         ui.transient_object(expr);
 
     return true;
@@ -657,7 +661,8 @@ static symbol_p expression_variable(uint index)
 //   Return the variable in EQ for a given index
 // ----------------------------------------------------------------------------
 {
-    if (expression_p expr = expression::current_equation(true))
+    bool all = Settings.AllEquationVariables();
+    if (list_p expr = expression::current_equation(all, true))
         if (list_g vars = expr->names())
             if (object_p obj = vars->at(index))
                 if (symbol_p sym = obj->as<symbol>())
@@ -671,7 +676,8 @@ static algebraic_p expression_variable_or_unit(uint index)
 //   Return the unit in EQ for a given index if there is one, otherwise name
 // ----------------------------------------------------------------------------
 {
-    if (expression_p expr = expression::current_equation(true))
+    bool all = Settings.AllEquationVariables();
+    if (list_p expr = expression::current_equation(all, true))
     {
         if (list_g vars = expr->names(true))
         {
@@ -801,21 +807,22 @@ COMMAND_BODY(SolvingMenuSolve)
     int key = ui.evaluating;
     if (key >= KEY_F1 && key <= KEY_F6)
     {
-        uint index = key - KEY_F1 + 5 * ui.page() - 1;
-        if (symbol_g sym = expression_variable(index))
+        uint idx = key - KEY_F1 + 5 * ui.page() - 1;
+        if (symbol_g sym = expression_variable(idx))
         {
             object_g value = directory::recall_all(sym, false);
             if (!value)
                 value = integer::make(0);
-            if (expression_g eq = expression::current_equation(true))
-                if (value && is_well_defined(eq, sym))
-                    if (algebraic_p var = expression_variable_or_unit(index))
-                        if (algebraic_g result = solve(+eq, var, value))
-                            if (directory::store_here(sym, result))
-                                if (tag_p tagged = tagged_value(sym, result))
-                                    if (rt.push(tagged))
-                                        if (ui.menu_refresh())
-                                            return OK;
+            if (list_g eql = expression::current_equation(false, true))
+                if (expression_p eq = eql->as<expression>())
+                    if (value && is_well_defined(eq, sym))
+                        if (algebraic_p var = expression_variable_or_unit(idx))
+                            if (algebraic_g res = solve(+eq, var, value))
+                                if (directory::store_here(sym, res))
+                                    if (tag_p tagged = tagged_value(sym, res))
+                                        if (rt.push(tagged))
+                                            if (ui.menu_refresh())
+                                                return OK;
         }
     }
 

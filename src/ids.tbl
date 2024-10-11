@@ -887,6 +887,7 @@ FLAG(ExitKeepsMenu,             ExitClearsMenu)
 FLAG(ShowEmptyMenu,             HideEmptyMenu)
 FLAG(ListAsProgram,             ListAsData)
 FLAG(KillOnError,               DebugOnError)
+FLAG(CurrentEquationVariables,  AllEquationVariables)
 
 ALIAS(HardwareFloatingPoint,    "HFP")
 ALIAS(HardwareFloatingPoint,    "HardFP")

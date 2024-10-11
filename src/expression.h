@@ -101,7 +101,7 @@ struct expression : program
     }
 
     static expression_p get(object_p obj);
-    static expression_p current_equation(bool error);
+    static list_p current_equation(bool all, bool error);
 
     typedef expression_p (expression::*command_fn)(symbol_r name) const;
     static result variable_command(command_fn callback);
