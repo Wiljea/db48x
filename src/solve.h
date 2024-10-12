@@ -34,14 +34,18 @@
 #include "menu.h"
 #include "symbol.h"
 
-algebraic_p solve(program_g eq, algebraic_g name, object_g guess);
-
 NFUNCTION(Root,3,
           static bool can_be_symbolic(uint a)
           {
               return a == 1 || a == 2;
           }
-);
+          static algebraic_p solve(program_g eq,
+                                   algebraic_g name,
+                                   object_g guess);
+          static algebraic_p solve(algebraic_p eq,
+                                   algebraic_p vars,
+                                   algebraic_p guess);
+    );
 NFUNCTION(MultipleEquationsSolver,3,
           static bool can_be_symbolic(uint a)
           {

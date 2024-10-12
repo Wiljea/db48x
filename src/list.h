@@ -290,6 +290,9 @@ struct list : text
     list_p append(list_p a) const;
     list_p append(object_p o) const;
 
+    // Remove a range in the list
+    list_p remove(size_t start, size_t length = 1) const;
+
     // Reduce and filter operations
     object_p reduce(object_p prg) const;
     list_p   filter(object_p prg) const;

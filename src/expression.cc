@@ -2840,10 +2840,8 @@ COMMAND_BODY(Apply)
     {
         if (object_p args = rt.stack(1))
         {
-            object::id ty = args->type();
-            if (ty == ID_list || ty == ID_array)
+            if (list_g lst = args->as_array_or_list())
             {
-                list_g lst = list_p(args);
                 size_t arity = lst->items();
 
                 if (object_p quoted = callee->as_quoted(ID_object))

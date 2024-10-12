@@ -606,6 +606,25 @@ list_p list::append(object_p o) const
 }
 
 
+list_p list::remove(size_t first, size_t len) const
+// ----------------------------------------------------------------------------
+//   Remove items in the given range
+// ----------------------------------------------------------------------------
+{
+    scribble scr;
+    size_t   idx = 0;
+    id       ty  = type();
+    for (object_p copy : *this)
+    {
+        if (idx < first || idx >= first + len)
+            if (!rt.append(copy))
+                return nullptr;
+        idx++;
+    }
+    return list::make(ty, scr.scratch(), scr.growth());
+}
+
+
 bool list::expand_without_size(size_t *size) const
 // ----------------------------------------------------------------------------
 //   Expand items on the stack, but do not add the size
@@ -1145,10 +1164,9 @@ COMMAND_BODY(Head)
 // ----------------------------------------------------------------------------
 {
     object_p obj = rt.top();
-    id ty = obj->type();
-    if (ty == ID_list || ty == ID_array)
+    if (list_p li = obj->as_array_or_list())
     {
-        if (object_p hd = list_p(obj)->head())
+        if (object_p hd = li->head())
         {
             if (rt.top(hd))
                 return OK;
@@ -1172,10 +1190,9 @@ COMMAND_BODY(Tail)
 // ----------------------------------------------------------------------------
 {
     object_p obj = rt.top();
-    id ty = obj->type();
-    if (ty == ID_list || ty == ID_array)
+    if (list_p li = obj->as_array_or_list())
     {
-        if (object_p tl = list_p(obj)->tail())
+        if (object_p tl = li->tail())
         {
             if (rt.top(tl))
                 return OK;
@@ -1200,13 +1217,12 @@ static object::result map_reduce_filter(object_p (list::*cmd)(object_p) const)
 //   Shared code for map, reduce and filter
 // ----------------------------------------------------------------------------
 {
-    size_t depth = rt.depth();
-    object_p   obj = rt.stack(1);
-    object_g   prg = rt.top();
-    object::id ty  = obj->type();
-    if (ty == object::ID_list || ty == object::ID_array)
+    size_t   depth = rt.depth();
+    object_p obj   = rt.stack(1);
+    object_g prg   = rt.top();
+    if (list_p li = obj->as_array_or_list())
     {
-        object_p result = (list_p(obj)->*cmd)(prg);
+        object_p result = (li->*cmd)(prg);
         if (!result)
             goto error;
         if (rt.drop() && rt.top(result))
@@ -1256,10 +1272,9 @@ static object::result list_reduce(object::id cmd)
 // ----------------------------------------------------------------------------
 {
     object_p   obj = rt.stack(0);
-    object::id ty  = obj->type();
-    if (ty == object::ID_list || ty == object::ID_array)
+    if (list_p li = obj->as_array_or_list())
     {
-        object_p result = list_p(obj)->reduce(command::static_object(cmd));
+        object_p result = li->reduce(command::static_object(cmd));
         if (result && rt.top(result))
             return object::OK;
     }
@@ -1277,11 +1292,10 @@ static object::result list_pair_map(object::id cmd)
 // ----------------------------------------------------------------------------
 {
     object_p   obj = rt.stack(0);
-    object::id ty  = obj->type();
-    if (ty == object::ID_list || ty == object::ID_array)
+    if (list_p li = obj->as_array_or_list())
     {
         object_p cmdobj = command::static_object(cmd);
-        object_p result = list_p(obj)->pair_map(cmdobj);
+        object_p result = li->pair_map(cmdobj);
         if (result && rt.top(result))
             return object::OK;
     }
@@ -1360,7 +1374,7 @@ list_p list::map(object_p prgobj) const
     for (object_p obj : *this)
     {
         id oty = obj->type();
-        if (oty == ID_array || oty == ID_list)
+        if (is_array_or_list(oty))
         {
             list_g sub = list_p(obj)->map(prg);
             obj = +sub;
@@ -1446,7 +1460,7 @@ list_p list::filter(object_p prgobj) const
     {
         id   oty  = obj->type();
         bool keep = false;
-        if (oty == ID_array || oty == ID_list)
+        if (is_array_or_list(oty))
         {
             object_g sub = list_p(+obj)->filter(prg);
             obj = +sub;
@@ -1531,7 +1545,7 @@ list_p list::map(algebraic_fn fn) const
     for (object_p obj : *this)
     {
         id oty = obj->type();
-        if (oty == ID_array || oty == ID_list)
+        if (is_array_or_list(oty))
         {
             list_g sub = list_p(obj)->map(fn);
             obj = +sub;
@@ -1569,7 +1583,7 @@ list_p list::map(arithmetic_fn fn, algebraic_r y) const
     for (object_p obj : *this)
     {
         id oty = obj->type();
-        if (oty == ID_array || oty == ID_list)
+        if (is_array_or_list(oty))
         {
             list_g sub = list_p(obj)->map(fn, y);
             obj = +sub;
@@ -1607,7 +1621,7 @@ list_p list::map(algebraic_r x, arithmetic_fn fn) const
     for (object_p obj : *this)
     {
         id oty = obj->type();
-        if (oty == ID_array || oty == ID_list)
+        if (is_array_or_list(oty))
         {
             list_g sub = list_p(obj)->map(x, fn);
             obj = +sub;
@@ -1705,14 +1719,13 @@ static object::result do_sort(int (*compare)(object_p *x, object_p *y))
 
     if  (object_p obj = rt.stack(0))
     {
-        object::id oty = obj->type();
-        if (oty == object::ID_list || oty == object::ID_array)
+        if (list_g items = obj->as_array_or_list())
         {
-            size_t   depth = rt.depth();
-            list_g   items = list_p(obj);
-            size_t   count;
-            scribble scr;
-            qsort_fn cmp = qsort_fn(compare);
+            size_t     depth = rt.depth();
+            size_t     count;
+            scribble   scr;
+            qsort_fn   cmp = qsort_fn(compare);
+            object::id ity = items->type();
 
             for (object_p item : *items)
                 if (!rt.push(item))
@@ -1726,7 +1739,7 @@ static object::result do_sort(int (*compare)(object_p *x, object_p *y))
                     if (!rt.append(obj))
                         goto err;
             rt.drop(count);
-            items = list::make(oty, scr.scratch(), scr.growth());
+            items = list::make(ity, scr.scratch(), scr.growth());
             if (items && rt.top(+items))
                 return object::OK;
 
@@ -2039,7 +2052,7 @@ COMMAND_BODY(DoList)
                 if (!obj)
                     return ERROR;
                 id ty = obj->type();
-                if (ty != ID_list && ty != ID_array)
+                if (!is_array_or_list(ty))
                     return ERROR;
                 list_p lst = list_p(obj);
                 if (!d)
@@ -2140,7 +2153,7 @@ COMMAND_BODY(DoSubs)
             if (!obj)
                 return ERROR;
             id lty = obj->type();
-            if (lty != ID_list && lty != ID_array)
+            if (!is_array_or_list(lty))
                 return ERROR;
             list_g lst = list_p(obj);
             size_t length = lst->items();
@@ -2252,7 +2265,7 @@ object_p list::substitute(object_p source, object_p args)
     {
         return source;
     }
-    else if (patty == ID_list || patty == ID_array)
+    else if (is_array_or_list(patty))
     {
         algebraic_g aa = algebraic_p(args);
         return list_p(+source)->map(list::where, aa);
@@ -2368,7 +2381,7 @@ list_p list::substitute(object_r repl) const
 // ----------------------------------------------------------------------------
 {
     id rty = repl->type();
-    if (rty == ID_list || rty == ID_array)
+    if (is_array_or_list(rty))
     {
         list_g rlist = list_p(+repl);
         return substitute(rlist);

@@ -163,7 +163,7 @@ bool array::is_vector(size_t *size, bool push) const
             obj = tag::strip(obj);
 
             id oty = obj->type();
-            if (oty == ID_array || oty == ID_list)
+            if (is_array_or_list(oty))
                 result = false;
             else if (!obj->is_algebraic())
                 result = false;
@@ -197,7 +197,7 @@ object::id array::is_2Dor3D(bool push) const
             obj = tag::strip(obj);
 
             id oty = obj->type();
-            if (oty == ID_array || oty == ID_list)
+            if (is_array_or_list(oty))
                 r = ID_object;
             else if (!obj->is_algebraic())
                 r = ID_object;
@@ -345,8 +345,8 @@ bool array::size_from_object(size_t *rows, size_t *columns, object_r dims)
 //   Take the given object and interpret that as array size
 // ----------------------------------------------------------------------------
 {
-    id     ty = dims->type();
-    if (ty == ID_list || ty == ID_array)
+    id ty = dims->type();
+    if (is_array_or_list(ty))
     {
         object_g robj = list_p(+dims)->at(0);
         object_g cobj = list_p(+dims)->at(1);

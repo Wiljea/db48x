@@ -504,9 +504,8 @@ COMMAND_BODY(Disp)
                 x = ppar.pair_pixel_x(pos);
                 y = ppar.pair_pixel_y(pos);
 
-                if (ty == ID_list || ty == ID_array)
+                if (list_g args = pos->as_array_or_list())
                 {
-                    list_g args = list_p(+pos);
                     if (object_p fontid = args->at(2))
                     {
                         uint32_t i = fontid->as_uint32(settings::STACK, false);
