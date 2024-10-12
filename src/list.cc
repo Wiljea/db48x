@@ -55,6 +55,7 @@ RECORDER(list, 16, "Lists");
 RECORDER(list_parse, 16, "List parsing");
 RECORDER(list_error, 16, "Errors processing lists");
 
+
 object::result list::list_parse(id      type,
                                 parser &p,
                                 unicode open,
@@ -84,11 +85,13 @@ object::result list::list_parse(id      type,
     size_t   non_alg_len = 0;
     bool     xroot       = false;
 
-    // The IFTE command is special in that we don't evaluate its arguments
-    bool        ifte     = false;
+    // Some commands such as IFTE, Sum, Integrate or Root are special in that
+    // we need to defer argument evaluation, i.e. keep arguments as expressions
+    // so that their 'evaluate' function receives the symbolic form
+    id       special     = ID_object;
 
     // The `|` operator (where) is special when parsing parentheses
-    bool        iswhere  = false;
+    bool     iswhere     = false;
 
     record(list, "Parse %lc%lc precedence %d length %u [%s]",
            open, close, precedence, max, utf8(s));
@@ -287,8 +290,9 @@ object::result list::list_parse(id      type,
                 // We just parsed an algebraic, e.g. 'sin', etc
                 // stash it and require parentheses for arguments
                 id type = obj->type();
-                ifte = type == ID_IFTE;
-                if (!is_algebraic(type) && !ifte)
+                if (function::has_symbolic_arguments(type))
+                    special = type;
+                if (!is_algebraic(type) && !special)
                 {
                     if (objcount)
                     {
@@ -366,7 +370,10 @@ object::result list::list_parse(id      type,
                 size_t objsize = obj->size();
 
                 // For equations, copy only the payload
-                if (precedence && (!ifte || arg == 0))
+                bool keepsym = special &&
+                    function::is_symbolic_argument(special, arity-arg);
+
+                if (precedence && !keepsym)
                     if (expression_p eq = obj->as<expression>())
                         obj = eq->objects(&objsize);
 

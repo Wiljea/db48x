@@ -5822,13 +5822,25 @@ void tests::solver_testing()
         .test(CLEAR, "'ROOT(X+3;X;0)'", ENTER)
         .expect("'Root(X+3;X;0)'")
         .test(RUNSTOP)
-        .expect("X:-3.");
+        .expect("X:-3.")
+        .test("X", ENTER)
+        .expect("-3.")
+        .test("'X' purge", ENTER)
+        .noerror();
     step("Solver with equation")
         .test(CLEAR, "'sq(x)=3' 'X' 0 ROOT", ENTER)
-        .noerror().expect("X:1.73205 08075 7");
+        .noerror().expect("X:1.73205 08075 7")
+        .test("X", ENTER)
+        .expect("1.73205 08075 7")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
+        .noerror();
     step("Solver without solution")
         .test(CLEAR, "'sq(x)+3=0' 'X' 0 ROOT", ENTER)
-        .error("No solution?");
+        .error("No solution?")
+        .test(CLEAR, "X", ENTER)
+        .expect("-8.09667 19281 1⁳⁵³⁶⁸⁷⁰⁸¹²⁵⁴⁹⁷⁹⁸")
+        .test("'X'", ENTER, LSHIFT, BSP, F2)
+        .noerror();
 
     step("Solving menu")
         .test(CLEAR, "'A²+B²=C²'", ENTER)

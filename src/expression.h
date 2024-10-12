@@ -677,11 +677,13 @@ COMMAND_DECLARE(Isolate, 2);
 COMMAND_DECLARE_SPECIAL(Derivative, algebraic, 2,
                         PREC_DECL(SYMBOL);
                         INSERT_DECL(Derivative);
-                        PARSE_DECL(Derivative););
+                        PARSE_DECL(Derivative);
+                        static bool can_be_symbolic(uint) { return true; });
 COMMAND_DECLARE_SPECIAL(Primitive, algebraic, 2,
                         PREC_DECL(MULTIPLICATIVE);
                         INSERT_DECL(Primitive);
-                        PARSE_DECL(Primitive););
+                        PARSE_DECL(Primitive);
+                        static bool can_be_symbolic(uint) { return true; });
 COMMAND_DECLARE_SPECIAL(Where, arithmetic, 2, PREC_DECL(WHERE); );
 NFUNCTION(Subst, 2, static bool can_be_symbolic(uint) { return true; } );
 

@@ -2175,6 +2175,12 @@ grob_p expression::graph(grapher &g, uint depth, int &precedence)
             if (precedence == precedence::NONE || obj->type() == ID_unit)
                 precedence = precedence::SYMBOL;
             g.voffset = 0;
+            if (expression_p expr = obj->as<expression>())
+            {
+                if (!expr->expand_without_size())
+                    return nullptr;
+                return expr->graph(g, depth, precedence);
+            }
             return obj->graph(g);
 
         case 1:

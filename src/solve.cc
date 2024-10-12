@@ -64,6 +64,17 @@ static inline void solver_command_error()
 }
 
 
+static bool store(algebraic_r value)
+// ----------------------------------------------------------------------------
+//   Store the last computed value of the variable
+// ----------------------------------------------------------------------------
+{
+    if (expression::independent && +value)
+        return directory::store_here(*expression::independent, value);
+    return false;
+}
+
+
 algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
 // ----------------------------------------------------------------------------
 //   The core of the solver
@@ -184,7 +195,10 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
 
         // If we are starting to use really big numbers, switch to decimal
         if (!algebraic::to_decimal_if_big(x))
+        {
+            store(x);
             return x;
+        }
 
         // Evaluate equation
         y = algebraic::evaluate_function(eq, x);
@@ -211,6 +225,7 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
                 if (!rt.error())
                     rt.bad_guess_error();
                 solver_command_error();
+                store(x);
                 return nullptr;
             }
             bad = true;
@@ -225,6 +240,7 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
             if (dy->is_zero() || smaller_magnitude(dy, yeps))
             {
                 record(solve, "[%u] Solution=%t value=%t", i, +x, +y);
+                store(x);
                 return x;
             }
 
@@ -282,7 +298,10 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
             // Check the x interval
             dx = hx - lx;
             if (!dx)
+            {
+                store(x);
                 return nullptr;
+            }
             dy = hx + lx;
             if (!dy || dy->is_zero(false))
                 dy = yeps;
@@ -297,13 +316,17 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
                 else
                     rt.no_solution_error();
                 solver_command_error();
+                store(x);
                 return x;
             }
 
             // Check the y interval
             dy = hy - ly;
             if (!dy)
+            {
+                store(x);
                 return nullptr;
+            }
             if (dy->is_zero(false))
             {
                 record(solve,
@@ -325,6 +348,7 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
                 if (!rt.error())
                     rt.invalid_function_error();
                 solver_command_error();
+                store(x);
                 return x;
             }
         }
@@ -339,7 +363,10 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
                 dx = integer::make(2);
                 x  = (nx + px) / dx;
                 if (!x)
+                {
+                    store(nx);
                     return nullptr;
+                }
             }
             else
             {
@@ -357,7 +384,10 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
                 else
                     x = x + x * dx;
                 if (!x)
+                {
+                    store(dx);
                     return nullptr;
+                }
                 record(solve, "Jitter x=%t", +x);
             }
         }
@@ -374,6 +404,7 @@ algebraic_p Root::solve(program_g eq, algebraic_g goal, object_g guess)
         rt.no_solution_error();
     if (rt.error())
         solver_command_error();
+    store(lx);
     return lx;
 }
 
