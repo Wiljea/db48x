@@ -2530,7 +2530,7 @@ list_p expression::current_equation(bool all, bool error)
 }
 
 
-bool expression::is_well_defined(symbol_p solving) const
+bool expression::is_well_defined(symbol_p solving, bool error) const
 // ----------------------------------------------------------------------------
 //   Check if all variables but the one we solve for are defined
 // ----------------------------------------------------------------------------
@@ -2546,14 +2546,16 @@ bool expression::is_well_defined(symbol_p solving) const
             {
                 if (!directory::recall_all(var, false))
                 {
-                    rt.some_undefined_name_error();
+                    if (error)
+                        rt.some_undefined_name_error();
                     return false;
                 }
             }
         }
         else
         {
-            rt.some_invalid_name_error();
+            if (error)
+                rt.some_invalid_name_error();
             return false;
         }
     }

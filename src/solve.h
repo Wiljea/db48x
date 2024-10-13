@@ -39,12 +39,15 @@ NFUNCTION(Root,3,
           {
               return a == 1 || a == 2;
           }
-          static algebraic_p solve(program_g eq,
-                                   algebraic_g name,
-                                   object_g guess);
-          static algebraic_p solve(algebraic_p eq,
-                                   algebraic_p vars,
-                                   algebraic_p guess);
+          static algebraic_p solve(program_r   eq,
+                                   algebraic_r name,
+                                   algebraic_r guess);
+          static algebraic_p solve(algebraic_r eq,
+                                   algebraic_r vars,
+                                   algebraic_r guess);
+          static list_p multiple_equation_solver(list_r eqs,
+                                                 list_r names,
+                                                 list_r guesses);
     );
 NFUNCTION(MultipleEquationsSolver,3,
           static bool can_be_symbolic(uint a)
