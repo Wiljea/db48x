@@ -69,9 +69,11 @@ struct array : list
     static array_p wrap(object_p o);
 
     // Check if vector or matrix, and push all elements on stack
-    bool is_vector(size_t *size, bool push = true) const;
+    bool is_matrix(size_t *rows, size_t *columns,
+                   bool push = true, bool striptags = true) const;
+    bool is_vector(size_t *size,
+                   bool push = true, bool striptags = true) const;
     id   is_2Dor3D(bool push = true) const;
-    bool is_matrix(size_t *rows, size_t *columns, bool push = true) const;
     bool is_vector() const { return is_vector(nullptr, false); }
     bool is_matrix() const { return is_matrix(nullptr, nullptr, false); }
     list_p dimensions(bool expand = false) const;

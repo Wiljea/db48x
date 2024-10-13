@@ -90,11 +90,11 @@ GRAPH_BODY(array)
     size_t cols = 0;
     bool   mat  = false;
     bool   vec  = false;
-    if (a->is_matrix(&rows, &cols))
+    if (a->is_matrix(&rows, &cols, true, false))
     {
         mat = rows > 0 && cols > 0;
     }
-    else if (a->is_vector(&cols))
+    else if (a->is_vector(&cols, true, false))
     {
         vec = true;
         rows = 1;
@@ -149,7 +149,7 @@ GRAPH_BODY(array)
 //   When they return true, these operations push all elements on the stack
 //
 
-bool array::is_vector(size_t *size, bool push) const
+bool array::is_vector(size_t *size, bool push, bool strip) const
 // ----------------------------------------------------------------------------
 //   Check if this is a vector, and if so, push all elements on stack
 // ----------------------------------------------------------------------------
@@ -160,6 +160,7 @@ bool array::is_vector(size_t *size, bool push) const
         size_t count = 0;
         for (object_p obj : *this)
         {
+            object_p tagged = obj;
             obj = tag::strip(obj);
 
             id oty = obj->type();
@@ -167,7 +168,7 @@ bool array::is_vector(size_t *size, bool push) const
                 result = false;
             else if (!obj->is_algebraic())
                 result = false;
-            else if (push && !rt.push(obj))
+            else if (push && !rt.push(strip ? obj : tagged))
                 result = false;
             if (!result)
                 break;
@@ -236,7 +237,7 @@ object::id array::is_2Dor3D(bool push) const
 }
 
 
-bool array::is_matrix(size_t *rows, size_t *cols, bool push) const
+bool array::is_matrix(size_t *rows, size_t *cols, bool push, bool strip) const
 // ----------------------------------------------------------------------------
 //   Check if this is a vector, and if so, push all elements on stack
 // ----------------------------------------------------------------------------
@@ -256,7 +257,7 @@ bool array::is_matrix(size_t *rows, size_t *cols, bool push) const
             if (result)
             {
                 size_t rcol = 0;
-                result = array_p(robj)->is_vector(&rcol, push);
+                result = array_p(robj)->is_vector(&rcol, push, strip);
                 if (result && first)
                     c = rcol;
                 else if (rcol != c)
