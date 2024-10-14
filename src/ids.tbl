@@ -267,10 +267,10 @@ OP(TestLE,   "≤")               ALIAS(TestLE, "≤")
 OP(TestNE,   "≠")               ALIAS(TestNE, "≠")
 OP(TestGE,   "≥")               ALIAS(TestGE, "≥")
 
-// Trigonometric functions
-NAMED(asin, "sin⁻¹")            // WARNING: order used in functions.cc
-NAMED(acos,  "cos⁻¹")
-NAMED(atan,  "tan⁻¹")
+// Trigonometric functions. WARNING: order used in functions.cc
+NAMED(asin, "sin⁻¹")            ALIAS(asin, "arcsin")   ALIAS(asin, "asin")
+NAMED(acos, "cos⁻¹")            ALIAS(acos, "arccos")   ALIAS(acos, "acos")
+NAMED(atan, "tan⁻¹")            ALIAS(atan, "arctan")   ALIAS(atan, "atan")
 CMD(sin)
 CMD(cos)
 CMD(tan)                        // WARNING: order used in function.cc
