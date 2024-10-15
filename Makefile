@@ -67,7 +67,7 @@ dm32-%:
 color-%:
 	$(MAKE) COLOR=color $*
 
-sim: sim/$(TARGET).mak
+sim: sim/$(TARGET).mak help/$(TARGET).idx
 	cd sim; $(MAKE) -f $(<F) TARGET=$(shell awk '/^TARGET/ { print $$3; }' sim/$(TARGET).mak)
 sim/$(TARGET).mak: sim/$(TARGET).pro Makefile $(VERSION_H)
 	cd sim; qmake $(<F) -o $(@F) CONFIG+=$(QMAKE_$(OPT)) $(COLOR:%=CONFIG+=color)
@@ -185,7 +185,14 @@ help/$(TARGET).md: $(wildcard doc/*.md doc/calc-help/*.md doc/commands/*.md)
             -e 's/DM42/$(PRODUCT_MACHINE)/g' > $@
 	cp doc/*.png help/
 	mkdir -p help/img
-	rsync -av --delete doc/img/*.bmp help/img/
+help/$(TARGET).md: help/$(TARGET)-images
+
+DOC_IMAGES=$(wildcard doc/img/*.bmp)
+HELP_IMAGES=$(DOC_IMAGES:doc/img/%=help/img/%)
+help/$(TARGET)-images: $(DEST_IMAGES)
+help/img/%.md: doc/img/%.md
+	cp $^ $@
+
 help/$(TARGET).idx: help/$(TARGET).md
 	grep -b '^#' $< | sort -k2 -t: > $@
 	[ "$$(cat $@ | wc -L)" -lt 80 ]
