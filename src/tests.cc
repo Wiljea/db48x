@@ -1110,20 +1110,23 @@ void tests::editor_operations()
         .test(ENTER, EXIT).image_noheader("xroot-negation");
 
     step("Position of negation parsing summand")
-        .test(CLEAR, "'Σ(X;1;10;-X)'", ENTER, EXIT)
-        .expect("'Σ(X;1;10;-X)'").image_noheader("sum-negation")
+        .test(CLEAR, "'Σ(X;1;10;-X)'", ENTER)
+        .expect("'Σ(X;1;10;-X)'")
+        .test(EXIT).image_noheader("sum-negation")
         .test(DOWN).editor("'Σ(X;1;10;-X)'")
         .test(ENTER, EXIT).image_noheader("sum-negation");
 
     step("Position of negation parsing sum end")
-        .test(CLEAR, "'Σ(X;1;-10;X)'", ENTER, EXIT)
-        .expect("'Σ(X;1;-10;X)'").image_noheader("sum-negation2")
+        .test(CLEAR, "'Σ(X;1;-10;X)'", ENTER)
+        .expect("'Σ(X;1;-10;X)'")
+        .test(EXIT).image_noheader("sum-negation2")
         .test(DOWN).editor("'Σ(X;1;-10;X)'")
         .test(ENTER, EXIT).image_noheader("sum-negation2");
 
     step("Position of negation parsing sum start")
-        .test(CLEAR, "'Σ(X;-1;10;X)'", ENTER, EXIT)
-        .expect("'Σ(X;-1;10;X)'").image_noheader("sum-negation3")
+        .test(CLEAR, "'Σ(X;-1;10;X)'", ENTER)
+        .expect("'Σ(X;-1;10;X)'")
+        .test(EXIT).image_noheader("sum-negation3")
         .test(DOWN).editor("'Σ(X;-1;10;X)'")
         .test(ENTER, EXIT).image_noheader("sum-negation3");
 

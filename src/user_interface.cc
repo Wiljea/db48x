@@ -305,6 +305,8 @@ bool user_interface::end_edit()
     xshift      = false;
     dirtyEditor = true;
     dirtyStack  = true;
+    dirtyMenu   = true;
+
     searching   = ~0U;
     edRows      = 0;
     last        = 0;
@@ -1412,10 +1414,6 @@ bool user_interface::draw_menus()
         animating = false;
     }
 
-    lastp = shplane;
-    lastt = time;
-    dirtyMenu = false;
-
     font_p font   = MenuFont;
     bool   square = Settings.SquareMenus();
     int    mh     = font->height() + 5 - square;
@@ -1664,6 +1662,10 @@ bool user_interface::draw_menus()
         draw_refresh(period);
     if (!animating)
         draw_dirty(0, LCD_H - 1 - menuHeight, LCD_W, LCD_H-1);
+
+    lastp = shplane;
+    lastt = time;
+    dirtyMenu = false;
 
     return true;
 }
@@ -2737,14 +2739,7 @@ object_p user_interface::transient_object()
 //   Return transient object to display if any
 // ----------------------------------------------------------------------------
 {
-    object_p result = editing;
-    if (result)
-    {
-        if (!rt.editing())
-            editing = nullptr;
-        else
-            result = nullptr;
-    }
+    object_p result = rt.editing() ? nullptr : editing;
     return result;
 }
 
