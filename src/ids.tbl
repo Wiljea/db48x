@@ -1186,6 +1186,8 @@ MENU(TextMenu)
 // Special menus
 MENU(EditMenu)
 CMD(VariablesMenu)
+CMD(CustomMenu)                 ALIAS(CustomMenu, "Cst")
+CMD(ToggleCustomMenu)
 CMD(SolvingMenu)
 CMD(ToolsMenu)
 CMD(Catalog)

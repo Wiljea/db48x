@@ -182,6 +182,9 @@ object::result directory::enter() const
 {
     if (rt.enter(this))
     {
+        if (menu_p m = ui.menu())
+            if (m->type() == ID_CustomMenu)
+                run<VariablesMenu>();
         ui.menu_refresh(ID_VariablesMenu);
         return OK;
     }
@@ -226,6 +229,7 @@ bool directory::store(object_g name, object_g value)
     case ID_PlotParameters:
     case ID_AlgebraConfiguration:
     case ID_AlgebraVariable:
+    case ID_CustomMenu:
         break;
 
     case ID_symbol:
@@ -306,6 +310,8 @@ bool directory::store(object_g name, object_g value)
 
     // Refresh the variables menu
     ui.menu_refresh(ID_VariablesMenu);
+    if (nty == ID_CustomMenu)
+        ui.menu_refresh(nty);
 
     return true;
 }
@@ -461,6 +467,7 @@ object_p directory::recall_all(object_p name, bool report_missing)
     case ID_PlotParameters:
     case ID_AlgebraConfiguration:
     case ID_AlgebraVariable:
+    case ID_CustomMenu:
         break;
 
     case ID_symbol:
@@ -549,6 +556,7 @@ size_t directory::purge(object_p name)
     case ID_PlotParameters:
     case ID_AlgebraConfiguration:
     case ID_AlgebraVariable:
+    case ID_CustomMenu:
         break;
 
     case ID_symbol:
@@ -1231,7 +1239,7 @@ static bool evaluate_variable(object_p name, object_p value, void *arg)
     if (!disp)
         disp = name->as_symbol(true);
     menu::info &mi = *((menu::info *) arg);
-    if (value->as<directory>())
+    if (value->type() == object::ID_directory)
         mi.marker = L'◥';
     menu::items(mi, disp, menu::ID_VariablesMenuExecute);
 

@@ -5076,7 +5076,7 @@ static const byte defaultUnshiftedCommand[2*user_interface::NUM_KEYS] =
     OP2BYTES(KEY_LN,    function::ID_log),
     OP2BYTES(KEY_XEQ,   0),
     OP2BYTES(KEY_STO,   command::ID_Sto),
-    OP2BYTES(KEY_RCL,   command::ID_VariablesMenu),
+    OP2BYTES(KEY_RCL,   command::ID_ToggleCustomMenu),
     OP2BYTES(KEY_RDN,   menu::ID_StackMenu),
     OP2BYTES(KEY_SIN,   function::ID_sin),
     OP2BYTES(KEY_COS,   function::ID_cos),
