@@ -438,7 +438,7 @@ COMMAND_BODY(ToText)
 // ----------------------------------------------------------------------------
 {
     if (object_g obj = rt.top())
-        if (object_g txt = obj->as_text(false, false))
+        if (object_g txt = obj->as_text())
             if (rt.top(txt))
                 return OK;
     return ERROR;

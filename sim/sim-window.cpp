@@ -450,7 +450,7 @@ void MainWindow::keyPressEvent(QKeyEvent * ev)
         {
             if (object_p obj = rt.top())
             {
-                text_p sym = obj->as_text(false, false);
+                text_p sym = obj->as_text();
                 size_t sz = 0;
                 utf8 data = sym->value(&sz);
                 QByteArray ba(cstring(data), sz);

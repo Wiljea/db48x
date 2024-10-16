@@ -376,7 +376,7 @@ struct object
     // ------------------------------------------------------------------------
 
 
-    text_p as_text(bool edit = true, bool eq = false) const;
+    text_p as_text(bool edit = false, bool eq = false) const;
     // ------------------------------------------------------------------------
     //   Return the object as text
     // ------------------------------------------------------------------------
