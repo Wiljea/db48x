@@ -743,7 +743,7 @@ struct object
     //    Extended algebraics include text and array values
     // ------------------------------------------------------------------------
     {
-        return is_algebraic_or_list(ty) || ty == ID_text;
+        return is_algebraic_or_list(ty) || ty == ID_text || ty == ID_program;
     }
 
 
