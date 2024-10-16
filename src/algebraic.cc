@@ -452,6 +452,9 @@ bool algebraic::to_decimal(algebraic_g &x, bool weak)
 //   Convert a value to decimal
 // ----------------------------------------------------------------------------
 {
+    if (!x)
+        return false;
+
     id xt = x->type();
 
     switch(xt)
