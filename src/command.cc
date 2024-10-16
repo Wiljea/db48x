@@ -585,11 +585,11 @@ COMMAND_BODY(SelfInsert)
         {
             size_t len = 0;
             utf8 txt = sym->value(&len);
-            ui.edit(txt, len, ui.TEXT);
+            ui.insert(txt, len, ui.TEXT);
         }
         else if (cstring lbl = ui.label_text(menu_idx))
         {
-            ui.edit(utf8(lbl), ui.TEXT);
+            ui.insert(utf8(lbl), ui.TEXT);
         }
     }
     return OK;

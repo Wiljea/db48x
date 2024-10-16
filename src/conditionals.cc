@@ -87,7 +87,7 @@ INSERT_BODY(IfThen)
 //    Insert 'if-then' command in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("if \t then  end"), ui.PROGRAM);
+    return ui.insert(utf8("if \t then  end"), ui.PROGRAM);
 }
 
 
@@ -188,7 +188,7 @@ INSERT_BODY(IfThenElse)
 //    Insert 'if-then-else' command in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("if \t then  else  end"), ui.PROGRAM);
+    return ui.insert(utf8("if \t then  else  end"), ui.PROGRAM);
 }
 
 
@@ -248,7 +248,7 @@ INSERT_BODY(IfErrThen)
 //    Insert 'iferr-then' command in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("iferr \t then  end"), ui.PROGRAM);
+    return ui.insert(utf8("iferr \t then  end"), ui.PROGRAM);
 }
 
 
@@ -299,7 +299,7 @@ INSERT_BODY(IfErrThenElse)
 //    Insert 'iferr-then-else' command in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("iferr \t then  else  end"), ui.PROGRAM);
+    return ui.insert(utf8("iferr \t then  else  end"), ui.PROGRAM);
 }
 
 
@@ -535,7 +535,7 @@ INSERT_BODY(CaseStatement)
 //    Insert case statement in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("case \t end"), ui.PROGRAM);
+    return ui.insert(utf8("case \t end"), ui.PROGRAM);
 }
 
 
@@ -610,7 +610,7 @@ INSERT_BODY(CaseThen)
 //    Insert case statement in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("then \t end"), ui.PROGRAM);
+    return ui.insert(utf8("then \t end"), ui.PROGRAM);
 }
 
 
@@ -664,7 +664,7 @@ INSERT_BODY(CaseWhen)
 //    Insert case statement in the editor
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(utf8("when \t end"), ui.PROGRAM);
+    return ui.insert(utf8("when \t end"), ui.PROGRAM);
 }
 
 

@@ -40,6 +40,7 @@
 #include "complex.h"
 #include "conditionals.h"
 #include "constants.h"
+#include "custom.h"
 #include "datetime.h"
 #include "decimal.h"
 #include "equations.h"
@@ -443,25 +444,6 @@ size_t object::render(char *output, size_t length) const
     record(render, "Rendering %+s %p into %p", name(), this, output);
     renderer r(output, length);
     return render(r);
-}
-
-
-size_t object::edit() const
-// ----------------------------------------------------------------------------
-//   Render an object into the scratchpad, then move it into editor
-// ----------------------------------------------------------------------------
-{
-    utf8 tname = name();     // Object may be GC'd during render
-    record(render, "Rendering %+s %p into editor", tname, this);
-    renderer r;
-    size_t size = render(r);
-    record(render, "Rendered %+s as size %u [%s]", tname, size, r.text());
-    if (size)
-    {
-        rt.edit();
-        r.clear();
-    }
-    return size;
 }
 
 
@@ -1244,7 +1226,7 @@ INSERT_BODY(object)
 //   Default insertion is as a program object
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(o->name(), ui.PROGRAM);
+    return ui.insert(o->name(), ui.PROGRAM);
 }
 
 

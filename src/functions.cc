@@ -855,7 +855,7 @@ INSERT_BODY(inv)
 //   x⁻¹ is a postfix
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(o->fancy(), ui.POSTFIX);
+    return ui.insert(o->fancy(), ui.POSTFIX);
 
 }
 
@@ -878,7 +878,7 @@ INSERT_BODY(sq)
 //   x² is a postfix
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(o->fancy(), ui.POSTFIX);
+    return ui.insert(o->fancy(), ui.POSTFIX);
 
 }
 
@@ -1160,7 +1160,7 @@ INSERT_BODY(cubed)
 //   x³ is a postfix
 // ----------------------------------------------------------------------------
 {
-    return ui.edit(o->fancy(), ui.POSTFIX);
+    return ui.insert(o->fancy(), ui.POSTFIX);
 
 }
 
@@ -1212,7 +1212,7 @@ INSERT_BODY(fact)
 // ----------------------------------------------------------------------------
 {
     // We need to pass "x!' because ui.edit() strips the x
-    return ui.edit(utf8("x!"), 2, ui.POSTFIX);
+    return ui.insert(utf8("x!"), 2, ui.POSTFIX);
 }
 
 
