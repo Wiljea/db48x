@@ -410,7 +410,7 @@ PARSE_BODY(rectangular)
 
         algebraic_g im = algebraic_p(imobj);
         p.out = rectangular::make(re, im);
-        p.length = offs;
+        p.length = offs+1;
         return p.out ? OK : ERROR;
     }
 
