@@ -1631,6 +1631,7 @@ MENU(MemoryMenu,
      "Recall×", ID_RecallMul,
      "Recall÷", ID_RecallDiv,
 
+     "▶",       ID_Copy,
      "Incr",    ID_Increment,
      "Decr",    ID_Decrement,
      "Vars",    ID_Vars,
