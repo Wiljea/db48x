@@ -5267,11 +5267,11 @@ void tests::sorting_functions()
         .test(CLEAR, "[1 2 3] 2 Max", ENTER).expect("[ 2 2 3 ]")
         .test(CLEAR, "2 [1 2 3] Max", ENTER).expect("[ 2 2 3 ]");
     step("Min with array and symbolic scalar")
-        .test(CLEAR, "[1 2 3] X Min", ENTER).expect("'Min([ 1 2 3 ];X)'")
-        .test(CLEAR, "X [1 2 3] Min", ENTER).expect("'Min(X;[ 1 2 3 ])'");
+        .test(CLEAR, "[1 2 3] X Min", ENTER).expect("'Min([1;2;3];X)'")
+        .test(CLEAR, "X [1 2 3] Min", ENTER).expect("'Min(X;[1;2;3])'");
     step("Max with array and symbolic scalar")
-        .test(CLEAR, "[1 2 3] X Max", ENTER).expect("'Max([ 1 2 3 ];X)'")
-        .test(CLEAR, "X [1 2 3] Max", ENTER).expect("'Max(X;[ 1 2 3 ])'");
+        .test(CLEAR, "[1 2 3] X Max", ENTER).expect("'Max([1;2;3];X)'")
+        .test(CLEAR, "X [1 2 3] Max", ENTER).expect("'Max(X;[1;2;3])'");
     step("Max with arrays")
         .test(CLEAR, "[1 2 3] [3 2 1] Max", ENTER).expect("[ 3 2 3 ]");
     step("Min function (symbolic types)")
@@ -6688,7 +6688,7 @@ void tests::symbolic_operations()
         .expect("'(sin(42+B)+1)²+3·(sin(42+B)+1)+7'");
     step("Where operator on library equations")
         .test("'ⒺRelativity Mass Energy|m=(1_g)'", ENTER)
-        .expect("'Relativity Mass Energy:{ E=m·c↑2 }|m=1 g'")
+        .expect("'Relativity Mass Energy:{E=m·c↑2}|m=1 g'")
         .test(RUNSTOP)
         .expect("{ 'E=¹/₁ ₀₀₀ kg·c↑2' }");
 

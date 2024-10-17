@@ -776,12 +776,12 @@ void user_interface::update_mode()
         mode = BASED;
     else if (unit)
         mode = UNIT;
-    else if (vecs)
-        mode = MATRIX;
     else if (parn)
         mode = PARENTHESES;
     else if (algs)
-        mode = ALGEBRAIC;
+        mode = vecs ? PARENTHESES : ALGEBRAIC;
+    else if (vecs)
+        mode = MATRIX;
     else if (lists || progs)
         mode = PROGRAM;
     else
