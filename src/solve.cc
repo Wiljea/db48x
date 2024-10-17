@@ -496,37 +496,37 @@ algebraic_p Root::solve(algebraic_r eq,
     record(solve, "Solving %t for variable %t with guess %t",
            +eq, +var, +guess);
 
-    // Check if we have a list of variables to solve for
-    if (list_g vars = var->as_array_or_list())
+    // Check that we have a variable name on stack level 1 and
+    // a proram or equation on level 2
+    program_g pgm   = program_p(+eq);
+    id        pgmty = pgm->type();
+    if (equation_p libeq = pgm->as_quoted<equation>())
     {
-        list_g eqs = eq->as_array_or_list();
+        object_p value = libeq->value();
+        if (!value || !value->is_extended_algebraic())
+            return nullptr;
+        pgm = program_p(value);
+        pgmty = pgm->type();
+    }
+
+    // Check if we have a list of variables or equations to solve for
+    id varty = var->type();
+    if (is_array_or_list(pgmty) || is_array_or_list(varty))
+    {
+        list_g vars = var->as_array_or_list();
+        list_g eqs = pgm->as_array_or_list();
         if (!eqs)
             eqs = list::make(ID_list, eq);
+        if (!vars)
+            vars = list::make(ID_list, var);
         list_g guesses = guess->as_array_or_list();
         if (!guesses)
             guesses = list::make(ID_list, guess);
         return algebraic_p(multiple_equation_solver(eqs, vars, guesses));
     }
 
-    // Check that we have a variable name on stack level 1 and
-    // a proram or equation on level 2
-    program_g pgm   = program_p(+eq);
-    id        pgmty = pgm->type();
-    if (pgmty == ID_equation)
-    {
-        pgm = expression::get(equation_p(+pgm)->value());
-        if (!pgm || !pgm->is_algebraic())
-            return nullptr;
-        pgmty = pgm->type();
-    }
-
-    if (pgmty != ID_program && pgmty != ID_expression)
-    {
-        rt.type_error();
-        return nullptr;
-    }
-
-    if (!pgm->is_program())
+    // Otherwise we expect a regular program
+    if (pgmty != ID_expression && pgmty != ID_program)
     {
         rt.invalid_equation_error();
         return nullptr;
@@ -572,6 +572,11 @@ list_p Root::multiple_equation_solver(list_r eqs,
     for (object_p obj : *guesses)
     {
         id ty = obj->type();
+        if (ty == ID_unit)
+        {
+            obj = unit_p(obj)->value();
+            ty = obj->type();
+        }
         if (!is_real(ty) && !is_complex(ty))
         {
             rt.type_error();
