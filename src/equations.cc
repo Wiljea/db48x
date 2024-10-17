@@ -31,9 +31,13 @@
 
 #include "expression.h"
 #include "grob.h"
+#include "parser.h"
 #include "renderer.h"
 #include "solve.h"
+#include "tag.h"
 #include "variables.h"
+
+#include <algorithm>
 
 RECORDER(equations,         16, "Equation objects");
 RECORDER(equations_error,   16, "Error on equation objects");
@@ -1576,4 +1580,149 @@ COMMAND_BODY(LibEq)
 // ----------------------------------------------------------------------------
 {
     return equation::lookup_command(equation::equations, false);
+}
+
+
+
+// ============================================================================
+//
+//    Assignment operations
+//
+// ============================================================================
+
+PARSE_BODY(assignment)
+// ----------------------------------------------------------------------------
+//    Try to parse this as an assignment
+// ----------------------------------------------------------------------------
+{
+    // Check if we have a name
+    algebraic_g name = p.out ? p.out->as_extended_algebraic() : nullptr;
+    if (!name)
+        return SKIP;
+
+    size_t max = p.length;
+    if (!max)
+        return SKIP;
+
+    // First character must be compatible with a unit
+    size_t  offs  = 0;
+    size_t  noffs = 0;
+    unicode cp    = p.separator;
+    bool    amark = (cp == '=' ||
+                     cp == L'◀' || cp == L'▶' ||
+                     cp == L'←' || cp == L'→');
+    if (!amark)
+        return SKIP;
+    bool swapped = cp == L'▶' || cp == L'→';
+
+    // In an expression, `A=B` is just equality
+    if (p.precedence && cp == '=')
+        return SKIP;
+
+    // Parse the body
+    offs = utf8_next(p.source, offs, max);
+    size_t   voffs = offs;
+    size_t   vsz   = max - offs;
+    object_p vobj  = parse(p.source + offs, vsz);
+    if (!vobj)
+        return ERROR;
+    algebraic_g value = vobj->as_extended_algebraic();
+    if (!value)
+    {
+        rt.type_error();
+        return ERROR;
+    }
+    offs += vsz;
+
+    if (swapped)
+    {
+        std::swap(name, value);
+        noffs = voffs;
+    }
+    if (name->type() != ID_symbol)
+    {
+        rt.invalid_name_error().source(p.source + noffs);
+        return ERROR;
+    }
+
+    p.out    = assignment::make(name, value);
+    p.length = offs;
+    return p.out ? OK : ERROR;
+}
+
+
+RENDER_BODY(assignment)
+// ----------------------------------------------------------------------------
+//   Do not emit quotes around assignment objects
+// ----------------------------------------------------------------------------
+{
+    algebraic_g name  = o->name();
+    algebraic_g value = o->value();
+    if (r.expression())
+    {
+        // Inside an expression, use the old HP syntax
+        value->render(r);
+        r.put(unicode(L'▶'));
+        name->render(r);
+    }
+    else
+    {
+        name->render(r);
+        r.put('=');
+        value->render(r);
+    }
+    return r.size();
+}
+
+
+GRAPH_BODY(assignment)
+// ----------------------------------------------------------------------------
+//   Render assignments graphically
+// ----------------------------------------------------------------------------
+{
+    algebraic_g name  = o->name();
+    algebraic_g value = o->value();
+    grob_g      ng    = name->graph(g);
+    coord       nv    = g.voffset;
+    grob_g      vg    = value->graph(g);
+    coord       vv    = g.voffset;
+    if (g.expression)
+        ng = expression::infix(g, vv, vg, 0, "▶", nv, ng);
+    else
+        ng = expression::infix(g, nv, ng, 0, "=", vv, vg);
+    return ng;
+}
+
+
+EVAL_BODY(assignment)
+// ----------------------------------------------------------------------------
+//   Evaluate the value, assign it to the name, and return evaluated value
+// ----------------------------------------------------------------------------
+{
+    symbol_g name = o->name()->as<symbol>();
+    if (!name)
+    {
+        rt.invalid_name_error();
+        return ERROR;
+    }
+
+    algebraic_g value = o->value();
+    value = value->evaluate();
+
+    if (!directory::store_here(name, value))
+        return ERROR;
+
+    tag_p tagged = tag::make(name, value);
+    if (!tagged || !rt.push(tagged))
+        return ERROR;
+    return OK;
+}
+
+
+HELP_BODY(assignment)
+// ----------------------------------------------------------------------------
+//   Help topic for assignments
+// ----------------------------------------------------------------------------
+{
+    return utf8("Assignments");
 }

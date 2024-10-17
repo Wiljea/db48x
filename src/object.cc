@@ -375,10 +375,14 @@ retry:
         bool maybe_polar = cp == complex::ANGLE_MARK;
         bool maybe_unit  = cp == '_' || cp == settings::SPACE_UNIT;
         bool maybe_fcall = p.precedence && (cp == '(' || utf8_whitespace(cp));
+        bool maybe_asn   = (cp == '=' ||
+                            cp == L'◀' || cp == L'▶' ||
+                            cp == L'←' || cp == L'→');
 
-        if (maybe_rect || maybe_polar || maybe_unit || maybe_fcall)
+        if (maybe_rect || maybe_polar || maybe_unit || maybe_fcall || maybe_asn)
         {
-            if (p.out->is_algebraic())
+            if (p.out->is_algebraic() || (maybe_asn &&
+                                          p.out->is_extended_algebraic()))
             {
                 size_t parsed = p.length;
                 length -= parsed;
@@ -394,6 +398,8 @@ retry:
                     r2 = unit::do_parse(p);
                 else if (maybe_fcall)
                     r2 = funcall::do_parse(p);
+                else if (maybe_asn)
+                    r2 = assignment::do_parse(p);
 
                 // Check if we found the second part
                 if (r2 == OK)

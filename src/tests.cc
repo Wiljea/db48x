@@ -9569,12 +9569,12 @@ void tests::random_number_generation()
         .test(CLEAR, "1 1000 START RAND Σ+ NEXT", ENTER).noerror();
 
     step("Check statistics total")
-        .test(CLEAR, LSHIFT, S, F3).expect("503.03593 6495");
+        .test(CLEAR, LSHIFT, S, F3).expect("504.95829 7562");
     step("Check statistics mean")
-        .test(F4).expect("0.50303 59364 95");
+        .test(F4).expect("0.50495 82975 62");
     step("Check statistics min and max")
-        .test(LSHIFT, F3).expect("0.00621 35929 6")
-        .test(LSHIFT, F4).expect("0.99967 04518 08");
+        .test(LSHIFT, F3).expect("0.00167 92327 04")
+        .test(LSHIFT, F4).expect("0.99918 57116 48");
 
 
     step("Set a known seed 42.42")
@@ -9587,12 +9587,12 @@ void tests::random_number_generation()
         .test(CLEAR, "1 1000 START RAND Σ+ NEXT", ENTER).noerror();
 
     step("Check statistics total")
-        .test(CLEAR, LSHIFT, S, F3).expect("509.25246 401");
+        .test(CLEAR, LSHIFT, S, F3).expect("480.84282 6204");
     step("Check statistics mean")
-        .test(F4).expect("0.50925 24640 1");
+        .test(F4).expect("0.48084 28262 04");
     step("Check statistics min and max")
-        .test(LSHIFT, F3).expect("0.00101 85847 61")
-        .test(LSHIFT, F4).expect("0.99994 94163 52");
+        .test(LSHIFT, F3).expect("0.00003 26239 04")
+        .test(LSHIFT, F4).expect("0.99965 89406 4");
 
     step("Set a known seed 123.456")
         .test(CLEAR, "123.456 RandomSeed", ENTER).noerror();
@@ -9604,12 +9604,12 @@ void tests::random_number_generation()
         .test(CLEAR, "1 1000 START -1000 1000 RANDOM Σ+ NEXT", ENTER).noerror();
 
     step("Check statistics total")
-        .test(CLEAR, LSHIFT, S, F3).expect("-32 132");
+        .test(CLEAR, LSHIFT, S, F3).expect("3 869");
     step("Check statistics mean")
-        .test(F4).expect("-32 ³³/₂₅₀");
+        .test(F4).expect("3 ⁸⁶⁹/₁ ₀₀₀");
     step("Check statistics min and max")
-        .test(LSHIFT, F3).expect("-998")
-        .test(LSHIFT, F4).expect("999");
+        .test(LSHIFT, F3).expect("-999")
+        .test(LSHIFT, F4).expect("998");
 
     step("Random graphing")
         .test(CLEAR,
