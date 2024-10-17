@@ -176,7 +176,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            symbolic_operations();
+            numerical_integration_testing();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -6101,7 +6101,7 @@ void tests::numerical_integration_testing()
     step("Integrate with expression")
         .test(CLEAR, "1 2 '1/X' 'X' INTEGRATE", ENTER)
         .noerror().expect("0.69314 71805 6")
-        .test(KEY2, E, SUB).expect("3.00876⁳⁻¹⁹");
+        .test(KEY2, E, SUB).expect("-3.9⁳⁻²³");
     step("Integration through menu")
         .test(CLEAR, 2, ENTER).expect("2")
         .test(3, ENTER).expect("3")
@@ -6114,6 +6114,31 @@ void tests::numerical_integration_testing()
         .test("'sq(Z)+Z'", ENTER).expect("'Z²+Z'")
         .test(F, ALPHA, Z, ENTER).expect("'Z'")
         .test(SHIFT, KEY8, F2).expect("8.83333 33333 3", 350);
+
+    step("Integrate with low precision")
+        .test(CLEAR, "18 IntegrationImprecision", ENTER)
+        .test("1 2 '1/X' 'X' INTEGRATE", ENTER)
+        .noerror().expect("0.69314 71819 17")
+        .test(KEY2, E, SUB).expect("0.00000 00013 57");
+    step("Integrate with high precision")
+        .test(CLEAR, "1 IntegrationImprecision", ENTER)
+        .test("1 2 '1/X' 'X' INTEGRATE", ENTER)
+        .error("Numerical precision lost");
+    step("Integrate with limited loops")
+        .test(CLEAR, "15 IntegrationImprecision", ENTER)
+        .test("1 2 '1/X' 'X' INTEGRATE", ENTER)
+        .noerror().expect("0.69314 71805 6")
+        .test(KEY2, E, SUB).expect("1.44607 9304⁳⁻¹⁵")
+        .test("5 IntegrationIterations", ENTER)
+        .test("1 2 '1/X' 'X' INTEGRATE", ENTER)
+        .error("Numerical precision lost");
+    step("Integrate with restored settings")
+        .test(CLEAR, "{ IntegrationImprecision IntegrationIterations } Purge",
+              ENTER).noerror()
+        .test("1 2 '1/X' 'X' INTEGRATE", ENTER)
+        .noerror().expect("0.69314 71805 6")
+        .test(KEY2, E, SUB).expect("-3.9⁳⁻²³");
+
     step("Integrate with symbols")
         .test(CLEAR, "A B '1/X' 'X' INTEGRATE", ENTER)
         .expect("'∫(A;B;1÷X;X)'")
