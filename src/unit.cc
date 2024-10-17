@@ -85,13 +85,14 @@ PARSE_BODY(unit)
 }
 
 
-algebraic_p unit::parse_uexpr(gcutf8 source, size_t &len)
+algebraic_p unit::parse_uexpr(gcutf8 source, size_t &plen)
 // ----------------------------------------------------------------------------
 //  Parse a uexpr as an expression without quotes
 // ----------------------------------------------------------------------------
 {
     save<bool> save(unit::mode, true);
     uint       parens = 0;
+    size_t     len    = plen;
     for (size_t offs = 0; offs < len; offs = utf8_next(source, offs))
     {
         unicode cp = utf8_codepoint(+source + offs);
@@ -114,6 +115,7 @@ algebraic_p unit::parse_uexpr(gcutf8 source, size_t &len)
     {
         if (algebraic_p alg = p.out->as_algebraic())
         {
+            plen = p.length;
             if (!alg->as_quoted<unit>())
                 return alg;
             rt.syntax_error().source(source, p.length);

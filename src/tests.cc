@@ -176,7 +176,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            numerical_integration_testing();
+            units_and_conversions();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -4947,6 +4947,12 @@ void tests::units_and_conversions()
               LOWERCASE, S, NOSHIFT, ADD, ALPHA, N,
               ENTER).error("Invalid unit expression")
         .test(CLEAR);
+
+    step("Stop parsing units at end of unit expression")
+        .test(CLEAR, "'360_°-30_°'", ENTER)
+        .expect("'360 °-30 °'")
+        .test(RUNSTOP)
+        .expect("330 °");
 }
 
 
