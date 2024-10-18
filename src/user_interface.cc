@@ -2808,7 +2808,7 @@ void user_interface::load_help(utf8 topic, size_t len)
 
     // Check if the index exists. If so, scan it
     {
-        file_closer hfc(helpfile, HELPFILE_NAME);
+        file_closer hfc(helpfile);
         file index(HELPINDEX_NAME, false);
         if (index.valid())
         {
