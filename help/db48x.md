@@ -7624,12 +7624,17 @@ See the [`Type`](#type) command for a list of types.
 ## Copy
 
 Copy a value into a global variable. This is primarily intended for use in
-algebraic notations, although it also works in RPL.
+algebraic notations, although it also works in RPL. The HP50G Advanced Reference
+Manual refers to this command as _▶ (Store)_.
 
 ```
 '(2+5)▶X'
 42 'A' ▶ 1 +
 ```
+
+The command returns the stored object on the stack. The returned copy is a
+direct reference to the stored global object and does not consume additional
+memory.
 
 
 ## ORDER

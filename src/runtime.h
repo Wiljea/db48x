@@ -759,7 +759,7 @@ struct runtime
     //   Fetch local at given index
     // ------------------------------------------------------------------------
 
-    bool local(uint index, object_p obj);
+    object_p local(uint index, object_p obj);
     // ------------------------------------------------------------------------
     //   Set a local in the local stack
     // ------------------------------------------------------------------------

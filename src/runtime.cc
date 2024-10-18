@@ -1206,19 +1206,19 @@ object_p runtime::local(uint index)
 }
 
 
-bool runtime::local(uint index, object_p obj)
+object_p runtime::local(uint index, object_p obj)
 // ----------------------------------------------------------------------------
 //   Set a local in the local stack
 // ----------------------------------------------------------------------------
 {
     size_t count = Directories - Locals;
-    if (index >= count)
+    if (index >= count || !obj)
     {
         undefined_local_name_error();
-        return false;
+        return nullptr;
     }
     Locals[index] = obj;
-    return true;
+    return obj;
 }
 
 

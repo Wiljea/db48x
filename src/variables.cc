@@ -192,9 +192,9 @@ object::result directory::enter() const
 }
 
 
-bool directory::store(object_g name, object_g value)
+object_p directory::store(object_g name, object_g value)
 // ----------------------------------------------------------------------------
-//    Store an object in the directory
+//    Store an object in the directory and return stored value
 // ----------------------------------------------------------------------------
 //    Note that the directory itself should never move because of GC
 //    That's because it normally should reside in the globals area
@@ -219,7 +219,7 @@ bool directory::store(object_g name, object_g value)
     {
         // Deal with storing to file
         files_g disk = files::make("data");
-        return disk->store(text_p(+name), value);
+        return disk->store(text_p(+name), value) ? value : nullptr;
     }
 
     // Special names that are allowed as variable names
@@ -242,7 +242,7 @@ bool directory::store(object_g name, object_g value)
     case ID_##Enable:                           \
     case ID_##Disable:
 #include "ids.tbl"
-        return settings::store(nty, value);
+        return settings::store(nty, value) ? value : nullptr;
 
     case ID_integer:
         if (Settings.NumberedVariables())
@@ -250,7 +250,7 @@ bool directory::store(object_g name, object_g value)
         // Fall-through
     default:
         rt.invalid_name_error();
-        return false;
+        return nullptr;
     }
 
     // Normal case
@@ -263,7 +263,7 @@ bool directory::store(object_g name, object_g value)
         {
             size_t requested = vs - es;
             if (rt.available(requested) < requested)
-                return false;           // Out of memory
+                return nullptr;           // Out of memory
         }
 
         // Clone any value in the stack that points to the existing value
@@ -275,6 +275,7 @@ bool directory::store(object_g name, object_g value)
 
         // Copy new value into storage location
         memmove((byte *) evalue, (byte *) value, vs);
+        value = evalue;
 
         // Compute change in size for directories
         delta = vs - es;
@@ -289,7 +290,7 @@ bool directory::store(object_g name, object_g value)
         size_t  dirsize   = leb128<size_t>(p);
         gcbytes body      = p;
         if (rt.available(requested) < requested)
-            return false;               // Out of memory
+            return nullptr;               // Out of memory
 
         // Move memory from directory up
         object_p start = object_p(+body);
@@ -300,6 +301,7 @@ bool directory::store(object_g name, object_g value)
         // Copy name and value at end of directory
         memmove((byte *) start, (byte *) name, ns);
         memmove((byte *) start + ns, (byte *) value, vs);
+        value = start + ns;
 
         // Compute new size of the directory
         delta = requested;
@@ -313,11 +315,11 @@ bool directory::store(object_g name, object_g value)
     if (nty == ID_CustomMenu)
         ui.menu_refresh(nty);
 
-    return true;
+    return value;
 }
 
 
-bool directory::update(object_p name, object_p value)
+object_p directory::update(object_p name, object_p value)
 // ----------------------------------------------------------------------------
 //   Update an existing value
 // ----------------------------------------------------------------------------
@@ -331,7 +333,7 @@ bool directory::update(object_p name, object_p value)
     for (uint depth = 0; (dir = rt.variables(depth)); depth++)
         if (dir->recall(name))
             return dir->store(name, value);
-    return false;
+    return nullptr;
 }
 
 
@@ -511,7 +513,7 @@ object_p directory::recall_all(object_p name, bool report_missing)
 }
 
 
-bool directory::store_here(object_p name, object_p value)
+object_p directory::store_here(object_p name, object_p value)
 // ----------------------------------------------------------------------------
 //  Store a variable in the current directory
 // ----------------------------------------------------------------------------
@@ -520,7 +522,7 @@ bool directory::store_here(object_p name, object_p value)
     if (!dir)
     {
         rt.no_directory_error();
-        return false;
+        return nullptr;
     }
     return dir->store(name, value);
 }
@@ -802,8 +804,8 @@ COMMAND_BODY(Copy)
         if (symbol_p name = nobj->as_quoted<symbol>())
         {
             if (object_g value = rt.stack(1))
-                if (directory::store_here(name, value))
-                    if (rt.drop() && rt.top(value))
+                if (object_p stored = directory::store_here(name, value))
+                    if (rt.drop() && rt.top(stored))
                         return OK;
         }
         else
