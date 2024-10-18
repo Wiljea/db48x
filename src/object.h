@@ -874,7 +874,6 @@ struct object
     // ------------------------------------------------------------------------
 
 
-
     int compare_to(object_p other) const;
     // ------------------------------------------------------------------------
     //   Compare two objects and return a signed comparison
@@ -907,6 +906,15 @@ struct object
     //   Get a static pointer for the given object (typically for commands)
     // ------------------------------------------------------------------------
 
+
+    static object_p strip(object_p obj);
+    object_p strip() const
+    // ------------------------------------------------------------------------
+    //   Strip the object of anything like tags and assignments
+    // ------------------------------------------------------------------------
+    {
+        return strip(this);
+    }
 
 
     // ========================================================================

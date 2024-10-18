@@ -837,6 +837,7 @@ MENU(ArithmeticMenu,
      "Show",            ID_Unimplemented,
      "Quote",           ID_Unimplemented,
      "|",               ID_Where,
+     "=",               ID_SelfInsert,
      "Rules",           ID_Unimplemented,
      "Symb",            ID_SymbolicMenu);
 

@@ -1595,6 +1595,10 @@ PARSE_BODY(assignment)
 //    Try to parse this as an assignment
 // ----------------------------------------------------------------------------
 {
+    // Assignments can only be parsed in non-algebraic mode
+    if (p.precedence)
+        return SKIP;
+
     // Check if we have a name
     algebraic_g name = p.out ? p.out->as_extended_algebraic() : nullptr;
     if (!name)
@@ -1608,20 +1612,11 @@ PARSE_BODY(assignment)
     size_t  offs  = 0;
     size_t  noffs = 0;
     unicode cp    = p.separator;
-    bool    amark = (cp == '=' ||
-                     cp == L'◀' || cp == L'▶' ||
-                     cp == L'←' || cp == L'→');
-    if (!amark)
-        return SKIP;
-    bool swapped = cp == L'▶' || cp == L'→';
-
-    // In an expression, `A=B` is just equality and ▶ is the Copy command
-    if (p.precedence && (cp == '=' || cp == L'▶'))
+    if (cp != '=')
         return SKIP;
 
     // Parse the body
     offs = utf8_next(p.source, offs, max);
-    size_t   voffs = offs;
     size_t   vsz   = max - offs;
     object_p vobj  = parse(p.source + offs, vsz);
     if (!vobj)
@@ -1634,11 +1629,6 @@ PARSE_BODY(assignment)
     }
     offs += vsz;
 
-    if (swapped)
-    {
-        std::swap(name, value);
-        noffs = voffs;
-    }
     if (name->type() != ID_symbol)
     {
         rt.invalid_name_error().source(p.source + noffs);
@@ -1699,21 +1689,28 @@ EVAL_BODY(assignment)
 //   Evaluate the value, assign it to the name, and return evaluated value
 // ----------------------------------------------------------------------------
 {
-    symbol_g name = o->name()->as<symbol>();
+    assignment_g asn = o;
+
+    symbol_g name = asn->name()->as<symbol>();
     if (!name)
     {
         rt.invalid_name_error();
         return ERROR;
     }
 
-    algebraic_g value = o->value();
-    value = value->evaluate();
+    algebraic_g value = asn->value();
+    algebraic_p evalue = value->evaluate();
+    if (evalue != value)
+    {
+        value = evalue;
+        if (Settings.PushEvaluatedAssignment())
+            asn = assignment::make(+name, evalue);
+    }
 
     if (!directory::store_here(name, value))
         return ERROR;
 
-    tag_p tagged = tag::make(name, value);
-    if (!tagged || !rt.push(tagged))
+    if (!rt.push(+asn))
         return ERROR;
     return OK;
 }

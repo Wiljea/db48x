@@ -1857,6 +1857,27 @@ void tests::global_variables()
         .test(RUNSTOP).expect("1 010")
         .test("A", ENTER).expect("337");
 
+    step("Assignment with simple value")
+        .test(CLEAR, "A=42", ENTER).got("A=42")
+        .test(CLEAR, "A", ENTER).got("42");
+    step("Assignment with evaluated value")
+        .test(CLEAR, "A='42+3*5'", ENTER).expect("A='42+3·5'")
+        .test("A", ENTER).expect("57")
+        .test(BSP).expect("A='42+3·5'")
+        .test(RUNSTOP).expect("A='42+3·5'");
+    step("Assignment with evaluated value and PushEvaluatedAssignment")
+        .test(CLEAR, "PushEvaluatedAssignment", ENTER)
+        .test("A='42+3*5'", ENTER).expect("A=57")
+        .test("A", ENTER).expect("57")
+        .test(BSP).expect("A=57")
+        .test(RUNSTOP).expect("A=57")
+        .test("'pushevaluatedassignment' purge", ENTER);
+    step("Assignment with evaluated value and PushEvaluatedAssignment purged")
+        .test(CLEAR, "A='42+3*5'", ENTER).expect("A='42+3·5'")
+        .test("A", ENTER).expect("57")
+        .test(BSP).expect("A='42+3·5'")
+        .test(RUNSTOP).expect("A='42+3·5'");
+
     step("Clone")
         .test(CLEAR,
               "Mem Drop Mem "
@@ -1890,9 +1911,9 @@ void tests::global_variables()
               ENTER)
         .expect("{ Recall Recall+ Recall- Recall× Recall÷ }")
         .test(RSHIFT, RUNSTOP,
-              RSHIFT, F1, RSHIFT, F2,
+              RSHIFT, F1, RSHIFT, F2, RSHIFT, F3, RSHIFT, F4, RSHIFT, F5,
               ENTER)
-        .expect("{ Increment Decrement }");
+        .expect("{ ▶ Increment Decrement Variables TypedVariables }");
 
     step("Store in long-name global variable");
     test(CLEAR, "\"Hello World\"", ENTER, XEQ, "SomeLongVariable", ENTER, STO)
@@ -1957,7 +1978,7 @@ void tests::global_variables()
     step("Store program in global variable");
     test(CLEAR, "« 1 + »", ENTER, XEQ, "MyINCR", ENTER, STO).noerror();
     step("Evaluate global variable");
-    test(CLEAR, "A MyINCR", ENTER).expect("338");
+    test(CLEAR, "A MyINCR", ENTER).expect("58");
 
     step("Purge global variable");
     test(CLEAR, XEQ, "A", ENTER, "PURGE", ENTER).noerror();
@@ -5845,19 +5866,19 @@ void tests::solver_testing()
 
     step("Solver with expression")
         .test(CLEAR, "'X+3' 'X' 0 ROOT", ENTER)
-        .noerror().expect("X:-3.");
+        .noerror().expect("X=-3.");
     step("Solver with arithmetic syntax")
         .test(CLEAR, "'ROOT(X+3;X;0)'", ENTER)
         .expect("'Root(X+3;X;0)'")
         .test(RUNSTOP)
-        .expect("X:-3.")
+        .expect("X=-3.")
         .test("X", ENTER)
         .expect("-3.")
         .test("'X' purge", ENTER)
         .noerror();
     step("Solver with equation")
         .test(CLEAR, "'sq(x)=3' 'X' 0 ROOT", ENTER)
-        .noerror().expect("X:1.73205 08075 7")
+        .noerror().expect("X=1.73205 08075 7")
         .test("X", ENTER)
         .expect("1.73205 08075 7")
         .test("'X'", ENTER, LSHIFT, BSP, F2)
@@ -5874,7 +5895,7 @@ void tests::solver_testing()
         .test(CLEAR, "'A²+B²=C²'", ENTER)
         .test(LSHIFT, KEY7, LSHIFT, F1, F6)
         .test("3", NOSHIFT, F2, "4", NOSHIFT, F3, LSHIFT, F4)
-        .expect("C:5.");
+        .expect("C=5.");
     step("Evaluate equation case Left=Right")
         .test(F1)
         .expect("'25=25.-4.⁳⁻²²'");
@@ -5892,17 +5913,17 @@ void tests::solver_testing()
     step("Solving with units")
         .test("30_cm", NOSHIFT, F2, ".4_m", NOSHIFT, F3, "100_in", NOSHIFT, F4)
         .test(LSHIFT, F4)
-        .expect("C:19.68503 93701 in")
+        .expect("C=19.68503 93701 in")
         .test(LSHIFT, KEY5, F4, LSHIFT, F1)
         .test(LSHIFT, A, LSHIFT, A)
         .expect("0.5 m");
 
     step("Solving with large values (#1179")
         .test(CLEAR, "DEG '1E45*sin(x)-0.5E45' 'x' 2 ROOT", ENTER)
-        .expect("x:30.");
+        .expect("x=30.");
     step("Solving equation containing a zero side (#1179")
         .test(CLEAR, "'-3*expm1(-x)-x=0' 'x' 2 ROOT", ENTER)
-        .expect("x:2.82143 93721 2");
+        .expect("x=2.82143 93721 2");
 
     step("Exit: Clear variables")
         .test(CLEAR, "UPDIR 'SLVTST' PURGE", ENTER);
@@ -5960,24 +5981,24 @@ void tests::eqnlib_columns_and_beams()
         .test("7.3152", NOSHIFT, F1)
         .test("4.1148", NOSHIFT, F2, F6)
         .test(LSHIFT, F2)
-        .expect("Pcr:676.60192 6324 kN");
+        .expect("Pcr=676.60192 6324 kN");
     step("Solving Elastic Buckling second equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
-        .expect("I:8 990 109.72813 mm↑4")
+        .expect("I=8 990 109.72813 mm↑4")
         .test(NOSHIFT, F1)
         .expect("'676.60192 6324 kN"
                 "=6.76601 92632 4⁳¹⁴ kPa·mm↑4/m↑2"
                 "-0.00000 0005 kPa·mm↑4/m↑2'");
     step("Solving Elastic Buckling third equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F2)
-        .expect("σcr:127 428.24437 8 kPa")
+        .expect("σcr=127 428.24437 8 kPa")
         .test(NOSHIFT, F1)
         .expect("'127 428.24437 8 kPa"
                 "=12.74282 44378 kN/cm↑2"
                 "-8.⁳⁻²² kN/cm↑2'");
     step("Solving Elastic Buckling fourth equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F4)
-        .expect("r:4.1148 cm")
+        .expect("r=4.1148 cm")
         .test(NOSHIFT, F1)
         .expect("'4.1148 cm=411.48 mm↑2/cm+6.12⁳⁻¹⁹ mm↑2/cm'");
 
@@ -5992,10 +6013,10 @@ void tests::eqnlib_columns_and_beams()
         .test("1908.2571", NOSHIFT, F4)
         .test("8.4836", NOSHIFT, F5)
         .test(F6, LSHIFT, F2)
-        .expect("σmax:140 853.09700 6 kPa");
+        .expect("σmax=140 853.09700 6 kPa");
     step("Solving Eccentric Column second equation")
         .test(CLEAR, LSHIFT, F1, LSHIFT, F3)
-        .expect("I:135 259 652.161 mm↑4");
+        .expect("I=135 259 652.161 mm↑4");
 
     step("Solving Simple Deflection")
         .test(CLEAR, RSHIFT, F, F2, RSHIFT, F3)
@@ -6009,9 +6030,9 @@ void tests::eqnlib_columns_and_beams()
         .test("102.783_lbf/ft", NOSHIFT, F4)
         .test("9_ft", NOSHIFT, F5)
         .test(F6, LSHIFT, F1)
-        .expect("y:-1.52523 29401 2 cm")
+        .expect("y=-1.52523 29401 2 cm")
         .test("1_in", F1, LSHIFT, F1)
-        .expect("y:-0.60048 54094 96 in");
+        .expect("y=-0.60048 54094 96 in");
 
     step("Solving Simple Slope")
         .test(CLEAR, RSHIFT, F, F2, RSHIFT, F4)
@@ -6025,7 +6046,7 @@ void tests::eqnlib_columns_and_beams()
         .test("102.783_lbf/ft", NOSHIFT, F5, F6)
         .test("9_ft", NOSHIFT, F1)
         .test(F6, LSHIFT, F2)
-        .expect("θ:-0.46665 29979 95 °");
+        .expect("θ=-0.46665 29979 95 °");
 
     step("Solving Simple Moment")
         .test(CLEAR, RSHIFT, F, F2, RSHIFT, F5)
@@ -6037,9 +6058,9 @@ void tests::eqnlib_columns_and_beams()
         .test("102.783_lbf/ft", NOSHIFT, F3)
         .test("9_ft", NOSHIFT, F4)
         .test(F6, LSHIFT, F2)
-        .expect("Mx:13 262.87487 72 N·m")
+        .expect("Mx=13 262.87487 72 N·m")
         .test("1_ft*lbf", NOSHIFT, F2, LSHIFT, F2)
-        .expect("Mx:9 782.1945 lbf·ft");
+        .expect("Mx=9 782.1945 lbf·ft");
 
     step("Solving Simple Shear")
         .test(CLEAR, EXIT, RSHIFT, F, F2, F6, RSHIFT, F1)
@@ -6050,9 +6071,9 @@ void tests::eqnlib_columns_and_beams()
         .test("102.783_lbf/ft", NOSHIFT, F6, F2)
         .test("9_ft", NOSHIFT, F3)
         .test(LSHIFT, F1)
-        .expect("V:2 777.41174 969 N")
+        .expect("V=2 777.41174 969 N")
         .test("1_lbf", F1, LSHIFT, F1)
-        .expect("V:624.387 lbf");
+        .expect("V=624.387 lbf");
 
     step("Solving Cantilever Deflection")
         .test(CLEAR, EXIT, RSHIFT, F, F2, F6, RSHIFT, F2)
@@ -6066,11 +6087,11 @@ void tests::eqnlib_columns_and_beams()
         .test("100_lbf/ft", NOSHIFT, F6, F4)
         .test("8_ft", NOSHIFT, F5)
         .test(F6, LSHIFT, F1)
-        .expect("y:-0.33163 03448 28 in")
+        .expect("y=-0.33163 03448 28 in")
         .test("1_lbf", F1)
         .error("Inconsistent units")
         .test(CLEAR, "1_cm", F1, LSHIFT, F1)
-        .expect("y:-0.84234 10758 62 cm");
+        .expect("y=-0.84234 10758 62 cm");
 
     step("Solving Cantilever Slope")
         .test(CLEAR, EXIT, RSHIFT, F, F2, F6, RSHIFT, F3)
@@ -6084,7 +6105,7 @@ void tests::eqnlib_columns_and_beams()
         .test("100_lbf/ft", NOSHIFT, F6, F5)
         .test("8_ft", NOSHIFT, F6, F1)
         .test(F6, LSHIFT, F2)
-        .expect("θ:-0.26522 01876 49 °");
+        .expect("θ=-0.26522 01876 49 °");
 
     step("Solving Cantilever Moment")
         .test(CLEAR, EXIT, RSHIFT, F, F2, F6, RSHIFT, F4)
@@ -6096,7 +6117,7 @@ void tests::eqnlib_columns_and_beams()
         .test("100_lbf/ft", NOSHIFT, F6, F3)
         .test("8_ft", NOSHIFT, F4)
         .test(F6, LSHIFT, F2)
-        .expect("Mx:-200. lbf·ft");
+        .expect("Mx=-200. lbf·ft");
 
     step("Solving Cantilever Shear")
         .test(CLEAR, EXIT, RSHIFT, F, F2, F6, RSHIFT, F5)
@@ -6106,7 +6127,7 @@ void tests::eqnlib_columns_and_beams()
         .test("8_ft", NOSHIFT, F6, F2)
         .test("100_lbf/ft", NOSHIFT, F1)
         .test(F6, LSHIFT, F5)
-        .expect("V:200. lbf");
+        .expect("V=200. lbf");
 
     step("Exit: Clear variables")
         .test(CLEAR,

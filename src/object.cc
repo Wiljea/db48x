@@ -375,9 +375,7 @@ retry:
         bool maybe_polar = cp == complex::ANGLE_MARK;
         bool maybe_unit  = cp == '_' || cp == settings::SPACE_UNIT;
         bool maybe_fcall = p.precedence && (cp == '(' || utf8_whitespace(cp));
-        bool maybe_asn   = (cp == '=' ||
-                            cp == L'◀' || cp == L'▶' ||
-                            cp == L'←' || cp == L'→');
+        bool maybe_asn   = !p.precedence && cp == '=';
 
         if (maybe_rect || maybe_polar || maybe_unit || maybe_fcall || maybe_asn)
         {
@@ -1322,10 +1320,28 @@ algebraic_p object::as_algebraic() const
 //   Return the value as an algebraic if possible
 // ----------------------------------------------------------------------------
 {
-    object_p untagged = tag::strip(this);
-    if (untagged && untagged->is_algebraic())
-        return algebraic_p(untagged);
+    object_p stripped = strip(this);
+    if (stripped && stripped->is_algebraic())
+        return algebraic_p(stripped);
     return nullptr;
+}
+
+
+object_p object::strip(object_p obj)
+// ----------------------------------------------------------------------------
+//   Strip the object of tags and assignments
+// ----------------------------------------------------------------------------
+{
+    object_p old = nullptr;
+    while (old != obj && obj)
+    {
+        old = obj;
+        if (tag_p tagged = obj->as<tag>())
+            obj = tagged->tagged_object();
+        if (assignment_p asn = obj->as<assignment>())
+            obj = asn->value();
+    }
+    return obj;
 }
 
 

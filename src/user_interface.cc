@@ -198,7 +198,7 @@ void user_interface::insert(unicode c, modes m, bool autoclose)
         byte *ed = rt.editor();
         if (mode == PROGRAM || mode == DIRECT ||
             (is_algebraic(mode) && c != '('))
-            if (savec > 0 && ed[savec] != ' ')
+            if (savec > 0 && ed[savec-1] != ' ' && ed[savec-1] != '=')
                 insert(savec, ' ');
         size_t back = insert(cursor, closing);
         cursor -= back;

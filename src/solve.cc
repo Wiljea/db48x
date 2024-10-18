@@ -86,7 +86,7 @@ static algebraic_p recall(algebraic_r name)
         if (algebraic_p alg = obj->as_algebraic())
         {
             if (symbol_p sym = name->as_quoted<symbol>())
-                alg = algebraic_p(tag::make(sym, alg));
+                alg = assignment::make(sym, alg);
             return alg;
         }
     }
@@ -532,7 +532,7 @@ algebraic_p Root::solve(algebraic_g &eq,
         if (algebraic_g x = solve(pgm, var, guess))
         {
             if (symbol_p name = var->as_quoted<symbol>())
-                x = algebraic_p(tag::make(name, +x));
+                x = assignment::make(name, x);
             if (x && !rt.error())
                 return x;
         }
@@ -994,9 +994,10 @@ COMMAND_BODY(SolvingMenuRecall)
         uint index = key - KEY_F1 + 5 * ui.page() - 1;
         if (symbol_g sym = expression_variable(index))
             if (object_p value = directory::recall_all(sym, true))
-                if (tag_p tagged = tag::make(sym, value))
-                    if (rt.push(tagged))
-                        return OK;
+                if (algebraic_p a = value->as_algebraic())
+                    if (assignment_p asn = assignment::make(+sym, a))
+                        if (rt.push(asn))
+                            return OK;
     }
 
     return ERROR;
@@ -1013,6 +1014,20 @@ INSERT_BODY(SolvingMenuRecall)
 }
 
 
+static bool assign(symbol_r name, algebraic_p value)
+// ----------------------------------------------------------------------------
+//   Assign a value to a variable and push the corresponding assignment
+// ----------------------------------------------------------------------------
+{
+    if (algebraic_p evalue = algebraic_p(directory::store_here(name, value)))
+        if (assignment_p asn = assignment::make(+name, evalue))
+            if (rt.push(+asn))
+                if (ui.menu_refresh())
+                    return true;
+    return false;
+}
+
+
 COMMAND_BODY(SolvingMenuStore)
 // ----------------------------------------------------------------------------
 //   Store a variable from the SolvingMenu
@@ -1024,41 +1039,51 @@ COMMAND_BODY(SolvingMenuStore)
         uint index = key - KEY_F1 + 5 * ui.page() - 1;
         if (algebraic_p entry = expression_variable_or_unit(index))
         {
-            if (object_p value = tag::strip(rt.pop()))
+            if (object_p obj = strip(rt.pop()))
             {
-                if (symbol_p sym = entry->as<symbol>())
-                    if (directory::store_here(sym, value))
-                        if (ui.menu_refresh())
-                            return OK;
-
-                if (unit_g uvar = unit::get(entry))
+                algebraic_g value = obj->as_algebraic();
+                if (!value)
                 {
-                    if (symbol_g sym = symbol_p(uvar->value()))
+                    rt.type_error();
+                    return ERROR;
+                }
+
+                symbol_g name = entry->as_quoted<symbol>();
+                unit_g u = unit::get(entry);
+
+                if (u)
+                {
+                    name = u->value()->as_quoted<symbol>();
+                }
+                else if (name)
+                {
+                    if (object_p var = directory::recall_all(name, false))
+                        if (unit_p vu = var->as<unit>())
+                            u = vu;
+                }
+
+                if (!name)
+                {
+                    rt.type_error();
+                    return ERROR;
+                }
+
+                if (u)
+                {
+                    unit_g vu = unit::get(value);
+                    if (vu)
                     {
-                        if (algebraic_g sval = value->as_algebraic())
-                        {
-                            unit_g uval = unit::get(value);
-                            if (uval)
-                            {
-                                if (!uvar->convert(uval))
-                                    return ERROR;
-                            }
-
-                            else
-                            {
-                                sval = unit::simple(sval, uvar->uexpr());
-                            }
-
-                            if (directory::store_here(sym, sval))
-                                if (ui.menu_refresh())
-                                    return OK;
-                        }
-                        else
-                        {
-                            rt.type_error();
-                        }
+                        if (!u->convert(vu))
+                            return ERROR;
+                    }
+                    else
+                    {
+                        value = unit::simple(value, u->uexpr());
                     }
                 }
+
+                if (value && assign(name, value))
+                    return OK;
             }
         }
     }
@@ -1096,11 +1121,8 @@ COMMAND_BODY(SolvingMenuSolve)
                     if (value && expression_p(+eq)->is_well_defined(sym))
                         if (algebraic_p var = expression_variable_or_unit(idx))
                             if (algebraic_g res = Root::solve(eq, var, value))
-                                if (directory::store_here(sym, res))
-                                    if (tag_p tagged = tag::make(sym, res))
-                                        if (rt.push(tagged))
-                                            if (ui.menu_refresh())
-                                                return OK;
+                                if (assign(sym, res))
+                                    return OK;
         }
     }
 
