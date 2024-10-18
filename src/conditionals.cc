@@ -348,6 +348,12 @@ PARSE_BODY(CaseStatement)
     {
         while (!had_end)
         {
+            if (!utf8_more(p.source, src, max))
+            {
+                rt.unterminated_error().source(src);
+                return ERROR;
+            }
+
             // Inner scribble collects the various code blocks
             scribble scr;
 
