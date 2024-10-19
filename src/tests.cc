@@ -150,6 +150,7 @@ TESTS(quorem,           "Quotient and remainder");
 TESTS(expr,             "Operations on expressions");
 TESTS(random,           "Random number generation");
 TESTS(library,          "Library entries");
+TESTS(examples,         "On-line help examples");
 
 EXTRA(plotfns,          "Plot all functions");
 EXTRA(sysflags,         "Enable/disable every RPL flag");
@@ -176,7 +177,7 @@ void tests::run(uint onlyCurrent)
     {
         here().begin("Current");
         if (onlyCurrent & 1)
-            global_variables();
+            check_help_examples();
         if (onlyCurrent & 2)
             demo_ui();
         if (onlyCurrent & 4)
@@ -258,6 +259,7 @@ void tests::run(uint onlyCurrent)
         random_number_generation();
         object_structure();
         library();
+        check_help_examples();
         regression_checks();
         demo_ui();
         demo_math();
@@ -9747,6 +9749,120 @@ void tests::library()
     step("Math: Triangle equations")
         .test(CLEAR, F4)
         .image_noheader("lib-triangle");
+}
+
+
+void tests::check_help_examples()
+// ----------------------------------------------------------------------------
+//   Check the help examples
+// ----------------------------------------------------------------------------
+{
+    BEGIN(examples);
+
+    step("Opening help file").test(CLEAR);
+    FILE *f = fopen(HELPFILE_NAME, "r");
+    if (!f)
+    {
+        fail();
+        return;
+    }
+    noerror();
+
+    uint    opencheck  = 0;
+    uint    closecheck = 0;
+    cstring open       = "\n```rpl\n";
+    cstring close      = "\n```\n";
+    bool    hadcr      = false;
+    bool    testing    = false;
+    uint    line       = 1;
+    uint    tidx       = 0;
+    bool    intopic    = false;
+    uint    uidx       = 0;
+    byte    ubuf[8];
+    char    topic[80];
+    while (true)
+    {
+        int ci = fgetc(f);
+        if (ci == EOF)
+            break;
+        byte c = ci;
+        ASSERT(tidx < sizeof(topic));
+        ASSERT(uidx < sizeof(ubuf));
+
+        if (c == '#' && (hadcr || intopic))
+            intopic = true;
+        else if (intopic)
+            topic[tidx++] = c;
+
+        hadcr = c == '\n';
+        if (hadcr)
+        {
+            line++;
+            if (intopic)
+            {
+                topic[tidx] = 0;
+                tidx = 0;
+                intopic = false;
+            }
+        }
+
+        if (is_utf8_first(c))
+        {
+            uidx = 0;
+            ubuf[uidx++] = c;
+            continue;
+        }
+        else if (is_utf8_next(c) && uidx < 4)
+        {
+            ubuf[uidx++] = c;
+            continue;
+        }
+        else
+        {
+            ubuf[uidx++] = c;
+            ubuf[uidx++] = 0;
+            uidx = 0;
+        }
+
+        if (testing && c != '`')
+            itest(cstring(ubuf));
+
+        if (c == open[opencheck])
+        {
+            opencheck++;
+            if (!open[opencheck])
+            {
+                position(HELPFILE_NAME, line);
+                istep(topic).itest(CLEAR);
+                testing = true;
+                opencheck = 0;
+            }
+        }
+        else
+        {
+            opencheck = 0;
+        }
+
+        if (c == close[closecheck])
+        {
+            closecheck++;
+            if (!close[closecheck])
+            {
+                if (testing)
+                {
+                    testing = false;
+                    itest(ENTER).noerror();
+                    itest(RUNSTOP).noerror();
+                }
+            }
+        }
+        else
+        {
+            closecheck = 0;
+        }
+    }
+    fclose(f);
+
 }
 
 
