@@ -77,7 +77,7 @@ static const cstring basic_equations[] =
     "}",
 
     "Simple Slope", "{"
-    "  '(θ_°)=(1_r)*(((P_N)*((L_m)-(a_m)))/(6*L*(E_kPa)*(I_mm^4))*(3*(x_m)²+(L-a)²-L²)-(M_N*m)/(E*I)*(c-(x²-c²)/(2*L)-L/3)-(w_N/m)/(24*E*I)*(L³+x²*(4*x-6*L)))'"
+    "  '(θ_°)=(1_r)*(((P_N)*((L_m)-(a_m)))/(6*L*(E_kPa)*(I_mm^4))*(3*(x_m)²+(L-a)²-L²)-(M_N*m)/(E*I)*(c-(x²+c²)/(2*L)-L/3)-(w_N/m)/(24*E*I)*(L³+x²*(4*x-6*L)))'"
     "}",
 
     "Simple Moment", "{"
@@ -1066,7 +1066,19 @@ static const cstring basic_equations[] =
     "'γ=1/√(1-β^2)' "
     "}",
 
+    "Light Propagation",  "{ "
+    "'(fp_Hz)/(f_Hz)=γ*(1+β*COS(α_°))' "
+    "'COS(θp_°)=(COS(θ_°)-β)/(1-β*COS(θ_°))' "
+    "'Pθ=SIN(θ_°)/(2*γ^2*(1-β*COS(θ_°))^2)' "
+    "'β=(v_(m/s))/Ⓒc' "
+    "'γ=1/√(1-β^2)' "
+    "}",
+
     "Energy & Momentum",  "{ "
+    "'(ppx_(kg*(m/s)))=γ*((px_(kg*(m/s)))-v(m/s)*(E_J)/Ⓒc^2)' "
+    "'(ppy_(kg*(m/s)))=(py_(kg*(m/s)))' "
+    "'(ppz_(kg*(m/s)))=(pz_(kg*(m/s)))' "
+    "'(Ep_J)=γ*((E_J)-v(m/s)*(px_(kg*(m/s))))' "
     "'(p_(kg*(m/s)))=γ*(mo_kg)*(v(m/s))' "
     "'(E_J)=γ*(E0_J)' "
     "'(E0_J)=(m0_kg)*Ⓒc^2' "
@@ -1074,6 +1086,16 @@ static const cstring basic_equations[] =
     "'(K_J)=(γ-1)*(E0_J)' "
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
+    "}",
+
+    "Ultrarelativistic Cases",  "{ "
+    "'(E0_J)=(m0_kg)*Ⓒc^2' "
+    "'(E_J)^2=(p_(kg*(m/s)))^2*Ⓒc^2+(m0_kg)^2*Ⓒc^4' "
+    "'(K_J)=(γ-1)*(E0_J)' "
+    "'β=(v_(m/s))/Ⓒc' "
+    "'γ=1/√(1-β^2)' "
+    "'(Δtp_s)=γ*(Δt_s)' "
+    "'(Δxp_m)=(Δx_m)/γ' "
     "}",
 
     "Gravitational Time Dilation",  "{ "
