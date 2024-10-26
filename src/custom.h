@@ -58,9 +58,16 @@ struct CustomMenu : menu
 
 COMMAND_DECLARE(ToggleCustomMenu, 0);
 
-COMMAND_DECLARE(Menu, 1);
-COMMAND_DECLARE(TemporaryMenu, 1);
-COMMAND_DECLARE(RecallMenu, 0);
+COMMAND_DECLARE(Menu,           1);
+COMMAND_DECLARE(TemporaryMenu,  1);
+COMMAND_DECLARE(RecallMenu,     0);
 
-
+COMMAND_DECLARE(KeyMap,         1);     // Set Keyboard mappings
+COMMAND_DECLARE(StandardKey,    0);     // Restore standard key
+COMMAND_DECLARE(AssignKey,      2);     // Assign one key
+COMMAND_DECLARE(DeleteKeys,     1);     // Delete user keys
+COMMAND_DECLARE(StoreKeys,      1);     // Store multiple user keys
+COMMAND_DECLARE(RecallKeys,     0);     // Recall user-defined keys
+COMMAND_DECLARE(ToggleUserMode, 0);     // Toggle user mode flags
+                                        //
 #endif // CUSTOM_H

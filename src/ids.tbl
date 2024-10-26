@@ -430,6 +430,12 @@ NAMED(det, "Determinant")
 CMD(PlotParameters)     ALIAS(PlotParameters, "PPar")
 CMD(Equation)           ALIAS(Equation, "Eq")
 CMD(Header)             ALIAS(Header, "Hdr")
+CMD(KeyMap)             ALIAS(Header, "Keys")
+CMD(AssignKey)          ALIAS(AssignKey, "Asn")
+CMD(DeleteKeys)         ALIAS(DeleteKeys, "DelKeys")
+CMD(StoreKeys)          ALIAS(StoreKeys, "StoKeys")
+CMD(RecallKeys)         ALIAS(RecallKeys, "RclKeys")
+CMD(StandardKey)        ALIAS(StandardKey, "SKey")
 
 NAMED(DispXY,           "DrawStyledText")
 NAMED(PixOn,            "DrawPixel")
@@ -822,6 +828,8 @@ CMD(Modes)
 CMD(ResetModes)
 
 // Default (flag clear) is on the right
+FLAG(UserMode,                  UserModeOff)
+FLAG(UserModeLock,              UserModeOnce)
 FLAG(NoStackSave,               SaveStack)
 FLAG(NoLastArguments,           SaveLastArguments)
 FLAG(ProgramLastArguments,      NoProgramLastArguments)
@@ -1195,6 +1203,7 @@ MENU(PlotMenu)
 MENU(GraphicsMenu)
 MENU(MemoryMenu)
 MENU(TextMenu)
+MENU(UserModeMenu)
 
 // Special menus
 MENU(EditMenu)
@@ -1205,6 +1214,7 @@ CMD(SolvingMenu)
 CMD(ToolsMenu)
 CMD(Catalog)
 
+CMD(ToggleUserMode)
 CMD(Undo)                       // Immediate: do not save stack before Undo
 CMD(LastMenu)                   // Last parseable command
 

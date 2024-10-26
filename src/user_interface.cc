@@ -33,6 +33,7 @@
 #include "blitter.h"
 #include "characters.h"
 #include "command.h"
+#include "custom.h"
 #include "dmcp.h"
 #include "expression.h"
 #include "files.h"
@@ -122,10 +123,12 @@ user_interface::user_interface()
       alpha(false),
       transalpha(false),
       lowercase(false),
+      user_once(false),
       shift_drawn(false),
       xshift_drawn(false),
       alpha_drawn(false),
       lowerc_drawn(false),
+      user_drawn(false),
       down(false),
       up(false),
       repeat(false),
@@ -145,13 +148,12 @@ user_interface::user_interface()
 {
     for (uint p = 0; p < NUM_PLANES; p++)
     {
-        for (uint k = 0; k < NUM_KEYS; k++)
-            function[p][k] = nullptr;
         for (uint k = 0; k < NUM_SOFTKEYS; k++)
         {
             menu_label[p][k] = nullptr;
             menu_marker[p][k] = 0;
             menu_marker_align[p][k] = false;
+            function[p][k] = nullptr;
         }
     }
 }
@@ -592,6 +594,7 @@ bool user_interface::key(int key, bool repeating, bool talpha)
     bool result =
         handle_shifts(key, talpha)      ||
         handle_help(key)                ||
+        handle_user(key)                ||
         handle_editing(key)             ||
         handle_alpha(key)               ||
         handle_digits(key)              ||
@@ -618,24 +621,93 @@ bool user_interface::key(int key, bool repeating, bool talpha)
 }
 
 
-void user_interface::assign(int key, uint plane, object_p code)
+object_p user_interface::assign(int keyid, object_p toassign)
 // ----------------------------------------------------------------------------
 //   Assign an object to a given key
 // ----------------------------------------------------------------------------
+//   Key assignments are stored in a directory of numbered variables
 {
-    if (key >= 1 && key <= NUM_KEYS && plane <= NUM_PLANES)
-        function[plane][key - 1] = code;
+    object_g    assigned  = toassign;
+    object_p    name      = object::static_object(object::ID_KeyMap);
+    directory_p curdir    = rt.variables(0);
+    directory_g keymap    = nullptr;
+    object_p    keymapvar = curdir->recall(name);
+    if (keymapvar)
+        keymap = keymapvar->as<directory>();
+    if (!keymap)
+    {
+        keymap = rt.make<directory>();
+        keymapvar = directory::store_here(name, keymap);
+        keymap = keymapvar->as<directory>();
+        ASSERT(keymap);
+    }
+    if (!keymap)
+        return nullptr;
+
+    integer_p keyname = integer::make(keyid);
+    settings::SaveNumberedVariables sn(true);
+
+    object_g result = +keyname;
+    keymap->enter();
+    directory *wrkeymap = (directory *) +keymap;
+    settings::SaveStoreAtEnd sae(true);
+    if (assigned && !assigned->as_quoted<StandardKey>())
+        result = wrkeymap->store(+keyname, assigned);
+    else
+        wrkeymap->purge(+keyname);
+    rt.updir();
+    menu_refresh(menu::ID_VariablesMenu);
+    return result;
 }
 
 
-object_p user_interface::assigned(int key, uint plane)
+object_p user_interface::assigned(int keyid)
 // ----------------------------------------------------------------------------
 //   Assign an object to a given key
 // ----------------------------------------------------------------------------
 {
-    if (key >= 1 && key <= NUM_KEYS && plane <= NUM_PLANES)
-        return function[plane][key - 1];
+    object_p name = object::static_object(object::ID_KeyMap);
+    directory *dir = nullptr;
+    for (uint depth = 0; (dir = rt.variables(depth)); depth++)
+    {
+        if (object_p keymapvar = dir->recall(name))
+        {
+            if (directory_p keymap = keymapvar->as<directory>())
+            {
+                integer_p keyname = integer::make(keyid);
+                settings::SaveNumberedVariables sn(true);
+                if (object_p binding = keymap->recall(keyname))
+                    return binding;
+            }
+        }
+    }
     return nullptr;
+}
+
+
+void user_interface::toggle_user()
+// ----------------------------------------------------------------------------
+//   Toggle user mode
+// ----------------------------------------------------------------------------
+{
+    bool user = Settings.UserMode();
+    if (Settings.UserModeLock())
+    {
+        Settings.UserMode(!user);
+    }
+    else if (!user)
+    {
+        user_once = true;
+        Settings.UserMode(true);
+    }
+    else if (user_once)
+    {
+        user_once = false;
+    }
+    else
+    {
+        Settings.UserMode(false);
+    }
 }
 
 
@@ -1206,9 +1278,8 @@ void user_interface::menu(uint menu_id, cstring label, object_p fn)
     if (menu_id < NUM_MENUS)
     {
         int softkey_id       = menu_id % NUM_SOFTKEYS;
-        int key              = KEY_F1 + softkey_id;
         int plane            = menu_id / NUM_SOFTKEYS;
-        function[plane][key-1] = fn;
+        function[plane][softkey_id] = fn;
         menu_label[plane][softkey_id] = label;
         menu_marker[plane][softkey_id] = 0;
         menu_marker_align[plane][softkey_id] = false;
@@ -1455,7 +1526,7 @@ bool user_interface::draw_menus()
     {
         object_p prevo = command::static_object(command::ID_MenuPreviousPage);
         object_p nexto = command::static_object(command::ID_MenuNextPage);
-        object_p what = function[0][KEY_F6-1];
+        object_p what = function[0][KEY_F6-KEY_F1];
         bool prev = what == prevo;
         bool next = what == nexto;
         if (prev || next)
@@ -1464,12 +1535,12 @@ bool user_interface::draw_menus()
             {
                 if (shplane)
                 {
-                    function[0][KEY_F6-1] = prevo;
+                    function[0][KEY_F6-KEY_F1] = prevo;
                     menu_label[0][NUM_SOFTKEYS-1] = "◀︎";
                 }
                 else
                 {
-                    function[0][KEY_F6-1] = nexto;
+                    function[0][KEY_F6-KEY_F1] = nexto;
                     menu_label[0][NUM_SOFTKEYS-1] = "▶";
                 }
             }
@@ -2023,10 +2094,12 @@ bool user_interface::draw_annunciators()
     if (freezeHeader)
         return false;
 
+    bool user  = Settings.UserMode();
     bool adraw = force || alpha != alpha_drawn || lowercase != lowerc_drawn;
     bool sdraw = force || shift != shift_drawn || xshift != xshift_drawn;
+    bool udraw = force || user != user_drawn;
 
-    if (!adraw && !sdraw)
+    if (!adraw && !sdraw && !udraw)
         return false;
 
     pattern bg       = Settings.HeaderBackground();
@@ -2047,9 +2120,15 @@ bool user_interface::draw_annunciators()
         rect r = rect(alpha_x, 0, battery_left - 1, h);
         Screen.fill(r, bg);
 
-        if (alpha)
+        if (alpha || user)
         {
-            utf8 label = utf8(lowercase ? "abc" : "ABC");
+            static cstring lbls[] = {
+                "", "ABC", "abc", "abc",
+                "USR", "αUS", "usr", "αus",
+                "", "ABC", "abc", "abc",
+                "1US", "α1U", "1u", "α1u"
+            };
+            utf8 label = utf8(lbls[alpha + 2*lowercase + 4*user + 8*user_once]);
             pattern apat = lowercase
                 ? Settings.LowerAlphaForeground()
                 : Settings.AlphaForeground();
@@ -2057,6 +2136,7 @@ bool user_interface::draw_annunciators()
         }
         alpha_drawn = alpha;
         lowerc_drawn = lowercase;
+        user_drawn = Settings.UserMode();
     }
     if (alpha)
         busy_right = alpha_x - 1;
@@ -5247,7 +5327,7 @@ static const byte defaultShiftedCommand[2*user_interface::NUM_KEYS] =
     OP2BYTES(KEY_MUL,   menu::ID_ProbabilitiesMenu),
     OP2BYTES(KEY_SHIFT, 0),
     OP2BYTES(KEY_1,     function::ID_ToDecimal),
-    OP2BYTES(KEY_2,     0),
+    OP2BYTES(KEY_2,     command::ID_ToggleUserMode),
     OP2BYTES(KEY_3,     menu::ID_ProgramMenu),
     OP2BYTES(KEY_SUB,   menu::ID_ListMenu),
     OP2BYTES(KEY_EXIT,  command::ID_Off),
@@ -5342,17 +5422,19 @@ object_p user_interface::object_for_key(int key)
 //    Return the object for a given key
 // ----------------------------------------------------------------------------
 {
+    object_p obj = nullptr;
     uint plane = shift_plane();
-    if (key >= KEY_F1 && key <= KEY_F6 && plane >= menu_planes())
-        plane = 0;
-
-    object_p obj = function[plane][key - 1];
-    if (!obj)
+    if (key >= KEY_F1 && key <= KEY_F6)
     {
-        const byte *ptr = defaultCommand[plane] + 2 * (key - 1);
-        if (*ptr)
-            obj = (object_p) ptr;
+        uint fplane = plane < menu_planes() ? plane : 0;
+        obj = function[fplane][key - KEY_F1];
+        if (obj)
+            return obj;
     }
+
+    const byte *ptr = defaultCommand[plane] + 2 * (key - 1);
+    if (*ptr)
+        obj = (object_p) ptr;
     return obj;
 }
 
@@ -5368,121 +5450,162 @@ bool user_interface::handle_functions(int key)
     record(user_interface,
            "Handle function for key %d (plane %d) ", key, shift_plane());
     if (object_p obj = object_for_key(key))
+        return handle_functions(key, obj, false);
+    return false;
+}
+
+
+bool user_interface::handle_user(int key)
+// ----------------------------------------------------------------------------
+//   Check if we have one of the user-defined functions
+// ----------------------------------------------------------------------------
+{
+    if (!key || !Settings.UserMode())
+        return false;
+
+    bool result = false;
+    uint kc = platform_keyid(key,
+                             shift, xshift,
+                             alpha, lowercase, transalpha);
+    if (object_p binding = assigned(kc))
     {
-        save<int>  saveEvaluating(evaluating, key);
-        object::id ty = obj->type();
-        if (object::is_forced_entry(ty))
+        if (text_p direct = binding->as<text>())
         {
-            dirtyEditor = true;
-            edRows = 0;
-            return obj->insert() != object::ERROR;
+            size_t sz = 0;
+            utf8 txt = direct->value(&sz);
+            result = insert(txt, sz, TEXT) == object::OK;
+            if (user_once)
+                Settings.UserMode(false);
         }
-
-        bool imm     = object::is_immediate(ty);
-        bool editing = rt.editing();
-        if (editing && !imm)
+        else
         {
-            if (key == KEY_ENTER || key == KEY_BSP)
-                return false;
-
-            if (autoComplete && key >= KEY_F1 && key <= KEY_F6)
-            {
-                size_t start = 0;
-                size_t size  = 0;
-                if (current_word(start, size))
-                    remove(start, size);
-            }
-
-            if ((ty >= object::ID_Deg && ty <= object::ID_PiRadians) &&
-                at_end_of_number(true))
-            {
-                unicode cp;
-                switch(ty)
-                {
-                case object::ID_Deg:        cp = Settings.DEGREES_SYMBOL; break;
-                case object::ID_Grad:       cp = Settings.GRAD_SYMBOL; break;
-                case object::ID_PiRadians:  cp = Settings.PI_RADIANS_SYMBOL; break;
-                default:
-                case object::ID_Rad:        cp = Settings.RADIANS_SYMBOL; break;
-                }
-                insert(cp, TEXT, false);
-                return true;
-            }
-
-            switch (mode)
-            {
-            case ALGEBRAIC:
-            case PARENTHESES:
-                if (ty == object::ID_Sto)
-                {
-                    if (autoComplete)
-                        if (obj->insert() != object::OK)
-                            return false;
-                    if (!end_edit())
-                        return false;
-                    break;
-                }
-                [[fallthrough]];
-
-            case PROGRAM:
-            case MATRIX:
-            unit_application:
-                if (object::is_program_cmd(ty) || object::is_algebraic(ty))
-                {
-                    dirtyEditor = true;
-                    edRows = 0;
-                    return obj->insert() != object::ERROR;
-                }
-                break;
-
-            case UNIT:
-                if (ty == object::ID_mul ||
-                    ty == object::ID_div ||
-                    ty == object::ID_pow)
-                    goto unit_application;
-                [[fallthrough]];
-
-            case DIRECT:
-                if (ty == object::ID_ApplyUnit ||
-                    ty == object::ID_ApplyInverseUnit)
-                    goto unit_application;
-                [[fallthrough]];
-
-            default:
-                // If we have the editor open, need to close it
-                if (ty != object::ID_SelfInsert)
-                {
-                    if (autoComplete)
-                        if (obj->insert() != object::OK)
-                            return false;
-                    if (!end_edit())
-                        return false;
-                    editing = false;
-                }
-                break;
-            }
-
+            result = handle_functions(key, binding, true);
         }
-        draw_busy();
-        if (!imm && !editing)
-        {
-            if (Settings.SaveStack())
-                rt.save();
-            if (Settings.SaveLastArguments())
-                rt.need_save();
-        }
-        save<bool> no_halt(program::halted, false);
-        obj->evaluate();
-        draw_idle();
-        dirtyStack = true;
-        if (!imm)
-            alpha = false;
-        xshift = false;
-        shift = false;
-        return true;
+    }
+    return result;
+}
+
+
+bool user_interface::handle_functions(int key, object_p obj, bool user)
+// ----------------------------------------------------------------------------
+//   Code shared for user-mode and normal mode commands
+// ----------------------------------------------------------------------------
+{
+    save<int>  saveEvaluating(evaluating, key);
+    object::id ty = obj->type();
+    if (object::is_forced_entry(ty))
+    {
+        dirtyEditor = true;
+        edRows = 0;
+        return obj->insert() != object::ERROR;
     }
 
-    return false;
+    bool imm     = object::is_immediate(ty);
+    bool editing = rt.editing();
+    if (editing && !imm)
+    {
+        if (key == KEY_ENTER || key == KEY_BSP)
+            return false;
+
+        if (autoComplete && key >= KEY_F1 && key <= KEY_F6)
+        {
+            size_t start = 0;
+            size_t size  = 0;
+            if (current_word(start, size))
+                remove(start, size);
+        }
+
+        if ((ty >= object::ID_Deg && ty <= object::ID_PiRadians) &&
+            at_end_of_number(true))
+        {
+            unicode cp;
+            switch(ty)
+            {
+            case object::ID_Deg:        cp = Settings.DEGREES_SYMBOL; break;
+            case object::ID_Grad:       cp = Settings.GRAD_SYMBOL; break;
+            case object::ID_PiRadians:  cp = Settings.PI_RADIANS_SYMBOL; break;
+            default:
+            case object::ID_Rad:        cp = Settings.RADIANS_SYMBOL; break;
+            }
+            insert(cp, TEXT, false);
+            return true;
+        }
+
+        switch (mode)
+        {
+        case ALGEBRAIC:
+        case PARENTHESES:
+            if (ty == object::ID_Sto)
+            {
+                if (autoComplete)
+                    if (obj->insert() != object::OK)
+                        return false;
+                if (!end_edit())
+                    return false;
+                break;
+            }
+            [[fallthrough]];
+
+        case PROGRAM:
+        case MATRIX:
+        unit_application:
+            if (object::is_program_cmd(ty) || object::is_algebraic(ty) || user)
+            {
+                dirtyEditor = true;
+                edRows = 0;
+                return obj->insert() != object::ERROR;
+            }
+            break;
+
+        case UNIT:
+            if (ty == object::ID_mul ||
+                ty == object::ID_div ||
+                ty == object::ID_pow)
+                goto unit_application;
+            [[fallthrough]];
+
+        case DIRECT:
+            if (ty == object::ID_ApplyUnit ||
+                ty == object::ID_ApplyInverseUnit)
+                goto unit_application;
+            [[fallthrough]];
+
+        default:
+            // If we have the editor open, need to close it
+            if (ty != object::ID_SelfInsert)
+            {
+                if (autoComplete)
+                    if (obj->insert() != object::OK)
+                        return false;
+                if (!end_edit())
+                    return false;
+                editing = false;
+            }
+            break;
+        }
+
+    }
+    draw_busy();
+    if (!imm && !editing)
+    {
+        if (Settings.SaveStack())
+            rt.save();
+        if (Settings.SaveLastArguments())
+            rt.need_save();
+    }
+    save<bool> no_halt(program::halted, false);
+    bool usr = Settings.UserMode();
+    obj->evaluate();
+    draw_idle();
+    dirtyStack = true;
+    if (!imm)
+        alpha = false;
+    xshift = false;
+    shift = false;
+
+    if (user_once && usr == Settings.UserMode())
+        Settings.UserMode(false);
+    return true;
 }
 
 

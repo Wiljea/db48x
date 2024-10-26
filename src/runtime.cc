@@ -504,6 +504,13 @@ void runtime::move(object_p to, object_p from,
     for (uint l = 0; l < ui.NUM_MENUS; l++)
         if (label[l] >= start && label[l] < end)
             label[l] += delta;
+
+    // Adjust functions
+    object_p *functions = &ui.function[0][0];
+    const uint max = sizeof(ui.function) / sizeof(ui.function[0][0]);
+    for (uint k = 0; k < max; k++)
+        if (functions[k] >= from && functions[k] < last)
+            functions[k] += delta;
 }
 
 

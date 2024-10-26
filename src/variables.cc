@@ -231,6 +231,7 @@ object_p directory::store(object_g name, object_g value)
     case ID_AlgebraVariable:
     case ID_CustomMenu:
     case ID_Header:
+    case ID_KeyMap:
         break;
 
     case ID_symbol:
@@ -472,6 +473,7 @@ object_p directory::recall_all(object_p name, bool report_missing)
     case ID_AlgebraVariable:
     case ID_CustomMenu:
     case ID_Header:
+    case ID_KeyMap:
         break;
 
     case ID_symbol:
@@ -562,6 +564,7 @@ size_t directory::purge(object_p name)
     case ID_AlgebraVariable:
     case ID_CustomMenu:
     case ID_Header:
+    case ID_KeyMap:
         break;
 
     case ID_symbol:
@@ -1511,6 +1514,8 @@ static flag_conversion flag_conversions[] =
     {  -52,     object::ID_MultiLineResult              },
     {  -55,     object::ID_NoLastArguments              },
     {  -56,     object::ID_BeepOff                      },
+    {  -61,     object::ID_UserModeLock                 },
+    {  -62,     object::ID_UserMode                     },
     {  -64,     object::ID_IndexWrapped                 },
     {  -65,     object::ID_MultiLineStack               },
     {  -97,     object::ID_VerticalLists                },

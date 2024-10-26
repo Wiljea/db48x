@@ -91,8 +91,9 @@ struct user_interface
 
     bool        key(int key, bool repeating, bool transalpha);
     bool        repeating()     { return repeat; }
-    void        assign(int key, uint plane, object_p code);
-    object_p    assigned(int key, uint plane);
+    object_p    assign(int keyid, object_p code);
+    object_p    assigned(int keyid);
+    void        toggle_user();
 
     void        update_mode();
 
@@ -217,7 +218,9 @@ protected:
     bool        handle_editing(int key);
     bool        handle_editing_command(object::id lower, object::id higher);
     bool        handle_alpha(int key);
+    bool        handle_user(int key);
     bool        handle_functions(int key);
+    bool        handle_functions(int key, object_p obj, bool user);
     bool        handle_digits(int key);
     bool        noHelpForKey(int key);
     bool        do_search(unicode with = 0, bool restart = false);
@@ -269,10 +272,12 @@ protected:
     bool     alpha        : 1;  // Alpha mode active
     bool     transalpha   : 1;  // Transitory alpha (up or down key)
     bool     lowercase    : 1;  // Lowercase
+    bool     user_once    : 1;  // User mode should be reset
     bool     shift_drawn  : 1;  // Cache of drawn annunciators
     bool     xshift_drawn : 1;  // Cache
     bool     alpha_drawn  : 1;  // Cache
     bool     lowerc_drawn : 1;  // Cache
+    bool     user_drawn   : 1;  // Cache
     bool     down         : 1;  // Move one line down
     bool     up           : 1;  // Move one line up
     bool     repeat       : 1;  // Repeat the key
@@ -295,7 +300,7 @@ protected:
 
 protected:
     // Key mappings
-    object_p function[NUM_PLANES][NUM_KEYS];
+    object_p function[NUM_PLANES][NUM_SOFTKEYS];
     cstring  menu_label[NUM_PLANES][NUM_SOFTKEYS];
     uint16_t menu_marker[NUM_PLANES][NUM_SOFTKEYS];
     bool     menu_marker_align[NUM_PLANES][NUM_SOFTKEYS];

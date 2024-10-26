@@ -7891,6 +7891,7 @@ void tests::flags_by_name()
     BEGIN(sysflags);
 
 #define ID(id)
+#define IS_USR(Enable)  (object::ID_##Enable == object::ID_UserMode)
 #define FLAG(Enable, Disable)                                   \
     step("Clearing flag " #Disable " (default)")                \
         .test(CLEAR, #Disable, ENTER).noerror()                 \
@@ -7898,8 +7899,10 @@ void tests::flags_by_name()
         .test("'" #Disable "' RCL", ENTER).expect("True");      \
     step("Setting flag " #Enable)                               \
         .test(CLEAR, #Enable, ENTER).noerror()                  \
-        .test("'" #Enable "' RCL", ENTER).expect("True")        \
-        .test("'" #Disable "' RCL", ENTER).expect("False");     \
+        .test("'" #Enable "' RCL", ENTER)                       \
+        .expect(IS_USR(Enable) ? "False" : "True")              \
+        .test("'" #Disable "' RCL", ENTER)                      \
+        .expect(IS_USR(Enable) ? "True" : "False");             \
     step("Purging flag " #Enable " (return to default)")        \
         .test(CLEAR, "'" #Disable "' PURGE", ENTER).noerror()   \
         .test("'" #Enable "' RCL", ENTER).expect("False")       \
