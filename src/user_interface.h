@@ -302,7 +302,7 @@ protected:
     file     helpfile;
     friend struct tests;
     friend struct runtime;
-    };
+};
 
 
 inline int user_interface::evaluating_function_key() const
