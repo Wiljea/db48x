@@ -3145,6 +3145,7 @@ enum style_name
     KEY,
     TOPIC,
     HIGHLIGHTED_TOPIC,
+    HIGHLIGHTED_CODE,
     NUM_STYLES
 };
 
@@ -3178,6 +3179,7 @@ restart:
         { HelpFont,         p::white,  p::black,  false, false, false, false },
         { HelpFont,         p::black,  p::gray50, false, false, true,  false },
         { HelpFont,         p::white,  p::gray10, false, false, false, false },
+        { HelpCodeFont,     p::white,  p::gray10, false, false,  true,  true },
     };
 
 
@@ -3221,6 +3223,7 @@ restart:
     uint    codeStart = 0;
     uint    shown     = 0;
     bool    hadTitle  = false;
+    static char link[60];
 
     // Pun not indented
     helpfile.seek(help);
@@ -3438,9 +3441,50 @@ restart:
             case '`':
                 if (last != '`' && helpfile.peek() != '`')
                 {
-                    restyle = style == CODE ? NORMAL : CODE;
+                    bool wascode = style == CODE || style == HIGHLIGHTED_CODE;
+                    restyle = wascode ? NORMAL : CODE;
                     skip    = true;
                     emit    = true;
+
+
+                    if (!wascode)
+                    {
+                        uint pos = helpfile.position();
+                        unicode n  = helpfile.get();
+                        char *p = link;
+                        while (n != '`')
+                        {
+                            if (p < link + sizeof(link) - 1)
+                                *p++ = n;
+                            n = helpfile.get();
+                        }
+                        *p = 0;
+                        size_t cmdlen = p - link;
+                        object::id cmd = command::lookup(utf8(link), cmdlen);
+                        wascode = cmd && cmdlen == size_t(p - link);
+                        helpfile.seek(pos);
+
+                        if (wascode)
+                        {
+                            lastTopic = pos;
+                            if (topic < shown)
+                                topic = lastTopic;
+                            if (lastTopic == topic)
+                            {
+                                restyle    = HIGHLIGHTED_CODE;
+                                codeStart  = 0;
+                            }
+
+                            if (follow && restyle == HIGHLIGHTED_CODE)
+                            {
+                                if (topics_history)
+                                    topics[topics_history-1] = shown;
+                                load_help(utf8(link));
+                                Screen.clip(clip);
+                                goto restart;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -3516,11 +3560,10 @@ restart:
                         break;
                     }
 
-                    static char  link[60];
-                    char        *p = link;
+                    char *p = link;
                     while (n != ')')
                     {
-                        n      = helpfile.get();
+                        n = helpfile.get();
                         if (n != '#')
                             if (p < link + sizeof(link))
                                 *p++ = n;
@@ -3563,7 +3606,7 @@ restart:
         height            = font->height();
 
         // If we are rendering a command name, follow user preferences
-        if (style == SUBTITLE || style == CODE)
+        if (style == SUBTITLE || style == CODE || style == HIGHLIGHTED_CODE)
         {
             size_t cmdlen = widx;
             if (object::id cmd = command::lookup(buffer, cmdlen))
@@ -3666,7 +3709,29 @@ restart:
             if (style == VERBATIM)
                 Screen.fill(xleft, y - 2, xright, y + height * 5 / 4 - 3, bg);
 
-        if (underline)
+        if (box)
+        {
+            if (draw)
+            {
+                xl += 1;
+                xr += 8;
+                if (underline)
+                {
+                    Screen.fill(xl, y, xr, yf, bg);
+                }
+                else
+                {
+                    Screen.fill(xl, yf, xr, yf, bg);
+                    Screen.fill(xl, y, xl, yf, bg);
+                    Screen.fill(xr, y, xr, yf, bg);
+                    Screen.fill(xl, y, xr, y, bg);
+                }
+                xl -= 1;
+                xr -= 8;
+            }
+            kwidth += 4;
+        }
+        else if (underline)
         {
             if (draw)
             {
@@ -3676,21 +3741,6 @@ restart:
                 xl += 2;
                 xr -= 2;
             }
-        }
-        else if (box)
-        {
-            if (draw)
-            {
-                xl += 1;
-                xr += 8;
-                Screen.fill(xl, yf, xr, yf, bg);
-                Screen.fill(xl, y, xl, yf, bg);
-                Screen.fill(xr, y, xr, yf, bg);
-                Screen.fill(xl, y, xr, y, bg);
-                xl -= 1;
-                xr -= 8;
-            }
-            kwidth += 4;
         }
         else if (bg.bits != pattern::white.bits)
         {
@@ -3991,6 +4041,12 @@ bool user_interface::handle_help(int &key)
             {
                 helpfile.seek(help);
                 help = helpfile.rfind('\n');
+                unicode next = helpfile.peek();
+                if (next != '#')
+                {
+                    count++;
+                    line += height;
+                }
                 if (!help)
                     break;
             }
@@ -4019,7 +4075,7 @@ bool user_interface::handle_help(int &key)
         while(count--)
         {
             helpfile.seek(topic);
-            topic = helpfile.rfind('[');
+            topic = helpfile.rfind('[', '`');
         }
         topic  = helpfile.position();
         repeat = true;
@@ -4030,7 +4086,7 @@ bool user_interface::handle_help(int &key)
     case KEY_MUL:
         helpfile.seek(topic);
         while (count--)
-            helpfile.find('[');
+            helpfile.find('[', '`');
         topic  = helpfile.position();
         repeat = true;
         dirtyHelp = true;
