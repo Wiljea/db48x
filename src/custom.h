@@ -69,5 +69,7 @@ COMMAND_DECLARE(DeleteKeys,     1);     // Delete user keys
 COMMAND_DECLARE(StoreKeys,      1);     // Store multiple user keys
 COMMAND_DECLARE(RecallKeys,     0);     // Recall user-defined keys
 COMMAND_DECLARE(ToggleUserMode, 0);     // Toggle user mode flags
-                                        //
+
+object_p compatible_key_id(uint key);
+
 #endif // CUSTOM_H

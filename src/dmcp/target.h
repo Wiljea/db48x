@@ -207,6 +207,7 @@ uint compatible_key_position(uint key);
 uint compatible_key_plane(uint keyid);
 
 
+
 // ============================================================================
 //
 //    Battery configuration

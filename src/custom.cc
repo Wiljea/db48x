@@ -393,20 +393,7 @@ static bool compatible_keyid(object_p name, object_p obj, void *)
     if (integer_p keyarg = name->as<integer>())
     {
         ularge keyid = keyarg->value<ularge>();
-        uint rc = compatible_key_position(keyid);
-        uint pl = compatible_key_plane(keyid);
-        object_p ckey = nullptr;
-        if (pl)
-        {
-            decimal_g rcd = decimal::make(rc, 0);
-            decimal_g rcf = decimal::make(pl, -2);
-            rcd = rcd + rcf;
-            ckey = rcd;
-        }
-        else
-        {
-            ckey = integer::make(rc);
-        }
+        object_p ckey = compatible_key_id(keyid);
         return ckey && obj && rt.append(obj) && rt.append(ckey);
     }
     return false;
@@ -459,4 +446,27 @@ COMMAND_BODY(ToggleUserMode)
 {
     ui.toggle_user();
     return OK;
+}
+
+
+object_p compatible_key_id(uint keyid)
+// ----------------------------------------------------------------------------
+//   Return a key ID in an HP-compatible format
+// ----------------------------------------------------------------------------
+{
+    uint rc = compatible_key_position(keyid);
+    uint pl = compatible_key_plane(keyid);
+    object_p ckey = nullptr;
+    if (pl)
+    {
+        decimal_g rcd = decimal::make(rc, 0);
+        decimal_g rcf = decimal::make(pl, -2);
+        rcd = rcd + rcf;
+        ckey = rcd;
+    }
+    else
+    {
+        ckey = integer::make(rc);
+    }
+    return ckey;
 }
