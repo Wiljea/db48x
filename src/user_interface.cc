@@ -251,9 +251,11 @@ object::result user_interface::insert(utf8 text, size_t len, modes m)
         }
     }
 
+    // Check if there is a \t in the command line, if so move cursor there
     uint   offset = 0;
-    if (cstring ins = strchr(cstring(text), '\t'))
-        offset = ins - cstring(text);
+    for (uint i = 0; i < len && !offset; i++)
+        if (text[i] == '\t')
+            offset = i;
 
     uint   pos    = cursor;
     size_t added  = insert(cursor, text, len);
