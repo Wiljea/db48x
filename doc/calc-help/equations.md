@@ -46,10 +46,10 @@ These equations apply to a slender column (`K·L/r>100`) with length factor `K`.
 
 ![Elastic Buckling](img/ElasticBuckling.bmp)
 
-* To calculate `[Pcr_kN;σcr_kPa]` (Critical load; Critical stress) from 6 known variables:
+* To calculate [Pcr_kN;σcr_kPa] (Critical load; Critical stress) from 6 known variables:
 ```rpl
 L=7.3152_m  r=4.1148_cm  E=199947961.502_kPa  A=53.0967_cm^2  K=0.7  I=8990598.7930_mm^4
-@ Expecting [ Pcr=676.60192 6324 kN σcr=127 428.24437 8 kPa ]
+@ Expecting [ Pcr=676.60192 6324 kN σcr=127 428.24437 8_kPa ]
 'ROOT(ⒺElastic Buckling;[Pcr;σcr];[1_kN;1_kPa])'
 ```
 
@@ -59,11 +59,11 @@ These equations apply to a slender column (`K·L/r>100`) with length factor `K`.
 
 ![Eccentric Columns](img/EccentricColumns.bmp)
 
-* To calculate `[σmax_kPa;I_mm^4]` (Maximum stress; Moment of inertia) from 8 known variables:
+* To calculate [σmax_kPa;I_mm^4] (Maximum stress; Moment of inertia) from 8 known variables:
 ```rpl
 L=6.6542_m  A=187.9351_cm^2  r=8.4836_cm  E=206842718.795_kPa  K=1  P=1908.2571_kN  c=15.24_cm
  ε=1.1806_cm
-@ Expecting [ σmax=140 853.09700 6 kPa I=135 259 652.161 mm↑4 ]
+@ Expecting [ σmax=140 853.09700 6 kPa I=135 259 652.161 mm↑4 ]
 'ROOT(ⒺEccentric Columns;[σmax;I];[1_kPa;1_mm^4])'
 ```
 
@@ -71,11 +71,11 @@ L=6.6542_m  A=187.9351_cm^2  r=8.4836_cm  E=206842718.795_kPa  K=1  P=1908.2571_
 
 ![Simple Deflection](img/SimpleDeflection.bmp)
 
-* To calculate `[y_in]` (Deflection at x) from 9 known variables:
+* To calculate [y_in] (Deflection at x) from 9 known variables:
 ```rpl
 L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf
  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ y=-0.60048 54094 96 in ]
+@ Expecting [ y=-0.60048 54094 96 in ]
 'ROOT(ⒺSimple Deflection;[y];[1_in])'
 ```
 
@@ -83,11 +83,11 @@ L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_f
 
 ![Simple Slope](img/SimpleSlope.bmp)
 
-* To calculate `[Θ_°]` (Slope at `x`) from 9 known variables:
+* To calculate [Θ_°] (Slope at `x`) from 9 known variables:
 ```rpl
 L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf
  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ θ=-0.08763 17825 27 ° ]
+@ Expecting [ θ=-0.08763 17825 27 ° ]
 'ROOT(ⒺSimple Slope;[θ];[0_°])'
 ```
 
@@ -95,10 +95,10 @@ L=20_ft  E=29000000_psi  I=40_in^4  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_f
 
 ![Simple Moment](img/SimpleMoment.bmp)
 
-* To calculate `[Mx_ft*lbf]` (Internal bending moment at x) from 7 known variables:
+* To calculate [Mx_ft*lbf] (Internal bending moment at x) from 7 known variables:
 ```rpl
 L=20_ft  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ Mx=9 782.1945 lbf·ft ]
+@ Expecting [ Mx=9 782.1945 lbf·ft ]
 'ROOT(ⒺSimple Moment;[Mx];[1_ft*lbf])'
 ```
 
@@ -106,10 +106,10 @@ L=20_ft  a=10_ft  P=674.427_lbf  c=17_ft  M=3687.81_ft*lbf  w=102.783_lbf/ft  x=
 
 ![Simple Shear](img/SimpleShear.bmp)
 
-* To calculate `[V_lbf]` (Shear force at x) from 6 known variables:
+* To calculate [V_lbf] (Shear force at x) from 6 known variables:
 ```rpl
 L=20_ft  a=10_ft  P=674.427_lbf  M=3687.81_ft*lbf  w=102.783_lbf/ft  x=9_ft
-@ Expecting [ V=624.387 lbf ]
+@ Expecting [ V=624.387 lbf ]
 'ROOT(ⒺSimple Shear;[V];[1_lbf])'
 ```
 
@@ -117,10 +117,10 @@ L=20_ft  a=10_ft  P=674.427_lbf  M=3687.81_ft*lbf  w=102.783_lbf/ft  x=9_ft
 
 ![Cantilever Deflection](img/CantileverDeflection.bmp)
 
-* To calculate `[y_in]` (Deflection at x) from 9 known variables:
+* To calculate [y_in] (Deflection at x) from 9 known variables:
 ```rpl
 L=10_ft  E=29000000_psi  I=15_in^4  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=100_lbf/ft  x=8_ft
-@ Expecting: [y=-0.331630_in]
+@ Expecting: [ y=-0.33163 03448 28 in ]
 'ROOT(ⒺCantilever Deflection;[y];[0_in])'
 ```
 
@@ -128,10 +128,10 @@ L=10_ft  E=29000000_psi  I=15_in^4  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=1
 
 ![Cantilever Slope](img/CantileverSlope.bmp)
 
-* To calculate `[Θ_°]` (Slope at `x`) from 9 known variables:
+* To calculate [Θ_°] (Slope at `x`) from 9 known variables:
 ```rpl
 L=10_ft  E=29000000_psi  I=15_in^4  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=100_lbf/ft  x=8_ft
-@ Expecting [ θ=-0.26522 01876 49 ° ]
+@ Expecting [ θ=-0.26522 01876 49 ° ]
 'ROOT(ⒺCantilever Slope;[θ];[0_°])'
 ```
 
@@ -139,10 +139,10 @@ L=10_ft  E=29000000_psi  I=15_in^4  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=1
 
 ![Cantilever Moment](img/CantileverMoment.bmp)
 
-* To calculate `[Mx_ft*lbf]` (Internal bending moment at x) from 7 known variables:
+* To calculate [Mx_ft*lbf] (Internal bending moment at x) from 7 known variables:
 ```rpl
 L=10_ft  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=100_lbf/ft  x=8_ft
-@ Expecting [ Mx=-200. lbf·ft ]
+@ Expecting [ Mx=-200. lbf·ft ]
 'ROOT(ⒺCantilever Moment;[Mx];[1_ft*lbf])'
 ```
 
@@ -150,10 +150,10 @@ L=10_ft  P=500_lbf  M=800_ft*lbf  a=3_ft  c=6_ft  w=100_lbf/ft  x=8_ft
 
 ![Cantilever Shear](img/CantileverShear.bmp)
 
-* To calculate `[V_lbf]` (Shear force at x) from 5 known variables:
+* To calculate [V_lbf] (Shear force at x) from 5 known variables:
 ```rpl
 L=10_ft  P=500_lbf  a=3_ft  x=8_ft  w=100_lbf/ft
-@ Expecting [ V=200. lbf ]
+@ Expecting [ V=200. lbf ]
 'ROOT(ⒺCantilever Shear;[V];[1_lbf])'
 ```
 
@@ -230,11 +230,11 @@ The variables in the Electricity section are:
 
 These equations describe the electrostatic force between two point charged particles and the electric field observed at the position of a test charge which replaces one of the two charges 'q1' or 'q2' in the expression of the electric force. A finite object carrying a net charge 'q1' can be considered as a point charge if the distance to the position of the point charge 'q2' is much greater than the object dimension, see example 2, for the approximate calculations of the electric force and electric field far away from a charged plate.
 
-* **Example 1**. To calculate `[F_N;Er_N/C]` (Electric force; Electric Field) from 5 known variables:
+* **Example 1**. To calculate [F_N;Er_N/C] (Electric force; Electric Field) from 5 known variables:
 
 ```rpl
 q1=1.6E-19_C  q2=1.6E-19_C  r=4.00E-13_cm  εr=1  qtest=1.6E-19_C
-@ Expecting [ F=14.38008 28598 N Er=8.98755 17873 8⁳¹⁹ N/C ]
+@ Expecting [ F=14.38008 28598 N Er=8.98755 17873 8⁳¹⁹ N/C ]
 'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 ```
 
@@ -242,7 +242,7 @@ q1=1.6E-19_C  q2=1.6E-19_C  r=4.00E-13_cm  εr=1  qtest=1.6E-19_C
 
 ```rpl
 L=8_cm r=3_m q1=6E-6_C  q2=1E-6_C  r=3_m  εr=1  qtest=1E-6_C
-@ Expecting [ F=0.00599 17011 92 N Er=5 991.70119 159 N/C ]
+@ Expecting [ F=0.00599 17011 92 N Er=5 991.70119 159 N/C ]
 if 'r > 10*L' then
  'ROOT(ⒺCoulomb’s Law & E Field;[F;Er];[1_N;1_N/C])'
 end
@@ -252,11 +252,11 @@ end
 
 The expression for the radial electric field at the distance 'r' is approximately valid if this distance is such that 'r << L' and therefore also applies to a wire of finite length 'L'.
 
-* To calculate `[λ_C/m;Er_N/C]` (Linear charge density; Electric Field) from 4 known variables:
+* To calculate [λ_C/m;Er_N/C] (Linear charge density; Electric Field) from 4 known variables:
 
 ```rpl
 Q=5E-6_C  L=3_m  r=0.05_m  εr=1
-@ Expecting [ λ=1.66666 66666 7⁳⁻⁸ C/m Er=5 991.70119 159 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁸ C/m Er=599 170.11915 9 N/C ]
 'ROOT(ⒺE Field Infinite Line;[λ;Er];[1_C/m;1_N/C])'
 ```
 
@@ -266,40 +266,42 @@ The expression of the radial electric field at the distance 'r' depends on the s
 
 ![E field finite line](img/EFieldFiniteLine.bmp)
 
-* Example 1. To calculate `[λ_C/m;Er_N/C]` (Electric Field; Linear charge density) from 6 known variables and also with the distance 'r=(L/2)/tanθ1' and angle 'θ2=360°-θ1' (see fig):
+* **Example 1.** To calculate [λ_C/m;Er_N/C] (Electric Field; Linear charge density) from 6 known variables and also with the distance 'r=(L/2)/tanθ1' and angle 'θ2=360°-θ1' (see fig):
 
 ```rpl
 r='(3_m)/(2*tan 30_°)' θ2='360_°-30_°'
 Q=5E-6_C  L=3_m  r=2.5981_m  εr=1  θ1=30_°
-@ Expecting [ λ=1.73206 66666 7⁳⁻⁶ C/m Er=5 991.70119 159 N/C ]
-'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C;])'
-```
-
-* Example 2. To show the infinite line approximation ('r << L') of the previous section we calculate [λ_C/m;Er_N/C] with the angles θ1=ATAN((L/2)/r) and θ2=360°-θ1 (see fig):
-
-```rpl
-θ1='atan(3/2/0.05)' θ2='360_°-θ1'
-Q=5E-6_C  L=3_m  r=0.05_m  εr=1  θ1=88.0876_°  θ2=271.9124_°
-@ Expecting [ λ=1.66759 54889⁳⁻⁸ C/m Er=5 991.70119 159 N/C ]
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁸ C/m Er=5 765.46436 972 N/C ]
+@ C#1-NOT OK: MROOT doesn't converge to both λ & Er correct values OK if calculated separatly
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 ```
 
+* **Example 2.** To show that the infinite line of the previous section can approximate the finite case (if 'r << L' realised when 'r < L/10'), we calculate [λ_C/m;Er_N/C] with the angles θ1=ATAN((L/2)/r) and θ2=360°-θ1 (see fig):
+
 ```rpl
-5.991701E3_N/C 'Er' %Ch
+Q=5E-6_C  L=3_m  r=5_cm  εr=1  θ1='atan(L/2/r)' θ2='360_°-θ1'
+if 'r < L/10' then   
+@ Expecting [ λ=1.66666 66666 7⁳⁻⁸ C/m Er=598 837.52400 7 N/C ]
+@ C#2-NOT OK: ROOT doesn't converge to both λ & Er correct values OK if calculated separatly
+'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
+end  
+```
+
+```rpl
+Er=599 170.11915 9_N/C 'Er' %Ch
 @ Verify relative difference under condition 5_cm << 3_m.
-@ Expecting 3.19751 95082 1⁳⁻⁶
-@ (Was 0.056%)
+@ Expecting [ 0.05554 01320 94 ] % compared to infinite line
 ```
 
 ### E Field Infinite Plate
 
 The expression of the perpendicular electric field is constant over an infinite plate and can approximate the field at a distance 'd' from a finite plate if it is very small compare to the dimensions (length or width 'L') of the plate. On the contrary if 'd >> L', 'Ep' can be approximated if we consider the whole plate as being a point charge with 'q = σ·A' (where 'σ' is the surface charge density), see example 2 of "Coulomb's Law & E Field".
 
-* To calculate `[Ep_N/C;σ_C/m^2]` (Electric Field; Linear charge density) at position [d=5_mm] above a square plate of width [L=8_cm] and surface 'A=L^2' where 'd << L' when 'd < L/10' is verified:
+* To calculate [Ep_N/C;σ_C/m^2] (Electric Field; Linear charge density) at position [d=5_mm] above a square plate of width [L=8_cm] and surface 'A=L^2' where 'd << L' when 'd < L/10' is verified:
 
 ```rpl
 L=8_cm A='L^2' d=5_mm Q=6E-6_C  A=64_cm^2  εr=1
-@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 050.0044 N/C ]
+@ Expecting [ σ=9.375⁳⁻⁸ C/cm↑2 Ep=52 941 050.0044 N/C ]
 if 'd < L/10' then
  'ROOT(ⒺE Field Infinite Plate;[σ;Ep];[1_C/cm^2;1_N/C])'
 end
@@ -307,27 +309,27 @@ end
 
 ### Ohm’s Law & Power
 
-* To calculate `[R_Ω;P_W]` (Resistance; Powe) from 2 known variables:
+* To calculate [R_Ω;P_W] (Resistance; Powe) from 2 known variables:
 
 ```rpl
 V=24_V  I=16_A
-@ Expecting [ R=1.5 Ω P=384. W ]
+@ Expecting [ R=1.5 Ω P=384. W ]
 'ROOT(ⒺOhm’s Law & Power;[R;P];[1_Ω;1_W])'
 ```
 
 ### Volt Divider
 
-* To calculate `[V1_V]` (Voltage) from 3 known variables:
+* To calculate [V1_V] (Voltage) from 3 known variables:
 
 ```rpl
 R1=40_Ω  R2=10_Ω  V=100_V
-@ Expecting [ V1=80. V ]
+@ Expecting [ V1=80. V ]
 'ROOT(ⒺVolt Divider;[V1];[1_V])'
 ```
 
 ### Current Divider
 
-* To calculate `[I1_A]` (Current) from 3 known variables:
+* To calculate [I1_A] (Current) from 3 known variables:
 
 ```rpl
 R1=10_Ω  R2=6_Ω  I=15_A
@@ -337,7 +339,7 @@ R1=10_Ω  R2=6_Ω  I=15_A
 
 ### Wire Resistance
 
-* To calculate `[R_Ω]` (Resistance) from 3 known variables:
+* To calculate [R_Ω] (Resistance) from 3 known variables:
 
 ```rpl
 ρ=0.0035_Ω*cm  L=50_cm  A=1_cm^2
@@ -349,7 +351,7 @@ R1=10_Ω  R2=6_Ω  I=15_A
 
 The electrical resistivity 'ρ' of most materials changes with temperature. If the temperature 'T' does not vary too much, a linear approximation can be used around the reference point ('ρ0'; 'T0').
 
-* To calculate `[ρ_(Ω*m);σ_(S/m)]` (Resistance) from 4 known variables:
+* To calculate [ρ_(Ω*m);σ_(S/m)] (Resistance) from 4 known variables:
 
 ```rpl
 ρ0=1.68E-8_Ω*m  αT=4.04E-3_K^-1  T0=293,15_K  T=373,15_K
@@ -361,7 +363,7 @@ The electrical resistivity 'ρ' of most materials changes with temperature. If t
 
 ![Series & Parallel R](img/Missing name.bmp)
 
-* To calculate `[Rs_Ω;Rp_Ω]` (Resistance) from 2 known variables:
+* To calculate [Rs_Ω;Rp_Ω] (Resistance) from 2 known variables:
 
 ```rpl
 R1=2_Ω  R2=3_Ω
@@ -373,7 +375,7 @@ R1=2_Ω  R2=3_Ω
 
 ![Series & Parallel C](img/Missing name.bmp)
 
-* To calculate `[Cs_μF;Cp_μF]` (Capacitance) from 2 known variables:
+* To calculate [Cs_μF;Cp_μF] (Capacitance) from 2 known variables:
 
 ```rpl
 C1=2_μF  C2=3_μF
@@ -385,7 +387,7 @@ C1=2_μF  C2=3_μF
 
 ![Series & Parallel L](img/Missing name.bmp)
 
-* To calculate `[Ls_mH;Lp_mH]` (Inductance) from 2 known variables:
+* To calculate [Ls_mH;Lp_mH] (Inductance) from 2 known variables:
 
 ```rpl
 L1=17_mH  L2=16.5_mH
@@ -395,7 +397,7 @@ L1=17_mH  L2=16.5_mH
 
 ### Capacitive Energy
 
-* To calculate `[V_V;q_μC]` (Potential; Charge) from 2 known variables:
+* To calculate [V_V;q_μC] (Potential; Charge) from 2 known variables:
 
 ```rpl
 E=0.025_J  C=20_μF
@@ -405,7 +407,7 @@ E=0.025_J  C=20_μF
 
 ### Volumic Density Electric Energy
 
-* To calculate `[uE_(J/m^3)]` (Volumic Density Electric Energy) from 2 known variables:
+* To calculate [uE_(J/m^3)] (Volumic Density Electric Energy) from 2 known variables:
 
 ```rpl
 E=5_V/m  εr=1
@@ -415,7 +417,7 @@ E=5_V/m  εr=1
 
 ### Inductive Energy
 
-* To calculate `[I_A]` (Current) from 2 known variables:
+* To calculate [I_A] (Current) from 2 known variables:
 
 ```rpl
 E=4_J L=15_mH
@@ -427,10 +429,11 @@ E=4_J L=15_mH
 
 ![RLC Current Delay](img/Missing name.bmp)
 
-* To calculate `[ω_r/s;φs_°;φp_°;XC_Ω;XL_Ω]` (Phases and inpedances) from 4 known variables:
+* To calculate [ω_r/s;φs_°;φp_°;XC_Ω;XL_Ω] (Phases and inpedances) from 4 known variables:
+
 ```rpl
-@ Expecting [ ω=672.30082 7868 r/s φs=-45.82915 71488 ° φp=-5.87715 65317 1 ° XC=18.59286 71836 Ω XL=13.44601 65574 Ω ]
 f=107_Hz  C=80_μF  L=20_mH  R=5_Ω
+@ Expecting [ ω=672.30082 7868 r/s φs=-45.82915 71488 ° φp=-5.87715 65317 1 ° XC=18.59286 71836 Ω XL=13.44601 65574 Ω ]
 'ROOT(ⒺRLC Current Delay;[ω;φs;φp;XC;XL];[1_r/s;1_°;1_°;1_Ω;1_Ω])'
 ```
 
@@ -438,36 +441,173 @@ f=107_Hz  C=80_μF  L=20_mH  R=5_Ω
 
 These equations approximate the dc current required to charge the voltage on a capacitor in a certain time interval.
 
+* To calculate [ΔV_V;Δt_s;tf_s] (Voltage difference, time difference, final time) from 5 known variables:
+
+```rpl
+C=15_μF  Vi=2.3_V  Vf=3.2_V  I=10_A  ti=0_s
+@ Expecting [ ΔV=0.9 V Δt=1.35 μs tf=1.35 μs]
+@ C#3 NOT OK Doesn't converge to correct solution, except if calculated individually
+'ROOT(ⒺDC Capacitor Current;[ΔV;Δt;tf];[1_V;1_μs;1_s])'
+```
+
 ### Capacitor Charge
+
+* To calculate [q_C] (Voltage difference, time difference, final time) from 2 known variables:
+
+```rpl
+C=20_μF  V=100_V
+@ Expecting [ q=0.002 C ]
+'ROOT(ⒺCapacitor Charge;[q];[1_C])'
+```
 
 ### DC Inductor Voltage
 
 These equations approximate the dc voltage induced in an inductor by a change in current in a certain time interval.
 
+![DC Inductor Voltage](img/Missing name.bmp)
+
+* To calculate [ΔIL_A;ILf_A;tf_μs] (Current difference, final current, final time) from 5 known variables:
+
+```rpl
+L=100_mH  V=52_V  Δt=32_μs  ILi=23_A  ti=0_s
+@ Expecting [ ΔIL=-0.01664 A ILf=22.98336 A tf=32 μs ]
+@ NOT OK. Doesn't parse correctly due to "If". Replacements: If, Ii, ΔI => ILf, ILi, ΔIL   
+'ROOT(ⒺDC Inductor Voltage;[ΔIL;ILf;tf];[1_A;1_A;1_s])'
+```
+
 ### RC Transient
+
+![RC Transient](img/Missing name.bmp)
+
+* To calculate [V_V] (Voltage) from 5 known variables:
+
+```rpl
+Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
+@ Expecting [ V=3.29679 95396 4 V ]
+@ NOT OK. exp(-t/(R*C)) in error: BASE to be applied to the mixed units argument
+'ROOT(ⒺRC Transient;[V];[1_V])'
+```
 
 ### RL Transient
 
+![RL Transient](img/Missing name.bmp)
+
+* To calculate [I_A] (Current) from 5 known variables:
+
+```rpl
+Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
+@ Expecting [ I=0.00722 56513 67 A ]
+@ NOT OK. exp(-t*R/L) in error: BASE to be applied to the mixed units argument
+'ROOT(ⒺRL Transient;[I];[1_A])'
+```
+
 ### Resonant Frequency
+
+* To calculate [ω0;Qs;Qp;f0] (Resonant pulsation, parallel and series quality factors, resonant frequency) from 3 known variables:
+10_Ω 500_mH 8_μF
+```rpl
+L=500_mH  C=8_μF  R=10_Ω
+@ Expecting [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
+@ NOT OK. radians missing in ω0 ; Error: "Inconsistent units" but units are ok
+'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 
 ### Plate Capacitor
 
+![Plate Capacitor](img/Missing name.bmp)
+
+* To calculate [d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)] (Distance, voltage, internal E fiels, surface charge density) from 3 known variables:
+
+```rpl
+C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
+@ Expecting [ d=8.00418 57871 19⁳⁻⁹ cm σ=750 000. μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ N/C ΔV=3. V ]
+@ C#4 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately
+'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
+
 ### Cylindrical Capacitor
+
+![Cylindrical Capacitor](img/Missing name.bmp)
+
+* To calculate [C_μF;ΔV_V] (Capacitance, voltage) from 5 known variables:
+
+```rpl
+εr=1  Q=75_μC  ro=1_cm  ri=.999_cm  L=10_cm
+@ Expecting [ C=5.56046 81912 85⁳⁻³ μF ΔV=1.34880 72842 06⁳⁴ V ]
+'ROOT(ⒺCylindrical Capacitor;[C;ΔV];[1_μF;1_V])'
+```
 
 ### Solenoid Inductance
 
+![Solenoid Inductance](img/Missing name.bmp)
+
+* To calculate [L_mH] (Inductance) from 4 known variables:
+
+```rpl
+μr=2.5  n=40_1/cm  A=0.2_cm^2  h=3_cm
+@ Expecting [ L=3.01592 89474 56⁳⁻² mH ]
+'ROOT(ⒺSolenoid Inductance;[L];[1_mH])'
+```
+
 ### Toroid Inductance
+
+![Toroid Inductance](img/Missing name.bmp)
+
+* To calculate [L_mH] (Inductance) from 4 known variables:
+
+```rpl
+μr=1  N=5000  h=2_cm  ri=2_cm  ro=4_cm
+@ Expecting [ L=69.3147 18056 22 mH ]
+@ Error in ri input data of HP50gAUR.pdf
+'ROOT(ⒺToroid Inductance;[L];[1_mH])'
+```
 
 ### Sinusoidal Voltage
 
+* To calculate [ω_r/s;V_V] (Pulsation, voltage) from 4 known variables:
+
+```rpl
+Vmax=110_V  t=30_μs  f=60_Hz  φ=15_°
+@ Expecting [ ω=376.99111 8431 r/s V=29.66992 85671 V ]
+@ C#5 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately
+'ROOT(ⒺSinusoidal Voltage;[ω;V];[1_r/s;1_V])'
+```
+
 ### Sinusoidal Current
 
+* To calculate [I_A;f_Hz] (Current, frequency) from 4 known variables:
+
+```rpl
+t=32_s  Imax=10_A  ω=636_r/s  φ=30_°
+@ Expecting [ f=101.22254 3806 Hz I=9.59828 06834 1 A ]
+@ C#6 NOT OK. MSOLVER: "NO solution?", OK solving for f separately BUT "sin error: numerical precision lost" when solving for I_A 
+'ROOT(ⒺSinusoidal Current;[f;I];[1_Hz;1_A])'
+```
+
 ### Drift Speed & Current Density
+
+* To calculate [vd_m/s;J_(A/m^2);E_(V/m)] (Drift speed, current density, E field) from 5 known variables:
+
+```rpl
+@ A='Ⓒπ*(0.1_cm)^2'  ρ='Ⓒqe*n'  σ='Ⓒqe*n*40_(cm^2/(V*s))'
+@ Expecting [ vd=2.33733 41683 61⁳⁻⁵ m/s J=3.18309 88618 38⁳¹ A/cm↑2 E=5.84333 54209 02⁳⁻³ V/m ]
+I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 90E-2_cm↑2 ρ=1.36185 01389E10_C/m↑3 σ=54 474 005.556_S/m
+'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
+```
 
 ### Electron & Hole Mobilities
 
 In accordance with microscopic Ohm's law, the current density is proportional to the electric field. Holes and electrons therefore move at their average drift speeds during the mean free time between collisions. As long as the electric fields are not very high, the mobilities of holes and electrons are constant.
 
+* To calculate [μe_(cm^2/(V*s));μe_(cm^2/(V*s));J_(A/m^2);Je_(A/m^2);Jh_(A/m^2);σ_(S/m)] (Electron & hole mobilities, current densities, conductivity) from 5 known variables:
+
+@ In Ge typical values can be μe=500_(cm^2/(V*s)) μh=200_(cm^2/(V*s)) meeff_kg='0.12*Ⓒme'
+@ mheff_kg='0.5*Ⓒme'  ne=1.04e19_(cm^-3)  nh=6.0e18_(m^-3) E=6.0e-9_V/m
+
+```rpl
+τc=4.09365 36801 40e-15_s meeff=1.09312 60456 68e-31 kg mheff=4.55469 18569 5e-31 kg nh=6.0e18_(m^-3) ne=1.04e19_(m^-3) E=6.0e-9_V/m
+@ Expecting [ μe=49.03846 15384 64976 91445 22_cm↑2/(s·V) μh=60.00000 00000 03822 51215 7_cm↑2/(s·V)	Je=4.90266 05000 386⁳-11_A/m↑2	Jh=3.46070 15294 402⁳-11_A/m↑2	J=8.36336 20294 771⁳-11_A/m↑2	σ=0.01393 89367 15800 94039 7294_S/m ]
+'ROOT(ⒺElectron & Hole Mobilities;[μe;μh;Je;Jh;J;σ];[1_(cm^2/(V*s));1_(cm^2/(V*s));1_(A/m^2);1_(A/m^2);1_(A/m^2);1_(S/m)])'
+```
+@ 'ROOT(ⒺElectron & Hole Mobilities;[μe #4;μh #5;Je #2;Jh #3;J #1;σ #6];[1_(cm^2/(V*s));1_(cm^2/(V*s));1_(A/m^2);1_(A/m^2);1_(A/m^2);1_(S/m)])'
 
 ## Fluids
 
@@ -503,17 +643,72 @@ The variables in the Fluids section are:
 
 This equation describes hydrostatic pressure for an incompressible fluid. Depth 'h' is positive downwards from the reference.
 
+![Pressure At Depth](img/Missing name.bmp)
+
+* To calculate [P_kPa] (Pressure) from 3 known variables:
+
+```rpl
+h=100_m  ρ=1025.1817_kg/m^3  P0=1_atm
+@ Expecting [ P=1 106.68481 183 kPa ]
+@ C#7 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately
+'ROOT(ⒺPressure at Depth;[P];[1_kPa])'
+```
+
 ### Bernoulli Equation
 
 These equations represent the streamlined flow of an incompressible fluid.
+
+![Bernoulli Equation](img/Missing name.bmp)
+
+* To calculate [A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in] (Various hydrodynamic parameters) from 7 known variables:
+
+```rpl
+P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
+@ Expecting [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
+@ C#8 NOT OK. MSOLVER: "NO solution?", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown
+'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+```
+@ Alternate présentation adding one more known value: v2
+```rpl
+P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s v2=122.421311569_ft/s
+@ Expecting [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
+@ C#8 NOT OK. MSOLVER: "NO solution?", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 "Inconsistent units" while searching for each remaining unknown
+'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+```
 
 ### Flow with Losses
 
 These equations extend Bernoulli’s equation to include power input (or output) and head loss.
 
+![Flow with Losses](img/Missing name.bmp)
+
+* To calculate [A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in] (Various hydrodynamic parameters) from 7 known variables:
+
+```rpl
+P2=30_psi  P1=65_psi  y2=100_ft  y1=0_ft  ρ=64_lb/ft^3  D1=24_in  hL=2.0_(ft/s)^2  W=25_hp 
+v1=100_ft/s
+@ Expecting [ A1=452.38934 2117 in↑2 ΔP=-50. psi Δy=35. ft Q=18 849.55592 15 ft↑3/min M=1 206 371.57898 lb/min v2=93.12684 14502 ft/s A2=485.77760 7264 in↑2 D2=24.86988 66004 in ]
+@ C#9 NOT OK. MSOLVER: "NO solution?", BUT SOLVE works for each unknown with its respective eqn rank#: A1#9;ΔP#4;Δy#5;Q#8;M#6;v2#1;A2#7;D2#10. Note: eqns 2 & 3 : "Inconsistent units"
+'ROOT(ⒺFlow with Losses;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+```
+@ proposed format for sequential ROOT calls where each unknown variable is affected to its corresponding equ rank # and calculated one at a time
+@ 'ROOT(ⒺFlow with Losses;[A1 #9;ΔP #4;Δy #5;Q #8;M #6;v2 #1;A2 #7;D2 #10];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+
 ### Flow In Full Pipes
 
 These equations adapt Bernoulli’s equation for flow in a round, full pipe, including power input (or output) and frictional losses (with the fanning friction factor 'f').
+
+![Flow In Full Pipes](img/Missing name.bmp)
+
+* To calculate [A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in] (Various hydrodynamic parameters) from 7 known variables:
+
+```rpl
+ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft 
+μ=0.00002_lbf∗s/ft^2  ΣK=2.25  ε=0.02_in  L=250_ft
+@ Expecting [ A1=452.38934 2117 in↑2 ΔP=-50. psi Δy=35. ft Q=18 849.55592 15 ft↑3/min M=1 206 371.57898 lb/min v2=93.12684 14502 ft/s A2=485.77760 7264 in↑2 D2=24.86988 66004 in ]
+@ NOT OK. Fanning function not implemented yet !!! "EquationSolver error: Bad argument type"
+'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;W;Re];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1_hp;1])'
+```
 
 ## Forces and Energy
 
@@ -551,19 +746,98 @@ force (Law of Gravitation), or Drag force (Drag force)
 
 ### Linear Mechanics
 
+* To calculate [F_lbf;Ki_ft∗lbf;vf_ft/s;Kf_ft∗lbf;W_ft∗lbf;x_ft;Pavg_hp] (Various dynamical variables) from 4 known variables:
+
+```rpl
+t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
+@ Expecting [ F=86.40934 6485 N Ki=0 J vf=38.1 m/s Kf=16 460.98050 54 J W=16 460.98050 54 J x=190.5 m Pavg=1 646.09805 054 W ]
+@ C#9 NOT OK. MSOLVER: "NO solution?", BUT SOLVE works for each unknown with its respective eqn.
+'ROOT(ⒺLinear Mechanics;[F;Ki;vf;Kf;W;x;Pavg];[1_lbf;1_ft∗lbf;1_ft/s;1_ft∗lbf;1_ft∗lbf;1_ft;1_hp])'
+```
+
 ### Angular Mechanics
 
+* To calculate [τ_ft∗lbf;Ki_ft∗lbf;W_ft∗lbf;Kf_ft∗lbf;at_ft/s^2;Ni_rpm;ωf_r/min;t_min;Nf_rpm;Pavg_hp] (Various dynamical variables) from 5 known variables:
+
+```rpl
+I=1750_lb∗in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
+@ Expecting [  ]
+@ C#10 NOT OK. MSOLVER: "NO solution?", BUT trying to SOLVE for each ordered unknown with its respective eqn leads to Error [Inconsistent units]
+'ROOT(ⒺAngular Mechanics;[τ;Ki;W;Kf;at;Ni;ωf;t;Nf;Pavg];[1_ft∗lbf;1_ft∗lbf;1_ft∗lbf;1_ft∗lbf;1_ft/s^2;1_rpm;1_r/min;1_min;1_rpm;1_hp])'
+```
+
 ### Centripetal Force
+
+* To calculate [ω_r/s;F_N;v_m/s;ar_m/s] (Various dynamical variables) from 3 known variables:
+
+```rpl
+m=1_kg  r=5_cm  N=2000_Hz
+@ Expecting [ ω=12 566.37061 44 r/s F=7 895 683.52087 N v=628.31853 0718 m/s 7 895 683.52087 m/s↑2 ]
+@ C#11 NOT OK. MSOLVER: "NO solution?", SOLVE for each ordered unknown with its respective eqn works up to ar leading to [Inconsistent units]
+'ROOT(ⒺCentripetal Force;[ω;F;v;ar];[1_r/s;1_N;1_m/s;1_m/s])'
+```
+@ 'ROOT(ⒺAngular Mechanics;[ω #4;F #1;v #2;ar #3];[1_r/s;1_N;1_m/s;1_m/s])'
+
 
 ### Hooke’s Law
 
 The force is that exerted by the spring.
 
+![Hooke’s Law](img/Missing name.bmp)
+
+* To calculate [F_lbf;W_ft∗lbf] (Force, work) from 2 known variables:
+
+```rpl
+k=1725_lbf/in  x=125_in
+@ Expecting [ 215 625 lbf -1 123 046.875 ft·lbf ]
+@ C#12 NOT OK. MSOLVER: "NO solution?", SOLVE for each ordered unknown with its respective eqn works except for F: wrong numerical result
+'ROOT(ⒺHooke’s Law;[F;W];[1_lbf;1_ft∗lbf])'
+```
+@ 'ROOT(ⒺHooke’s Law;[F #1;W #2];[1_lbf;1_ft∗lbf])'
+
 ### 1D Elastic Collisions
+
+![1D Elastic Collisions](img/Missing name.bmp)
+
+* To calculate [v1f_m/s;v2f_m/s] (Final velocities of mass m1 & m2) from 3 known variables:
+
+```rpl
+m1=10_kg  m2=25_kg  v1i=100_m/s
+@ Expecting [ v1f=-42.85714 28571 m/s v2f=57.14285 71429 m/s ]
+'ROOT(Ⓔ1D Elastic Collisions;[v1f;v2f];[1_m/s;1_m/s])'
+```
+
+### Drag Force
+
+* To calculate [F_N] (Drag force) from 4 known variables:
+
+```rpl
+Cd=0.05  ρ=1000_kg/m^3  A=7.5E6_cm^2  v=35_m/s
+@ Expecting [ F=22 968 750. N ]
+'ROOT(ⒺDrag Force;[F];[1_N])'
+```
 
 ### Gravitation Law
 
+* To calculate [F_N;UGf_J;UGi_J;W_J] (Gravitational force, work, final & initial potential energy) from 5 known variables:
+
+```rpl
+m1=2E15_kg  m2=2E18_kg  r=1000000_km  ri=1000000_km  rf=5000000_km
+@ Expecting [ F=266 903.6 N UGf=-5.33807 2⁳¹³ J UGi=-2.66903 6⁳¹⁴ J W=W=2.13522 88⁳¹⁴ J ]
+@ NOT OK. MSOLVER: "No solution ?", Errors in formulas for UGf & UGi: to be corrected
+'ROOT(ⒺGravitation Law;[F;UGf;UGi;W];[1_N;1_J;1_J;1_J])'
+```
+@ 'ROOT(ⒺGravitation Law;[F #1;UGf #3;UGi #4;W #2];[1_N;1_J;1_J;1_J])'
+
 ### Relativity Mass Energy
+
+* To calculate [E_J] (Relativistic energy) from 1 known variable:
+
+```rpl
+m=9.1E-31_kg
+@ Expecting [ E=8.17867 21247⁳⁻¹⁴ J ]
+'ROOT(ⒺRelativity Mass Energy;[E];[1_J])'
+```
 
 ## Gases
 
@@ -598,31 +872,113 @@ The variables in the Gases section are:
 
 ### Ideal Gas
 
+* To calculate [n_mol;m_kg] (Number of moles, mass) from 4 known variables:
+
+```rpl
+T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
+@ Expecting [ n=1.05056 26661 2 mol m=3.78202 55980 42⁳⁻² kg ]
+@ NOT OK. MSOLVER: "NO solution?", Units error in eq#1 & units conversion °C => K not yet implemented & gmol => mol in eqns
+'ROOT(ⒺIdeal Gas;[n;m];[1_mol;1_kg])'
+```
+@ 'ROOT(ⒺIdeal Gas;[n #1;m #2];[1_mol;1_kg])'
+
 ### Ideal Gas Law Change
+
+* To calculate [Vf_l] (Volume final) from 5 known variables:
+
+```rpl
+Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=373.15_K  Tf=373.15_K
+@ Expecting [ Vf=2. l ]
+'ROOT(ⒺIdeal Gas Law Change;[Vf];[1_l])'
+```
 
 ### Isothermal Expansion
 
 These equations apply to an ideal gas.
 
+* To calculate [m_kg;W_J] (Mass, work) from 5 known variables:
+
+```rpl
+Vi=2_l  Vf=125_l  T=573.15_°C  n=0.25_mol  MW=64_g/mol
+@ Expecting [ m=0.016 kg W=4 926.49415 89 J ]
+'ROOT(ⒺIsothermal Expansion;[m;W];[1_kg;1_J])'
+```
+
 ### Polytropic Processes
 
 These equations describe a reversible pressure-volume change of an ideal gas such that 'P·Vn' is constant. Special cases include isothermal processes ('n = 1'), isentropic processes ('n = k', the specific heat ratio), and constant-pressure processes ('n = 0').
 
+* To calculate [n_1;Tf_°F] (Polytropic number, final temperature) from 5 known variables:
+
+```rpl
+Pi=15_psi  Pf=35_psi  Vi=1_ft^3  Vf=0.50_ft^3  Ti=75_°F
+@ Expecting [ n=1.22239 24213 4 Tf=87.5 °F ]
+'ROOT(ⒺPolytropic Processes;[n;Tf];[1;1_°F])'
+```
+
 ### Isentropic Flow
 
+![Isentropic Flow](img/Missing name.bmp)
+
 The calculation differs at velocities below and above Mach 1. The Mach number is based on the speed of sound in the compressible fluid.
+
+* To calculate [P_kPa;ρ_kg/m^3;At_cm^2] (Flow pressure, flow density, throat area) from 7 known variables:
+
+```rpl
+k=2  M=0.9  T0=300_K  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
+@ Expecting [ P=154.71213 6111 kPa ρ=124.38333 3333 kg/m↑3 At=0.99280 71853 34 cm↑2 ]
+'ROOT(ⒺIsentropic Flow;[P;ρ;At];[1_kPa;1_kg/m^3;1_cm^2])'
+```
 
 ### Real Gas Law
 
 These equations adapt the ideal gas law to emulate real-gas behavior.
 
+* To calculate [n_mol;m_kg;Z_1] (Number of mole, mass, gas compressibility correction factor) from 7 known variables:
+
+```rpl
+Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
+@ Expecting [ n=1.72768 40576 08⁳⁻² mol m=1.10571 77968 69⁳⁻³ kg Z=0.999775 79726 90 ]
+@ C#13 NOT OK. MSOLVER: "NO solution?", MSOLVE works only if we provide the right initial value for Z
+'ROOT(ⒺReal Gas Law;[n;m;Z];[1_mol;1_kg;1])'
+```
+@ SOLUTIONS with an individual ROOT call. Since it works the Z function (in equation.cc) will be rewritten in closed form 
+@ 'ROOT(-Z+1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2);Z;1)'
+@ Z=0.99977 57972 690
+
 ### Real Gas State Change
 
 This equation adapts the ideal gas state-change equation to emulate real-gas behavior.
 
+* To calculate [Vf_l;Zi_1;Zf_1] (Final volume, initial & final gas compressibility correction factor) from 7 known variables:
+
+```rpl
+Pc=48_atm  Pi=100_kPa  Pf=50_kPa  Ti=348.15_K  Tc=298_K  Vi=10_l  Tf=523.15_K
+@ Expecting [ Vf=30.17028 92973 l Zi=0.99550 62096 36 Zf=0.99938 68303 14 ]
+@ C#14 NOT OK. MSOLVER: "Unable to solve for all variables" even if I provide the value for Zi & Zf (see below) the Vf calculated is wrong
+'ROOT(ⒺReal Gas State Change;[Vf;Zi;Zf];[Vf_l;1;1])'
+```
+@ SOLUTIONS with individual ROOT calls. Since it works the Zi & Zf function (in equation.cc) will be rewritten in closed form 
+@ 'ROOT(-Zi+1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2);Zi;1)'
+@ => Zi=0.99550 62096 36
+@ 'ROOT(-Zf+1+(0.31506237-1.04670990/((523.15_K)/(298_K))-0.57832729/((523.15_K)/(298_K))^3)*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))+(0.53530771-0.61232032/((523.15_K)/(298_K)))*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^5/((523.15_K)/(298_K))+0.68157001*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2/((523.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2);Zf;1)'
+@ => Zf=0.99938 68303 14
+@ => Zi/Zf=0.99611 69983 83  which is the required answer
+
 ### Kinetic Theory
 
 These equations describe properties of an ideal gas.
+
+* To calculate [vrms_m/s;n_mol;m_kg;λ_nm] (Root-mean-square velocity, number of mole, mean free path) from 7 known variables:
+
+```rpl
+P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
+@ Expecting [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
+@ C#15 NOT OK. MSOLVER calculates wrong values, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
+@ MSOLVER calculates wrong values : [ vrms=1 388.08583 078 m/s n=0.0173 mol m=0.00031 14 kg λ=1 nm ]
+'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
+```
+
 
 ## Heat transfer
 
@@ -652,19 +1008,81 @@ The variables in the Heat Transfer section are:
 
 ### Heat Capacity
 
+* To calculate [c_kJ/(kg∗K);Tf_°C] (Specific heat, final temperature) from 4 known variables:
+
+```rpl
+ΔT=15_°C  Ti=0_°C  m=10_kg  Q=25_kJ
+@ Expecting [ c=0.16666 66666 67 kJ/(kg·K) Tf=15_°C ]
+@ C#16 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
+'ROOT(ⒺHeat Capacity;[c;Tf];[1_kJ/(kg∗K);1_°C])'
+```
+
 ### Thermal Expansion
+
+![Thermal Expansion](img/Missing name.bmp)
+
+* To calculate [α_K^-1;Ti_°C] (Expansion coefficient, initial temperature) from 4 known variables:
+
+```rpl
+ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
+@ Expecting [ α=6.66666 66666 67⁳⁻⁵ K⁻¹ Ti=10_°C ]
+'ROOT(ⒺThermal Expansion;[α;Ti];[1_K^-1;1_°C])'
+```
 
 ### Conduction
 
+![Conduction](img/Missing name.bmp)
+
+* To calculate [qr_W;ΔT_°C] (Heat transfer rate, temperature difference) from 5 known variables:
+
+```rpl
+Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m∗K)
+@ Expecting [ qr=5000 W ΔT=50_°C ]
+@ C#17 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
+'ROOT(ⒺConduction;[qr;ΔT];[1_W;1_°C])'
+```
+
 ### Convection
+
+![Convection](img/Missing name.bmp)
+
+* To calculate [ΔT_°C;Th_°C] (Temperature difference, hot surface temperature) from 4 known variables:
+
+```rpl
+Tc=26.85_°C  A=200_m^2  h=0.005_W/(m^2*K)  qr=10_W
+@ Expecting [ ΔT=10. °C Th=36.85 °C ]
+'ROOT(ⒺConvection;[ΔT;Th];[1_°C;1_°C])'
+```
 
 ### Conduction + Convection
 
 If you have fewer than three layers, give the extra layers a zero thickness and any nonzero conductivity. The two temperatures are fluid temperatures – if instead you know a surface temperature, set the corresponding convective coefficient to 10^999999.
 
+![Conduction + Convection](img/Missing name.bmp)
+
+* To calculate [qr_W;Tc_°C;U_W/(m^2*K)] (Heat transfer rate, cold surface temperature, overall heat transfer coefficient) from 11 known variables:
+
+```rpl
+ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
+@ Expecting [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
+'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
+```
+
 ### Black Body Radiation
 
 F0λ(λ_m, T_K) is the black body emissive power Function which returns the fraction of total black-body emissive power at temperature 'T_K' between wavelengths 0 and 'λ_m'. It is the integral of the Planck distribution.
+
+![Black Body Radiation](img/Missing name.bmp)
+
+* To calculate [λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W] (Wavelength of maximal emission, total emissive power, fraction of emissive power between λ1 & λ2, emissive power between λ1 & λ2, heat transfer rate) from 4 known variables:
+
+```rpl
+T=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
+@ Expecting [ λmax=2276.0523_nm eb=148984.2703_W/m^2 f=0.0036 eb12=537.7264_W/m^2 q=14.8984_W ]
+@ NOT OK: Integration not functionning
+'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
+```
+
 
 ## Magnetism
 
@@ -1148,6 +1566,7 @@ In acoustics, a beat is an interference pattern between two sounds of slightly d
 ## Relativity
 The variables in the Relativity section are:
 
+* `α`: Light Doppler effect, light arrival angle in the rest frame
 * `β`: Velocity relativistic speed ratio
 * `βe`: Escape velocity relativistic speed ratio
 * `βp`: Plane velocity relativistic speed ratio
@@ -1166,6 +1585,8 @@ The variables in the Relativity section are:
 * `γG1, γG2`: Lorentz factor associated to gravitational dilation at heights h1 and h2
 * `ω`: Angular velocity of a rotating planet during a day (dim.: angle/time, in SI: r/s)
 * `φ`: Latitude (dim.: angle)
+* 'θ' : Aberration of light, emission angle in the frame at rest
+* 'θp' : Aberration of light, emission angle in the moving frame
 * `ΔτWE`: Time difference between westward and eastward flights
 * `ΔτE`: Flight time in the eastward direction
 * `ΔτW`: Flight time in the westward direction
@@ -1186,6 +1607,7 @@ The variables in the Relativity section are:
 * `Bpy`: Transformed y component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `Bpz`: Transformed z component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `E`: Total energy
+* `Ep`: Transformed total energy
 * `E0`: Rest energy associated to the rest mass
 * `Ex`: X component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Ey`: Y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
@@ -1193,6 +1615,8 @@ The variables in the Relativity section are:
 * `Epx`: Transformed x component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epy`: Transformed y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epz`: Transformed z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
+* 'f' = Light Doppler effect, frequency received in the frame at rest (dim.: 1/time, in SI: hertz, Hz)
+* 'fp' = Light Doppler effect, frequency emitted in the moving frame (dim.: 1/time, in SI: hertz, Hz)
 * `fs`: Wave frequency of the source (dim.: 1/time, in SI: hertz, Hz)
 * `frl`: Relativistic longitudinal Doppler frequency (dim.: 1/time, in SI: hertz, Hz)
 * `frt`: Relativistic transverse Doppler frequency (dim.: 1/time, in SI: hertz, Hz)
@@ -1205,7 +1629,14 @@ The variables in the Relativity section are:
 * `Mxearth`: Mass factor as a multiple of Earth mass
 * `Mxsun`: Mass factor as a multiple of Sun mass
 * `MxSagA`: Mass factor as a multiple of SagitariusA* mass
+* 'Pθ' = Light relativistic beaming, angular distribution of photon in the moving frame from a source isotropic and stationary
 * `p`: Momentum (dim.: mass·speed, in SI: kg·m/s)
+* `px`: X component of the momentum (dim.: mass·speed, in SI: kg·m/s)
+* `pz`: Y component of the momentum (dim.: mass·speed, in SI: kg·m/s)
+* `pz`: Z component of the momentum (dim.: mass·speed, in SI: kg·m/s)
+* `ppx`: Transformed x component of the momentum (dim.: mass·speed, in SI: kg·m/s)
+* `ppz`: Transformed y component of the momentum (dim.: mass·speed, in SI: kg·m/s)
+* `ppz`: Transformed z component of the momentum (dim.: mass·speed, in SI: kg·m/s)
 * `PBH`: Black hole evaporation power (dim.: energy/time, in SI: watt, W)
 * `R`: Planet radius
 * `R1, R2`: Radius to points 1 and 2
@@ -1326,13 +1757,13 @@ The variables in the Modern Physics section are:
 
 #### Planck & Wien Comparison
 
-In this section, two comparisons are done between the Planck and Wien spectral distributions. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature 'T' determines the frequency ranges for integration between 'f1' and 'f2', or between 'f3' and 'f4'. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in 'Frfafb') to compute the corresponding enissive power and the heat transfer rate from the black-body.
+In this section, two comparisons are done between the Planck and Wien spectral distributiona. Based on a incomplete thermodynamic argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature 'T' determines the frequency ranges for integration between 'f1' and 'f2', or between 'f3' and 'f4'. One shall determine in which frequency interval both distribution differs notably or agree. The asymptotic agreement for large frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in 'Frfafb') to compute the corresponding enissive power and the heat transfer rate from the black-body.
 
 ![Planck & Wien Comparison](img/Planck&Wien_Distributions.bmp)
 
 #### Planck & Rayleigh-Jeans Comparison
 
-In this section, two comparisons are done between the Planck and Rayleigh-Jeans spectral distributions. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature 'T' determines the frequency ranges for integration between 'f1' and 'f2', or between 'f3' and 'f4'. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in 'Frfafb') to compute the corresponding enissive power and the heat transfer rate from the black-body.
+In this section, two comparisons are done between the Planck and Rayleigh-Jeans spectral distributiona. Based on the equipartition theorem argument, the latter is an approximation of the true Planck law describing the spectral distribution for the light emitted by a black-body. The choice of temperature 'T' determines the frequency ranges for integration between 'f1' and 'f2', or between 'f3' and 'f4'. One shall determine in which frequency interval both distribution agree or differs considerably, leading to a divergence called UV catastrophy corresponding to unphysical fractions greather than one. The asymptotic agreement for small frequency is clearly illustrated in the picture. The user is free to choose one or the other comparison fractions (replacing it in 'Frfafb') to compute the corresponding enissive power and the heat transfer rate from the black-body.
 
 ![Planck & Rayleigh-Jeans Comparison](img/Planck&Rayleigh-Jeans_Distributions.bmp)
 
