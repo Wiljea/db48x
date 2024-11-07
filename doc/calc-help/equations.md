@@ -46,7 +46,7 @@ These equations apply to a slender column (`K·L/r>100`) with length factor `K`.
 
 ![Elastic Buckling](img/ElasticBuckling.bmp)
 
-* To calculate [Pcr_kN;σcr_kPa] (Critical load; Critical stress) from 6 known variables:
+* To calculate `[Pcr_kN;σcr_kPa]` (Critical load; Critical stress) from 6 known variables:
 ```rpl
 L=7.3152_m  r=4.1148_cm  E=199947961.502_kPa  A=53.0967_cm^2  K=0.7  I=8990598.7930_mm^4
 @ Expecting [ Pcr=676.60192 6324 kN σcr=127 428.24437 8 kPa ]
@@ -290,11 +290,11 @@ if 'r < L/10' then
 'ROOT(ⒺE Field Finite Line;[λ;Er];[1_C/m;1_N/C])'
 end
 ```
-
 ```rpl
-@ Verify relative difference under condition 5_cm << 3_m.
+@ Verify relative difference under condition `5_cm << 3_m`.
 Er0 Er %Ch
-@ Expecting -5.55093 02084 6⁳⁻²
+@ Expecting [ -5.55093 02084 6⁳⁻² ]
+@ % of relative difference with Infinite Wire
 ```
 
 ### E Field Infinite Plate
@@ -522,7 +522,7 @@ L=500_mH  C=8_μF  R=10_Ω
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 @ Failing [ d=8.00418 57871 19⁳⁻⁹ cm σ=750 000. μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ N/C ΔV=3. V ]
-@ C#4 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately
+@ C#1 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately. No, doesn't solve even individually: "SolvingMenuSolve error: Bad argument type"
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -569,8 +569,7 @@ C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 
 ```rpl
 Vmax=110_V  t=30_μs  f=60_Hz  φ=15_°
-@ Failing [ ω=376.99111 8431 r/s V=29.66992 85671 V ]
-@ C#5 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately
+@ Expecting [ ω=376.99111 8431 r/s V=29.66992 85671 V ]
 'ROOT(ⒺSinusoidal Voltage;[ω;V];[1_r/s;1_V])'
 ```
 
@@ -579,9 +578,8 @@ Vmax=110_V  t=30_μs  f=60_Hz  φ=15_°
 * To calculate `[I_A;f_Hz]` (Current, frequency) from 4 known variables:
 
 ```rpl
-t=32_s  Imax=10_A  ω=636_r/s  φ=30_°
-@ Failing [ f=101.22254 3806 Hz I=9.59828 06834 1 A ]
-@ C#6 NOT OK. MSOLVER: "NO solution?", OK solving for f separately BUT "sin error: numerical precision lost" when solving for I_A
+t=3.2_s  Imax=10_A  ω=636_r/s  φ=30_°
+@ Expecting [ f=101.22254 3806 Hz I=-0.28436 91656 8 A ]
 'ROOT(ⒺSinusoidal Current;[f;I];[1_Hz;1_A])'
 ```
 
@@ -590,10 +588,16 @@ t=32_s  Imax=10_A  ω=636_r/s  φ=30_°
 * To calculate `[vd_m/s;J_(A/m^2);E_(V/m)]` (Drift speed, current density, E field) from 5 known variables:
 
 ```rpl
-@ A='Ⓒπ*(0.1_cm)^2'  ρ='Ⓒqe*n'  σ='Ⓒqe*n*40_(cm^2/(V*s))'
-@ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
+@ A='Ⓒπ*(0.1_cm)^2'  ρ='Ⓒqe*n'  σ='Ⓒqe*n*40_(cm^2/(V*s))' This is the working version with numerical input values
 I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 90E-2_cm↑2 ρ=1.36185 01389E10_C/m↑3 σ=54 474 005.556_S/m
+@ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
+
+@ C#2 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work
+I=1_A  n=8.5e28_(m^-3) r=0.1_cm A='Ⓒπ*r^2' ρ='Ⓒqe*n' σ='Ⓒqe*n*40_(cm^2/(V*s))'
+@ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
+'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
+
 ```
 
 ### Electron & Hole Mobilities
@@ -607,17 +611,10 @@ In accordance with microscopic Ohm's law, the current density is proportional to
 @ mheff_kg='0.5*Ⓒme'  ne=1.04e19_(cm^-3)  nh=6.0e18_(m^-3) E=6.0e-9_V/m
 
 τc=4.09365 36801 40e-15_s meeff=1.09312 60456 68e-31 kg mheff=4.55469 18569 5e-31 kg nh=6.0e18_(m^-3) ne=1.04e19_(m^-3) E=6.0e-9_V/m
-@ Wanted [ μe=49.03846 15384 64976 91445 22_cm↑2/(s·V) μh=60.00000 00000 03822 512o15 7_cm↑2/(s·V) Je=4.90266 05000 386⁳-11_A/m↑2 Jh=3.46070 15294 402⁳-11_A/m↑2 J=8.36336 20294 771⁳-11_A/m↑2 σ=0.01393 89367 15800 94039 7294_S/m ]
-@ The solution below is different, but seems to validate4 with EvalEq
 @ Expecting [ μe=60. cm↑2/(V·s) μh=14.4 cm↑2/(V·s) Je=5.99854 93176 9⁳⁻¹¹ A/m↑2 Jh=8.30568 36706 4⁳⁻¹² A/m↑2 J=6.82911 76847 6⁳⁻¹¹ A/m↑2 σ=1.13818 62807 9⁳⁻² S/m ]
 'ROOT(ⒺElectron & Hole Mobilities;[μe;μh;Je;Jh;J;σ];[1_(cm^2/(V*s));1_(cm^2/(V*s));1_(A/m^2);1_(A/m^2);1_(A/m^2);1_(S/m)])'
 ```
 
-Notes about manually-ordered solution:
-```
-@ 'ROOT(ⒺElectron & Hole Mobilities;[μe #4;μh #5;Je #2;Jh #3;J #1;σ #6];[1_(cm^2/(V*s));1_(cm^2/(V*s));1_(A/m^2);1_(A/m^2);1_(A/m^2);1_(S/m)])'
-
-```
 ## Fluids
 
 The variables in the Fluids section are:
@@ -673,8 +670,8 @@ These equations represent the streamlined flow of an incompressible fluid.
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
 @ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#8 NOT OK. MSOLVER: "NO solution?", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown
-'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. SOLVE doesn't solve for any single unknown: "SolvingMenuSolve error: Bad argument type"
+'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
 Alternate présentation adding one more known value: `v2`
@@ -682,8 +679,8 @@ Alternate présentation adding one more known value: `v2`
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s v2=122.421311569_ft/s
 @ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#8 NOT OK. MSOLVER: "NO solution?", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 "Inconsistent units" while searching for each remaining unknown
-'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 "Inconsistent units" while searching for each remaining unknown. SOLVE doesn't solve for any single unknown: "SolvingMenuSolve error: Bad argument type"
+'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
 ### Flow with Losses
@@ -695,17 +692,9 @@ These equations extend Bernoulli’s equation to include power input (or output)
 * To calculate `[A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in]` (Various hydrodynamic parameters) from 7 known variables:
 
 ```rpl
-P2=30_psi  P1=65_psi  y2=100_ft  y1=0_ft  ρ=64_lb/ft^3  D1=24_in  hL=2.0_(ft/s)^2  W=25_hp
-v1=100_ft/s
-@ Failing [ A1=452.38934 2117 in↑2 ΔP=-50. psi Δy=35. ft Q=18 849.55592 15 ft↑3/min M=1 206 371.57898 lb/min v2=93.12684 14502 ft/s A2=485.77760 7264 in↑2 D2=24.86988 66004 in ]
-@ C#9 NOT OK. MSOLVER: "NO solution?", BUT SOLVE works for each unknown with its respective eqn rank#: A1#9;ΔP#4;Δy#5;Q#8;M#6;v2#1;A2#7;D2#10. Note: eqns 2 & 3 : "Inconsistent units"
-'ROOT(ⒺFlow with Losses;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
-```
-
-Notes about manual solution:
-```
-@ proposed format for sequential ROOT calls where each unknown variable is affected to its corresponding equ rank # and calculated one at a time
-@ 'ROOT(ⒺFlow with Losses;[A1 #9;ΔP #4;Δy #5;Q #8;M #6;v2 #1;A2 #7;D2 #10];[1_in^2;1_psi;1_ft;1_ft^3/min;1_in^2;1_lb/min;1_ft/s;1_in])'
+P2=30_psi  P1=65_psi  y2=100_ft  y1=0_ft  ρ=64_lb/ft^3  D1=24_in  hL=2.0_(ft/s)^2  W=25_hp  v1=100_ft/s
+@ Expecting [ A1=452.38934 2117 in↑2 ΔP=-35. psi Δy=100. ft Q=18 849.55592 15 ft↑3/min M=1 206 371.57898 lb/min v2=93.12684 14502 ft/s A2=485.77760 7264 in↑2 D2=24.86988 66004 in ]
+'ROOT(ⒺFlow with Losses;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
 ### Flow In Full Pipes
@@ -714,14 +703,14 @@ These equations adapt Bernoulli’s equation for flow in a round, full pipe, inc
 
 ![Flow In Full Pipes](img/Missing name.bmp)
 
-* To calculate `[A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in]` (Various hydrodynamic parameters) from 7 known variables:
+* To calculate `[ΔP_Psi;Δy_ft;A_in^2;n_ft^2/s;Q_ft^3/min;M_lb/min;W_hp;Reynolds]` (Various hydrodynamic parameters) from 7 known variables:
 
 ```rpl
 ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft
 μ=0.00002_lbf*s/ft^2  ΣK=2.25  ε=0.02_in  L=250_ft
-@ Failing [ A1=452.38934 2117 in↑2 ΔP=-50. psi Δy=35. ft Q=18 849.55592 15 ft↑3/min M=1 206 371.57898 lb/min v2=93.12684 14502 ft/s A2=485.77760 7264 in↑2 D2=24.86988 66004 in ]
-@ NOT OK. Fanning function not implemented yet !!! "EquationSolver error: Bad argument type"
-'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;W;Re];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1_hp;1])'
+@ Failing [ ΔP=-5. psi Δy=40. ft A=113.0973 in↑2 n=1.0312 ft^2/s Q=376.991 ft↑3/min M=23 524.2358 lb/min W=25.8897 hp Reynolds=775 780.5 ]
+@ C#4 NOT OK. Fanning function not implemented yet !!! Msolver: "EquationSolver error: Inconsistent units"
+'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;W;Reynolds];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1_hp;1])'
 ```
 
 ## Forces and Energy
@@ -764,8 +753,8 @@ force (Law of Gravitation), or Drag force (Drag force)
 
 ```rpl
 t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
-@ Failing [ F=86.40934 6485 N Ki=0 J vf=38.1 m/s Kf=16 460.98050 54 J W=16 460.98050 54 J x=190.5 m Pavg=1 646.09805 054 W ]
-@ C#9 NOT OK. MSOLVER: "NO solution?", BUT SOLVE works for each unknown with its respective eqn.
+@ Expecting [ F=19.42559 38572 lbf Ki=-1.2⁳⁻²³ ft·lbf vf=125. ft/s Kf=12 140.99616 08 ft·lbf W=12 140.99616 08 ft·lbf x=625. ft Pavg=2.20745 38474 1 hp ]
+@ Note Ki is approximately 0
 'ROOT(ⒺLinear Mechanics;[F;Ki;vf;Kf;W;x;Pavg];[1_lbf;1_ft*lbf;1_ft/s;1_ft*lbf;1_ft*lbf;1_ft;1_hp])'
 ```
 
@@ -775,9 +764,11 @@ t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
 
 ```rpl
 I=1750_lb*in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
-@ Failing [  ]
-@ C#10 NOT OK. MSOLVER: "NO solution?", BUT trying to SOLVE for each ordered unknown with its respective eqn leads to Error [Inconsistent units]
+@ Failing [ r=1.1017E–3 ft*lbf  Ki=0 ft*lbf  W=6.9221E–3 ft*lbf  Kf=6.9221E–3 ft*lbf 
+at=8.5069E–4 ft/s^2  Ni=0 rpm  ωf=11.4868 r/min  t=1.0940 min  Nf=1.8282 rpm  Pavg=1.9174E–7 hp ]
+@ C#5 NOT OK. MSOLVER: "Inconsistent units", BUT trying to SOLVE for each ordered unknown with its respective eqn leads to Error [Inconsistent units]
 'ROOT(ⒺAngular Mechanics;[τ;Ki;W;Kf;at;Ni;ωf;t;Nf;Pavg];[1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft/s^2;1_rpm;1_r/min;1_min;1_rpm;1_hp])'
+
 ```
 
 ### Centripetal Force
@@ -786,11 +777,9 @@ I=1750_lb*in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
 
 ```rpl
 m=1_kg  r=5_cm  N=2000_Hz
-@ Failing [ ω=12 566.37061 44 r/s F=7 895 683.52087 N v=628.31853 0718 m/s 7 895 683.52087 m/s↑2 ]
-@ C#11 NOT OK. MSOLVER: "NO solution?", SOLVE for each ordered unknown with its respective eqn works up to ar leading to [Inconsistent units]
-'ROOT(ⒺCentripetal Force;[ω;F;v;ar];[1_r/s;1_N;1_m/s;1_m/s])'
+@ Expecting [ ω=12 566.37061 44 r/s F=7 895 683.52087 N v=628.31853 0718 m/s ar=7 895 683.52087 m/s↑2 ]
+'ROOT(ⒺCentripetal Force;[ω;F;v;ar];[1_r/s;1_N;1_m/s;1_m/s^2])'
 ```
-
 
 ### Hooke’s Law
 
@@ -801,15 +790,9 @@ The force is that exerted by the spring.
 * To calculate `[F_lbf;W_ft*lbf]` (Force, work) from 2 known variables:
 
 ```rpl
-k=1725_lbf/in  x=125_in
-@ Failing [ 215 625 lbf -1 123 046.875 ft·lbf ]
-@ C#12 NOT OK. MSOLVER: "NO solution?", SOLVE for each ordered unknown with its respective eqn works except for F: wrong numerical result
+k=1725_lbf/in  x=1.25_in
+@ Expecting [ F=-2 156.25 lbf W=-112.30468 75 lbf·ft ]
 'ROOT(ⒺHooke’s Law;[F;W];[1_lbf;1_ft*lbf])'
-```
-
-Notes about a manually-ordered solution:
-```
-@ 'ROOT(ⒺHooke’s Law;[F #1;W #2];[1_lbf;1_ft*lbf])'
 ```
 
 ### 1D Elastic Collisions
@@ -840,8 +823,7 @@ Cd=0.05  ρ=1000_kg/m^3  A=7.5E6_cm^2  v=35_m/s
 
 ```rpl
 m1=2E15_kg  m2=2E18_kg  r=1000000_km  ri=1000000_km  rf=5000000_km
-@ Failing [ F=266 903.6 N UGf=-5.33807 2⁳¹³ J UGi=-2.66903 6⁳¹⁴ J W=W=2.13522 88⁳¹⁴ J ]
-@ NOT OK. MSOLVER: "No solution ?", Errors in formulas for UGf & UGi: to be corrected
+@ Expecting [ F=266 903.6 N UGf=-5.33807 2⁳¹³ J UGi=-2.66903 6⁳¹⁴ J W=2.13522 88⁳¹⁴ J ]
 'ROOT(ⒺGravitation Law;[F;UGf;UGi;W];[1_N;1_J;1_J;1_J])'
 ```
 
@@ -892,8 +874,7 @@ The variables in the Gases section are:
 
 ```rpl
 T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
-@ Failing [ n=1.05056 26661 2 mol m=3.78202 55980 42⁳⁻² kg ]
-@ NOT OK. MSOLVER: "NO solution?", Units error in eq#1 & units conversion °C => K not yet implemented & gmol => mol in eqns
+@ Expecting [ n=1.05056 26661 23⁳⁰ mol m=3.78202 55980 42⁳⁻² kg ]
 'ROOT(ⒺIdeal Gas;[n;m];[1_mol;1_kg])'
 ```
 
@@ -902,7 +883,7 @@ T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
 * To calculate `[Vf_l]` (Volume final) from 5 known variables:
 
 ```rpl
-Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=373.15_K  Tf=373.15_K
+Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=100_°C  Tf=373.15_K
 @ Expecting [ Vf=2. l ]
 'ROOT(ⒺIdeal Gas Law Change;[Vf];[1_l])'
 ```
@@ -914,8 +895,8 @@ These equations apply to an ideal gas.
 * To calculate `[m_kg;W_J]` (Mass, work) from 5 known variables:
 
 ```rpl
-Vi=2_l  Vf=125_l  T=573.15_°C  n=0.25_mol  MW=64_g/mol
-@ Expecting [ m=1.6⁳⁻² kg W=7 274.34704 123 J ]
+Vi=2_l  Vf=125_l  T=300_°C  n=0.25_mol  MW=64_g/mol
+@ Expecting [ m=1.6⁳⁻² kg W=4 926.49415 89 J ]
 'ROOT(ⒺIsothermal Expansion;[m;W];[1_kg;1_J])'
 ```
 
@@ -928,7 +909,7 @@ These equations describe a reversible pressure-volume change of an ideal gas suc
 ```rpl
 Pi=15_psi  Pf=35_psi  Vi=1_ft^3  Vf=0.50_ft^3  Ti=75_°F
 @ Expecting [ n=1.22239 24213 4 Tf=346.54537 037 K ]
-'ROOT(ⒺPolytropic Processes;[n;Tf];[1;1_°F])'
+'ROOT(ⒺPolytropic Processes;[n;Tf];[1;1_K])'
 ```
 
 ### Isentropic Flow
@@ -940,7 +921,7 @@ The calculation differs at velocities below and above Mach 1. The Mach number is
 * To calculate `[P_kPa;ρ_kg/m^3;At_cm^2]` (Flow pressure, flow density, throat area) from 7 known variables:
 
 ```rpl
-k=2  M=0.9  T0=300_K  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
+k=2  M=0.9  T0=26.85_°C  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
 @ Expecting [ P=154.71213 6111 kPa ρ=124.38333 3333 kg/m↑3 At=0.99280 71853 34 cm↑2 ]
 'ROOT(ⒺIsentropic Flow;[P;ρ;At];[1_kPa;1_kg/m^3;1_cm^2])'
 ```
@@ -952,9 +933,9 @@ These equations adapt the ideal gas law to emulate real-gas behavior.
 * To calculate `[n_mol;m_kg;Z_1]` (Number of mole, mass, gas compressibility correction factor) from 7 known variables:
 
 ```rpl
-Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
-@ Failing [ n=1.72768 40576 08⁳⁻² mol m=1.10571 77968 69⁳⁻³ kg Z=0.999775 79726 90 ]
-@ C#13 NOT OK. MSOLVER: "NO solution?", MSOLVE works only if we provide the right initial value for Z
+Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K 
+@ Failing [ n=1.72768 40576 08⁳⁻² mol m=1.10571 77968 69⁳⁻³ kg Z=0.99977 57972 690 ]
+@ C#6 NOT OK. MSOLVER: "Inconsistent units", MSOLVE works only if we provide the right initial value for Z ... NOT ANYMORE !
 'ROOT(ⒺReal Gas Law;[n;m;Z];[1_mol;1_kg;1])'
 ```
 
@@ -974,7 +955,7 @@ This equation adapts the ideal gas state-change equation to emulate real-gas beh
 ```rpl
 Pc=48_atm  Pi=100_kPa  Pf=50_kPa  Ti=348.15_K  Tc=298_K  Vi=10_l  Tf=523.15_K
 @ Failing [ Vf=30.17028 92973 l Zi=0.99550 62096 36 Zf=0.99938 68303 14 ]
-@ C#14 NOT OK. MSOLVER: "Unable to solve for all variables" even if I provide the value for Zi & Zf (see below) the Vf calculated is wrong
+@ C#7 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below) the Vf calculated is wrong
 'ROOT(ⒺReal Gas State Change;[Vf;Zi;Zf];[Vf_l;1;1])'
 ```
 
@@ -998,7 +979,8 @@ These equations describe properties of an ideal gas.
 ```rpl
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
 @ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
-@ C#15 NOT OK. MSOLVER calculates wrong values, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
+@ Expecting [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 7⁳⁻³ kg λ=1 nm ]
+@ C#8 NOT OK. MSOLVER calculates a wrong λ value, SOLVE only calculates separately the 3 first unknowns then the computation of λ is wrong
 @ MSOLVER calculates wrong values : [ vrms=1 388.08583 078 m/s n=0.0173 mol m=0.00031 14 kg λ=1 nm ]
 'ROOT(ⒺKinetic Theory;[vrms;n;m;λ];[1_m/s;1_mol;1_kg;1_nm])'
 ```
@@ -1037,7 +1019,7 @@ The variables in the Heat Transfer section are:
 ```rpl
 ΔT=15_°C  Ti=0_°C  m=10_kg  Q=25_kJ
 @ Failing [ c=0.16666 66666 67 kJ/(kg·K) Tf=15_°C ]
-@ C#16 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
+@ C#9 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
 'ROOT(ⒺHeat Capacity;[c;Tf];[1_kJ/(kg*K);1_°C])'
 ```
 
@@ -1062,7 +1044,7 @@ The variables in the Heat Transfer section are:
 ```rpl
 Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 @ Failing [ qr=5000 W ΔT=50_°C ]
-@ C#17 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
+@ C#10 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
 'ROOT(ⒺConduction;[qr;ΔT];[1_W;1_°C])'
 ```
 
@@ -1074,7 +1056,9 @@ Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 
 ```rpl
 Tc=26.85_°C  A=200_m^2  h=0.005_W/(m^2*K)  qr=10_W
-@ Expecting [ ΔT=10. °C Th=36.85 °C ]
+@ Expecting [ ΔT=10. K Th=36.85 K ]
+@ Failing [ ΔT=10. °C Th=36.85 °C ]
+@ C#11 NOT OK Wrong units for the output variables in disagreement with the output units specified in the following ROOT call
 'ROOT(ⒺConvection;[ΔT;Th];[1_°C;1_°C])'
 ```
 
@@ -1088,7 +1072,8 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
-@ Expecting [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
+@ Failing [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
+@ C#12 NOT OK: (it worked in previous version 8.2) MSOLVER: "No solution?"
 'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
 ```
 
@@ -1103,7 +1088,7 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 ```rpl
 T=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
 @ Failing [ λmax=2276.0523_nm eb=148984.2703_W/m^2 f=0.0036 eb12=537.7264_W/m^2 q=14.8984_W ]
-@ NOT OK: Integration not functionning
+@ C#13 NOT OK: MSOLVER: "Invalid function" after a long time probably due to the integration not functionning, see ISSUE#1307
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
 
@@ -1118,7 +1103,7 @@ The variables in the Magnetism section are:
 * `μr`: Relative permeability
 * `B`: Magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `d`: Separation distance
-* `Dpitch`: Pitch of the helicoidal mouvement (dim.: length)
+* `Dpitch`: Pitch of the helicoidal motion (dim.: length)
 * `Fba`: Force
 * `fc`: Cyclotron frequency (dim.: time^-1, in SI: hertx, Hz)
 * `I, Ia, Ib`: Current (dim.: charge/time, in SI: ampere, A)
@@ -1138,22 +1123,96 @@ The variables in the Magnetism section are:
 
 #### Straight Wire Infinite
 
-The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly. The expression for the magnetic field at the distance `r` is approximately valid if the distance is such that `r << L` and therefore also applies for a wire of finite length `L`.
+The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly. The expression for the magnetic field at the distance `r` is approximately valid if the distance is such that `r << L` and therefore also applies for a wire of finite length `L` providing that `r < L/10` (see the following example 2 compared to example 2 of "Straight Wire Finite"). Note that if an electric current passes through a straight wire, one must use the following right-hand rule te determine the direction of the `B` field: when the thumb is pointed in the direction of conventional current (from positive to negative), the curled fingers will then point in the direction of the magnetic field (see fig.).
+
+
+![Straight Wire Infinite](img/Missing name.bmp)
+
+* **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 3 known variables:
+
+```rpl
+μr=1  rw=0.25_cm  r=0.2_cm  I=25_A
+@ Expecting [ B=0.0016 T ]
+'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
+```
+
+* **Example 2.** Outside the wire, to calculate `[B_T]` (Magnetic field) from 3 known variables:
+
+```rpl
+μr=1  rw=0.25_cm  r=5_cm  I=25_A
+@ Expecting [ B=1.⁳⁻⁴ T ]
+'ROOT(ⒺStraight Wire Infinite;[B];[1_T])'
+```
+
+The code below saves the reference value for comparison with the example 2 in `[B Field Finite Wire]`:
+```rpl
+@ Save the reference value for comparison below
+B0=B
+```
 
 #### Straight Wire Finite
 
-The expression for the magnetic field at the distance r depends on the subtended angles θ1 and θ2 relative to the ends of the wire of finite length L. The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly.
+The expression for the magnetic field at the distance `r` depends on the subtended angles `θ1` and `θ2` relative to the ends of the wire of finite length `L`. The magnetic field expression differs depending upon whether the point at `r` is inside or outside the wire of radius `rw` and the calculations are done accordingly.
 
 ![B Field From Finite Wire](img/B Field From Finite Wire.bmp)
 
+* **Example 1.** To calculate `[B_T]` (Magnetic field) from 6 known variables:
+
+```rpl
+μr=1_1  rw=0.25_cm  r=5_cm  I=25_A  θ1=30_°  θ2=150_°
+@ Expecting [ 8.66025 40378 7⁳⁻⁵ T ]
+'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
+```
+
+* **Example 2.** When 'r << L' which means 'r < L/10', we can verify that the value of B for a infinite wire approximates the exact value calculated for a finite wire of length 'L'.
+
+```rpl
+L=3_m  μr=1  rw=0.25_cm  r=5_cm  I=25_A  θ1='atan(r/L/2)'  θ2='180_°-θ1'  
+if 'r < L/10' then   
+@ Expecting [ B=9.99965 27958 9⁳⁻⁵ T ]
+'ROOT(ⒺStraight Wire Finite;[B];[1_T])'
+end  
+```
+
+```rpl
+@ Verify relative difference under condition `5_cm << 3_m`.
+B0 B %Ch
+@ Expecting [ -3.47204 10629⁳⁻³ ] 
+@ % of relative difference with infinite wire
+```
 
 #### Force Between Wires
 
 The force between wires is positive for an attractive force (for currents having the same sign) and negative otherwise, corresponding to a repulsive force.
 
+![Force Between Wires](img/Missing name.bmp)
+
+* To calculate `[Fba_N]` (Magnetic force) from 4 known variables:
+
+```rpl
+Ia=10_A  Ib=20_A  μr=1  L=50_cm  d=1_cm
+@ Expecting [ Fba=2.00000 00000 1⁳⁻³ N ]
+'ROOT(ⒺForce Between Wires;[Fba];[1_N])'
+```
+
 #### B Field In Infinite Solenoid
 
-The expression for the magnetic field in the center is approximately valid if the radius of the solenoid < `L` and therefore also applies inside a solenoid of finite length `L`.
+The expression for the magnetic field in the center is approximately valid if the radius of the solenoid < `L` and therefore also applies inside a solenoid of finite length `L`. The right-hand rule applies also here: when the fingers curl around the solenoid in the sense of the current, the thumb points in the direction of the magnetic field (see fig.).
+
+![B Field In Infinite Solenoid](img/Missing name.bmp)
+
+* To calculate `[B_T]` (Magnetic field) from 3 known variables:
+
+```rpl
+μr=10  nl=5000_m^-1  I=1.25_A
+@ Expecting [ B=0.07853 98163 4 T ]
+'ROOT(ⒺB Field In Infinite Solenoid;[B];[1_T])'
+```
+The code below saves the reference value for comparison with the example 2 in `[B Field Finite Solenoid]`:
+```rpl
+@ Save the reference value for comparison below
+B0=B
+```
 
 #### B Field In Finite Solenoid
 
@@ -1161,21 +1220,98 @@ The expression for the magnetic field in the center depends on the subtended int
 
 ![B Field In Finite Solenoid](img/B Field In Finite Solenoid.bmp)
 
+* **Example 1.** Inside the wire, to calculate `[B_T]` (Magnetic field) from 5 known variables:
+
+```rpl
+μr=10  nl=5_mm^-1  I=1.25_A  α1=150_°  α2=30_°
+@ Expecting [ B=6.80174 76159⁳⁻² T ]  
+'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
+```
+
+* **Example 2.** When `r << L` which means `r < L/10`, we can verify that the value of `B` for a infinite solenoid approximates the exact value calculated for a finite solenoid of length `L`.
+   
+```rpl
+L=3_m  μr=10  r=10_cm  nl=5000_m^-1  I=1.25_A  α2='atan(r/L/2)'  α1='180_°-α2'  
+if 'r < L/10' then   
+@ Expecting [ B=7.85289 10304 2⁳⁻² T ]
+'ROOT(ⒺB Field In Finite Solenoid;[B];[1_T])'
+end  
+```
+
+```rpl
+B0 B %Ch
+@ Verify relative difference under condition 10_cm << 3_m.
+@ Expecting [ -1.38859 9604⁳⁻² ]
+@ % of relative difference compared to "Infinite Solenoid"
+```
+
 #### B Field In Toroid
+
+The magnetic field `B` is calculated in the center of the torroid. The right-hand rule applies also here: when the fingers curl around the outer circle of the torroid following the sense of the current, the thumb points in the direction of the central magnetic field (see fig.).
+
+![B Field In Toroid](img/Missing name.bmp)
+
+* To calculate `[B_T]` (Magnetic field) from 5 known variables:
+
+```rpl
+μr=10  N=50  ri=5_cm  ro=7_cm  I=10_A
+@ Expecting [ B=0.01666 66666 67 T ]
+'ROOT(ⒺB Field In Toroid;[B];[1_T])'
+```
 
 #### Hall Effect
 
-The moving charge carrier is deflected by the magnetic field to create the Hall tension `VH` between the opposite sides of the conductor.
+The moving charge carriers (here: electrons) are deflected by the magnetic field to create the Hall tension `VH` between the opposite sides along the width of the conductor (see fig.). The Hall tension results from the vertical electric field between 1) the surplus of free electrons accumulated at the top and 2) the positive charges (due to the electron deficit) which are fixed and localised at the bottom.
 
-#### Cyclotron Mouvement
+![Hall Effect](img/Hall Effect VH.bmp)
+
+* To calculate `[VH_V]` (Hall tension) from 5 known variables:
+
+```rpl
+n=5e28_(1/m^3)  B=0.641_T  q=1.60217 6634e-19_C  L=2_mm  I=10_A
+@ Expecting [ VH=4.00080 73167 3⁳⁻⁷ V ]
+@ To be verified since an error in the equation has to be corrected in equation.cc
+'ROOT(ⒺHall Effect;[VH];[1_V])'
+```
+
+#### Cyclotron Motion
 
 Under the perpendicular magnetic field, the moving charge has a circular trajectory and turns at the cyclotron frequency with the rotation period `T`.
 
-#### Helicoidal Mouvement
+![Cyclotron Motion](img/Cyclotron Motion.bmp)
+
+* To calculate `[Rc_m;fc_Hz;T_s]` (Radius of the circular path, cyclotron frequency, period) from 4 known variables:
+
+```rpl
+m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s
+@ Expecting [ Rc=0.60028 18834 15 m fc=12 196 149.1501 Hz T=8.19930 93696 5⁳⁻⁸ s ]
+'ROOT(ⒺCyclotron Motion;[Rc;fc;T];[1_m;1_Hz;1_s])'
+```
+
+#### Helicoidal Motion
 
 Under the magnetic field lines (at angle `θ` with the speed vector), the moving charge has an helicoidal trajectory of pitch `Dpitch`, radius `Rc` and period `T`.
 
+![Helicoidal Motion](img/Helicoidal Motion.bmp)
+
+* To calculate `[Rc_m;T_s;Dpitch_m]` (Radius of the circular path, period, pitch of the helicoidal motion) from 4 known variables:
+
+```rpl
+m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s  θ=30_°
+@ Expecting [ Rc=0.30014 09417 08 m T=8.19930 93696 5⁳⁻⁸ s Dpitch=3.26637 26955 m ]
+'ROOT(ⒺHelicoidal Motion;[Rc;T;Dpitch];[1_m;1_s;1_m])'
+```
+
 #### Volumic Density Magnetic Energy
+
+* To calculate `[uB_(J/m^3)]` (Volumic density of magnetic energy) from 2 known variables:
+
+```rpl
+μr=3.0  B=0.8_T 
+@ Expecting [ uB=84 882.63631 54 J/m↑3 ]
+'ROOT(ⒺVolumic Density Magnetic Energy;[uB];[1_(J/m^3)])'
+```
+
 
 ## Motion
 
@@ -1192,6 +1328,7 @@ The variables in the Motion section are:
 * `Ah`: Projected horizontal area
 * `ar`: Centripetal acceleration at r
 * `Cd`: Drag coefficient
+* `fr`: Fraction of the terminal velocity `vt`
 * `gloc`: local gravitational acceleration of a planet or star (dim.: length/time^2)
 * `gearth`: local gravitational acceleration on Earth (dim.: length/time^2)
 * `h`: altitude (dim.: length)
@@ -1200,44 +1337,150 @@ The variables in the Motion section are:
 * `Mp`: Planet or star mass
 * `N`: Rotational speed (dim.: time^-1, in SI: hertz, Hz)
 * `R`: Horizontal range (Projectile Motion), or Planet or Star radius (Object in Free Fall and Escape Velocity)
+* `r`: Planet radius
 * `rc`: Radius of circular motion
 * `t`: Time
-* `tf`: Time of flight of a projectile
+* `tf`: Time of flight of a projectile  
+* `tfr`: time required to reach the fraction `fr` of the terminal velocity
 * `v`: Velocity at t (linear Motion), or Tangential velocity at r (Circular Motion), or Falling velocity at time t (Terminal Velocity)
 * `v0`: Initial velocity
 * `ve`: Escape velocity in a gravitational field
 * `vcx`: Horizontal (component x) of velocity at t
 * `vcy`: Vertical (component y) of velocity at t
 * `vo`: Orbital velocity in a gravitational field
+* `Vol`: Volume of the moving object
 * `vt`: Terminal velocity reached in a vertical fall
 * `x`: Horizontal position at t
 * `x0`: Initial horizontal position
+* `xfr`: Displacement during `tfr`
 * `y`: Vertical position at t
 * `y0`: Initial vertical position
 
 #### Linear Motion
 
+* To calculate `[a_m/s^2;v_m/s]` (Acceleration, velocity at time `t`) from 4 known variables:
+
+```rpl
+x0=0_m  x=100_m  t=10_s  v0=1_m/s 
+@ Expecting [ a=1.8 m/s↑2 v=19. m/s ]
+'ROOT(ⒺLinear Motion;[a;v];[1_m/s^2;1_m/s])'
+```
+
 #### Object In Free Fall
 
 By definition, an object in free fall only experiences local gravitational acceleration `gloc`. This depends on the mass of the star or planet and the distance `r` center to center (where we assume that the position is greater than the radius of the mass). For the Earth, we can calculate an approximate value `gearth` of the acceleration of gravity as a function of latitude `φ` and for an altitude `h` low compared to the Earth's radius (typically: a few thousand meters, valid in commercial aviation).
 
-// Reference: Commissions romandes de mathématique, de physique et de chimie, Formulaires et tables : Mathématiques, Physique, Chimie, Tricorne, 2000, 278
+* To calculate `[v_m/s;t_s;r_m;gearth_m/s^2]` (Velocity at time `t`, time, planet radius, acceleration of gravity at latitude `φ` & altitude `h`) from 7 known variables:
+
+```rpl
+y0=1000_ft  y=0_ft  v0=0_ft/s  gloc=9.80665_m/s↑2  φ=45_°  h=1000_m  Mp=5.9722e24_kg
+@ Failing [ v=-253.66926 7182 ft/s  t=7.88428 18533 5 s  r=6 374 616.37381 m  gearth=9.80321 00310 8 m/s↑2 ]
+@ C#14  MSOLVER: "Inconsistent units". Units have been corrected in gearth eqn ... so, to be checked.
+'ROOT(ⒺObject In Free Fall;[v;t;r;gearth];[1_m/s;1_s;1_m;1_m/s^2])'
+```
 
 #### Projectile Motion
 
 During the time of flight `tf`, the motion of a projectile follows a symetric parabole of horizontal range `R` and of maximum height `hmax`.
 
+![Projectile Motion](img/Missing name.bmp)
+
+* To calculate `[R_ft;vcx_ft/s;vcy_ft/s;x_ft;y_ft;hmax_ft;tf_s]` (Range, `x` & `y` components of velocity at time `t`, `x` & `y` positions at time `t`, maximum height, time of flight) from 5 known variables:
+
+```rpl
+x0=0_ft  y0=0_ft  Θ0=45_°  v0=200_ft/s  t=10_s
+@ Failing [ R=1 243.23800 686 ft  vcx=141.42135 6237 ft/s  vcy=-180.31912 9327 ft/s  x=1 414.21356 237 ft  y=-194.48886 5448 ft  hmax=310.80950 1716 ft  tf=8.79102 02528 1 s ]
+@ C#15 MSOLVER: "Unable to solve for all variables"
+'ROOT(ⒺProjectile Motion;[R;vcx;vcy;x;y;hmax;tf];[1_ft;1_ft/s;1_ft/s;1_ft;1_ft;1_ft;1_s])'
+```
+
 #### Angular Motion
+
+* To calculate `[Θ_°;ω_r/min]` (Angular position & velocity at time `t`) from 4 known variables:
+
+```rpl
+Θ0=0_°  ω0=0_r/min  α=1.5_r/min^2  t=30_s
+@ Failing [ Θ=10.74295 86587 °  ω=0.75 r/min ]
+@ C#16 MSOLVER: "Inconsistent units" I rewrote the angular units of ω & α in all the 4 eqns, therefore, to be checked
+'ROOT(ⒺAngular Motion;[Θ;ω];[1_°;1_r/min])'
+```
 
 #### Uniform Circular Motion
 
+* To calculate `[ω_r/min;ar_ft/s^2;N_rpm]` (Angular velocity, centripetal acceleration at `r`, rotational speed) from 2 known variables:
+
+```rpl
+rc=25_in  v=2500_ft/s
+@ Failing [ ω=72 000. r/min  ar=3 000 000 ft/s↑2  N=11 459.15590 26 rpm ]
+@ C#17 MSOLVER: "Inconsistent units" I rewrote the angular units in eqns (1) & (3), therefore, to be checked
+'ROOT(ⒺUniform Circular Motion;[ω;ar;N];[1_r/min;1_ft/s^2;1_rpm])'
+```
+
 #### Terminal Velocity
 
-Terminal velocity is the maximum speed attainable by an object as it falls through a fluid like air for instance. It is reached when the sum of the increasing drag force plus the buoyancy is equal to the downward force of gravity acting on the object, leading to a zero net force at the resulting terminal velocity.
+Terminal velocity is the maximum speed attainable by an object as it falls through a fluid like air for instance. It is reached when the sum of the increasing drag force is equal to the downward force of gravity acting on the object (neglecting buoyancy), leading to a zero net force at the resulting terminal velocity.
+
+* **Example 1**. For a falling big mass, to calculate `[vt_ft/s;v_ft/s;tfr_s;xfr_ft]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 6 known variables:
+//  '(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' is the working integral for xfr
+  
+```rpl
+Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
+@ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
+@ C#18 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
+```
+
+* **Example 2**. For a human skydiving head first, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 6 known variables:
+//  '(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)' is the working integral for xfr
+
+```rpl
+Cd=0.7  ρ=1.29_kg/m^3  Ah=0.18_m^2  m=75_kg  t=5_s  fr=0.95
+@ Failing [ vt=95.13182 74789 m/s  v=45.10777 55851 m/s  tfr=17.76964 17471 s  xfr=1 074.15231 681 m ]
+@ C#18 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+```
+
+#### Buoyancy & Terminal Velocity
+
+Terminal velocity is the maximum speed attainable by an object as it falls through a fluid like air for instance. It is reached when the sum of the increasing drag force plus the buoyancy is equal to the downward force of gravity acting on the object, leading to a zero net force at the resulting terminal velocity. If the terminal velocity is found to be negative, the motion is upward because buoyancy dominates gravity.
+
+* **Example 1**. For a golf ball falling in water, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 8 known variables:
+//  '(0.29459 06011 51 m/s)*∫(0;5.50264 78343 1e-2;TANH(t*Ⓒg/ABS(0.29459 06011 51 m/s)*(1_s));t)*(1_s)' is the working integral for xfr
+
+```rpl
+//input data: Cd=0.5  ρ=1.0775_(g/cm^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=3e-2_s  fr=0.95
+Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_cm↑2  Vol=41.10916 07978_cm↑3  t=3e-2_s  fr=0.95
+@ Failing [ vt=0.29459 06011 51 m/s  v=0.22419 40616 41 m/s  tfr=5.50264 78343 1e-2 s  xfr=0.01030 03495 63 m ]
+@ C#19 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+@ BUT when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
+'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+```
+
+* **Example 2**. For a CO2 bubble in a glass of champagne, to calculate `[vt_m/s;v_m/s;tfr_s;xfr_m]` (terminal velocity, velocity at time `t`, time required to reach the fraction `fr` of `vt`, displacement during `tfr`) from 8 known variables:
+//  '(-1.14234 81034 5_m/s)*∫(0;0.21337 88142 91;TANH(t*Ⓒg/ABS(-1.14234 81034 5_m/s)*(1_s));t)*(1_s)' is the working integral for xfr
+
+```rpl
+//input data: Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=0.1_s  fr=0.95
+Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah=7.85398 16339 7e-3_cm↑2  Vol=5.23598 77559 8e-4_cm↑3  t=0.1_s  fr=0.95
+@ Failing [ vt=-1.14234 81034 5 m/s  v=-0.79446 37698 69 m/s  tfr=0.21337 88142 91 s  xfr=-0.15488 56277 53 m ]
+@ C#19 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+@ BUT when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
+'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
+```
 
 #### Escape and Orbital Velocities
 
 The escape velocity is the speed required to completely free oneself from the gravitational field of a star, planet, etc. It is defined as the initial speed allowing you to move away to infinity. The orbital velocity is the speed nneded to maintain a stable circular orbit in a gravitational field.
+
+* To calculate `[ve_m/s;vo_m/s]` (Escape velocity, orbital velocity) from 2 known variables:
+    "Escape & Orbital Velocity",  "{ "
+
+```rpl
+Mp=1.5E23_lb  R=5000_mi
+@ Expecting [ ve=3 485.10855 649 ft/s vo=2 464.34389 346 ft/s ]
+'ROOT(ⒺEscape & Orbital Velocity;[ve;vo];[1_ft/s;1_ft/s])'
+```
+
 
 ## Optics
 
