@@ -509,9 +509,9 @@ static const cstring basic_equations[] =
     "Straight Wire Infinite",  "{ "
     "'(B_T)=Ⓒμ0*IFTE((r_m)≤(rw_m);μr*(r_m)*(I_A)/(2*Ⓒπ*(rw_cm)^2);(I_A)/(2*Ⓒπ*(r_cm)))' "
     "}",
-
+    // Correction factor 1/4 replace factor 1/2
     "Straight Wire Finite",  "{ "
-    "'(B_T)=Ⓒμ0*IFTE((r_m)≤(rw_m);μr*(r_m)*(I_A)/(2*Ⓒπ*(rw_cm)^2);(I_A)/(2*Ⓒπ*(r_cm)))*(COS(θ1_r)-COS(θ2_r))' "
+    "'(B_T)=Ⓒμ0*IFTE((r_m)≤(rw_m);μr*(r_m)*(I_A)/(4*Ⓒπ*(rw_cm)^2);(I_A)/(4*Ⓒπ*(r_cm)))*(COS(θ1_r)-COS(θ2_r))' "
     "}",
 
     "Force Between Wires",  "{ "
@@ -531,7 +531,8 @@ static const cstring basic_equations[] =
     "}",
 
     "Hall Effect",  "{ "
-    "'(VH_V)=((I_A)*(B_T))/((n_(1/m^3))*ABS(q_C))*(L_m)' "
+    // Correction (24-10-05): (L_m) needs to be in the denominator and not in the numerator
+    "'(VH_V)=((I_A)*(B_T))/((n_(1/m^3))*ABS(q_C)*(L_m))' "
     "}",
 
     "Cyclotron Motion",  "{ "
@@ -562,13 +563,16 @@ static const cstring basic_equations[] =
     "}",
 
 //Ref.: https://fr.wikipedia.org/wiki/Pesanteur#cite_ref-10:~:text=sur%20les%20plantes.-,Variation%20en%20fonction%20du%20lieu,-%5Bmodifier%20%7C
+// Reference: Commissions romandes de mathématique, de physique et de chimie, Formulaires et tables : Mathématiques, Physique, Chimie, Tricorne, 2000, 278
+    // Replacing φ by φ_° in eqn (6) AND rearranging units in eqn (6)
     "Object In Free Fall",  "{ "
     "'(y_m)=(y0_m)+(v0_(m/s))*(t_s)-1/2*(gloc_(m/s^2))*(t_s)^2' "
     "'(y_m)=(y0_m)+(v_(m/s))*(t_s)+1/2*(gloc_(m/s^2))*(t_s)^2' "
     "'(v_(m/s))=(v0_(m/s))-(gloc_(m/s^2))*(t_s)' "
     "'(v_(m/s))^2=(v0_(m/s))^2-2*(gloc_(m/s^2))*((y_m)-(y0_m))' "
     "'gloc_(m/s^2)=ⒸG*(Mp_kg)/(r_m)^2' "
-    "'gearth_(m/s^2)=9.780327*(1+5.3024E-3*(SIN(φ))^2-5.8E-6*(sin(φ))^2-3.086E-7*(h_m))' "
+    //"'gearth_(m/s^2)=9.780327*(1+5.3024E-3*(SIN(φ_°))^2-5.8E-6*(SIN(φ_°))^2-3.086E-7*(h_m))' "
+    "'gearth_(m/s^2)=(9.780327_(m/s^2))*(1+5.3024E-3*(SIN(φ_°))^2-5.8E-6*(SIN(φ_°))^2-3.086E-7*(h_m)/(1_m))' "
     "}",
 
     "Projectile Motion",  "{ "
@@ -582,21 +586,48 @@ static const cstring basic_equations[] =
     "}",
 
     "Angular Motion",  "{ "
-    "'(θ_°)=(θ0_°)+(ω0_rpm)*(t_s)+1/2*(α_(rpm^2))*(t_s)^2' "
-    "'(θ_°)=(θ0_°)+(ω_rpm)*(t_s)-1/2*(α_(rpm^2))*(t_s)^2' "
-    "'(θ_°)=(θ0_°)+1/2*((ω0_rpm)+(ω_rpm))*(t_s)' "
-    "'(ω_rpm)=(ω0_rpm)+(α_(rpm^2))/(1_turn)*(t_s)' "
-    "}",
+// Due to "Inconsistent units" I had to rewrite all angular units of ω & α
+//    "'(θ_°)=(θ0_°)+(ω0_rpm)*(t_s)+1/2*(α_(rpm^2))*(t_s)^2' "
+//    "'(θ_°)=(θ0_°)+(ω_rpm)*(t_s)-1/2*(α_(rpm^2))*(t_s)^2' "
+//    "'(θ_°)=(θ0_°)+1/2*((ω0_rpm)+(ω_rpm))*(t_s)' "
+//    "'(ω_rpm)=(ω0_rpm)+(α_(rpm^2))/(1_turn)*(t_s)' "
+    "'(θ_°)=(θ0_°)+(ω0_r/min)*(t_s)+1/2*(α_r/min^2)*(t_s)^2' "
+    "'(θ_°)=(θ0_°)+(ω_r/min)*(t_s)-1/2*(α_r/min^2)*(t_s)^2' "
+    "'(θ_°)=(θ0_°)+1/2*((ω0_r/min)+(ω_r/min))*(t_s)' "
+    "'(ω_r/min)=(ω0_r/min)+(α_r/min^2)*(t_s)' "
 
+    "}",
+    // I rewrote the angular units in eqns (1) & (3)
     "Uniform Circular Motion",  "{ "
-    "'(ω_rpm)=(v_(m/s))*(1_r)/(rc_cm)' "
+    //"'(ω_rpm)=(v_(m/s))*(1_r)/(rc_cm)' "
+    "'(ω_r/min)=(v_(m/s))*(1_r)/(rc_cm)' "
     "'(ar_(m/s^2))=(v_(m/s))^2/(rc_cm)' "
-    "'(ω_rpm)=2*(Ⓒπ_r)*(N_rpm)' "
+    //"'(ω_rpm)=2*(Ⓒπ_r)*(N_rpm)' "
+    "'(ω_r/min)=2*(Ⓒπ_r/turn)*(N_rpm)' "
     "}",
-
+// 2 new eqns added (3) & (4), but the integration doesn't work
     "Terminal Velocity",  "{ "
     "'(vt_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(kg/m^3))*(Ah_cm^2)))' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/(vt_(m/s)))' "
+    "'tfr_s=ATANH(fr)/(Ⓒg/(vt_(m/s)))' "
+    "'xfr_ft=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/(vt_(m/s))*(1_s));t)*(1_s)' "
+//  This last integration shall work since it is stripped of units
+//  "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral wuth units
+//  "'xfr_ft=(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
+//  "'xfr_m=(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)' " works in example 2
+    "}",
+zzz
+// New section added with new eqns (1), (3) & (4), but the integration doesn't work
+//W=Fb+D <=> Vol*(ρ-ρf)*g=1/2*Cd*Ah*ρf*vt^2  => vt=IFTE('ρ<ρf';-1;1)*√(2*Vol/Ah*ABS(ρ/ρf-1)*g/Cd)
+    "Buoyancy & Terminal Velocity",  "{ "
+    "'(vt_(m/s))=IFTE((ρ_(kg/m^3))<(ρf_(kg/m^3));-1;1)*√(2*(Vol_m^3)/(Ah_m^2)*ABS((ρ_(kg/m^3))/(ρf_(kg/m^3))-1)*Ⓒg/Cd)' "
+    "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/ABS(vt_(m/s)))' "
+    "'tfr_s=ATANH(fr)/(Ⓒg/ABS(vt_(m/s)))' "
+    "'xfr_m=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/ABS(vt_(m/s))*(1_s));t)*(1_s)' "
+//  This last integration shall work since it is stripped of units (but I tried and it also failed)
+//  "'xfr_m=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral wuth units
+//  "'xfr_ft=? (175.74722 3631_ft/s)*∫(0;10.00590 25332;t*TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
+//  "'xfr_ft=? (175.74722 3631_ft/s)*∫(0;10.00590 25332;t*TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 2
     "}",
 
     "Escape & Orbital Velocity",  "{ "
