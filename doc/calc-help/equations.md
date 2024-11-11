@@ -1261,7 +1261,7 @@ The magnetic field `B` is calculated in the center of the torroid. The right-han
 
 #### Hall Effect
 
-The moving charge carriers (here: electrons) are deflected by the magnetic field to create the Hall tension `VH` between the opposite sides along the width of the conductor (see fig.). The Hall tension results from the vertical electric field between 1) the surplus of free electrons accumulated at the top and 2) the positive charges (due to the electron deficit) which are fixed and localised at the bottom.
+When a conductor carrying a current (to the right) is suddenly plunged into a perpendicular magnetic field (towards the bottom), there is a deviation (towards the top) of the free electrons which unbalances the distribution of electric charges. This transfer of charges from top to bottom gives rise to an electric force which in return balances the magnetic force. And it is precisely the appearance of this new electric field which is revealed by the Hall voltage `VH` measured between the top and the bottom of the conductor (small multimeter on the right).
 
 ![Hall Effect](img/Hall Effect VH.bmp)
 
@@ -1278,7 +1278,8 @@ n=5e28_(1/m^3)  B=0.641_T  q=1.60217 6634e-19_C  L=2_mm  I=10_A
 
 Under the perpendicular magnetic field, the moving charge has a circular trajectory and turns at the cyclotron frequency with the rotation period `T`.
 
-![Cyclotron Motion](img/Cyclotron Motion.bmp)
+![Cyclotron Motion](img/Cyclotron_BW.bmp)
+)
 
 * To calculate `[Rc_m;fc_Hz;T_s]` (Radius of the circular path, cyclotron frequency, period) from 4 known variables:
 
@@ -1292,7 +1293,7 @@ m=1.67262 19259 5e-27_kg  B=0.8_T  q=1.60217 6634e-19_C  v=4.6e7_m/s
 
 Under the magnetic field lines (at angle `θ` with the speed vector), the moving charge has an helicoidal trajectory of pitch `Dpitch`, radius `Rc` and period `T`.
 
-![Helicoidal Motion](img/Helicoidal Motion.bmp)
+![Helicoidal Motion](img/Helicoidal Motion BW.bmp)
 
 * To calculate `[Rc_m;T_s;Dpitch_m]` (Radius of the circular path, period, pitch of the helicoidal motion) from 4 known variables:
 
@@ -1383,7 +1384,7 @@ y0=1000_ft  y=0_ft  v0=0_ft/s  gloc=9.80665_m/s↑2  φ=45_°  h=1000_m  Mp=5.97
 
 During the time of flight `tf`, the motion of a projectile follows a symetric parabole of horizontal range `R` and of maximum height `hmax`.
 
-![Projectile Motion](img/Missing name.bmp)
+![Projectile Motion](img/Projectile_BW.bmp)
 
 * To calculate `[R_ft;vcx_ft/s;vcy_ft/s;x_ft;y_ft;hmax_ft;tf_s]` (Range, `x` & `y` components of velocity at time `t`, `x` & `y` positions at time `t`, maximum height, time of flight) from 5 known variables:
 
@@ -1492,7 +1493,7 @@ The variables in the Optics section are:
 * `Δydiff`: Width of the central maximum of diffraction
 * `λ`: Light wavelength
 * `θ`: Angle between initial light polarisation direction and polarizer transmission axis, or Angle subtended by two points separated by y on the screen and the middle of one or two slits
-* `θ0`: Acceptance angle to enter an optical fiber in the outer medium of refraction index n0
+* `θ0`: Acceptance angle to enter an optical fiber in the outer medium of refraction index `n0f`
 * `θ1`: Angle of incidence in the medium of refraction index n1
 * `θ2`: Angle of refraction in the medium of refraction index n2
 * `θB`: Brewster angle
@@ -1520,35 +1521,150 @@ The variables in the Optics section are:
 * `vn`: Speed of light in medium of refraction index n
 * `L`: distance to the observation screen or to the light detector
 * `NA`: Numerical aperture of the optic fiber
-* `y`: distance between two image points on the observation screen (perpendicular to the optical axis)
+* `y`: distance between two image points on the observation screen (perpendicular to the optical axis) or distance between two point source
 
 For reflection and refraction problems, the focal length and radius of curvature are positive in the direction of the outgoing light (reflected or refracted). The object distance is positive in front of the surface. The image distance is positive in the direction of the outgoing light (reflected or refracted). The magnification is positive for an upright image.
 
 #### Refraction Law
 
+![Refraction Law](img/Missing name.bmp)
+
+* To calculate `[θ1_°;v1_m/s;v2_m/s]` (Refraction angle, speed of light in media of refraction index `n1`, `n2`) from 3 known variables:
+
+```rpl
+n1=1  n2=1.333  θ1=45_°
+@ Expecting [ θ1=41.79750 44508 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
+@ Failing [ θ1=32.03672 30399 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
+@ C#20 MSOLVER gives a wrong value for θ1 only
+'ROOT(ⒺRefraction Law;[θ1;v1;v2];[1_°;1_m/s;1_m/s])'
+```
+
 #### Critical Angle
 
+![Critical Angle](img/Missing name.bmp)
+
+* To calculate `[θc_°;v1_m/s;v2_m/s]` (Critical angle, speed of light in media of refraction index `n1`, `n2`) from 2 known variables:
+
+```rpl
+n1=1  n2=1.5
+@ Expecting [ θc=41.81031 48958 ° v1=299 792 457.998 m/s v2=199 861 638.66 m/s ]
+'ROOT(ⒺCritical Angle;[θc;v1;v2];[1_°;1_m/s;1_m/s])'
+```
+
 #### Fiber Optic
+
+![Fiber Optic](img/Fiber Optic BW.bmp)
+
+* To calculate `[θ0_°;vf0_m/s;vf1_m/s;vf2_m/s;NA]` (Acceptance angle, speed of light in media of refraction index `n1f`, `n2f`, numerical aperture) from 3 known variables:
+
+```rpl
+n0f=1.2  n1=1.5  n2=1.45
+@ Failing [ θ0=18.66581 19909 ° vf0=249 827 048.333 m/s vf1=199 861 638.667 m/s vff2=206 753 419.31 m/s NA=0.32004 77394 95 ]
+@ C#21 NOT OK MSOLVER: "Unable to solve for all variables"
+'ROOT(ⒺFiber Optic;[θ0;vf0;vf1;vf2;NA];[1_°;1_m/s;1_m/s;1_m/s;1])'
+```
 
 #### Brewster’s Law
 
 The Brewster angle is the angle of incidence at which the reflected wave is completely polarized.
 
+![Brewster’s Law](img/Missing name.bmp)
+
+* To calculate `[θB_°;θ2_°;v1_m/s;v2_m/s]` (Brewster input angle, refraction angle, speed of light in media of refraction index `n1`, `n2`) from 2 known variables:
+
+```rpl
+n1=1  n2=1.5
+@ Faiing [ θB=56.30993 2474 ° θB=33.69006 7526 ° v1=299 792 458 m/s v2=199 861 638.667 m/s ]
+@ C#22 NOT OK MSOLVER: "Inconsistent units"
+'ROOT(ⒺBrewster’s Law;[θB;θ2;v1;v2];[1_°;1_°;1_m/s;1_m/s])'
+```
+
 #### Spherical Reflection
+
+![Spherical Reflection](img/Missing name.bmp)
+
+* To calculate `[m;f_cm]` (Magnification, focal distance) from 3 known variables:
+
+```rpl
+u=10_cm  v=300_cm  r=19.35_cm
+@ Faiing [ m=-30. f=9.67741 93548 4 cm ]
+@ C#23 NOT OK MSOLVER ok for f BUT eqn for m was missing. I just add it, them to be checked.
+'ROOT(ⒺSpherical Reflection;[f];[1_cm])'
+'ROOT(ⒺSpherical Reflection;[m;f];[1;1_cm])'
+```
 
 #### Spherical Refraction
 
+![Spherical Refraction](img/Missing name.bmp)
+
+* To calculate `[n2;v1_m/s;v2_m/s]` (Refraction index in medium 2, speed of light in media of refraction index `n1`, `n2`) from 4 known variables:
+
+```rpl
+u=8_cm  v=12_cm  r=2_cm  n1=1
+@ Expecting [ n2=1.5 v1=299 792 457.998 m/s v2=199 861 638.66 m/s ]
+'ROOT(ⒺSpherical Refraction;[n2;v1;v2];[1;1_m/s;1_m/s])'
+```
+
 #### Thin Lens
 
-#### Rayleigh’s Criterion
+![Thin Lens](img/Missing name.bmp)
+
+* To calculate `[f_cm;v_cm;m;vn_m/s]` (Focal distance, distance to image, magnification, speed of light in media of refraction index `n`) from 4 known variables:
+
+```rpl
+r1=5_cm  r2=20_cm  n=1.5  u=50_cm
+@ Expecting [ f=13.33333 33333 cm v=18.18181 81818 cm m=-0.36363 63636 36 vn=199 861 638.66 m/s ]
+'ROOT(ⒺThin Lens;[f;v;m;vn];[1_cm;1_cm;1;1_m/s])'
+```
+
+#### Rayleigh’s Criterion  
+
+![Rayleigh’s Criterion](img/Rayleigh's Criterion_BW.bmp)
+
+* To calculate `[θr_°;y_m]` (Rayleigh’s criterion angle, distance between two point source) from 3 known variables:
+
+```rpl
+λ=550_nm  d=9_mm  L=18.7_km
+@ Failing [ θr=4.27056 28265⁳⁻³ °  y=1.39381 16503 9 m ]
+@ c#24 NOT OK MSOLVER: "Inconsistent units"
+'ROOT(ⒺRayleigh’s Criterion;[θr;y];[1_°;1_m])'
+```
 
 #### Malus Law
 
-If lineraly polarized light is incident on a perfect linear polarizer the transmitted light is the component at angle `θ` between the light polarisation direction and the polarizer transmission axis. The Malus law is given in terms of light irradiances. A relavistic version of the laws applies for X rays and more energetic electromagnetic radiations (with loss up to 10% in irradiance). The decrease in frequency (`fx < fx0`) and thefore in energy (hfx) of a transmitted photon is due to the movement of the interacting electron of the polarizer (Compton scattering).
+If lineraly polarized light is incident on a perfect linear polarizer the transmitted light is the component at angle `θ` between the light polarisation direction and the polarizer transmission axis. The Malus law is given in terms of light irradiances. A relavistic version of the laws applies for X rays and more energetic electromagnetic radiations (with loss up to 10% in irradiance). The decrease in frequency (`fx < fx0`) and therefore in energy (`h·fx`) of a transmitted photon is due to the movement of the interacting electron of the polarizer (Compton scattering).
+
+![Malus Law](img/Malus Law BW.bmp)
+
+* To calculate `[I_(W/m^2);Ix_(W/m^2),E0_V/m]` (Polarized light radiance flux, polarized radiance flux of emitted Xrays, electric field) from 5 known variables:
+
+```rpl
+θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
+@ Failing [ I=7.5 W/m↑2  Ix=0.06751 63889 34 W/m↑2   E0=86.80210 98203 V/m ]
+@ c#25 NOT OK MSOLVER: "Inconsistent units"
+'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
+```
 
 #### 2 Slits Young Interference
 
+* To calculate `[Δφ_r;I_(W/m^2);y_m;Δyint_m]` (Phase difference between two rays of light seperated by an angle θ, irradiance of emitted light, distance between two image points on the observation screen, distance between bright fringes) from 5 known variables:
+
+```rpl
+L=2_m  d=800._μm  λ=600_nm  θ='ASIN(0.6*(λ_nm)/(d_μm))'  Imax=10_(W/m^2)
+@ Expecting [ Δφ=3.76991 11843 1 r I=6.54508 49718 7 W/m↑2 y=9.00000 09112 5⁳⁻⁴ m Δyint=1.5⁳⁻³ m ]
+'ROOT(Ⓔ2 Slits Young Interference;[Δφ;I;y;Δyint];[1_r;1_(W/m^2);1_m;1_m])'
+```
+
 #### One Slit Diffraction
+
+* To calculate `[Δα_r;I_(W/m^2);y_m;Δydiff_m]` (Phase difference between top and bottom rays of light, irradiance of emitted light, distance between two image points on the observation screen, width of the central maximum) from 5 known variables:
+
+```rpl
+L=3_m  a=1000._μm  λ=600_nm  θ='ASIN(0.3*(λ_nm)/(a_μm))'  Imax=10_(W/m^2)
+@ Failing [ Δα=1.88495 55921 5_r I=7.36839 72932 3 W/m↑2 y=5.40000 00874 8⁳⁻⁴ m Δydiff=0.0036 m ]
+@ c#26 NOT OK MSOLVER: "Inconsistent units". I explicitely impose radians to Δα_r in eqn (1), therefore to be checked
+'ROOT(ⒺOne Slit Diffraction;[Δα;I;y;Δydiff];[1_r;1_(W/m^2);1_m;1_m])'
+```
 
 ## Oscillations
 
