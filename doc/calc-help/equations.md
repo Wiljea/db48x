@@ -522,7 +522,8 @@ L=500_mH  C=8_μF  R=10_Ω
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC
 @ Failing [ d=8.00418 57871 19⁳⁻⁹ cm σ=750 000. μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ N/C ΔV=3. V ]
-@ C#1 NOT OK. MSOLVER: "NO solution?", OK if solve for each variable seperately. No, doesn't solve even individually: "SolvingMenuSolve error: Bad argument type"
+@ C#1 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Inconsistent units" BUT strangely
+@ if I give "1" as a trial value for d, it works then it will also work seperately for Ein & ΔV
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -593,7 +594,7 @@ I=1_A  n=8.5e28_(m^-3) A=3.14159 26535 90E-2_cm↑2 ρ=1.36185 01389E10_C/
 @ Expecting [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
 
-@ C#2 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work
+@ C#2 Second version where the preliminary calculations of input variables A, ρ & σ doesn't work "Invalid algebraic"
 I=1_A  n=8.5e28_(m^-3) r=0.1_cm A='Ⓒπ*r^2' ρ='Ⓒqe*n' σ='Ⓒqe*n*40_(cm^2/(V*s))'
 @ Failing [ vd=2.33733 41683 6⁳⁻⁵ m/s J=31.83098 86184 A/cm↑2 E=5.84333 54209⁳⁻³ V/m ]
 'ROOT(ⒺDrift Speed & Current Density;[vd;J;E];[1_m/s;1_(A/cm^2);1_(V/m)])'
@@ -670,7 +671,7 @@ These equations represent the streamlined flow of an incompressible fluid.
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
 @ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. SOLVE doesn't solve for any single unknown: "SolvingMenuSolve error: Bad argument type"
+@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -679,7 +680,7 @@ Alternate présentation adding one more known value: `v2`
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s v2=122.421311569_ft/s
 @ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 "Inconsistent units" while searching for each remaining unknown. SOLVE doesn't solve for any single unknown: "SolvingMenuSolve error: Bad argument type"
+@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -933,9 +934,9 @@ These equations adapt the ideal gas law to emulate real-gas behavior.
 * To calculate `[n_mol;m_kg;Z_1]` (Number of mole, mass, gas compressibility correction factor) from 7 known variables:
 
 ```rpl
-Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K 
+Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
 @ Failing [ n=1.72768 40576 08⁳⁻² mol m=1.10571 77968 69⁳⁻³ kg Z=0.99977 57972 690 ]
-@ C#6 NOT OK. MSOLVER: "Inconsistent units", MSOLVE works only if we provide the right initial value for Z ... NOT ANYMORE !
+@ C#6 NOT OK. MSOLVER: "Inconsistent units", MSOLVE works only if we provide the right initial value for Z ... NOT ANYMORE ! I thinh it worked with Z value in v0.8.1, but I am not sure.
 'ROOT(ⒺReal Gas Law;[n;m;Z];[1_mol;1_kg;1])'
 ```
 
@@ -1018,8 +1019,9 @@ The variables in the Heat Transfer section are:
 
 ```rpl
 ΔT=15_°C  Ti=0_°C  m=10_kg  Q=25_kJ
-@ Failing [ c=0.16666 66666 67 kJ/(kg·K) Tf=15_°C ]
-@ C#9 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
+@ Expecting [ c=0.01 kJ/(kg·K) Tf=15. °C ]
+@ Failing [ c=0.16666 66666 67 kJ/(kg·K) Tf=15 °C ]
+@ C#9 NOT OK. MSOLVER: calculates BUT hallucinates to a wrong value of c ... why ? Works if solved seperately.
 'ROOT(ⒺHeat Capacity;[c;Tf];[1_kJ/(kg*K);1_°C])'
 ```
 
@@ -1043,8 +1045,7 @@ The variables in the Heat Transfer section are:
 
 ```rpl
 Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
-@ Failing [ qr=5000 W ΔT=50_°C ]
-@ C#10 NOT OK. MSOLVER: "NO solution?", doesn't SOLVE for each ordered unknown: "Inconsistent units" see issue # 1289
+@ Expecting [ qr=5000 W ΔT=50_°C ]
 'ROOT(ⒺConduction;[qr;ΔT];[1_W;1_°C])'
 ```
 
@@ -1056,9 +1057,9 @@ Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 
 ```rpl
 Tc=26.85_°C  A=200_m^2  h=0.005_W/(m^2*K)  qr=10_W
-@ Expecting [ ΔT=10. K Th=36.85 K ]
+@ Expecting [ ΔT=48.15 °C Th=36.85 °C ]
 @ Failing [ ΔT=10. °C Th=36.85 °C ]
-@ C#11 NOT OK Wrong units for the output variables in disagreement with the output units specified in the following ROOT call
+@ C#10 NOT OK MSOLVER hallucinates a wrong value for ΔT 
 'ROOT(ⒺConvection;[ΔT;Th];[1_°C;1_°C])'
 ```
 
@@ -1072,8 +1073,9 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
+@ Expecting [ qr=6.91646 19164 6 W Tc=300. °C U=-2.82304 56801 9⁳⁻³ W/(m↑2·K) ]
 @ Failing [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
-@ C#12 NOT OK: (it worked in previous version 8.2) MSOLVER: "No solution?"
+@ C#11 NOT OK: MSOLVER hallucinates all the values
 'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
 ```
 
@@ -1088,7 +1090,7 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 ```rpl
 T=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
 @ Failing [ λmax=2276.0523_nm eb=148984.2703_W/m^2 f=0.0036 eb12=537.7264_W/m^2 q=14.8984_W ]
-@ C#13 NOT OK: MSOLVER: "Invalid function" after a long time probably due to the integration not functionning, see ISSUE#1307
+@ C#12 NOT OK: MSOLVER: "Invalid function" after a long time probably due to the integration not functionning, see ISSUE#1307
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
 
@@ -1376,7 +1378,7 @@ By definition, an object in free fall only experiences local gravitational accel
 ```rpl
 y0=1000_ft  y=0_ft  v0=0_ft/s  gloc=9.80665_m/s↑2  φ=45_°  h=1000_m  Mp=5.9722e24_kg
 @ Failing [ v=-253.66926 7182 ft/s  t=7.88428 18533 5 s  r=6 374 616.37381 m  gearth=9.80321 00310 8 m/s↑2 ]
-@ C#14  MSOLVER: "Inconsistent units". Units have been corrected in gearth eqn ... so, to be checked.
+@ C#13  MSOLVER: "Inconsistent units". Units have been corrected in gearth eqn ... so, to be checked.
 'ROOT(ⒺObject In Free Fall;[v;t;r;gearth];[1_m/s;1_s;1_m;1_m/s^2])'
 ```
 
@@ -1391,7 +1393,7 @@ During the time of flight `tf`, the motion of a projectile follows a symetric pa
 ```rpl
 x0=0_ft  y0=0_ft  Θ0=45_°  v0=200_ft/s  t=10_s
 @ Failing [ R=1 243.23800 686 ft  vcx=141.42135 6237 ft/s  vcy=-180.31912 9327 ft/s  x=1 414.21356 237 ft  y=-194.48886 5448 ft  hmax=310.80950 1716 ft  tf=8.79102 02528 1 s ]
-@ C#15 MSOLVER: "Unable to solve for all variables"
+@ C#14 MSOLVER: "Unable to solve for all variables"
 'ROOT(ⒺProjectile Motion;[R;vcx;vcy;x;y;hmax;tf];[1_ft;1_ft/s;1_ft/s;1_ft;1_ft;1_ft;1_s])'
 ```
 
@@ -1402,7 +1404,7 @@ x0=0_ft  y0=0_ft  Θ0=45_°  v0=200_ft/s  t=10_s
 ```rpl
 Θ0=0_°  ω0=0_r/min  α=1.5_r/min^2  t=30_s
 @ Failing [ Θ=10.74295 86587 °  ω=0.75 r/min ]
-@ C#16 MSOLVER: "Inconsistent units" I rewrote the angular units of ω & α in all the 4 eqns, therefore, to be checked
+@ C#15 MSOLVER: "Inconsistent units" I rewrote the angular units of ω & α in all the 4 eqns, therefore, to be checked
 'ROOT(ⒺAngular Motion;[Θ;ω];[1_°;1_r/min])'
 ```
 
@@ -1413,7 +1415,7 @@ x0=0_ft  y0=0_ft  Θ0=45_°  v0=200_ft/s  t=10_s
 ```rpl
 rc=25_in  v=2500_ft/s
 @ Failing [ ω=72 000. r/min  ar=3 000 000 ft/s↑2  N=11 459.15590 26 rpm ]
-@ C#17 MSOLVER: "Inconsistent units" I rewrote the angular units in eqns (1) & (3), therefore, to be checked
+@ C#16 MSOLVER: "Inconsistent units" I rewrote the angular units in eqns (1) & (3), therefore, to be checked
 'ROOT(ⒺUniform Circular Motion;[ω;ar;N];[1_r/min;1_ft/s^2;1_rpm])'
 ```
 
@@ -1427,7 +1429,7 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 ```rpl
 Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 @ Failing [ vt=175.74722 3631 ft/s v=127.18655 2185 ft/s tfr=10.00590 25332 s  xfr=1 117.39339 246 ft ]
-@ C#18 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+@ C#17 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314 : "Undefined name"
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_ft/s;1_ft/s;1_s;1_ft])'
 ```
 
@@ -1437,7 +1439,7 @@ Cd=0.15  ρ=0.025_lb/ft^3  Ah=100000_in^2  m=1250_lb  t=5_s  fr=0.95
 ```rpl
 Cd=0.7  ρ=1.29_kg/m^3  Ah=0.18_m^2  m=75_kg  t=5_s  fr=0.95
 @ Failing [ vt=95.13182 74789 m/s  v=45.10777 55851 m/s  tfr=17.76964 17471 s  xfr=1 074.15231 681 m ]
-@ C#18 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+@ C#17 MSOLVER: works fine for vt & v. I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314 "Undefined name"
 'ROOT(ⒺTerminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 ```
 
@@ -1452,7 +1454,7 @@ Terminal velocity is the maximum speed attainable by an object as it falls throu
 //input data: Cd=0.5  ρ=1.0775_(g/cm^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=3e-2_s  fr=0.95
 Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_cm↑2  Vol=41.10916 07978_cm↑3  t=3e-2_s  fr=0.95
 @ Failing [ vt=0.29459 06011 51 m/s  v=0.22419 40616 41 m/s  tfr=5.50264 78343 1e-2 s  xfr=0.01030 03495 63 m ]
-@ C#19 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+@ C#18 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
 @ BUT when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 ```
@@ -1464,7 +1466,7 @@ Cd=0.5  ρ=1077,5_(kg/m^3)  ρf=1000_(kg/m^3)  d=4.282_cm  Ah=14.40068 68745_c
 //input data: Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah='Ⓒπ*((d_cm)/2)^2'  Vol='4/3*Ⓒπ*((d_cm)/2)^3'  t=0.1_s  fr=0.95
 Cd=0.01  ρ=1.98_(kg/m^3)  ρf=998_(kg/m^3)  d=0.1_cm  Ah=7.85398 16339 7e-3_cm↑2  Vol=5.23598 77559 8e-4_cm↑3  t=0.1_s  fr=0.95
 @ Failing [ vt=-1.14234 81034 5 m/s  v=-0.79446 37698 69 m/s  tfr=0.21337 88142 91 s  xfr=-0.15488 56277 53 m ]
-@ C#19 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
+@ C#18 New simulation & I added 2 new eqns, therefore, needs to be checked BUT integration with units don't work ISSUE #1314
 @ BUT when investigating by hand eqn (1) & input data, it doesn't compute "Invalid Algebraic"
 'ROOT(ⒺBuoyancy & Terminal Velocity;[vt;v;tfr;xfr];[1_m/s;1_m/s;1_s;1_m])'
 ```
@@ -1533,9 +1535,9 @@ For reflection and refraction problems, the focal length and radius of curvature
 
 ```rpl
 n1=1  n2=1.333  θ1=45_°
-@ Expecting [ θ1=41.79750 44508 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
+@ Expecting [ θ1=1.33305 25886 2 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
 @ Failing [ θ1=32.03672 30399 ° v1=299 792 457.998 m/s v2=224 900 568.642 m/s ]
-@ C#20 MSOLVER gives a wrong value for θ1 only
+@ C#19 MSOLVER gives a wrong value for θ1 only
 'ROOT(ⒺRefraction Law;[θ1;v1;v2];[1_°;1_m/s;1_m/s])'
 ```
 
@@ -1560,7 +1562,7 @@ n1=1  n2=1.5
 ```rpl
 n0f=1.2  n1=1.5  n2=1.45
 @ Failing [ θ0=18.66581 19909 ° vf0=249 827 048.333 m/s vf1=199 861 638.667 m/s vff2=206 753 419.31 m/s NA=0.32004 77394 95 ]
-@ C#21 NOT OK MSOLVER: "Unable to solve for all variables"
+@ C#20 NOT OK MSOLVER: "Unable to solve for all variables"
 'ROOT(ⒺFiber Optic;[θ0;vf0;vf1;vf2;NA];[1_°;1_m/s;1_m/s;1_m/s;1])'
 ```
 
@@ -1575,7 +1577,7 @@ The Brewster angle is the angle of incidence at which the reflected wave is comp
 ```rpl
 n1=1  n2=1.5
 @ Faiing [ θB=56.30993 2474 ° θB=33.69006 7526 ° v1=299 792 458 m/s v2=199 861 638.667 m/s ]
-@ C#22 NOT OK MSOLVER: "Inconsistent units"
+@ C#21 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(ⒺBrewster’s Law;[θB;θ2;v1;v2];[1_°;1_°;1_m/s;1_m/s])'
 ```
 
@@ -1588,7 +1590,7 @@ n1=1  n2=1.5
 ```rpl
 u=10_cm  v=300_cm  r=19.35_cm
 @ Faiing [ m=-30. f=9.67741 93548 4 cm ]
-@ C#23 NOT OK MSOLVER ok for f BUT eqn for m was missing. I just add it, them to be checked.
+@ C#22 NOT OK MSOLVER ok for f BUT eqn for m was missing. I just add it, them to be checked.
 'ROOT(ⒺSpherical Reflection;[f];[1_cm])'
 'ROOT(ⒺSpherical Reflection;[m;f];[1;1_cm])'
 ```
@@ -1626,7 +1628,7 @@ r1=5_cm  r2=20_cm  n=1.5  u=50_cm
 ```rpl
 λ=550_nm  d=9_mm  L=18.7_km
 @ Failing [ θr=4.27056 28265⁳⁻³ °  y=1.39381 16503 9 m ]
-@ c#24 NOT OK MSOLVER: "Inconsistent units"
+@ c#23 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(ⒺRayleigh’s Criterion;[θr;y];[1_°;1_m])'
 ```
 
@@ -1641,7 +1643,7 @@ If lineraly polarized light is incident on a perfect linear polarizer the transm
 ```rpl
 θ=30_°  I0=10_(W/m^2)  fx0=3e17_Hz  fx=2.7e17_Hz  I0x=0.1_(W/m^2)
 @ Failing [ I=7.5 W/m↑2  Ix=0.06751 63889 34 W/m↑2   E0=86.80210 98203 V/m ]
-@ c#25 NOT OK MSOLVER: "Inconsistent units"
+@ c#24 NOT OK MSOLVER: "Inconsistent units"
 'ROOT(ⒺMalus Law;[I;Ix;E0];[1_(W/m^2);1_(W/m^2);1_V/m])'
 ```
 
@@ -1662,7 +1664,7 @@ L=2_m  d=800._μm  λ=600_nm  θ='ASIN(0.6*(λ_nm)/(d_μm))'  Imax=10_(W/m^2)
 ```rpl
 L=3_m  a=1000._μm  λ=600_nm  θ='ASIN(0.3*(λ_nm)/(a_μm))'  Imax=10_(W/m^2)
 @ Failing [ Δα=1.88495 55921 5_r I=7.36839 72932 3 W/m↑2 y=5.40000 00874 8⁳⁻⁴ m Δydiff=0.0036 m ]
-@ c#26 NOT OK MSOLVER: "Inconsistent units". I explicitely impose radians to Δα_r in eqn (1), therefore to be checked
+@ c#25 NOT OK MSOLVER: "Inconsistent units". I explicitely impose radians to Δα_r in eqn (1), therefore to be checked
 'ROOT(ⒺOne Slit Diffraction;[Δα;I;y;Δydiff];[1_r;1_(W/m^2);1_m;1_m])'
 ```
 
@@ -1672,7 +1674,7 @@ The variables in the Oscillations section are:
 
 * `ω`: Angular frequency (dim.: angle/time, in SI: r!s)
 * `ω0`: Natural angular frequency (dim.: angle#time, in SI: r!s)
-* `ωu`: Undamped angular frequency (dim.: angle/time, in SI: r!s)
+* `ωu`: Underdamped angular frequency (dim.: angle/time, in SI: r!s)
 * `γ`: Reduced damping coefficient (dim.: angle/time, in SI: r/s)
 * `φ`: Phase angle
 * `θ`: Cone angle
@@ -1688,24 +1690,117 @@ The variables in the Oscillations section are:
 * `m`: Mass
 * `Q`: Quality factor
 * `t`: Time
-* `T`: Period
+* `T`: Period, Period dor small amplitude (Simple Pendulum)
+* `Treal`: Real period for large amplitude (Simple Pendulum)
 * `v`: Velocity at t
 * `x`: Displacement at t
-* `xm`: Displace amplitude
+* `xm`: Displacement amplitude
+* `xh`: Displacement amplitude of harmonic motion
+* `xp`: Resulting displacement amplitude of driven & damped oscillations
 
 #### Mass-Spring System
 
+![Mass-Spring System](img/Missing name.bmp)
+
+* To calculate `[ω_(r/s);T_s;f_Hz]` (Angular frequency, oscillation period, frequency) from 2 known variables:
+
+```rpl
+k=20_N/m  m=5_kg
+@ Expecting [ ω=2. r/s T=3.14159 26535 9 s f=0.31830 98861 84 Hz ]
+'ROOT(ⒺMass‐Spring System;[ω;T;f];[1_(r/s);1_s;1_Hz])'
+```
+
 #### Simple Pendulum
+
+![Simple Pendulum](img/Missing name.bmp)
+
+* To calculate `[ω_(r/s);Treal_s;T_s;f_Hz]` (Angular frequency, period for small amplitude, real period for large amplitude, frequency) from 2 known variables:
+
+```rpl
+L=15_cm  θmax=80_°
+@ Failing [ ω=8.08564 57173 6 r/s  Treal=0.88361 42622 96 s   T=0.77707 89775 87 s  f=1.28687 04840 1 Hz ]
+@ c#26 NOT OK MSOLVER: INFINITE LOOP & "Invalid function". However Treal can be calculated alone with θmax or (θmax_°) by the following:
+@ Treal='2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))'
+'ROOT(ⒺSimple Pendulum;[ω;Treal;T;f];[1_(r/s);1_s;1_s;1_Hz])'
+
+@ Without Treal, MSOLVER works fine for the remaining 3 unknowns:
+@ Expecting [ ω=8.08564 57173 6 r/s T=0.77707 89775 87 s f=1.28687 04840 1 Hz ]
+'ROOT(ⒺSimple Pendulum;[ω;T;f];[1_(r/s);1_s;1_Hz])'
+```
 
 #### Conical Pendulum
 
+![Conical Pendulum](img/Missing name.bmp)
+
+* To calculate `[θ_°;ω_r/s;T_s;f_Hz]` (Cone angle, angular frequency, oscillation period, frequency) from 2 known variables:
+
+```rpl
+L=25_cm  h=20_cm
+@ Expecting [ θ=36.86989 76458 ° ω=7.00237 45972 3 r/s T=0.89729 35137 83 s f=1.11446 25305 3 Hz ]
+'ROOT(ⒺConical Pendulum;[θ;ω;T;f];[1_°;1_r/s;1_s;1_Hz])'
+```
+
 #### Torsional Pendulum
+
+![Torsional Pendulum](img/Missing name.bmp)
+
+* To calculate `[ω_r/s;T_s;f_Hz]` (Angular frequency, oscillation period, frequency) from 4 known variables:
+
+```rpl
+G=1000_kPa  J=17_mm^4  L=26_cm  I=50_kg*m^2
+@ Expecting [ ω=1.14354 37497 9⁳⁻³ r/s T=5 494.48616 051 s f=1.82000 64042 2⁳⁻⁴ Hz ]
+'ROOT(ⒺTorsional Pendulum;[ω;T;f];[1_r/s;1_s;1_Hz])'
+```
 
 #### Simple Harmonic
 
+* To calculate `[x_cm;v_cm/s;a_m/s^2;m_kg;E_J]` (Displacement, velocity & acceleration at `t`, mass, total energy) from 5 known variables:
+
+```rpl
+xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  
+@ Failing [ x=9.06149 24146 7 cm  v=-63.44371 46156 cm/s  a=-2 038.83579 33 cm/s↑2  m=4.44444 44444 4⁳⁻² kg  E=1.125 J ]
+@ C#27 NOT OK MSOLVER: "No solution?"
+'ROOT(ⒺSimple Harmonic;[x;v;a;m;E];[1_cm;1_cm/s;1_m/s^2;1_kg;1_J])'
+```
+
 #### Underdamped Oscillations
 
+We are considering here a damped mass-spring oscillator having the natural angular frequency `ω0`. The corresponding differential equation : `−k*x − b*dx/dt = m*d^2x/dt^2` describes the underdamped oscillations.
+
+* To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass, reduced damping coefficient, underdamped angular frequency, displacement, velocity & acceleration at `t`, mass, total energy at `t`, quality factor) from 6 known variables:
+
+```rpl
+xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)  
+@ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2 r/s  ωu=14.99966 6663 r/s  x=9.06146 97962 2 cm  v=-64.34829 19812 cm/s  a=-2 026.14705 038_cm/s↑2  E=0.24809 02514 79 J  Q=75.  ]
+@ C#28 NOT OK MSOLVER: "No solution?" I changed many eqns for radians units, therefore to be checked.
+'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
+```
+
+The code below saves the reference value for comparison with the example in [Driven Damped Oscillations](#Driven Damped Oscillations):
+```rpl
+@ Save the reference value for comparison below
+E0=E
+```
+
 #### Driven Damped Oscillations
+
+We are considering here a damped mass-spring oscillator where the external driving force is of the form `Fdriving = Fd*cos(ω*t)` acting at the angular frequency `ω`. The corresponding differential equation : `−k*x − b*dx/dt + Fd*cos(ω*t) = m*d^2x/dt^2` describes the driven damped oscillations.
+
+* To calculate `[m_kg;γ_(r/s);ωu_(r/s);φ_°;xp_m;x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass, reduced damping coefficient, underdamped angular frequency, phase angle, resulting amplitude, displacement, velocity & acceleration at `t`, mass, total energy at `t`, quality factor) from 9 known variables which correspond to the values of the previous section:
+
+```rpl
+xh=10_cm  ω=14.9_r/s  ω0=15_r/s  θ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)  xh=8_cm  Fd=0.9_N
+@ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2_r/s  ωu=14.99966 6663 r/s  φ=-44.90402 72598 °  xp=4.79694 88212 2 m  x=347.13848 4843_cm  v=4 992.17549 434 cm/s  a=-770.79594 329 m/s↑2  E=115.63437 7532 J  Q=75.  ]
+@ C#29 NOT OK MSOLVER: "No solution?" Maybe this system of eqns is too big. It is however perfectly determined as I was able to calculate.
+'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
+```
+```rpl
+@ Verify relative difference with the total energy of the underdamped case.
+E0 E %Ch
+@ Expecting [ 46 509.80302 23 ]
+@ % of relative difference which illustrates the huge energy gain due to the driving force acting near the resonance frequency.
+```
+
 
 ## Plane Geometry
 
@@ -1733,15 +1828,79 @@ The variables in the Plane Geometry section are:
 
 #### Circle
 
+![Circle](img/Missing name.bmp)
+
+* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 2 known variables:
+
+```rpl
+r=5_cm  d=1.5_cm
+@ Expecting [ C=31.41592 65359 cm A=78.53981 63397 cm↑2 I=4 908 738.52123 mm↑4 J=9 817 477.04247 mm↑4 Id=6 675 884.38888 mm↑4 ]
+'ROOT(ⒺCircle;[C;A;I;J;Id];[1_cm;1_cm^2;1_mm^4;1_mm^4;1_mm^4])'
+```
+
 #### Ellipse
+
+![Ellipse](img/Missing name.bmp)
+
+* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
+
+```rpl
+b=17.85_μm  h=78.9725_μin  d=.00000012_ft
+@ Expecting [ C=7.98046 33593 6⁳⁻³ cm A=1.12485 79868⁳⁻⁶ cm↑2 I=1.13150 61302 6⁳⁻¹⁰ mm↑4 J=9.07327 72104 7⁳⁻⁹ mm↑4 Id=1.13301 09695 2⁳⁻¹⁰ mm↑4 ]
+'ROOT(ⒺEllipse;[C;A;I;J;Id];[1_cm;1_cm^2;1_mm^4;1_mm^4;1_mm^4])'
+```
 
 #### Rectangle
 
+![Rectangle](img/Missing name.bmp)
+
+* To calculate `[C_cm;A_cm^2;I_km^4;J_km^4;Id_km^4]` (Perimeter, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
+
+```rpl
+b=4_chain  h=7_rd  d=39.26_in
+@ Expecting [ P=23 134.32 cm A=28 327 994.9568 cm↑2 I=2.92569 11916 2⁳⁻⁷ km↑4 J=1.82109 34968 2⁳⁻⁶ km↑4 Id=2.95386 09978 8⁳⁻⁷ km↑4 ]
+'ROOT(ⒺRectangle;[P;A;I;J;Id];[1_cm;1_cm^2;1_km^4;1_km^4;1_km^4])'
+```
+
 #### Regular Polygon
+
+![Regular Polygon](img/Missing name.bmp)
+
+* To calculate `[P_cm;A_cm^2;rs_cm;rv_cm;θ_°;β_°]` (Perimeter, area, distance to side, distance to vertex of polygon, vertex and central angles of polygon) from 2 known variables:
+
+```rpl
+n=8  L=0.5_yd
+@ Expecting [ P=365.76 cm A=10 092.95006 19 cm↑2 rs=55.18892 20358 cm rv=59.73605 87541 cm θ=135. ° β=45. ° ]
+'ROOT(ⒺRegular Polygon;[P;A;rs;rv;θ;β];[1_cm;1_cm^2;1_cm;1_cm;1_°;1_°])'
+```
 
 #### Circular Ring
 
+![Circular Ring](img/Missing name.bmp)
+
+* To calculate `[A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
+
+```rpl
+ro=4_μm  ri=25_Å  d=0.1_mil
+@ Expecting [ A=5.02654 62822 5e-7 cm↑2 I=2.01061 92983e-10 mm↑4 J=4.02123 85965 9e-10 mm↑4 Id=5.25354 58977 5e-10 mm↑4 ]
+@ Note these answers are OK, the manual HP50g_AUR (p.5-46) is definitively in error (as calculated  directly)
+'ROOT(ⒺCircular Ring;[A;I;J;Id];[1_cm^2;1_mm^4;1_mm^4;1_mm^4])'
+```
+
 #### Triangle
+
+![Triangle](img/Missing name.bmp)
+'(Ix_(cm^4))+(A_(in^2))*(d_cm)^2'
+* To calculate `[b_in;A_in^2;Ix_in^4;Iy_in^4;J_in^4;Id_in^4]` (Base length, area, moment of inertia about `x` and `y` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 4 known variables:
+
+```rpl
+h=4.33012781892_in  v=2.5_in  P=15_in  d=2_in
+@ Expecting [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=43.30127 01892 in↑4 ]
+@ Failing [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=54.57764 6801 in↑4 ]
+@ C#30 NOT OK for the Id value only because of an error in eqn (6), now corrected, therefore to be verified. MSOLVER: OK. Now in version 0.8.4 MSOLVE doesn't calculate anymore "Inconsistent units"
+'ROOT(ⒺTriangle;[b;A;Ix;Iy;J;Id];[1_in;1_in^2;1_in^4;1_in^4;1_in^4;1_in^4])'
+```
+
 
 ## Solid geometry
 The variables in the Solid Geometry section are:
@@ -1760,11 +1919,52 @@ The variables in the Solid Geometry section are:
 
 #### Cone
 
+![Cone](img/Missing name.bmp)
+
+* To calculate `[V_cm^3;A_cm^2;Ixx_kg*m^2;Izz_kg*m^2;Id_kg*m^2]` (Volume, area, moment of inertia about `x` axis and `z` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
+
+```rpl
+r=7_cm  h=12.5_cm  m=12.25_kg  d=3.5_cm
+@ Expecting [ V=641.40850 0108 cm↑3 A=468.99530 2857 cm↑2 Ixx=0.01618 14843 75 kg·m↑2 Izz=1.80075⁳⁻² kg·m↑2 Id=3.11877 34375⁳⁻² kg·m↑2 ]
+'ROOT(ⒺCone;[V;A;Ixx;Izz;Id];[1_cm^3;1_cm^2;1_kg*m^2;1_kg*m^2;1_kg*m^2])'
+```
+
 #### Cylinder
+
+![Cylinder](img/Missing name.bmp)
+
+* To calculate `[V_in^3;A_in^2;Ixx_lb*in^2;Izz_lb*in^2;Id_lb*in^2]` (Volume, area, moment of inertia about `x` axis and `z` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
+
+```rpl
+r=8.5_in  h=65_in  m=12000_lb  d=2.5_in
+@ Expecting [ V=14 753.70449 94 in↑3 A=3 925.42002 066 in↑2 Ixx=4 441 750. lb·in↑2 Izz=433 500. lb·in↑2 Id=4 516 750. lb·in↑2 ]
+'ROOT(ⒺCylinder;[V;A;Ixx;Izz;Id];[1_in^3;1_in^2;1_lb*in^2;1_lb*in^2;1_lb*in^2])'
+```
 
 #### Parallelepiped
 
+![Parallelepiped](img/Missing name.bmp)
+
+* To calculate `[V_in^3;A_in^2;I_lb*in^2;Id_lb*in^2]` (Volume, area, moment of inertia about `x` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
+
+```rpl
+b=36_in  h=12_in  t=72_in  m=83_lb  d=7_in
+@ Expecting [ V=31 104. in↑3 A=7 776. in↑2 I=36 852. lb·in↑2 Id=40 919. lb·in↑2 ]
+'ROOT(ⒺParallelepiped;[V;A;I;Id];[1_in^3;1_in^2;1_lb*in^2;1_lb*in^2])'
+```
+
 #### Sphere
+
+![Sphere](img/Missing name.bmp)
+
+* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis, radius, volume, area) from 3 known variables:
+
+```rpl
+d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
+@ Expecting [ I=6.88691 91393 3⁳⁻² kg·m↑2 r=8.43593 34656 2 in V=41 208.72679 31 cm↑3 A=5 769.57188 64 cm↑2 ]
+'ROOT(ⒺSphere;[I;r;V;A];[1_kg*m^2;r_cm;1_cm^3;1_cm^2])'
+```
+
 
 ## Solid State Devices
 The variables in the Solid State Devices section are:
@@ -1826,6 +2026,10 @@ The variables in the Solid State Devices section are:
 
 These equations for a silicon PN-junction diode use a “two-sided step-junction” model–the doping density changes abruptly at the junction. The equation assume the current density is determined by minority carries injected across the depletion region and the PN junction is rectangular in its layout, The temperature should be between 77 and 500 K.
 
+![PN Step Junctions](img/Missing name.bmp)
+
+* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis, radius, volume, area) from 3 known variables:
+
 #### NMOS Transistor
 
 These equations for a silicon NMOS transistor use a two-port network model. They include linear and nonlinear regions in the device characteristics and are based on a gradual-channel approximation (the electric fields in the direction of current flow are small compared to those perpendicular to the flow). The drain current and transconductance calculations differ depending on whether the transistor is in the linear, saturated, or cutoff region. The equations assume the physical geometry of the device is a rectangle, second-order length-parameter effects are negligible, shot-channel, hot-carrier, and velocity-saturation effects are negligible, and subthreshold currents are negligible.
@@ -1883,6 +2087,7 @@ The variables in the Stress Analysis section are:
 Stresses and strains are positive in the directions shown in the picture.
 
 #### Mohr’s Circle
+
 
 ## Waves
 The variables in the Waves section are:
