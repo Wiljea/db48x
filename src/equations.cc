@@ -724,10 +724,10 @@ zzz
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
-
+// Add radians units explicitely to θmax => (θmax_°)
     "Simple Pendulum",  "{ "
     "'(ω_(r/s))=(1_r)*√(Ⓒg/(L_cm))' "
-    "'(Treal_s)=2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin(θmax÷2)↑(2·x)))' "
+    "'(Treal_s)=2*Ⓒπ*√((L_cm)/Ⓒg)*(Σ(x;0;5;((2·x)!÷((2↑x)·x!)²)²·sin((θmax_°)÷2)↑(2·x)))' "
     "'(T_s)=2*(Ⓒπ_r)/(ω_(r/s))' "
     "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
     "}",
@@ -753,14 +753,15 @@ zzz
     "'(E_J)=(1/2)*(m_kg)*((ω0_(r/s))/(1_r)*(xm_m))^2' "
     "}",
     // Modif of radian in eqns (3) & (6)
+    // Add radians to eqn (2); Eliminate radians in eqn (1) & 2 times in eqn (5) & in eqn (6)
     // Ref.: https://scholar.harvard.edu/files/david-morin/files/waves_oscillations.pdf
     "Underdamped Oscillations",  "{ "
-    "'(x_m)=(xm_m)*EXP(-(γ_(r/s))*(t_s)/2)*COS((ωu_(r/s))*(t_s)+(φ_°))' "
-    "'(γ_(r/s))=(b_(kg/s))/(m_kg)' "
+    "'(x_m)=(xm_m)*EXP(-(γ_(r/s))*(t_s)/2/(1_r))*COS((ωu_(r/s))*(t_s)+(φ_°))' "
+    "'(γ_(r/s))=(1_r)*(b_(kg/s))/(m_kg)' "
     "'(ω0_(r/s))=(1_r)*√((k_(N/m))/(m_kg))' "
     "'(ωu_(r/s))=(ω0_(r/s))*√(1-((γ_(r/s))/(2*(ω0_(r/s))))^2)' "
-    "'(v_(m/s))=(xm_m)*EXP(-(γ_(r/s))*(t_s)/2)*(-((γ_(r/s))/2)*COS((ωu_(r/s))*(t_s)+(φ_°))-(ωu_(r/s))*SIN((ωu_(r/s))*(t_s)+(φ_°)))' "
-    "'(a_(m^2/s))=-((ω0_(r/s))^2/(1_r)^2*(x_m)+(γ_(r/s))*(v_m/s))' "
+    "'(v_(m/s))=(xm_m)/(1_r)*EXP(-(γ_(r/s))*(t_s)/2/(1_r))*(-((γ_(r/s))/2)*COS((ωu_(r/s))*(t_s)+(φ_°))-(ωu_(r/s))*SIN((ωu_(r/s))*(t_s)+(φ_°)))' "
+    "'(a_(m^2/s))=-((ω0_(r/s))^2/(1_r)^2*(x_m)+(γ_(r/s))*(v_m/s)/(1_r))' "
     "'(E_J)=(1/2)*(k_(N/m))*(x_m)^2+(1/2)*(m_kg)*(v_(m/s))^2' "
     "'Q=(ω0_(r/s))/(γ_(r/s))' "
     "}",
@@ -822,14 +823,14 @@ zzz
     "'(J_(cm^4))=Ⓒπ/2*((ro_cm)^4-(ri_cm)^4)' "
     "'(Id_(cm^4))=(I_(m^4))+(A_(m^2))*(d_cm)^2' "
     "}",
-
+// Error correction: change I_(cm^4) for Ix_(cm^4) in eqn (6)
     "Triangle",  "{ "
     "'(A_(in^2))=(b_cm)*(h_cm)/2' "
     "'(P_cm)=(b_cm)+√((v_cm)^2+(h_cm)^2)+√(((b_cm)-(v_cm))^2+(h_cm)^2)' "
     "'(Ix_(cm^4))=1/36*(b_cm)*(h_cm)^3' "
     "'(Iy_(cm^4))=1/36*(b_cm)*(h_cm)*((b_cm)^2+(v_cm)^2-(b_cm)*(v_cm))' "
     "'(J_(cm^4))=1/36*(b_cm)*(h_cm)*((b_cm)^2+(v_cm)^2+(h_cm)^2-(b_cm)*(v_cm))' "
-    "'(Id_(cm^4))=(I_(cm^4))+(A_(in^2))*(d_cm)^2' "
+    "'(Id_(cm^4))=(Ix_(cm^4))+(A_(in^2))*(d_cm)^2' "
     "}",
 
     // ------------------------------------------------------------------------
