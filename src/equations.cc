@@ -655,7 +655,7 @@ zzz
 
 //Ref.: https://mppolytechnic.ac.in/mp-staff/notes_upload_photo/AS273fiberoptics.pdf
     "Fiber Optic",  "{ "
-    "'SIN(θc_°)=n2/n1' "
+//    "'SIN(θc_°)=n2/n1' "
 	"'nf0=Ⓒc/(vf0_(m/s))' "
 	"'nf1=Ⓒc/(vf1_(m/s))' "
 	"'nf2=Ⓒc/(vf2_(m/s))' "
@@ -669,10 +669,11 @@ zzz
     "'n1=Ⓒc/(v1_(m/s))' "
     "'n2=Ⓒc/(v2_(m/s))' "
     "}",
-
+// Third equn missing for magnification
     "Spherical Reflection",  "{ "
     "'1/(u_cm)+1/(v_cm)=1/(f_cm)' "
     "'(f_cm)=(r_cm)/2' "
+    "'m=-(v_cm)/(u_cm)' "
     "}",
 
     "Spherical Refraction",  "{ "
@@ -705,9 +706,10 @@ zzz
     "'TAN(θ_°)=(y_m)/(L_m)' "
     "'(Δyint_m)=(λ_nm)*(L_m)/(d_μm)' "
     "}",
-
+// Impose explicit radians units to Δα_° => Δα_r & Remove radians with *(1_r^2)
     "One Slit Diffraction",  "{ "
-    "'(I_(W/m^2))/(Imax_(W/m^2))=(IFTE(Δα_°;SIN(Δα/2)/(Δα/2);1))^2' "
+    //"'(I_(W/m^2))/(Imax_(W/m^2))=(IFTE(Δα_°;SIN(Δα/2)/(Δα/2);1))^2' "
+    "'(I_(W/m^2))/(Imax_(W/m^2))=(1_r^2)*(IFTE(Δα_r;SIN((Δα_r)/2)/((Δα_r)/2);1))^2' "
     "'(Δα_r)=(2*(Ⓒπ_r)*(a_μm)*SIN(θ_°))/(λ_nm)' "
     "'TAN(θ_°)=(y_m)/(L_m)' "
     "'(Δydiff_m)=2*(λ_nm)*(L_m)/(a_μm)' "
