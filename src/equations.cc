@@ -313,13 +313,15 @@ static const cstring basic_equations[] =
 
     // WARNING: Missing or undefined parameter "f" in eqn 1
     // WARNING doesn't work on the native HP50G
-    // f represents probably the Fanning friction factor which is near 0 with
+   // f represents probably the Fanning friction factor which is near 0 with
    // the high RE number of the example the absolute roughness coefficient ϵ_in
    // is defined as a variable in both the HP50G and the manual but here it is
    // absent of all actual eqns
+   //24-11-12 I replace the call for FANNING by the corresponding calculation in eqn (2)
     "Flow In Full Pipes",  "{ "
     "  '(ρ_(kg/m^3))*((Ⓒπ*(D_m)^2)/4)*(vavg_(m/s))*((ΔP_Pa)/(ρ_(kg/m^3))+Ⓒg*(Δy_m)+(vavg_(m/s))^2*(2*f*((L_m)/(D_m))+ΣK/2))=(W_W)' "
-    "  'f=FANNING((ε_m)/(D_m);Reynolds)' "
+  //"  'f=FANNING((ε_m)/(D_m);Reynolds)' "
+    "  'f=IFTE(Reynolds ≤ 2100;16/Reynolds;(4.781-((-2*log(((ϵ_m)/(D_m))/3.7+12/Reynolds)-4.781)^2/((-2*log(((ϵ_m)/(D_m))/3.7+2.51*(-2*log(((ϵ_m)/(D_m))/3.7+12/Reynolds))/Reynolds))-2*(-2*log(((ϵ_m)/(D_m))/3.7+12/Reynolds))+4.781)))^-2)' "
     "  '(ΔP_Pa)=(P2_Pa)-(P1_Pa)' "
     "  '(Δy_m)=(y2_m)-(y1_m)' "
     "  '(M_(kg/s))=(ρ_(kg/m^3))*(Q_(m^3/s))' "
@@ -877,9 +879,11 @@ zzz
     // And Here q = Ⓒqe.
     // ERROR in gm formula in HP50G_AUR.pdf: μm=μn (OK)
     // ERROR in 4th formula of HP50G_AUR.pdf αR=>αF
+    //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "PN Step Junctions",  "{ "
     "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3))/((ni_(cm^-3))^2))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    //"'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(xd_μ)=√((2*Ⓒεsi*Ⓒε0)/Ⓒqe*((Vbi_V)-(Va_V))*(1/(NA_(cm^-3))+1/(ND_(cm^-3))))' "
     "'(Cj_(pF/cm^2))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "
     "'(Emax_(V/m))=2*((Vbi_V)-(Va_V))/(xd_μ)' "
@@ -891,6 +895,7 @@ zzz
 
     // WARNING: In the 9th formula of HP50G it is μn and not μm as described in
     // HP50G_AUR
+    //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (8)
     "NMOS Transistor",  "{ "
     "'(We_μ)=(W_μ)-2*(ΔW_μ)' "
     "'(Le_μ)=(L_m)-2*(ΔL_μ)' "
@@ -899,7 +904,8 @@ zzz
     "'(γ_(V^(1/2)))=√((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm^2))' "
     "'(Vt_V)=(Vt0_V)+(γ_(V^(1/2)))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
     "'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    //"'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(gds_S)=(IDS_mA)*(λ_(V^-1))' "
     "'(gm_(mA/V))=√((Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1))*(VDS_V))*2*(IDS_mA))' "
     "'(VDsat_V)=(VGS_V)-(Vt_V)' "
@@ -920,9 +926,12 @@ zzz
     "'(VCEsat_V)=((Ⓒk*(T_K)))/Ⓒqe*LN(((1+(IC_mA)/(IB_mA)*(1-αR)))/(αR*(1-(IC_mA)/(IB_mA)*((1-αF)/αF))))' "
     "}",
 
+    //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "JFETs",  "{ "
     "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/(ni_(cm^-3)))' "
-    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    //"'(ni_(cm^-3))=SIDENS(T_K)' "
+    "'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
+
     "'(xdmax_μ)=√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3)))*((Vbi_V)-(VGS_V)+(VDS_V)))' "
     "'(G0_S)=Ⓒqe*(ND_(cm^-3))*(μn_((cm^2)/(V*s)))*(((a_μ)*(W_μ))/(L_μ))' "
     "'(ID_mA)=(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))' "
