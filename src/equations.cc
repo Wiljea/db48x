@@ -212,9 +212,11 @@ static const cstring basic_equations[] =
     "RC Transient",  "{ "
     "  '(V_V)=(Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_ms))/((R_Ω)*(C_F)))' "
     "}",
-
+// Error in the placing of (R_Ω) that should be in the numerator
     "RL Transient",  "{ "
-    "  '(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_μs))/((R_Ω)*(L_mH))))' "
+//    "  '(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_μs))/((R_Ω)*(L_mH))))' "
+    "  '(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP((-(t_μs)*(R_Ω))/(L_mH)))' "
+
     "}",
     // Modif of radian in eqn (4)
     "Resonant Frequency",  "{ "
@@ -401,7 +403,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Gases", nullptr,
     // ------------------------------------------------------------------------
-    //t#: 36 vars 21 eqns 8 sims
+    //t#: 38 vars 21 eqns 8 sims
     // Change all occurrences of gmol by mol
     // In eq (1) units of T should be K instead of °C
     "Ideal Gas",  "{ "
@@ -437,7 +439,8 @@ static const cstring basic_equations[] =
     //"'Pr=(P_Pa)/(Pc_Pa)' "
     //"'ρr=0.27*(Pr/(Z*Tr))' "
     //"'Z=1+(0.31506237-1.04670990/Tr-0.57832729/Tr^3)*ρr+(0.53530771-0.61232032/Tr)*ρr^2+0.61232032*0.10488813*ρr^5/Tr+0.68157001*ρr^2/Tr^3*(1+0.68446549*ρr^2)*exp(-0.68446549*ρr^2)' "
-    "'Z=1+(0.31506237-1.04670990/((Ti_K)/(Tc_K))-0.57832729/((Ti_K)/(Tc_K))^3)*(0.27*(((Pi_Pa)/(Pc_Pa))/(Z*((Ti_K)/(Tc_K)))))+(0.53530771-0.61232032/((Ti_K)/(Tc_K)))*(0.27*(((Pi_Pa)/(Pc_Pa))/(Z*((Ti_K)/(Tc_K)))))^2+0.61232032*0.10488813*(0.27*(((Pi_Pa)/(Pc_Pa))/(Z*((Ti_K)/(Tc_K)))))^5/((Ti_K)/(Tc_K))+0.68157001*(0.27*(((Pi_Pa)/(Pc_Pa))/(Z*((Ti_K)/(Tc_K)))))^2/((Ti_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((Pi_Pa)/(Pc_Pa))/(Z*((Ti_K)/(Tc_K)))))^2)*exp(-0.68446549*(0.27*(((Pi_Pa)/(Pc_Pa))/(Z*((Ti_K)/(Tc_K)))))^2)' "
+    // change Ti for T and Pi for P in the following
+      "'Z=1+(0.31506237-1.04670990/((T_K)/(Tc_K))-0.57832729/((T_K)/(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))+(0.53530771-0.61232032/((T_K)/(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^5/((T_K)/(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2/((T_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)' "
     "}",
     // Change all °C for K in eqn 1
     "Real Gas State Change",  "{ "
@@ -499,12 +502,12 @@ static const cstring basic_equations[] =
     "Black Body Radiation",  "{ "
     "'(eb_(W/m^2))=Ⓒσ*(T_K)^4' "
     //"'f=F0λ((λ2_nm);(T_°C))-F0λ((λ1_nm);(T_°C))' "
-    "'f=15/Ⓒπ^4*∫(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K));Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K));x^3/expm1(x);X)' "
+    "'f=15/Ⓒπ^4*∫(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K));Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K));X^3/expm1(X);X)' "
     "'(eb12_(W/m^2))=f*(eb_(W/m^2))' "
     "'(λmax_nm)*(Tmax_°C)=Ⓒc3' "
     "'(q_W)=(eb_(W/m^2))*(A_(cm^2))' "
     "}",
-
+zzzx
     // ------------------------------------------------------------------------
     "Magnetism", nullptr,
     // ------------------------------------------------------------------------
@@ -1342,7 +1345,7 @@ zzz
     "'(Aa)+(AX)=(AY)+(Ab)' "
     "'(Za)+(ZX)=(ZY)+(Zb)' "
     "}",
-    // As of 24-11-12: Total 614 eqns, 693 vars, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
+    // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
 };
 //   clang-format on
 
