@@ -486,8 +486,10 @@ Vi=0_V  C=50_μF  Vf=10_V  R=100_Ω  t=2_ms
 * To calculate `[I_A]` (Current) from 5 known variables:
 ```rpl
 Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
-@ Failing [ I=0.00722 56513 67 A ]
-@ NOT OK. exp(-t*R/L) in error: BASE to be applied to the mixed units argument
+@ Expecting [ I=-2.⁳⁻²³ A ]
+@ Failing [ I=7.22565 13671 4⁳⁻³ A ]
+@ C#1 NOT OK. MSOLVER gives wrong value BUT algebraic OK: '1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))'=7.22565 13671 4⁳⁻³ A 
+'ROOT([(I_A)=1/(R_Ω)*((Vf_V)-((Vf_V)-(Vi_V))*EXP(-((t_μs)*(R_Ω)/(L_mH))))];[I];[1_A])'
 'ROOT(ⒺRL Transient;[I];[1_A])'
 ```
 
@@ -497,7 +499,7 @@ Vi=0_V  Vf=5_V  R=50_Ω  L=50_mH  t=75_μs
 ```rpl
 L=500_mH  C=8_μF  R=10_Ω
 @ Failing [ ω0=500. r/s Qs=25. Qp=0.04 f0=79.57747 15459 Hz ]
-@ NOT OK. radians missing in ω0 ; Error: "Inconsistent units" but units are ok
+@ C#2 NOT OK. MSOLVER & SOLVER Error: "Inconsistent units" but units are OK and it computes algebraically
 'ROOT(ⒺResonant Frequency;[ω0;Qs;Qp;f0];[1_r/s;1;1;1_Hz])'
 ```
 
@@ -508,9 +510,9 @@ L=500_mH  C=8_μF  R=10_Ω
 * To calculate `[d_cm;ΔV_V;Ein_(N/C);σ_(μC/m^2)]` (Distance; Voltage; Internal E field; Surface charge density) from 4 known variables:
 ```rpl
 C=25_μF  εr=2.26  A=1_cm^2  Q=75_μC 
-@ Failing [ d=8.00418 57871 19⁳⁻⁹ cm σ=750 000. μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ N/C ΔV=3. V ]
-@ C#1 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Inconsistent units" BUT strangely
-@ if I give "1" as a trial value for d, it works then it will also work seperately for Ein & ΔV
+@ Failing [ d=8.00418 57871 2⁳⁻⁹ cm σ=750 000 μC/m↑2 Ein=3.74803 89383 6⁳¹⁰ V/m ΔV=3. V ]
+@ C#3 NOT OK. MSOLVER: "NO solution?", OK if solve seperately for d, BUT not for σ:"Bad argument type" BUT strangely
+@ if I give "1" as a trial value for σ, it works then it will also work seperately for Ein & ΔV BUT indicating SOLVE Error: "Sign Reversal"
 'ROOT(ⒺPlate Capacitor;[d;σ;Ein;ΔV];[1_cm;1_(μC/m^2);1_(N/C);1_V])'
 ```
 
@@ -649,16 +651,16 @@ These equations represent the streamlined flow of an incompressible fluid.
 * To calculate `[A1_in^2;ΔP_psi;Δy_ft;Q_ft^3/min;M_lb/min;v2_ft/s;A2_in^2;D2_in]` (Various hydrodynamic parameters) from 7 known variables:
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s
-@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
+@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
+@ C#4 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time in order NOT OK for v2;A2;D2 "Inconsistent units" while searching for each unknown. It seems that isolating v2 from eqn (1) doesn't work
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
 Alternate présentation adding one more known value: `v2`
 ```rpl
 P2=25_psi  P1=75_psi  y2=35_ft  y1=0_ft  D1=18_in  ρ=64_lb/ft^3  v1=100_ft/s v2=122.421311569_ft/s
-@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=5.00399 98439 8 m↑3/s M=5 130.00884 634 kg/s v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
-@ C#3 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
+@ Failing [ A1=254.46900 4941 in↑2 ΔP=-50. psi Δy=35. ft Q=10 602.87520 59 ft↑3/min M=678 584.01317 5 lb/min v2=122.42131 1569 ft/s A2=207.86332 19 in↑2 D2=16.26836 81217 in ]
+@ C#4 NOT OK. MSOLVER: "Inconsistent units", OK for A1;ΔP;Δy;Q;M solved one at a time NOT OK for A2;D2 wrong values are obtained which is strange because eqn (7) should resolve for A2 BUT the value of Q change inadvertently ... why??
 'ROOT(ⒺBernoulli Equation;[A1;ΔP;Δy;Q;M;v2;A2;D2];[1_in^2;1_psi;1_ft;1_ft^3/min;1_lb/min;1_ft/s;1_in^2;1_in])'
 ```
 
@@ -686,7 +688,7 @@ These equations adapt Bernoulli’s equation for flow in a round, full pipe, inc
 ρ=62.4_lb/ft^3  D=12_in  vavg=8_ft/s  P2=15_psi  P1=20_psi  y2=40_ft  y1=0_ft
 μ=0.00002_lbf*s/ft^2  ΣK=2.25  ε=0.02_in  L=250_ft
 @ Failing [ ΔP=-5. psi Δy=40. ft A=113.0973 in↑2 n=1.0312 ft^2/s Q=376.991 ft↑3/min M=23 524.2358 lb/min W=25.8897 hp Reynolds=775 780.5 ]
-@ C#4 NOT OK. Fanning function not implemented yet !!! Msolver: "EquationSolver error: Inconsistent units"
+@ C#5 NOT OK. Fanning function not implemented yet ! Msolver: "EquationSolver error: Inconsistent units". To be checked.
 'ROOT(ⒺFlow In Full Pipes;[ΔP;Δy;A;n;Q;M;W;Reynolds];[1_psi;1_ft;1_in^2;1_ft^2/s;1_ft^3/min;1_lb/min;1_hp;1])'
 ```
 
@@ -748,8 +750,7 @@ t=10_s  m=50_lb  a=12.5_ft/s^2  vi=0_ft/s
 * To calculate `[τ_ft*lbf;Ki_ft*lbf;W_ft*lbf;Kf_ft*lbf;at_ft/s^2;Ni_rpm;ωf_r/min;t_min;Nf_rpm;Pavg_hp]` (Various dynamical variables) from 5 known variables:
 ```rpl
 I=1750_lb*in^2  Θ=360_°  r=3.5_in  α=10.5_r/min^2  ωi=0_r/s
-@ Failing [τ=1.10168 29849 6e-3 ft·lbf  Ki=0 ft*lbf  W=6.92207 83442 7e-3 ft·lbf  Kf=6.92207 83442 7⁳⁻³ ft·lbf  at=8.50694 44444 4e-4 ft/s↑2  Ni=0 rpm   ωf=11.48681 38076 r/min  t=1.09398 22673 9 min  Nf=0.29096 43928 16 rpm  Pavg=1.91739 80792 8⁳⁻⁷ hp]
-@ C#5 NOT OK. MSOLVER: "Inconsistent units", SOLVE individually for r works but gives "Sign reversal" error. Then Ki & W failed due to radians errors, then SOLVE calculates Kf but failed for at "Inconsistent units" that we calculate algebraically. I corrected many radians errors, therefore to be checked. Now eqns are OK.  
+@ Expecting [ τ=1.10168 29849 6⁳⁻³ ft·lbf Ki=-2.⁳⁻²³ ft·lbf W=6.92207 83442 6⁳⁻³ ft·lbf Kf=6.92207 83442 6⁳⁻³ ft·lbf at=8.50694 44444 4⁳⁻⁴ ft/s↑2 Ni=-2.⁳⁻²³ rpm ωf=11.48681 38076 r/min t=1.09398 22673 9 min Nf=0.29096 43928 17 rpm Pavg=1.91739 80792 8⁳⁻⁷ hp ]
 'ROOT(ⒺAngular Mechanics;[τ;Ki;W;Kf;at;Ni;ωf;t;Nf;Pavg];[1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft*lbf;1_ft/s^2;1_rpm;1_r/min;1_min;1_rpm;1_hp])'
 ```
 
@@ -815,11 +816,13 @@ m=9.1E-31_kg
 
 ## Gases
 
-The 36 variables in the Gases section are:
-zzz
+The 38 variables in the Gases section are:
+
 * `λ`: Mean free path (dim.: length)
 * `ρ`: Flow density (dim.: mass/volume, in SI: kg/m^3)
-* `ρr, ρri, ρrf`: Initial and final reduced state factors
+* `ρr`: Reduced state factor
+* `ρri`: Initial reduced state factor
+* `ρrf`: Final reduced state factor
 * `ρ0`: Stagnation density (dim.: mass/volume, in SI: kg/m^3)
 * `A`: Flow area
 * `At`: Throat area
@@ -828,27 +831,35 @@ zzz
 * `M`: Mach number
 * `m`: Mass
 * `MW`: Molecular weight (dim.: mass/mole, in SI: g/gmol)
-* `n`: Number of moles, or Polytropic constant (Polytropic Processes)
-* `P`: Pressure, or Flow pressure (Isentropic Flow) (dim.: force/area, in SI: pascal, Pa)
+* `n`: Number of moles, or Polytropic constant ([Polytropic Processes](#Polytropic Processes))
+* `P`: Pressure, or Flow pressure ([Isentropic Flow](#Isentropic Flow)) (dim.: force/area, in SI: pascal, Pa)
 * `P0`: Stagnation pressure (dim.: force/area, in SI: pascal, Pa)
 * `Pc`: Pseudocritical pressure (dim.: force/area, in SI: pascal, Pa)
-* `Pi`
-* `Pf`: Initial and final pressure (dim.: force/area, in SI: pascal, Pa)
-* `Pr, Pri, Prf`: Initial and final Reduced Pressures
-* `T`: Temperature, or Flow temperature (Isentropic Flow)
+* `Pi`: Initial pressure (dim.: force/area, in SI: pascal, Pa)
+* `Pf`: Final pressure (dim.: force/area, in SI: pascal, Pa)
+* `Pr`: Reduced pressure
+* `Pri`: Initial reduced ressure
+* `Prf`: Final reduced pressure
+* `T`: Temperature, or Flow temperature ([Isentropic Flow](#Isentropic Flow))
 * `T0`: Stagnation temperature
 * `Tc`: Pseudocritical temperature
-* `Tr, Tri, trf`: Initial and final reduced temperatures
-* `Ti, Tf`: Initial and final temperatures
-* `V, Vi, Vf`: Initial and final volumes
+* `Tr`: Reduced temperature
+* `Tri`: Initial reduced temperature
+* `trf`: Final reduced temperature
+* `Ti`: Initial temperature
+* `Tf`: Final temperature
+* `V`: Volume
+* `Vi`: Initial volume
+* `Vf`: Final volume
 * `vrms`: Root-mean-square (rms) velocity
 * `W`: Work (dim.: force·length, in SI: joule, J)
-* `Z, Zi, Zf`: Initial and final gas compressibility correction factors
+* `Z`: Gas compressibility correction factor
+* `Zi`: Initial gas compressibility correction factor
+* `Zf`: Final gas compressibility correction factor
 
 ### Ideal Gas
 
-* To calculate `[n_mol;m_kg]` (Number of moles, mass) from 4 known variables:
-
+* To calculate `[n_mol;m_kg]` (Number of moles; Mass) from 4 known variables:
 ```rpl
 T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
 @ Expecting [ n=1.05056 26661 23⁳⁰ mol m=3.78202 55980 42⁳⁻² kg ]
@@ -858,7 +869,6 @@ T=16.85_°C  P=1_atm  V=25_l  MW=36_g/mol
 ### Ideal Gas Law Change
 
 * To calculate `[Vf_l]` (Volume final) from 5 known variables:
-
 ```rpl
 Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=100_°C  Tf=373.15_K
 @ Expecting [ Vf=2. l ]
@@ -869,8 +879,7 @@ Pi=1.5_kPa  Pf=1.5_kPa  Vi=2_l  Ti=100_°C  Tf=373.15_K
 
 These equations apply to an ideal gas.
 
-* To calculate `[m_kg;W_J]` (Mass, work) from 5 known variables:
-
+* To calculate `[m_kg;W_J]` (Mass; Work) from 5 known variables:
 ```rpl
 Vi=2_l  Vf=125_l  T=300_°C  n=0.25_mol  MW=64_g/mol
 @ Expecting [ m=1.6⁳⁻² kg W=4 926.49415 89 J ]
@@ -881,8 +890,7 @@ Vi=2_l  Vf=125_l  T=300_°C  n=0.25_mol  MW=64_g/mol
 
 These equations describe a reversible pressure-volume change of an ideal gas such that `P·Vn` is constant. Special cases include isothermal processes (`n = 1`), isentropic processes (`n = k`, the specific heat ratio), and constant-pressure processes (`n = 0`).
 
-* To calculate `[n_1;Tf_°F]` (Polytropic number, final temperature) from 5 known variables:
-
+* To calculate `[n_1;Tf_°F]` (Polytropic number; Final temperature) from 5 known variables:
 ```rpl
 Pi=15_psi  Pf=35_psi  Vi=1_ft^3  Vf=0.50_ft^3  Ti=75_°F
 @ Expecting [ n=1.22239 24213 4 Tf=346.54537 037 K ]
@@ -895,8 +903,7 @@ Pi=15_psi  Pf=35_psi  Vi=1_ft^3  Vf=0.50_ft^3  Ti=75_°F
 
 The calculation differs at velocities below and above Mach 1. The Mach number is based on the speed of sound in the compressible fluid.
 
-* To calculate `[P_kPa;ρ_kg/m^3;At_cm^2]` (Flow pressure, flow density, throat area) from 7 known variables:
-
+* To calculate `[P_kPa;ρ_kg/m^3;At_cm^2]` (Flow pressure; Flow density; Throat area) from 7 known variables:
 ```rpl
 k=2  M=0.9  T0=26.85_°C  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
 @ Expecting [ P=154.71213 6111 kPa ρ=124.38333 3333 kg/m↑3 At=0.99280 71853 34 cm↑2 ]
@@ -907,52 +914,54 @@ k=2  M=0.9  T0=26.85_°C  T=373.15_K  ρ0=100_kg/m^3  P0=100_kPa  A=1_cm^2
 
 These equations adapt the ideal gas law to emulate real-gas behavior.
 
-* To calculate `[n_mol;m_kg;Z_1]` (Number of mole, mass, gas compressibility correction factor) from 7 known variables:
-
+* To calculate `[Z_1;n_mol;m_kg]` (Gas compressibility correction factor; Number of mole; Mass) from 7 known variables:
 ```rpl
 Pc=48_atm  Tc=298_K  P=5_kPa  V=10_l  MW=64_g/mol  T=348.15_K
-@ Failing [ n=1.72768 40576 08⁳⁻² mol m=1.10571 77968 69⁳⁻³ kg Z=0.99977 57972 690 ]
-@ C#6 NOT OK. MSOLVER: "Inconsistent units", MSOLVE works only if we provide the right initial value for Z ... NOT ANYMORE ! I thinh it worked with Z value in v0.8.1, but I am not sure.
-'ROOT(ⒺReal Gas Law;[n;m;Z];[1_mol;1_kg;1])'
+@ Failing [ Z=0.99977 57972 690 n=1.72768 40576 1⁳⁻² mol m=1.10571 77968 7⁳⁻³ kg ]
+@ C#6 NOT OK. MSOLVER: "Inconsistent units". SOLVE for Z alone doesn't work (see below). If I substitute the Z value, SOLVE works for n & m
+'ROOT(ⒺReal Gas Law;[Z,n;m];[1;1_mol;1_kg])'
 ```
-
-Notes about the current error:
+```rpl
+@ Let me examine the computation of Z alone in its own implicit expression
+Pc=48_atm  Tc=298_K  P=5_kPa  T=348.15_K
+@ Failing [ Z=0.99977 57972 69 ]
+@ Doesn't work. MSOLVER : "Inconsistent units". Very strange because if I substitute P,T,Pc & Tc values, it works, see next trial 
+'ROOT([Z=1+(0.31506237-1.04670990/((T_K)/(Tc_K))-0.57832729/((T_K)/(Tc_K))^3)*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))+(0.53530771-0.61232032/((T_K)/(Tc_K)))*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2+0.61232032*0.10488813*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^5/((T_K)/(Tc_K))+0.68157001*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2/((T_K)/(Tc_K))^3*(1+0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)*exp(-0.68446549*(0.27*(((P_Pa)/(Pc_Pa))/(Z*((T_K)/(Tc_K)))))^2)];[Z];[1])'
 ```
-@ SOLUTIONS with an individual ROOT call. Since it works the Z function (in equation.cc) will be rewritten in closed form
-@ 'ROOT(-Z+1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2);Z;1)'
-@ Z=0.99977 57972 690
+```rpl
+@ Here it works if I substitute the P,T,Pc & Tc values explicitely
+@ Expecting [ Z=0.99977 57972 69 ]
+'ROOT([Z=1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((5_kPa)/(4863.6_kPa))/(Z*((348.15_K)/(298_K)))))^2)];[Z];[1])'
 ```
 
 ### Real Gas State Change
 
 This equation adapts the ideal gas state-change equation to emulate real-gas behavior.
 
-* To calculate `[Vf_l;Zi_1;Zf_1]` (Final volume, initial & final gas compressibility correction factor) from 7 known variables:
-
+* To calculate `[Zi_1;Zf_1;Vf_l]` (Initial & final gas compressibility correction factor; Final volume) from 7 known variables:
 ```rpl
 Pc=48_atm  Pi=100_kPa  Pf=50_kPa  Ti=348.15_K  Tc=298_K  Vi=10_l  Tf=523.15_K
 @ Failing [ Vf=30.17028 92973 l Zi=0.99550 62096 36 Zf=0.99938 68303 14 ]
-@ C#7 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below) the Vf calculated is wrong
-'ROOT(ⒺReal Gas State Change;[Vf;Zi;Zf];[Vf_l;1;1])'
+@ C#7 NOT OK. MSOLVER: "Inconsistent units" even if I provide the value for Zi & Zf (see below)SOLVE for Vf : "Inconsistent units"
+'ROOT(ⒺReal Gas State Change;[Zi;Zf;Vf];[1;1;Vf_l])'
 ```
 
-Notes about the current error:
-```
+Same comment as "Real Gas Law" apply here, In the following I substitute all the required values, otherwise this doesn't work
+```RPL
 @ SOLUTIONS with individual ROOT calls. Since it works the Zi & Zf function (in equation.cc) will be rewritten in closed form
-@ 'ROOT(-Zi+1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2);Zi;1)'
-@ => Zi=0.99550 62096 36
-@ 'ROOT(-Zf+1+(0.31506237-1.04670990/((523.15_K)/(298_K))-0.57832729/((523.15_K)/(298_K))^3)*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))+(0.53530771-0.61232032/((523.15_K)/(298_K)))*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^5/((523.15_K)/(298_K))+0.68157001*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2/((523.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2);Zf;1)'
-@ => Zf=0.99938 68303 14
-@ => Zi/Zf=0.99611 69983 83  which is the required answer
+@ Expecting [ Zi=0.99550 62096 36 ]
+'ROOT([Zi=1+(0.31506237-1.04670990/((348.15_K)/(298_K))-0.57832729/((348.15_K)/(298_K))^3)*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))+(0.53530771-0.61232032/((348.15_K)/(298_K)))*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^5/((348.15_K)/(298_K))+0.68157001*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2/((348.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((100_kPa)/(4863.6_kPa))/(Zi*((348.15_K)/(298_K)))))^2)];[Zi];[1])'
+
+@ Expecting [ Zf=0.99938 68303 14 ]
+'ROOT([Zf=1+(0.31506237-1.04670990/((523.15_K)/(298_K))-0.57832729/((523.15_K)/(298_K))^3)*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))+(0.53530771-0.61232032/((523.15_K)/(298_K)))*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2+0.61232032*0.10488813*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^5/((523.15_K)/(298_K))+0.68157001*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2/((523.15_K)/(298_K))^3*(1+0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)*exp(-0.68446549*(0.27*(((50_kPa)/(4863.6_kPa))/(Zf*((523.15_K)/(298_K)))))^2)];[Zf];[1])'
+@ => Zi/Zf=0.99611 69983 83  which is the required answer if I deduce it from the HP50g results
 ```
 
 ### Kinetic Theory
 
-
 These equations describe properties of an ideal gas.
 
-* To calculate `[vrms_m/s;n_mol;m_kg;λ_nm]` (Root-mean-square velocity, number of mole, mean free path) from 7 known variables:
-
+* To calculate `[vrms_m/s;n_mol;m_kg;λ_nm]` (Root-mean-square velocity; Number of mole; Mean free path) from 7 known variables:
 ```rpl
 P=100_kPa  V=2_l  T=300_K  MW=18_g/mol  d=2.5_nm
 @ Failing [ vrms=644.76778 7657 m/s n=0.08018 11130 98 mol m=1.44326 00357 69⁳⁻³ kg λ=1.49163 44918 94⁳⁰ nm ]
@@ -969,7 +978,8 @@ The 31 variables in the Heat Transfer section are:
 
 * `α`: Expansion coefficient (dim.: 1/temperature, in SI: K^-1)
 * `δ`: Elongation (dim.: length)
-* `λ1, λ2`: Lower and upper wavelength limits (dim.: length)
+* `λ1`: Lower wavelength limits (dim.: length)
+* `λ2`: Upper wavelength limits (dim.: length)
 * `λmax`: Wavelength of maximum emissive power (dim.: length)
 * `ΔT`: Temperature difference
 * `A`: Area
@@ -977,36 +987,41 @@ The 31 variables in the Heat Transfer section are:
 * `eb12`: Emissive power in the range λ1 to λ2 (dim.: power/area, in SI: W/m^2)
 * `eb`: Total emissive power (dim.: power/area, in SI: W/m^2)
 * `f`: Fraction of emissive power in the range λ1 to λ2
-* `h, h1, h3`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
-* `k, k1, k2, k3`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
-* `L, L1, L2, L3`: Length
+* `h`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
+* `h1`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
+* `h3`: Convective heat-transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
+* `k`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `k1`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `k2`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `k3`: Thermal conductivity (dim.: power/(length·temperature) in SI: W/(m·K))
+* `L`: Length
+* `L1`: Length
+* `L2`: Length
+* `L3`: Length
 * `m`: Mass
 * `Q`: Heat capacity (dim.: energy, in SI: joule, J)
 * `qr`: Heat transfer rate (dim.: power=energy/time, in SI: watt, W)
 * `T`: Temperature
-* `Tc`: Cold surface temperature (Conduction), or Cold fluid temperature (Convection)
-* `Th`: Hot surface temperature, or Hot fluid temperature (Conduction + Convection)
-* `Ti, Tf`: Initial and final temperatures
+* `Tc`: Cold surface temperature ([Conduction^](#Conduction)), or Cold fluid temperature ([Convection](1Convection))
+* `Th`: Hot surface temperature, or Hot fluid temperature ([Conduction + Convection](#Conduction + Convection))
+* `Ti`: Initial temperature
+* `Tf`: Final temperature
 * `U`: Overall heat transfer coefficient (dim.: power/(area·temperature) in SI: W/(m^2·K))
 
 ### Heat Capacity
 
-* To calculate `[c_kJ/(kg*K);Tf_°C]` (Specific heat, final temperature) from 4 known variables:
-
+* To calculate `[Tf_°C;c_kJ/(kg*K)]` (Final temperature; Specific heat) from 4 known variables:
 ```rpl
 ΔT=15_°C  Ti=0_°C  m=10_kg  Q=25_kJ
-@ Expecting [ c=0.01 kJ/(kg·K) Tf=15. °C ]
-@ Failing [ c=0.16666 66666 67 kJ/(kg·K) Tf=15 °C ]
-@ C#9 NOT OK. MSOLVER: calculates BUT hallucinates to a wrong value of c ... why ? Works if solved seperately.
-'ROOT(ⒺHeat Capacity;[c;Tf];[1_kJ/(kg*K);1_°C])'
+@ Expecting [ Tf=15. °C c=0.16666 66666 67 kJ/(kg·K) ]
+'ROOT(ⒺHeat Capacity;[Tf;c];[1_°C;1_kJ/(kg*K)])'
 ```
 
 ### Thermal Expansion
 
 ![Thermal Expansion](img/ThermalExpansion.bmp)
 
-* To calculate `[α_K^-1;Ti_°C]` (Expansion coefficient, initial temperature) from 4 known variables:
-
+* To calculate `[α_K^-1;Ti_°C]` (Expansion coefficient; Initial temperature) from 4 known variables:
 ```rpl
 ΔT=15_°C  L=10_m  Tf=25_°C  δ=1_cm
 @ Expecting [ α=6.66666 66666 7⁳⁻⁵ K⁻¹ Ti=10. °C ]
@@ -1017,8 +1032,7 @@ The 31 variables in the Heat Transfer section are:
 
 ![Conduction](img/Conduction.bmp)
 
-* To calculate `[qr_W;ΔT_°C]` (Heat transfer rate, temperature difference) from 5 known variables:
-
+* To calculate `[qr_W;ΔT_°C]` (Heat transfer rate; Temperature difference) from 5 known variables:
 ```rpl
 Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 @ Expecting [ qr=5000 W ΔT=50_°C ]
@@ -1029,14 +1043,11 @@ Tc=25_°C  Th=75_°C  A=12.5_m^2  L=1.5_cm  k=0.12_W/(m*K)
 
 ![Convection](img/Convection.bmp)
 
-* To calculate `[ΔT_°C;Th_°C]` (Temperature difference, hot surface temperature) from 4 known variables:
-
+* To calculate `[Th_°C;ΔT_°C]` (Hot surface temperature; Temperature difference) from 4 known variables:
 ```rpl
 Tc=26.85_°C  A=200_m^2  h=0.005_W/(m^2*K)  qr=10_W
-@ Expecting [ ΔT=48.15 °C Th=36.85 °C ]
-@ Failing [ ΔT=10. °C Th=36.85 °C ]
-@ C#10 NOT OK MSOLVER hallucinates a wrong value for ΔT 
-'ROOT(ⒺConvection;[ΔT;Th];[1_°C;1_°C])'
+@ Expecting [ Th=36.85 °C ΔT=10. °C ]
+'ROOT(ⒺConvection;[Th;ΔT];[1_°C;1_°C])'
 ```
 
 ### Conduction + Convection
@@ -1045,14 +1056,11 @@ If you have fewer than three layers, give the extra layers a zero thickness and 
 
 ![Conduction + Convection](img/Conduction+Convection.bmp)
 
-* To calculate `[qr_W;Tc_°C;U_W/(m^2*K)]` (Heat transfer rate, cold surface temperature, overall heat transfer coefficient) from 11 known variables:
-
+* To calculate `[Tc_°C;qr_W;U_W/(m^2*K)]` (Cold surface temperature; Heat transfer rate; Overall heat transfer coefficient) from 11 known variables:
 ```rpl
 ΔT=35_°C  Th=55_°C  A=10_m^2  h1=0.05_W/(m^2*K)  h3=0.05_W/(m^2*K)  L1=3_cm  L2=5_cm  L3=3_cm  k1=0.1_W/(m*K)  k2=.5_W/(m*K)  k3=0.1_W/(m*K)
-@ Expecting [ qr=6.91646 19164 6 W Tc=300. °C U=-2.82304 56801 9⁳⁻³ W/(m↑2·K) ]
-@ Failing [ qr=8.59950 85995 1 W Tc=20. °C U=0.02457 00245 7 W/(m↑2·K) ]
-@ C#11 NOT OK: MSOLVER hallucinates all the values
-'ROOT(ⒺConduction & Convection;[qr;Tc;U];[1_W;1_°C;1_W/(m^2*K)])'
+@ Expecting [ Tc=20. °C qr=8.59950 85995 1 W U=0.02457 00245 7 W/(m↑2·K) ]
+'ROOT(ⒺConduction & Convection;[Tc;qr;U];[1_°C;1_W;1_W/(m^2*K)])'
 ```
 
 ### Black Body Radiation
@@ -1061,20 +1069,27 @@ F0λ(λ_m, T_K) is the black body emissive power Function which returns the frac
 
 ![Black Body Radiation](img/BlackBodyRadiation.bmp)
 
-* To calculate `[λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W]` (Wavelength of maximal emission, total emissive power, fraction of emissive power between λ1 & λ2, emissive power between λ1 & λ2, heat transfer rate) from 4 known variables:
-
+* To calculate `[λmax_nm;eb_W/m^2;f_1;eb12_W/m^2;q_W]` (Wavelength of maximal emission; Total emissive power; Fraction of emissive power between λ1 & λ2; Emissive power between λ1 & λ2; Heat transfer rate) from 4 known variables:
 ```rpl
-T=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
-@ Failing [ λmax=2276.0523_nm eb=148984.2703_W/m^2 f=0.0036 eb12=537.7264_W/m^2 q=14.8984_W ]
-@ C#12 NOT OK: MSOLVER: "Invalid function" after a long time probably due to the integration not functionning, see ISSUE#1307
+T=1273,15_K  Tmax=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
+@ Failing [ λmax=2 276.05231 12 nm eb=148 984.27029 5 W/m↑2 f=3.60929 06376 4e-3 eb12=537.72753 1933 W/m↑2 q=14.89842 70295 W ]
+@ C#9 NOT OK: MSOLVER: "Invalid function" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
+The following integral doesn't work:
+T=1273,15_K  λ1=1000_nm  λ2=600_nm
+'f=15/Ⓒπ^4*∫(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K));Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K));X^3/expm1(X);X)'
+But if I calculate the value of the integration limits and apply BASE, I obtain pure number and the integral works:
+'Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K))'=1.88347 62339 3⁳⁻⁸ m/nm and if I apply BASE I obtain 18.83476 23393
+'Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))'=1.13008 57403 6⁳⁻⁸ m/nm and if I apply BASE I obtain 11.30085 74036
+Then the integral computes
+'f=15/Ⓒπ^4*∫(11.30085 74036;18.83476 23393;X^3/expm1(X);X)'=3.60929 06376 4e-3
 
 
 ## Magnetism
 
 The 28 variables in the Magnetism section are:
-
+zzzx
 * `α1, α2`: Subtended internal angles relative to the top ends of the solenoid
 * `θ1, θ2`: Subtended angles relative to the ends of the wire
 * `θ`: Angle between the line of the magnetic field and the speed of the moving charge
@@ -1353,6 +1368,7 @@ By definition, an object in free fall only experiences local gravitational accel
 
 ```rpl
 y0=1000_ft  y=0_ft  v0=0_ft/s  gloc=9.80665_m/s↑2  φ=45_°  h=1000_m  Mp=5.9722e24_kg
+@ Expecting [ v=77.31839 26372 m/s t=7.88428 18533 5 s r=6 374 488.95425 m gearth=9.80321 00310 8 m/s↑2 ]
 @ Failing [ v=-253.66926 7182 ft/s  t=7.88428 18533 5 s  r=6 374 616.37381 m  gearth=9.80321 00310 8 m/s↑2 ]
 @ C#13  MSOLVER: "Inconsistent units". Units have been corrected in gearth eqn ... so, to be checked.
 'ROOT(ⒺObject In Free Fall;[v;t;r;gearth];[1_m/s;1_s;1_m;1_m/s^2])'
