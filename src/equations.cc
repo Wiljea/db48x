@@ -507,7 +507,7 @@ static const cstring basic_equations[] =
     "'(λmax_nm)*(Tmax_°C)=Ⓒc3' "
     "'(q_W)=(eb_(W/m^2))*(A_(cm^2))' "
     "}",
-zzzx
+
     // ------------------------------------------------------------------------
     "Magnetism", nullptr,
     // ------------------------------------------------------------------------
@@ -619,12 +619,12 @@ zzzx
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/(vt_(m/s)))' "
     "'xfr_ft=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/(vt_(m/s))*(1_s));t)*(1_s)' "
-//  This last integration shall work since it is stripped of units
-//  "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral wuth units
+//  This last integration shall work since it is stripped of units but it doesn't
+//  "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral with units
 //  "'xfr_ft=(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
 //  "'xfr_m=(95.13182 74789_m/s)*∫(0;17.76964 17471;TANH(t*Ⓒg/(95.13182 74789_m/s)*(1_s));t)*(1_s)' " works in example 2
     "}",
-zzz
+
 // New section added with new eqns (1), (3) & (4), but the integration doesn't work
 //W=Fb+D <=> Vol*(ρ-ρf)*g=1/2*Cd*Ah*ρf*vt^2  => vt=IFTE('ρ<ρf';-1;1)*√(2*Vol/Ah*ABS(ρ/ρf-1)*g/Cd)
     "Buoyancy & Terminal Velocity",  "{ "
@@ -672,10 +672,10 @@ zzz
     "}",
 
     "Brewster’s Law",  "{ "
-    "'TAN(θB_°)=n2/n1' "
-    "'(θB_°)+(θ2_°)=90°' "
-    "'n1=Ⓒc/(v1_(m/s))' "
-    "'n2=Ⓒc/(v2_(m/s))' "
+       "'TAN(θB_°)=n2/n1' "
+       "'(θB_°)+(θ2_°)=90°' "
+       "'n1=Ⓒc/(v1_(m/s))' "
+       "'n2=Ⓒc/(v2_(m/s))' "
     "}",
 // Third equn missing for magnification
     "Spherical Reflection",  "{ "
@@ -701,10 +701,11 @@ zzz
     "'SIN(θr_°)=1.21966989*(λ_nm)/(d_m)' "
     "'TAN(θr_°)=(y_m)/(L_m)' "
     "}",
-
+// Error in second eqn last "+" to be replaced by "*"
     "Malus Law",  "{ "
     "'(I_(W/m^2))/(I0_(W/m^2))=(COS(θ_°))^2' "
-    "'(Ix_(W/m^2))/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))+(COS(θ_°))^2' "
+//    "'(Ix_(W/m^2))/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))+(COS(θ_°))^2' "
+    "'(Ix_(W/m^2))/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))*(COS(θ_°))^2' "
     "'(I0_(W/m^2))=(1/(2*Ⓒμ0*Ⓒc))*(E0_(V/m))^2' "
     "}",
 
