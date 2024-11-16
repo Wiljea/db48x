@@ -58,7 +58,11 @@ static const cstring basic_library[] =
     "Secrets",          nullptr,
 
     "Dedicace", "\"À tous ceux qui se souviennent de Maubert électronique\"",
+    "Dedicace", "\"À tous ceux qui se souviennent de Maubert électronique\"",
     "LibraryHelp",  "\"To modify the library, edit the config/library.csv file\"",
+    "Physics",          nullptr,
+    "SiDensity", "« → T '(24 626 892 459 493 886 970,4422 (cm↑-3))*exp((-6 792.91285867727923034009 K)÷T)' »",
+    "Fanning", "« → Roughness Reynolds 'IFTE(Reynolds≤2100;16/Reynolds;(4.781-((-2۰log((Roughness)/3.7+12/Reynolds)-4.781)^2/((-2۰log((Roughness)/3.7+2.51۰(-2۰log((Roughness)/3.7+12/Reynolds))/Reynolds))-2۰(-2۰log((Roughness)/3.7+12/Reynolds))+4.781)))^-2)' »",
 };
 //   clang-format on
 
