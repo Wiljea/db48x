@@ -782,7 +782,7 @@ static const cstring basic_equations[] =
     "'(ωu_(r/s))=(ω0_(r/s))*√(1-((γ_(r/s))/(2*(ω0_(r/s))))^2)' "
     "'(xp_m)=(1_r)^2*((Fd_N)/(m_kg))/√(((ω0_(r/s))^2-(ω_(r/s))^2)^2+((γ_(r/s))*(ω_(r/s)))^2)' "
     "'TAN(φ_°)=-((γ_(r/s))*(ω_(r/s)))/((ω0_(r/s))^2-(ω_(r/s))^2)' "
-// The next 7th equn doesn't appear (is not drawn on the screen) when doing NextEq in the SOLVER, but it goes on the stack with Eq>
+// The next 7th equn doesn't appear (is not drawn on the screen) when doing NextEq in the SOLVER, but it goes on the stack with Eq
     "'(v_(m/s))=-(xp_m)*(ω_(r/s))/(1_r)*SIN((ω_(r/s))*(t_s)+(φ_°))+(xh_m)*EXP(-(γ_(r/s))/(1_r)*(t_s)/2)*(-((γ_(r/s))/(1_r)/2)*COS((ωu_(r/s))*(t_s)+(θ_°))-(ωu_(r/s))/(1_r)*SIN((ωu_(r/s))*(t_s)+(θ_°)))' "
     "'(a_(m^2/s))=-(((ω0_(r/s))/(1_r))^2*(x_m)+(γ_(r/s))/(1_r)*(v_m/s))+((Fd_N)/(m_kg))*COS((ω_(r/s))*(t_s))' "
     "'(E_J)=(1/2)*(k_(N/m))*(x_m)^2+(1/2)*(m_kg)*(v_(m/s))^2' "
@@ -888,9 +888,9 @@ static const cstring basic_equations[] =
     // ERROR in 4th formula of HP50G_AUR.pdf αR=>αF
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "PN Step Junctions",  "{ "
-    "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN((NA_(cm^-3))*(ND_(cm^-3))/((ni_(cm^-3))^2))' "
-    //"'(ni_(cm^-3))=SIDENS(T_K)' "
-    "'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
+    "'(Vbi_V)=(Ⓒk*(T_°C))/Ⓒqe*LN'((NA_(cm^-3))*(ND_(cm^-3))/((ni_(cm^-3))^2))' "
+    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(xd_μ)=√((2*Ⓒεsi*Ⓒε0)/Ⓒqe*((Vbi_V)-(Va_V))*(1/(NA_(cm^-3))+1/(ND_(cm^-3))))' "
     "'(Cj_(pF/cm^2))=(Ⓒεsi*Ⓒε0)/(xd_μ)' "
     "'(Emax_(V/m))=2*((Vbi_V)-(Va_V))/(xd_μ)' "
@@ -903,6 +903,7 @@ static const cstring basic_equations[] =
     // WARNING: In the 9th formula of HP50G it is μn and not μm as described in
     // HP50G_AUR
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (8)
+    //Error correction negative sign missing in the calculation of (φp_V)=-...
     "NMOS Transistor",  "{ "
     "'(We_μ)=(W_μ)-2*(ΔW_μ)' "
     "'(Le_μ)=(L_m)-2*(ΔL_μ)' "
@@ -910,9 +911,10 @@ static const cstring basic_equations[] =
     "'(IDS_mA)=(Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_μ)/(Le_μ))*(((VGS_V)-(Vt_V))*(VDS_V)-(VDS_V)^2/2)*(1+(λ_(1/V))*(VDS_V))' "
     "'(γ_(V^(1/2)))=√((2*Ⓒεsi*Ⓒε0)*Ⓒqe*(NA_(cm^-3)))/(Cox_(pF/cm^2))' "
     "'(Vt_V)=(Vt0_V)+(γ_(V^(1/2)))*(√(2*ABS(φp_V)-ABS(VBS_V))-√(2*ABS(φp_V)))' "
-    "'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
-    //"'(ni_(cm^-3))=SIDENS(T_K)' "
-    "'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
+    //"'(φp_V)=Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
+    "'(φp_V)=-Ⓒk*(T_K)/Ⓒqe*LN((NA_(cm^-3))/(ni_(cm^-3)))' "
+    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(gds_S)=(IDS_mA)*(λ_(V^-1))' "
     "'(gm_(mA/V))=√((Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_m)/(Le_m))*(1+(λ_(V^-1))*(VDS_V))*2*(IDS_mA))' "
     "'(VDsat_V)=(VGS_V)-(Vt_V)' "
