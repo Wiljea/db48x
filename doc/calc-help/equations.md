@@ -1730,12 +1730,11 @@ xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m
 
 We are considering here a damped mass-spring oscillator having the natural angular frequency `ω0`. The corresponding differential equation : `−k*x − b*dx/dt = m*d^2x/dt^2` describes the underdamped oscillations.
 
-* To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass, reduced damping coefficient, underdamped angular frequency, displacement, velocity & acceleration at `t`, mass, total energy at `t`, quality factor) from 6 known variables:
-
+* To calculate `[m_kg;γ_(r/s);ωu_(r/s);x_cm;v_cm/s;a_m/s^2;E_J;Q]` (Mass; Reduced damping coefficient; Underdamped angular frequency; Displacement; Velocity & Acceleration at `t`; Mass; Total energy at `t`; Quality factor) from 6 known variables:
 ```rpl
 xm=10_cm  ω0=15_r/s  φ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)  
 @ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2 r/s  ωu=14.99966 6663 r/s  x=9.06146 97962 2 cm  v=-64.34829 19812 cm/s  a=-2 026.14705 038_cm/s↑2  E=0.24809 02514 79 J  Q=75.  ]
-@ C#28 NOT OK MSOLVER: "No solution?" I changed many eqns for radians units, therefore to be checked.
+@ C#16 NOT OK MSOLVER: "No solution?". SOLVE for m alone doesn't work,
 'ROOT(ⒺUnderdamped Oscillations;[m;γ;ωu;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
@@ -1755,7 +1754,7 @@ We are considering here a damped mass-spring oscillator where the external drivi
 ```rpl
 ω=14.9_r/s  ω0=15_r/s  θ=25_°  t=25_μs  k=10_N/m  b=0.2_(kg/s)  xh=10_cm  Fd=0.9_N
 @ Failing [ m=4.44444 44444 4⁳⁻² kg  γ=0.2_r/s  ωu=14.99966 6663 r/s  φ=-44.90402 72598 °  xp=4.79694 88212 1 m  x=348.95077 8802 cm  v=4 979.30583 593 cm/s  a=-774.84786 538 m/s↑2  E=115.97995 9919 J  Q=75.  ]
-@ C#29 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 2) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
+@ C17 NOT OK MSOLVER: "No solution?". It is however perfectly determined as I was able to calculate. HINT#1: solving separately for γ:OK for m (in eqn 2) NOT OK: "No solution ?" which means unable to isolate: m='(k_(N/m))/((ω0_(r/s))/(1_r))^2'. HINT#2 solving separately for xp, Q, v, a & E leads to "Inconsistent units" even if I assign all intermediate results. But I insist on the fact that algebraic expression of each variable are OK and computes to expected correct values
 'ROOT(ⒺDriven Damped Oscillations;[m;γ;ωu;φ;xp;x;v;a;E;Q];[1_kg;1_(r/s);1_(r/s);1_°;1_m;1_cm;1_cm/s;1_m/s^2;1_J;1])'
 ```
 
@@ -1774,11 +1773,12 @@ The 21 variables in the Plane Geometry section are:
 * `β`: Central angle of polygon
 * `θ`: Vertex angle of polygon
 * `A`: Area
-* `b`: Base length (Rectangle, Triangle), or Length of semiaxis in x direction (Ellipse)
+* `b`: Base length ([Rectangle](#Rectangle)) & ([Triangle](#Triangle)), or Length of semiaxis in x direction ([Ellipse](#Ellipse))
 * `C`: Circumference
 * `d`: Distance to rotation axis in y direction
 * `h`: Height (Rectangle, Triangle), or Length of semiaxis in y direction (Ellipse)
-* `I, Ix`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `I`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `Ix`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
 * `Id`: Moment of inertia in x direction at distance d (dim.: mass·area, in SI: kg·m^2)
 * `Iy`: Moment of inertia about y axis (dim.: mass·area, in SI: kg·m^2)
 * `J`: Polar moment of inertia at centroid (dim.: mass·area, in SI: kg·m^2)
@@ -1786,7 +1786,8 @@ The 21 variables in the Plane Geometry section are:
 * `n`: Number of sides
 * `P`: Perimeter
 * `r`: Radius
-* `ri, ro`: Inside and outside radii
+* `ri`: Inside radius
+* `ro`: Outside radius
 * `rs`: Distance to side of polygon
 * `rv`: Distance to vertex of polygon
 * `v`: Horizontal distance to vertex
@@ -1795,8 +1796,7 @@ The 21 variables in the Plane Geometry section are:
 
 ![Circle](img/Circle.bmp)
 
-* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 2 known variables:
-
+* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference; Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 2 known variables:
 ```rpl
 r=5_cm  d=1.5_cm
 @ Expecting [ C=31.41592 65359 cm A=78.53981 63397 cm↑2 I=4 908 738.52123 mm↑4 J=9 817 477.04247 mm↑4 Id=6 675 884.38888 mm↑4 ]
@@ -1807,8 +1807,7 @@ r=5_cm  d=1.5_cm
 
 ![Ellipse](img/Ellipse.bmp)
 
-* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
-
+* To calculate `[C_cm;A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Circonference; Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 b=17.85_μm  h=78.9725_μin  d=.00000012_ft
 @ Expecting [ C=7.98046 33593 6⁳⁻³ cm A=1.12485 79868⁳⁻⁶ cm↑2 I=1.13150 61302 6⁳⁻¹⁰ mm↑4 J=9.07327 72104 7⁳⁻⁹ mm↑4 Id=1.13301 09695 2⁳⁻¹⁰ mm↑4 ]
@@ -1819,8 +1818,7 @@ b=17.85_μm  h=78.9725_μin  d=.00000012_ft
 
 ![Rectangle](img/Rectangle.bmp)
 
-* To calculate `[C_cm;A_cm^2;I_km^4;J_km^4;Id_km^4]` (Perimeter, area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
-
+* To calculate `[C_cm;A_cm^2;I_km^4;J_km^4;Id_km^4]` (Perimeter; Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 b=4_chain  h=7_rd  d=39.26_in
 @ Expecting [ P=23 134.32 cm A=28 327 994.9568 cm↑2 I=2.92569 11916 2⁳⁻⁷ km↑4 J=1.82109 34968 2⁳⁻⁶ km↑4 Id=2.95386 09978 8⁳⁻⁷ km↑4 ]
@@ -1831,8 +1829,7 @@ b=4_chain  h=7_rd  d=39.26_in
 
 ![Regular Polygon](img/RegularPolygon.bmp)
 
-* To calculate `[P_cm;A_cm^2;rs_cm;rv_cm;θ_°;β_°]` (Perimeter, area, distance to side, distance to vertex of polygon, vertex and central angles of polygon) from 2 known variables:
-
+* To calculate `[P_cm;A_cm^2;rs_cm;rv_cm;θ_°;β_°]` (Perimeter; Area; Distance to side; Distance to vertex of polygon; Vertex and central angles of polygon) from 2 known variables:
 ```rpl
 n=8  L=0.5_yd
 @ Expecting [ P=365.76 cm A=10 092.95006 19 cm↑2 rs=55.18892 20358 cm rv=59.73605 87541 cm θ=135. ° β=45. ° ]
@@ -1843,8 +1840,7 @@ n=8  L=0.5_yd
 
 ![Circular Ring](img/CircularRing.bmp)
 
-* To calculate `[A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Area, moment of inertia about `x` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 3 known variables:
-
+* To calculate `[A_cm^2;I_mm^4;J_mm^4;Id_mm^4]` (Area; Moment of inertia about `x` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 3 known variables:
 ```rpl
 ro=4_μm  ri=25_Å  d=0.1_mil
 @ Expecting [ A=5.02654 62822 5e-7 cm↑2 I=2.01061 92983e-10 mm↑4 J=4.02123 85965 9e-10 mm↑4 Id=5.25354 58977 5e-10 mm↑4 ]
@@ -1855,14 +1851,12 @@ ro=4_μm  ri=25_Å  d=0.1_mil
 #### Triangle
 
 ![Triangle](img/Triangle.bmp)
-'(Ix_(cm^4))+(A_(in^2))*(d_cm)^2'
-* To calculate `[b_in;A_in^2;Ix_in^4;Iy_in^4;J_in^4;Id_in^4]` (Base length, area, moment of inertia about `x` and `y` axis, polar moment of inertia at centroid, moment of inertia in `x` direction at distance `d`) from 4 known variables:
 
+* To calculate `[b_in;A_in^2;Ix_in^4;Iy_in^4;J_in^4;Id_in^4]` (Base length; Area; Moment of inertia about `x` and `y` axis; Polar moment of inertia at centroid; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 h=4.33012781892_in  v=2.5_in  P=15_in  d=2_in
-@ Expecting [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=43.30127 01892 in↑4 ]
-@ Failing [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=54.57764 6801 in↑4 ]
-@ C#30 NOT OK for the Id value only because of an error in eqn (6), now corrected, therefore to be verified. MSOLVER: OK. Now in version 0.8.4 MSOLVE doesn't calculate anymore "Inconsistent units"
+@ Expecting [ b=4.99999 90762 4 in A=10.82531 75473 in↑2 Ix=11.27637 66118 in↑4 Iy=11.27636 82785 in↑4 J=22.55274 48902 in↑4 Id=54.57764 6801 in↑4 ]
+MSOLVE doesn't calculate anymore "Inconsistent units"
 'ROOT(ⒺTriangle;[b;A;Ix;Iy;J;Id];[1_in;1_in^2;1_in^4;1_in^4;1_in^4;1_in^4])'
 ```
 
@@ -1873,8 +1867,9 @@ The 12 variables in the Solid Geometry section are:
 * `A`: Total surface area
 * `b`: Base length
 * `d`: Distance to rotation axis in z direction
-* `h`: Height in z direction (Cone, Cylinder), or Height in y direction (Parallelepiped)
-* `I, Ixx`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `h`: Height in z direction ([Cone](#Cone)) & ([Cylinder](#Cylinder)), or Height in y direction ([Parallelepiped](#Parallelepiped))
+* `I`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
+* `Ixx`: Moment of inertia about x axis (dim.: mass·area, in SI: kg·m^2)
 * `Id`: Moment of inertia in x direction at distance d (dim.: mass·area, in SI: kg·m^2)
 * `Izz`: Moment of inertia about z axis (dim.: mass·area, in SI: kg·m^2)
 * `m`: Mass
@@ -1886,8 +1881,7 @@ The 12 variables in the Solid Geometry section are:
 
 ![Cone](img/Cone.bmp)
 
-* To calculate `[V_cm^3;A_cm^2;Ixx_kg*m^2;Izz_kg*m^2;Id_kg*m^2]` (Volume, area, moment of inertia about `x` axis and `z` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
-
+* To calculate `[V_cm^3;A_cm^2;Ixx_kg*m^2;Izz_kg*m^2;Id_kg*m^2]` (Volume; Area; Moment of inertia about `x` axis & `z` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 r=7_cm  h=12.5_cm  m=12.25_kg  d=3.5_cm
 @ Expecting [ V=641.40850 0108 cm↑3 A=468.99530 2857 cm↑2 Ixx=0.01618 14843 75 kg·m↑2 Izz=1.80075⁳⁻² kg·m↑2 Id=3.11877 34375⁳⁻² kg·m↑2 ]
@@ -1898,8 +1892,7 @@ r=7_cm  h=12.5_cm  m=12.25_kg  d=3.5_cm
 
 ![Cylinder](img/Cylinder.bmp)
 
-* To calculate `[V_in^3;A_in^2;Ixx_lb*in^2;Izz_lb*in^2;Id_lb*in^2]` (Volume, area, moment of inertia about `x` axis and `z` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
-
+* To calculate `[V_in^3;A_in^2;Ixx_lb*in^2;Izz_lb*in^2;Id_lb*in^2]` (Volume; Area; Moment of inertia about `x` axis & `z` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 r=8.5_in  h=65_in  m=12000_lb  d=2.5_in
 @ Expecting [ V=14 753.70449 94 in↑3 A=3 925.42002 066 in↑2 Ixx=4 441 750. lb·in↑2 Izz=433 500. lb·in↑2 Id=4 516 750. lb·in↑2 ]
@@ -1910,8 +1903,7 @@ r=8.5_in  h=65_in  m=12000_lb  d=2.5_in
 
 ![Parallelepiped](img/Parallelepiped.bmp)
 
-* To calculate `[V_in^3;A_in^2;I_lb*in^2;Id_lb*in^2]` (Volume, area, moment of inertia about `x` axis, moment of inertia in `x` direction at distance `d`) from 4 known variables:
-
+* To calculate `[V_in^3;A_in^2;I_lb*in^2;Id_lb*in^2]` (Volume; Area; Moment of inertia about `x` axis; Moment of inertia in `x` direction at distance `d`) from 4 known variables:
 ```rpl
 b=36_in  h=12_in  t=72_in  m=83_lb  d=7_in
 @ Expecting [ V=31 104. in↑3 A=7 776. in↑2 I=36 852. lb·in↑2 Id=40 919. lb·in↑2 ]
@@ -1922,8 +1914,7 @@ b=36_in  h=12_in  t=72_in  m=83_lb  d=7_in
 
 ![Sphere](img/Sphere.bmp)
 
-* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis, radius, volume, area) from 3 known variables:
-
+* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis; Radius; Volume; Area) from 3 known variables:
 ```rpl
 d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
 @ Expecting [ I=6.88691 91393 3⁳⁻² kg·m↑2 r=8.43593 34656 2 in V=41 208.72679 31 cm↑3 A=5 769.57188 64 cm↑2 ]
@@ -1932,7 +1923,7 @@ d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
 
 
 ## Solid State Devices
-The 53 variables in the Solid State Devices section are:
+The 54 variables in the Solid State Devices section are:
 
 * `αF`: Forward common-base current gain
 * `αR`: Reverse common-base current gain
@@ -1940,8 +1931,8 @@ The 53 variables in the Solid State Devices section are:
 * `λ`: Modulation parameter (dim.: charge/energy, in SI: V^-1)
 * `μn`: Electron mobility (dim.: speed/(electric field), in SI: m^2/(V·s))
 * `φp`: Fermi potential (dim.: energy/charge, in SI: volt, V)
-* `ΔL`: Length adjustment (PN Step Junctions), or Channel encroachment (NMOS Transistors) (dim.: length)
-* `ΔW`: Width adjustment (PN Step Junctions), or Width contraction (NMOS Transistors)
+* `ΔL`: Length adjustment ([PN Step Junctions](#PN Step Junctions)), or Channel encroachment ([NMOS Transistors](#NMOS Transistors)) (dim.: length)
+* `ΔW`: Width adjustment ([PN Step Junctions](#PN Step Junctions)), or Width contraction ([NMOS Transistors](#NMOS Transistors))
 * `a`: Channel thickness
 * `Aj`: Effective junction area
 * `BV`: Breakdown voltage (dim.: energy/charge, in SI: volt, V)
@@ -1964,10 +1955,11 @@ The 53 variables in the Solid State Devices section are:
 * `IS`: Transistor saturation current (dim.: charge/time, in SI: ampere, A)
 * `J`: Current density (dim.: current/area, in SI: A/m^2)
 * `Js`: Saturation current density (dim.: current/area, in SI: A/m^2)
-* `L`: Drawn mask length (PN Step Junctions), or Drawn gate length (NMOS Transistors), or Channel length (JFETs)
+* `L`: Drawn mask length ([PN Step Junctions](#PN Step Junctions)), or Drawn gate length ([NMOS Transistors](#NMOS Transistors)), or Channel length ([JFETs](#JFETs))
 * `Le`: Effectives gate length
-* `NA`: P-side doping (PN Step Junctions), or Substrate doping (NMOS Transistors) (dim.: 1/volume, in SI: m^-3)
-* `ND`: N-side doping (PN Step Junctions), or N-channel doping (JFETs) (dim.: 1/volume, in SI: m^-3)
+* `NA`: P-side doping ([PN Step Junctions](#PN Step Junctions)), or Substrate doping ([NMOS Transistors](#NMOS Transistors)) (dim.: 1/volume, in SI: m^-3)
+* `ND`: N-side doping ([PN Step Junctions](#PN Step Junctions)), or N-channel doping ([JFETs](#JFETs)) (dim.: 1/volume, in SI: m^-3)
+* `ni`: Silicon density (dim.: 1/volume, in SI: m^-3)
 * `T`: Temperature
 * `tox`: Gate silicon dioxide thickness
 * `Va`: Applied voltage (dim.: energy/charge, in SI: volt, V)
@@ -1981,7 +1973,7 @@ The 53 variables in the Solid State Devices section are:
 * `VGS`: Applied gate voltage (dim.: energy/charge, in SI: volt, V)
 * `Vt`: Threshold voltage (dim.: energy/charge, in SI: volt, V)
 * `Vt0`: Threshold voltage (at zero substrate voltage) (dim.: energy/charge, in SI: volt, V)
-* `W`: Drawn mask width (PN Step Junctions), or Drawn width (NMOS Transistors), or Channel width (JFETs)
+* `W`: Drawn mask width ([PN Step Junctions](#PN Step Junctions)), or Drawn width ([NMOS Transistors](#NMOS Transistors)), or Channel width ([JFETs](#JFETs))
 * `We`: Effective width
 * `xd`: Depletion-region width
 * `xdmax`: Depletion-layer width
@@ -1993,15 +1985,39 @@ These equations for a silicon PN-junction diode use a “two-sided step-junction
 
 ![PN Step Junctions](img/PNStepJunctions.bmp)
 
-* To calculate `[I_kg*m^2;r_cm;V_cm^3;A_cm^2]` (Moment of inertia about `x` axis, radius, volume, area) from 3 known variables:
+* To calculate `[ni_m^-3;Vbi_V;xd_μ;Cj_pF/cm^2;Emax_V/cm;BV_V;J_A/cm^2;Aj_cm^2;I_mA]` (Silicon density; Built-in voltage; Depletion-region width; Junction capacitance per unit area; Maximum electric field; Breakdown voltage; Current density; Effective junction area; Diode current) from 11 known variables:
+```rpl
+ND=1E22_cm^-3  NA=1E15_cm^-3  T=300_K  Js=1e-6_μA/cm^2  Va=-20_V  E1=3.3E5_V/cm  W=10_μ  ΔW=1_μ  L=10_μ  ΔL=1_μ  xj=2_μ
+@ Expecting [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+'ROOT(ⒺPN Step Junctions;[ni;Vbi;xd;Cj;Emax;BV;J;Aj;I];[1_m^-3;1_V;1_μ;1_pF/cm^2;1_V/cm;1_V;1_A/cm^2;1_cm^2;1_mA])'
+```
 
 #### NMOS Transistor
 
 These equations for a silicon NMOS transistor use a two-port network model. They include linear and nonlinear regions in the device characteristics and are based on a gradual-channel approximation (the electric fields in the direction of current flow are small compared to those perpendicular to the flow). The drain current and transconductance calculations differ depending on whether the transistor is in the linear, saturated, or cutoff region. The equations assume the physical geometry of the device is a rectangle, second-order length-parameter effects are negligible, shot-channel, hot-carrier, and velocity-saturation effects are negligible, and subthreshold currents are negligible.
 
+![NMOS Transistor](img/NMOSTransistor.bmp)
+
+* To calculate `[We_μ;Le_μ;Cox_pF/cm^2;γ_V^.5;φp_V;Vt_V;VDsat_V;IDS_mA;gds_S;gm_mA/V]` (Effective width; Effectives gate length; Silicon dioxide capacitance per unit area; Body factor; Fermi potential; Threshold voltage; Saturation voltage; Drain current; Output conductance; Transconductance) from 13 known variables:
+* "'(IDS_mA)='(Cox_(pF/cm^2))*(μn_((cm^2)/(V*s)))*((We_μ)/(Le_μ))*(((VGS_V)-(Vt_V))*(VDS_V)-(VDS_V)^2/2)*(1+(λ_(1/V))*(VDS_V))' "
+```rpl
+tox=700_Å  NA=1e15_1/cm^3  μn=600_cm^2/(V∗s)  T=26.85_°C  Vt0=0.75_V  VGS=5_V  VBS=0_V  VDS=5_V  W=25_μ  ΔW=1_μ  L=4_μ  ΔL=0.75_μ  λ=0.05_1/V
+@ Failing [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ We=23. μ Le=2.5 μ Cox=49 330.47498 38 pF/cm↑2 γ=0.37247 98153 35 V↑0.5 φp=-0.29855 54642 25 V Vt=0.75 V VDsat=4.25 V ]
+@ C#17 NOT OK MSOLVE: "Error: expected argument". SOLVE for unknowns seperately has many preoblems also maybe with units see ISSUE # 1349
+'ROOT(ⒺNMOS Transistor;[ni;We;Le;Cox;γ;φp;Vt;VDsat;IDS;gds;gm];[1_m^-3;1_μ;1_μ;1_pF/cm^2;1_V^.5;1_V;1_V;1_V;1_mA;1_S;1_mA/V])'
+```
 #### Bipolar Transistors
 
 These equations for an NPN silicon bipolar transistor are based on large-signal models developed by J.J. Ebers and J.L. Moll. The offset-voltage calculation differs depending on whether the transistor is saturated or not. The equations also include the special conditions when the emitter-base or collector-base junction is open, which are convenient for measuring transistor parameters.
+
+![Bipolar Transistors](img/BipolarTransistors.bmp)
+
+* To calculate `[VBE_V;IS_nA;ICO_nA;ICEO_nA;IE_mA;IB_mA;VCEsat_V]` (Base-to-emitter voltage; Transistor saturation current; Collector current (emitter-to-base open); Collector current (collector-to-base open); Total emitter current; Total base current; Collector-to-emitter saturation voltage) from 7 known variables:
+```rpl
+IES=1e-5_nA  ICS=2e-5_nA  T=26.85_°C  αF=0.98  αR=0.49  IC=1_mA  VBC=–10_V
+@ C#18 NOT OK MSOLVER: "Invalid algebraic"
+'ROOT(ⒺBipolar Transistors;[VBE;IS;ICO;ICEO;IE;IB;VCEsat];[1_V;1_nA;1_nA;1_nA;1_mA;1_mA;1_V])'
+```
 
 #### JFETs
 
@@ -2010,6 +2026,17 @@ approximation, which assumes the gates are heavily doped compared to the channel
 calculation differs depending on whether the gate-junction depletion-layer thickness is less than or greater
 than the channel thickness. The equations assume the channel is uniformly doped and end effects (such as contact,
 drain, and source resistances) are negligible.
+
+![JFETs](img/JFETs.bmp)
+
+* To calculate `[Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
+```rpl
+ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V∗s)  VGS=-4_V  VDS=4_V  T=26.85°C
+@ Expecting [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+@ C#18 NOT OK MSOLVER: "Inconsistent units"
+'ROOT(ⒺJFETs;[Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
+```
+
 
 ## Stress Analysis
 The 28 variables in the Stress Analysis section are:
@@ -2043,7 +2070,17 @@ The 28 variables in the Stress Analysis section are:
 * `r`: Radius
 * `T`: Torque (dim.: force·length, in SI: N·m)
 
-#### Stress Analysis
+#### Normal Stress
+
+![Normal Stress](img/NormalStress.bmp)
+
+* To calculate `[Vbi_V;xdmax_μ;G0_S;ID_mA;VDsat_V;Vt_V;gm_mA/V]` (Built-in voltage; Depletion-layer width; Channel conductance; Drain current; Saturation voltage; Threshold voltage; Transconductance) from 8 known variables:
+```rpl
+ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V∗s)  VGS=-4_V  VDS=4_V  T=26.85°C
+@ Expecting [ ni=9.64987 39813 5⁳¹⁵ (m↑3)⁻¹ Vbi=1.01379 86500 1 V xd=5.25726 60039 9 μ Cj=2 004.17545 83 pF/cm↑2 Emax=79 941.92659 86 V/cm BV=358.08260 5833 V J=-1.00000 00000 2⁳⁻¹² A/cm↑2 Aj=2.57097 33552 9⁳⁻⁶ cm↑2 I=-2.57097 338⁳⁻¹⁵ mA ]
+@ C#18 NOT OK MSOLVER: "Inconsistent units"
+'ROOT(ⒺNormal Stress;[Vbi;xdmax;G0;ID;VDsat;Vt;gm];[1_V;1_μ;1_S;1_mA;1_V;1_V;1_mA/V])'
+```
 
 #### Shear Stress
 
