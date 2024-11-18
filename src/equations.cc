@@ -902,7 +902,7 @@ static const cstring basic_equations[] =
 
     // WARNING: In the 9th formula of HP50G it is μn and not μm as described in
     // HP50G_AUR
-    //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (8)
+    //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (8) not anymore
     //Error correction negative sign missing in the calculation of (φp_V)=-...
     "NMOS Transistor",  "{ "
     "'(We_μ)=(W_μ)-2*(ΔW_μ)' "
@@ -938,8 +938,8 @@ static const cstring basic_equations[] =
     //24-11-12 Replace the call for SIDENS by its explicit calculation in eqn (2)
     "JFETs",  "{ "
     "'(Vbi_V)=(Ⓒk*(T_K))/Ⓒqe*LN((ND_(cm^-3))/(ni_(cm^-3)))' "
-    //"'(ni_(cm^-3))=SIDENS(T_K)' "
-    "'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
+    "'(ni_(cm^-3))=SIDENS(T_K)' "
+    //"'(ni_(cm^-3))=(8.35123e20_cm^-3)*exp(-(7555.17_K)/(T_K))' "
     "'(xdmax_μ)=√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3)))*((Vbi_V)-(VGS_V)+(VDS_V)))' "
     "'(G0_S)=Ⓒqe*(ND_(cm^-3))*(μn_((cm^2)/(V*s)))*(((a_μ)*(W_μ))/(L_μ))' "
     "'(ID_mA)=(G0_S)*((VDS_V)-((2/3)*√((2*Ⓒεsi*Ⓒε0)/(Ⓒqe*(ND_(cm^-3))*(a_μ)^2)))*(((Vbi_V)-(VGS_V)+(VDS_V))^(3/2)-((Vbi_V)-(VGS_V))^(3/2)))' "
@@ -957,17 +957,19 @@ static const cstring basic_equations[] =
     "'ε=(δ_cm)/(L_m)' "
     "'(σ_Pa)=(P_N)/(A_cm^2)' "
     "}",
-
+    // ALL angles should be in radians in eqns 1 & 2, with a correction in eqn 1
     "Shear Stress",  "{ "
-    "'(τ_atm)=(G_atm)*(γ_°)' "
-    "'(γ_°)=((r_cm)*(φ_°))/(L_m)' "
+    "'(τ_atm)=(G_atm)*(γ_r)/(1_r)' "
+    "'(γ_r)=((r_cm)*(φ_r))/(L_m)' "
     "'(τ_atm)=((T_(cm*N))*(r_cm))/(J_(cm^4))' "
     "}",
 
     "Stress On An Element",  "{ "
+    //Error in eqn (3) oh HP50g_AUR
     "'(σx1_kPa)=((σx_kPa)+(σy_kPa))/2+((σx_kPa)-(σy_kPa))/2*COS(2*(θ_°))+(τxy_kPa)*SIN(2*(θ_°))' "
     "'(σx1_kPa)+(σy1_kPa)=(σx_kPa)+(σy_kPa)' "
-    "'(τx1y1_kPa)=-(((σx_kPa)-(σy_kPa))/2)*SIN(2*(θ_°))+(τxy_kPa)*(σy_kPa)' "
+    //"'(τx1y1_kPa)=-(((σx_kPa)-(σy_kPa))/2)*SIN(2*(θ_°))+(τxy_kPa)*(σy_kPa)' "
+    "'(τx1y1_kPa)=-(((σx_kPa)-(σy_kPa))/2)*SIN(2*(θ_°))+(τxy_kPa)*COS(2*(θ_°))' "
     "}",
 
     // WARNING Error in formula 1 of HP50G_AUR square missing HP50G takes
