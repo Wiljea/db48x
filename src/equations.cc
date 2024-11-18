@@ -1005,7 +1005,7 @@ static const cstring basic_equations[] =
     "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))/(1_r)*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
     "'(as_(cm/(s^2)))=-((ω_(r/s))/(1_r))^2*(s_cm)' "
     "}",
-
+    // Rewrite the last eqn to have explicit LOG in base 10 and with the fact that I0 has 1_(W/m^2) units
     "Sound Waves",  "{ "
     "'(s_cm)=(sm_cm)*SIN((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
     "'(vs_(cm/s))=(sm_cm)*(ω_(r/s))/(1_r)*COS((k_(r/cm))*(x_cm)-(ω_(r/s))*(t_s)+(φ_r))' "
@@ -1016,9 +1016,10 @@ static const cstring basic_equations[] =
     "'(Δpm_Pa)=(ρ_(kg/(m^3)))*(ω_(r/s))/(1_r)*(v_(m/s))*(sm_cm)' "
     "'(I_(W/(m^2)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*((ω_(r/s))/(1_r))^2*(sm_cm)^2' "
     "'(I_(W/m^2))=(Ps_W)/(4*Ⓒπ*(r_m)^2)' "
-    "'(β_dB)=10*LOG((I_(W/(m^2)))/(ⒸI0_(W/(m^2))))' "
+    //"'(β_dB)=10*LOG((I_(W/(m^2)))/(ⒸI0_(W/(m^2))))' "
+    "'(β_dB)=10*LOG10((I_(W/(m^2)))/(ⒸI0))' "
     "}",
-
+    // Error in  eqn 1 cair => vsair
     "Doppler Effect",  "{ "
     "'(f_Hz)=(f0_Hz)*(((cair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
     "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
