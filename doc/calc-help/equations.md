@@ -2133,7 +2133,7 @@ Stresses and strains are positive in the directions shown in the picture.
 
 
 ## Waves
-The 36 variables in the Waves section are:
+The 39 variables in the Waves section are:
 
 * `β`: Sound intensity level (dim.: intensity in logarithmic scale, in SI: decibel, dB)
 * `Δp`: Sound pressure variafion around atmospheric pressure (dim.: force/area, in SI: pascal, Pa)
@@ -2158,15 +2158,18 @@ The 36 variables in the Waves section are:
 * `fopen-close`: frequency of harmonics in a tube open at one end and close at the other end (dim.: 1/time; in SI: hertz, Hz)
 * `I`: Sound intensity (dim.: energy/(area·time), in SI: W/m^2)
 * `k`: Angular wave number (dim.: agle/length, in SI: r/m)
+* `M`: Mach number
 * `ninteger`: Harmonics number being an integer number
 * `nodd`: Harmonics number being an odd number
 * `Ps`: Power of the source (dim.: energy/time, in SI: watt, W)
 * `s`: Longitudinal displacement at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement at `x` and `t` of air particles ([Sound Waves](#Sound Waves))
 * `sm`: Longitudinal displacement amplitude of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Longitudinal displacement amplitude of air particles ([Sound Waves](#Sound Waves))
 * `t`: Time
+* `T`: Tension ([String Standing Waves](#String Standing Waves)), or Temperature ([Doppler Effect](#Doppler Effect)), (^[Mach Number](#Mach Number)) & ([Sound Wave Harmonics](#Sound Wave Harmonics))
 * `u`: Mass or flow velocity ([Mach Number](#Mach Number))
 * `v`: Velocity of the propagating sound in medium ([Sound Waves](#Sound Waves)), or Wave speed ([Transverse Waves](#Transverse Waves)) & ([Longitudinal Waves](#Longitudinal Waves))
-* `vs`: Velocity at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Velocity at `x` and `t` of air particles ([Sound Waves](#Sound Waves))
+* `vr`: Speed of the receiver relative to the medium
+* `vs`: Velocity at `x` and `t` of vibrating particles ([Longitudinal Waves](#Longitudinal Waves)), or Velocity at `x` and `t` of air particles ([Sound Waves](#Sound Waves)), or Speed of the source relative to the medium ([Doppler Effect](Doppler Effect))
 * `vsair`: Velocity of the propagating sound in the ait as a function of temperature
 * `vy`: Velocity at `x` and `t` of vibrating particles for transversal waves
 * `x`: Position
@@ -2192,36 +2195,112 @@ sm=6.37_cm  k=32.11_r/cm  x=0.03_cm  ω=7000_r/s  t=1_s
 
 #### Sound Waves
 
-* To calculate `[v_m/s;f_Hz;I_W/m^2;β_dB;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W]` (Wave speed; Frequency; Sound intensity; Sound intensity level in dB; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source) from 9 known variables:
+* **Example 1**. To calculate for an unknomn substance `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
 ```rpl
 sm=10_cm  ω=6000_r/s  B=12500_kPa  ρ=65_kg/m^3   x=2_cm   t=0_s  r=10_m   k=13.6821_r/m  φ=2_r
 @ Expecting [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W ]
-@ Failing [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=-274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W ]
-@ C#23 NOT OK : the sign of the acceleration is in error, here as < 0 see ISSUE # 1353
+@ Failing [ v=438.52900 9654 m/s f=954.92965 8551 Hz I=5.13078 94129 5⁳⁹ W/m↑2 s=7.63005 85995 9 cm vs=-38 783.49400 98 cm/s as=-274 682 109.585 cm/s↑2 Δpm=17 102 631.3765 Pa Δp=11 054 996.6924 Pa Ps=6.44754 01307 3⁳¹² W β=217.10184 1899 dB ]
+@ C#23 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353 & SOLVE of β fails. 2nd call of ROOT without β: OK
+@ Eqn of β was in error and is now corrected, to be checked.
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W])'
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
+```
+
+* **Example 2**. For a sound wave propagating in air at a pressure of 1 atm and temperature of 20°C, to calculate `[v_m/s;f_Hz;I_W/m^2;s_cm;vs_cm/s;as_cm/s^2;Δpm_Pa;Δp_Pa;Ps_W;β_dB]` (Wave speed; Frequency; Sound intensity; Sound intensity; Longitudinal displacement, Velocity & Acceleration at `x` and `t` of vibrating particles; Amplitude of sound pressure variafion around atmospheric pressure; Sound pressure variafion; Power of the source; Sound level in dB) from 9 known variables:
+```rpl
+sm=1e-5_m  ω=2 513.27412 287_r/s  B=141_kPa  ρ=1.29_kg/m^3   x=2_cm   t=0_s  r=5_m   k=7.59297 31808 8_r/m  φ=2_r
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W ]
+@ Expecting [ v=330.60902 2232 m/s f=400. Hz I=0.13469 58251 68 W/m↑2 s=0.00083 58795 53 cm vs=-1.37956 85902 cm/s as=-5 279.87232 893 cm/s↑2 Δpm=10.71875 31947 Pa Δp=5.88366 19129 6 Pa Ps=42.31594 14818 W β=111.29354 1352 dB ]
+@ C#23 NOT OK MSOLVE: "Inconsistent units" the sign of as is wrong (as < 0) see ISSUE # 1353 & SOLVE of β fails. 2nd call of ROOT without β: OK
+@ Eqn of β was in error and is now corrected, to be checked.
+'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps;β];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W;1_dB])'
 'ROOT(ⒺSound Waves;[v;f;I;s;vs;as;Δpm;Δp;Ps];[1_m/s;1_Hz;1_(W/(m^2));1_cm;1_cm/s;1_cm/s^2;1_Pa;1_Pa;1_W])'
 ```
 
 #### Doppler Effect
 
-In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of sound in the air. The speed of the receiver relative to the air `vr` is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air `va` is subtracted from the speed of sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
+In the classical Doppler effect it is assumed that the speed of the observer and the source are lower than the speed of sound in the air. The speed of the receiver relative to the air `vr` is added to the speed of sound in the air if the receiver is moving towards the source, subtracted if the receiver is moving away from the source whatever the movement of the source. The speed of the source relative to the air `vs` is subtracted from the speed of sound in the air if the source is moving towards the receiver, added if the source is moving away from the receiver whatever the movement of the receiver.
+
+* **Example 1**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are behind him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
+```rpl
+T=20_°C  f0=1200_HZ  vr=-90_km/h  vs=180_km/h
+@ Failing [ vsair=343.23616 5602 m/s f0=1 302.30661 671 HZ ]
+@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked. 
+'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
+```
+
+* **Example 2**. A police car with a siren frequency of 1200 Hz is driving at 180 km/h in the same direction as a truck moving at 90 km/h. To calculate the frequency heard by the trucker when the police are in front of him: `[vsair_(m/s);f_Hz]` (Propagation speed of sound waves; Frequency) from 4 known variables:
+```rpl
+T=20_°C  f0=1200_HZ  vr=90_km/h  vs=-180_km/h
+@ Failing [ vsair=343.23616 5602 m/s f0=1 123.70996 713 HZ ]
+@ C#24 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for f: "Inconsistent units". Equ 1 was corrected, to be checked. 
+'ROOT(ⒺDoppler Effect;[vsair;f];[1_(m/s);1_Hz])'
+```
 
 #### Mach Number
 
-For an object moving at a supersonic speed, the shockwave describes a cone having the angle `θcone` at its tip where the opposite side is the distance travelled by the sound and the hypothenuse is the distance travelled by the object.
+For an object moving at a supersonic speed, the shockwave describes a cone having the angle `θcone` at its tip where the opposite side is the distance travelled by the sound and the hypothenuse is the distance travelled by the object. The Mach number `M` is the speed ratio to the speed of sound.
+
+* To calculate `[vsair_(m/s);M;θcone_°]` (Propagation speed of sound waves; Mach number; Angle at the tip of the cone formed by the supersonic shockwave) from 2 known variables:
+```rpl
+T=-20_°C  u=2200_km/h  
+@ Failing [ vsair=318.96061 3718 m/s M=1.91594 53701 4 θcone=31.46217 41236 ° ]
+@ C#25 NOT OK MSOLVER: "Inconsistent units". SOLVE works for vsair BUT failed for M & θcone: "Inconsistent units". Equ 1 was corrected, to be checked. 
+'ROOT(ⒺMach Number;[vsair;M;θcone];[1_(m/s);1;1_°])'
+```
 
 #### String Standing Waves
 
 A string being fixed or free at its ends admits only discrete harmonics as standing waves on the string. A string being fixed (or free) at both ends admits all integer harmonics. A string being being fixed at one end and free at the other end admits only all odd integer harmonics.
 
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_N;y_m;ffixed-fixed_Hz;ffixed-free_Hz]` (Propagation speed of waves, Wave number; Angular frequency; Tension; Frequency of harmonics on a string fixed at both ends; Frequency of harmonics on a string fixed at one end and free at the other end) from 9 known variables:
+```rpl
+λ=1,2_m f=112_Hz μ=1,8_(g/m) L=0,6_m ninteger=2 nodd=3 x=10_cm t=5_s ym=2_cm
+@ Failing [ v=134.4 m/s k=5.23598 77559 8 r/m ω=703.71675 4404 r/s T=32.51404 8 N y=0.99999 99999 99 cm ffixed-fixed=531.60102 2863 Hz
+ffixed-free=398.70076 7147 Hz ]
+@ C#26 NOT OK MSOLVER: "Bad argument type". SOLVE works for v, k, ω BUT failed for T, y: "Inconsistent units". Algebraic are OK
+'ROOT(ⒺString Standing Waves;[v;k;ω;T;y;ffixed-fixed;ffixed-free];[1_m/s;1_(r/m);1_(r/s);1_N;1_m;1_Hz;1_Hz])'
+```
+
 #### Sound Wave Harmonics
 
 A tube being open or closed at its ends admits only discrete harmonics as standing waves of the sound in the air within the tube. A tube being open (or closed) at both ends admits all integer harmonics. A tube being being open at one end and closed at the other end admits only all odd integer harmonics.
+
+* To calculate `[v_m/s;k_(r/m);ω_(r/s);T_°C;s_m;fopenopen_Hz;fopenclose_Hz]` (Propagation speed of sound waves; Wave number; Angular frequency, Temperature; Frequency of harmonics in a tube open at both ends; Frequency of harmonics in a tube open at one end and close at the other end) from 8 known variables:
+```rpl
+λ=3_m f=110_Hz L=0,6_m ninteger=2 nodd=3 x=10_cm t=5_s sm=2e-6_m
+@ Failing [ vsair=330. m/s k=2.09439 51023 9 r/m ω=691.15038 379 r/s T=-2.17345 88932 4 °C s=0.00000 04158 23 m fopenopen=550. Hz
+fopenclose=412.5 Hz ]
+@ C#26 NOT OK MSOLVER: "Bad argument type". SOLVE works for all unknowns except for s "Inconsistent units". Algebraic are OK.
+'ROOT(ⒺSound Wave Harmonics;[vsair;k;ω;T;s;fopenopen;fopenclose];[1_m/s;1_(r/m);1_(r/s);1_°C;1_m;1_Hz;1_Hz])'
+```
 
 #### Beat Acoustics
 
 In acoustics, a beat is an interference pattern between two sounds of slightly different frequencies, perceived as a periodic variation in amplitude whose rate is the difference of the two frequencies. The sum of two unit-amplitude sine waves can be expressed as a carrier wave of frequency `favg` whose amplitude is modulated by an envelope wave of frequency `fbeat`.
 
+* To calculate `[favg_Hz;fbeat_Hz;s_m]` (Frequency average; Beat frequency; Longitudinal displacement) from 4 known variables:
+```rpl
+f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
+@ Expecting [ favg=401. Hz fbeat=2. Hz s=0.00000 2 m ]
+'ROOT(ⒺBeat Acoustics;[favg;fbeat;s];[1_Hz;1_Hz;1_m])'
+```
+
 #### Electromagnetic Waves
+
+* To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 4 known variables:
+    "'(E_(N/C))=(Em_(N/C))*SIN((k_(r/m))*(x_m)-(ω_(r/s))*(t_s)+(φ_r))' "
+    "'(E_(N/C))/(B_T)=Ⓒc' "
+    "'Ⓒc=(λ_m)*(f_Hz)' "
+    "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
+    "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
+```rpl
+λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
+@ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
+@ C#27 NOT OK MSOLVER: "Numerical presision lost". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
+@ But algebraics are OK and the unknown can be computed.
+'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
+```
 
 
 ## Relativity
