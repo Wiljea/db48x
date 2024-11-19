@@ -502,7 +502,7 @@ static const cstring basic_equations[] =
     "Black Body Radiation",  "{ "
     "'(eb_(W/m^2))=Ⓒσ*(T_K)^4' "
     //"'f=F0λ((λ2_nm);(T_°C))-F0λ((λ1_nm);(T_°C))' "
-    "'f=15/Ⓒπ^4*∫(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K));Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K));X^3/expm1(X);X)' "
+    "'f=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K))));X^3/expm1(X);X))' "
     "'(eb12_(W/m^2))=f*(eb_(W/m^2))' "
     "'(λmax_nm)*(Tmax_°C)=Ⓒc3' "
     "'(q_W)=(eb_(W/m^2))*(A_(cm^2))' "
@@ -618,7 +618,7 @@ static const cstring basic_equations[] =
     "'(vt_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(kg/m^3))*(Ah_cm^2)))' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/(vt_(m/s)))' "
-    "'xfr_ft=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/(vt_(m/s))*(1_s));t)*(1_s)' "
+    "'xfr_ft=(vt_(m/s))*∫(0;→NUM(UBASE((tfr_s)/(1_s)));→NUM(UBASE(TANH(t*Ⓒg/(vt_(m/s))*(1_s))));t)*(1_s)' "
 //  This last integration shall work since it is stripped of units but it doesn't
 //  "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral with units
 //  "'xfr_ft=(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
@@ -631,7 +631,7 @@ static const cstring basic_equations[] =
     "'(vt_(m/s))=IFTE((ρ_(kg/m^3))<(ρf_(kg/m^3));-1;1)*√(2*(Vol_m^3)/(Ah_m^2)*ABS((ρ_(kg/m^3))/(ρf_(kg/m^3))-1)*Ⓒg/Cd)' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/ABS(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/ABS(vt_(m/s)))' "
-    "'xfr_m=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/ABS(vt_(m/s))*(1_s));t)*(1_s)' "
+    "'xfr_m=(vt_(m/s))*∫(0;→NUM(UBASE((tfr_s)/(1_s)));→NUM(UBASE(TANH(t*Ⓒg/ABS(vt_(m/s))*(1_s))));t)*(1_s)' "
 //  This last integration shall work since it is stripped of units (but I tried and it also failed)
 //  "'xfr_m=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral wuth units
 //  "'xfr_ft=? (175.74722 3631_ft/s)*∫(0;10.00590 25332;t*TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
@@ -1102,22 +1102,28 @@ static const cstring basic_equations[] =
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
     "}",
-
+    //Error in the expression of apx the exponent 3 is misplaced. Other expressions: OK
     "Acceleration Superposition",  "{ "
-    "'(apx_(m/s^2))=(ax_(m/s^2))/(γ^3*(1-((((v_(m/s))*(ux_(m/s))))/Ⓒc^2)^3))' "
+    //"'(apx_(m/s^2))=(ax_(m/s^2))/(γ^3*(1-((((v_(m/s))*(ux_(m/s))))/Ⓒc^2)^3))' "
+      "'(apx_(m/s^2))=(ax_(m/s^2))/(γ^3*(1-((((v_(m/s))*(ux_(m/s))))/Ⓒc^2))^3)' "
     "'(apy_(m/s))=(ay_(m/s))/(γ^2*(1-((v_(m/s))*(ux_(m/s))/Ⓒc^2))^2)+((ax_(m/s))*((v_(m/s))*(uy_(m/s)))/Ⓒc^2)/(γ^2*(1-((v_(m/s))*(ux_(m/s))/Ⓒc^2))^3)' "
     "'(apz_(m/s))=(az_(m/s))/(γ^2*(1-((v_(m/s))*(ux_(m/s))/Ⓒc^2))^2)+((ax_(m/s))*((v_(m/s))*(uz_(m/s)))/Ⓒc^2)/(γ^2*(1-((v_(m/s))*(ux_(m/s))/Ⓒc^2))^3)' "
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
     "}",
-
+// Reference: https://farside.ph.utexas.edu/teaching/355/Surveyhtml/node156.html
+// Errors in eqns 2, 3, 5 & 6. Now corrected, to be checked. Algebraics: "Inconsistent units"
     "E & B Fields Transformation",  "{ "
     "'(Epx_(N/C))=(Ex_(N/C))' "
-    "'(Epy_(N/C))=γ*((Ey_(N/C))-β*(Bz_T))' "
-    "'(Epz_(N/C))=γ*((Ez_(N/C))+β*(By_T))' "
+    //"'(Epy_(N/C))=γ*((Ey_(N/C))-β*(Bz_T))' "
+    //"'(Epz_(N/C))=γ*((Ez_(N/C))+β*(By_T))' "
+    "'(Epy_(N/C))=γ*((Ey_(N/C))-v*(Bz_T))' "
+    "'(Epz_(N/C))=γ*((Ez_(N/C))+v*(By_T))' "
     "'(Bpx_T)=(Bx_T)'"
-    "'(Bpy_T)=γ*((By_T)+β*(Ez_(N/C)))' "
-    "'(Bpz_T)=γ*((Bz_T)-β*(Ey_(N/C)))' "
+    //"'(Bpy_T)=γ*((By_T)+β*(Ez_(N/C)))' "
+    //"'(Bpz_T)=γ*((Bz_T)-β*(Ey_(N/C)))' "
+    "'(Bpy_T)=γ*((By_T)+β/Ⓒc*(Ez_(N/C)))' "
+    "'(Bpz_T)=γ*((Bz_T)-β/Ⓒc*(Ey_(N/C)))' "
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
     "}",
@@ -1239,13 +1245,13 @@ static const cstring basic_equations[] =
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
     "'(f1_Hz)=Ⓒk*4*(T_K)/Ⓒh' "
     "'(f2_Hz)=Ⓒk*9*(T_K)/Ⓒh' "
-    "'FrPl12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^3/expm1(x);X)' "
-    "'FrWn12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^3/expm1(x);X)' "
+    "'FrPl12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
+    "'FrWn12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
     "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12' "
     "'(f3_Hz)=Ⓒk*0.01*(T_K)/Ⓒh' "
     "'(f4_Hz)=Ⓒk*2.5*(T_K)/Ⓒh' "
-    "'FrPl34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f3_Hz)/(Ⓒk*(T_K));x^3/exp(x);X)' "
-    "'FrWn34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f4_Hz)/(Ⓒk*(T_K));x^3/exp(x);X)' "
+    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'FrWn34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
     "'%rFr34=ABS(FrPl34-FrWn34)/FrPl34' "
     "'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
     "}",
@@ -1256,13 +1262,13 @@ static const cstring basic_equations[] =
     "'(fpeak_Hz)=Ⓒk*ROOT((-3)*EXPM1(-X)-X;X;2)*(T_°K)/Ⓒh' "
     "'(f1_Hz)=Ⓒk*1.7*(T_K)/Ⓒh' "
     "'(f2_Hz)=Ⓒk*3.7*(T_K)/Ⓒh' "
-    "'FrPl12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^3/expm1(x);X)' "
-    "'FrRJ12=15/Ⓒπ^4*∫(Ⓒh*(f1_Hz)/(Ⓒk*(T_K));Ⓒh*(f2_Hz)/(Ⓒk*(T_K));x^2;X)' "
+    "'FrPl12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^3/expm1(x);X))' "
+    "'FrRJ12=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f1_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f2_Hz)/(Ⓒk*(T_K))));x^2;X))' "
     "'%rFr12=ABS(FrPl12-FrWn12)/FrPl12' "
     "'(f3_Hz)=Ⓒk*0.001*(T_K)/Ⓒh' "
     "'(f4_Hz)=Ⓒk*0.05*(T_K)/Ⓒh' "
-    "'FrPl34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f3_Hz)/(Ⓒk*(T_K));x^3/exp(x);X)' "
-    "'FrRJ34=15/Ⓒπ^4*∫(Ⓒh*(f3_Hz)/(Ⓒk*(T_K));Ⓒh*(f4_Hz)/(Ⓒk*(T_K));x^2;X)' "
+    "'FrPl34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));x^3/exp(x);X))' "
+    "'FrRJ34=→NUM(15/Ⓒπ^4*∫(→NUM(UBASE(Ⓒh*(f3_Hz)/(Ⓒk*(T_K))));→NUM(UBASE(Ⓒh*(f4_Hz)/(Ⓒk*(T_K))));x^2;X))' "
     "'%rFr34=ABS(FrPl34-FrWn34)/FrPl34' "
     "'(q_W)=(ebfafb_(W/m^2))*(A_(cm^2))' "
     "}",
