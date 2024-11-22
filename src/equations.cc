@@ -618,7 +618,7 @@ static const cstring basic_equations[] =
     "'(vt_(m/s))=√((2*(m_kg)*Ⓒg)/(Cd*(ρ_(kg/m^3))*(Ah_cm^2)))' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/(vt_(m/s)))' "
-    "'xfr_ft=(vt_(m/s))*∫(0;→NUM(UBASE((tfr_s)/(1_s)));→NUM(UBASE(TANH(t*Ⓒg/(vt_(m/s))*(1_s))));t)*(1_s)' "
+    "'xfr_ft=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/(vt_(m/s))*(1_s));t)*(1_s)' "
 //  This last integration shall work since it is stripped of units but it doesn't
 //  "'xfr_ft=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral with units
 //  "'xfr_ft=(175.74722 3631_ft/s)*∫(0;10.00590 25332;TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
@@ -631,7 +631,7 @@ static const cstring basic_equations[] =
     "'(vt_(m/s))=IFTE((ρ_(kg/m^3))<(ρf_(kg/m^3));-1;1)*√(2*(Vol_m^3)/(Ah_m^2)*ABS((ρ_(kg/m^3))/(ρf_(kg/m^3))-1)*Ⓒg/Cd)' "
     "'v_(m/s)=(vt_(m/s))*TANH((t_s)*Ⓒg/ABS(vt_(m/s)))' "
     "'tfr_s=ATANH(fr)/(Ⓒg/ABS(vt_(m/s)))' "
-    "'xfr_m=(vt_(m/s))*∫(0;→NUM(UBASE((tfr_s)/(1_s)));→NUM(UBASE(TANH(t*Ⓒg/ABS(vt_(m/s))*(1_s))));t)*(1_s)' "
+    "'xfr_m=(vt_(m/s))*∫(0;(tfr_s)/(1_s);TANH(t*Ⓒg/ABS(vt_(m/s))*(1_s));t)*(1_s)' "
 //  This last integration shall work since it is stripped of units (but I tried and it also failed)
 //  "'xfr_m=(vt_(m/s))*∫(0_s;tfr_s;TANH((t_s)*Ⓒg/(vt_(m/s)));t)' " that's the failing integral wuth units
 //  "'xfr_ft=? (175.74722 3631_ft/s)*∫(0;10.00590 25332;t*TANH(t*Ⓒg/(175.74722 3631_ft/s)*(1_s));t)*(1_s)' " works in example 1
@@ -704,7 +704,7 @@ static const cstring basic_equations[] =
 // Error in second eqn last "+" to be replaced by "*"
     "Malus Law",  "{ "
     "'(I_(W/m^2))/(I0_(W/m^2))=(COS(θ_°))^2' "
-//    "'(Ix_(W/m^2))/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))+(COS(θ_°))^2' "
+    //"'(Ix_(W/m^2))/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))+(COS(θ_°))^2' "
     "'(Ix_(W/m^2))/I0x_(W/m^2)=((fx_Hz)/(fx0_Hz))*(1+Ⓒλc/Ⓒc*((fx0_Hz)-(fx_Hz)))*(COS(θ_°))^2' "
     "'(I0_(W/m^2))=(1/(2*Ⓒμ0*Ⓒc))*(E0_(V/m))^2' "
     "}",
@@ -952,9 +952,11 @@ static const cstring basic_equations[] =
     "Stress Analysis", nullptr,
     // ------------------------------------------------------------------------
     //T#: 28 vars 16 eqns 4 sims
+    //"Inconsistent units" in eqn (2), New trial with UBASE
     "Normal Stress",  "{ "
     "'(σ_atm)=(E_atm)*ε' "
-    "'ε=(δ_cm)/(L_m)' "
+    //"'ε=(δ_cm)/(L_m)' "
+    "'ε=UBASE((δ_cm)/(L_m))' "
     "'(σ_Pa)=(P_N)/(A_cm^2)' "
     "}",
     // ALL angles should be in radians in eqns 1 & 2, with a correction in eqn 1
