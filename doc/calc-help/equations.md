@@ -1075,9 +1075,10 @@ T=1273,15_K  Tmax=1273,15_K  λ1=1000_nm  λ2=600_nm  A=1_cm^2
 @ C#9 NOT OK: MSOLVER: "Invalid function" due to the integration limits having units (see ISSUE #1307 & #1314), SOLVE computes eb with "Sign reversal", then SOLVE computes eb12 & q correctly
 'ROOT(ⒺBlack Body Radiation;[λmax;eb;f;eb12;q];[1_nm;1_W/m^2;1;1_W/m^2;1_W])'
 ```
-The following integral doesn't work:
+'→NUM(UBASE(Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))))'
+The following integral finally works:
 T=1273,15_K  λ1=1000_nm  λ2=600_nm
-'f=15/Ⓒπ^4*∫(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K));Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K));X^3/expm1(X);X)'
+'f='→NUM(15/Ⓒπ^4*∫(→NUM(ubase(Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))));→NUM(ubase(Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K))));X^3/expm1(X);X))'
 But if I calculate the value of the integration limits and apply BASE, I obtain pure number and the integral works:
 'Ⓒh*Ⓒc/((λ2_nm)*Ⓒk*(T_K))'=1.88347 62339 3⁳⁻⁸ m/nm and if I apply BASE I obtain 18.83476 23393
 'Ⓒh*Ⓒc/((λ1_nm)*Ⓒk*(T_K))'=1.13008 57403 6⁳⁻⁸ m/nm and if I apply BASE I obtain 11.30085 74036
@@ -2289,11 +2290,6 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 #### Electromagnetic Waves
 
 * To calculate `[f_Hz;k_(r/m);ω_(r/s);E_(N/C);B_T]` (Frequency; Wave number; Angular Frequency; Electric & Magnetic fields at `s` & `t`) from 4 known variables:
-    "'(E_(N/C))=(Em_(N/C))*SIN((k_(r/m))*(x_m)-(ω_(r/s))*(t_s)+(φ_r))' "
-    "'(E_(N/C))/(B_T)=Ⓒc' "
-    "'Ⓒc=(λ_m)*(f_Hz)' "
-    "'(k_(r/m))=2*(Ⓒπ_r)/(λ_m)' "
-    "'(ω_(r/s))=2*(Ⓒπ_r)*(f_Hz)' "
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
 @ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
@@ -2304,25 +2300,28 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 
 
 ## Relativity
-The 107 variables in the Relativity section are:
+The 108 variables in the Relativity section are:
 
 * `α`: Light Doppler effect, light arrival angle in the rest frame
-* `β`: Velocity relativistic speed ratio
+* `β`: Relativistic speed ratio
 * `βe`: Escape velocity relativistic speed ratio
 * `βp`: Plane velocity relativistic speed ratio
 * `βg`: Ground velocity relativistic speed ratio
-* `Δt`: Proper time interval (Time Dilation), or Duration of the circumnavigation trip at latitude `φ` for a non-rotating planet (Circumnavigating Airplanes)
+* `Δt`: Proper time interval ([Time Dilation](#Time Dilation)), or Duration of the circumnavigation trip at latitude `φ` for a non-rotating planet ([Circumnavigating Airplanes](#Circumnavigating Airplanes))
 * `Δtp`: Dilated time interval
 * `ΔtpG`: Gravitationally dilated time interval
 * `Δx`: Proper space interval
 * `Δxp`: Contracted space interval
-* `λ1, λ2`: Wavelength of the photon as measured by the observer at positions `R1` and `R2`
+* `λ1`: Wavelength of the photon as measured by the observer at position `R1`
+* `λ2`: Wavelength of the photon as measured by the observer at position `R2`
 * `λ∞`: Wavelength of the photon as measured by the observer at infinity
 * `γ`: Lorentz factor
 * `γ21`: Factor of combined special and general relativity effects
-* `γv1, γv2`: Lorentz factor for velocities `v1` and `v2`
+* `γv1`: Lorentz factor for velocitie `v1`
+* `γv2`: Lorentz factor for velocitie `v2`
 * `γG`: Lorentz factor associated to gravitational dilation
-* `γG1, γG2`: Lorentz factor associated to gravitational dilation at heights `h1` and `h2`
+* `γG1`: Lorentz factor associated to gravitational dilation at height `h1`
+* `γG2`: Lorentz factor associated to gravitational dilation at height `h2`
 * `ω`: Angular velocity of a rotating planet during a day (dim.: angle/time, in SI: r/s)
 * `φ`: Latitude (dim.: angle)
 * `θ` : Aberration of light, emission angle in the frame at rest
@@ -2355,12 +2354,13 @@ The 107 variables in the Relativity section are:
 * `Epx`: Transformed x component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epy`: Transformed y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epz`: Transformed z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
-* `f` = Light Doppler effect, frequency received in the frame at rest (dim.: 1/time, in SI: hertz, Hz)
-* `fp` = Light Doppler effect, frequency emitted in the moving frame (dim.: 1/time, in SI: hertz, Hz)
+* `f`: Light Doppler effect, frequency received in the frame at rest (dim.: 1/time, in SI: hertz, Hz)
+* `fp`: Light Doppler effect, frequency emitted in the moving frame (dim.: 1/time, in SI: hertz, Hz)
 * `fs`: Wave frequency of the source (dim.: 1/time, in SI: hertz, Hz)
 * `frl`: Relativistic longitudinal Doppler frequency (dim.: 1/time, in SI: hertz, Hz)
 * `frt`: Relativistic transverse Doppler frequency (dim.: 1/time, in SI: hertz, Hz)
-* `h1, h2`: Height of points 1 and 2
+* `h1`: Height of point 1
+* `h2`: Height of point 2
 * `hp`: Altitude of plane (dim.: length)
 * `K`: Kinetic energy
 * `M`: Mass of planet
@@ -2379,7 +2379,8 @@ The 107 variables in the Relativity section are:
 * `ppz`: Transformed z component of the momentum (dim.: mass·speed, in SI: kg·m/s)
 * `PBH`: Black hole evaporation power (dim.: energy/time, in SI: watt, W)
 * `R`: Planet radius
-* `R1, R2`: Radius to points 1 and 2
+* `R1`: Radius to point 1
+* `R2`: Radius to point 2
 * `Rem`: Radius at which the photon is emitted
 * `rs`: Schwarzschild  radius
 * `rxearth`: Radius factor as a multiple of Earth radius
@@ -2387,6 +2388,7 @@ The 107 variables in the Relativity section are:
 * `Tday`: Day duration
 * `tev`: Evaporation time of a black hole
 * `TH`: Black hole temperature
+* `tp`: Transformed time coordinate in the moving frame
 * `txyr`: Duration factor as a multiple of a year
 * `ux`: X component of the velocity
 * `uy`: Y component of the velocity
@@ -2394,7 +2396,8 @@ The 107 variables in the Relativity section are:
 * `upx`: Transformed x component of the velocity observed in the moving frame
 * `upy`: Transformed y component of the velocity observed in the moving frame
 * `upz`: Transformed z component of the velocity observed in the moving frame
-* `v1, v2`: Velocity at heights `h1` and `h2`
+* `v1`: Velocity at height `h1`
+* `v2`: Velocity at height `h2`
 * `vg`: Tangential speed of the ground of a rotatong planet
 * `Vs`: Schwarzschild  volume of a black hole
 * `Vxsun`: Volume factor as a multiple of Sun volume
@@ -2414,25 +2417,82 @@ The relativistic transformations are parametrized by the real constant `v` repre
 
 The primed reference frame `[xp yp zp]` is travelling with velocity `v` in the positive x direction. Therefore, the y and z coordinates of the rest frame remain unchanged.
 
+* To calculate `[β;γ;xp_m;tp_s;yp_m;zp_m]` (Relativistic speed ratio; Lorentz factor; Transformed time, x, y & z coordinate in the moving frame) from 5 known variables:
+```rpl
+x=1_m  y=2_m  z=3_m  t=4_s  v=239 833 966.4_m/s
+@ Expecting [ β=0.8 γ=1.66666 66666 7 xp=-1.59889 31076 7⁳⁹ m tp=6.66666 66622 2 s yp=2. m zp=3. m ]
+@ Failing [ β=0.8 γ=1.66666 66666 7 xp=959 335 865.6 m tp=6.66666 66622 2 s yp=2. m zp=3. m ]
+@ C#28 NOT OK MSOLVE: "Inconsistent units" hallucinates the value of xp. SOLVE for xp hallucinates also.
+'ROOT(ⒺLorentz Transformation;[β;γ;xp;tp;yp;zp];[1;1;1_m;1_s;1_m;1_m])'
+```
+
 #### Time Dilation
 
 The dilation comes from the fact that the Lorentz factor `γ` is greater or equal to one and the proper time interval is multiplied by this factor.
+
+* To calculate `[β;γ;Δtp_s]` (Relativistic speed ratio; Lorentz factor; dilated time interval) from 3 known variables:
+```rpl
+Δt=4_s  v=239 833 966.4_m/s
+@ Failing [ β=0.8 γ=1.66666 66666 7 Δtp=6.66666 66666 7 s ]
+@ C#29 NOT OK MSOLVE: "Unable to solve for all variables". SOLVE for individual unknowns works.
+'ROOT(ⒺLorentz Transformation;[β;γ;Δtp];[1;1;1_s])'
+```
 
 #### Space Contraction
 
 The contraction comes from the fact that the Lorentz factor `γ` is greater or equal to one and the proper space interval is divided by this factor.
 
+* To calculate `[β;γ;Δxp_m]` (Relativistic speed ratio; Lorentz factor; Contracted space interval) from 3 known variables:
+```rpl
+Δx=2_m  v=284 802 835.1_m/s
+@ Expecting [ β=0.95 γ=3.20256 30761 Δxp=0.62449 97998 4 m ]
+'ROOT(ⒺSpace Contraction;[β;γ;Δxp];[1;1;1_m])'
+```
+
 #### Velocity Superposition
 
-These expressions replace the usual Galilean addition of velocities. It can be checked that superposing with `v = c` leads to `upx = c`, hence the impossibility to superpose velocities to go beyond the velocity limit `c`. Since the velocity `v` is confined to the x-direction, the y and z components of velocity remain unchanged.
+These expressions replace the usual Galilean addition of velocities. It can be checked that superposing with `v = c` leads to `upx = c`, hence the impossibility to superpose velocities to go beyond the velocity limit `c`. Even if the velocity `v` is confined to the x-direction, all components of the observed velocity are transformed in the moving frame.
+
+* To calculate `[β;γ;upx_(m/s);upy_(m/s);upz_(m/s)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the velocity observed in the moving frame) from 3 known variables:
+```rpl
+v=296 794 533.42_m/s  ux=284 802 835.1_(m/s)  uy=200 000 000_(m/s)  uz=250 000 000_(m/s)
+@ Expecting [ β=0.99 γ=7.08881 20500 8 upx=-201 541 148.235 m/s upy=474 175 999.317 m/s upz=592 719 999.146 m/s ]
+'ROOT(ⒺVelocity Superposition;[β;γ;upx;upy;upz];[1;1;1_(m/s);1_(m/s);1_(m/s)])'
+```
 
 #### Acceleration Superposition
 
 Even if the velocity `v` is confined to the x-direction, all components of the observed acceleration are transformed in the moving frame.
 
+* To calculate `[β;γ;apx_(m/s^2);apy_(m/s^2);apz_(m/s^2)]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the acceleration observed in the moving frame) from 3 known variables:
+```rpl
+v=298 293 495.71_m/s  ax=100_(m/s^2)  ay=200_(m/s^2)  az=300_(m/s^2)  ux=284 802 835.1_(m/s)  uy=200 000 000_(m/s)  uz=250 000 000_(m/s)
+@ Expecting [ β=0.995 γ=10.01252 34864 apx=0.64100 06334 63 m/s↑2 apy=4 700.07036 316 m/s↑2 apz=6 041.47314 191 m/s↑2 ]
+@ Failing [ β=0.995 γ=10.01252 34864 apx=607.03954 8234 m/s↑2 apy=4 700.07036 316 m/s↑2 apz=6 041.47314 191 m/s↑2 ]
+@ C#30 NOT OK There was an error in apx, now corrected to be checked. 
+'ROOT(ⒺAcceleration Superposition;[β;γ;apx;apy;apz];[1;1;1_(m/s^2);1_(m/s^2);1_(m/s^2)])'
+```
+
 #### E & B Fields Transformation
 
+* To calculate `[β;γ;Epx_(N/C);Epy_(N/C);Epz_(N/C);Bpx_T;Bpy_T;Bpz_T;E_(N/C);B_T;Ep_(N/C);Bp_T]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the electric field & of the magnetic field;Norm of the Electric field & Magnetic field;Norm of the transformed Electric field & Magnetic field) from 3 known variables:
+```rpl
+v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=150_T  By=250_T  Bz=350_T
+@ Failing [ β=0.995 γ=10.01252 34864 Epx=100._N/C Epy=-1.04533 47190 7e12_N/C Epz=7.46667 66091 6e11_N/C Bpx=150_T Bpy=2 503.13088 158 T Bpz=3 504.38321 361 T E=374.16573 8677 N/C B=455.52167 8957 T E=1.28461 56120 6⁳¹² N/C Bp=4 309.16069 765 T ]
+@ C#31 NOT OK Errors in eqns 2, 3, 5 & 6. Now corrected, to be checked. Algebraics: "Inconsistent units" with corrections, see ISSUE #1356
+'ROOT(ⒺE & B Fields Transformation;[β;γ;Epx;Epy;Epz;Bpx;Bpy;Bpz;E;B;Ep;Bp];[1;1;1_(N/C);1_(N/C);1_(N/C);1_T;1_T;1_T;1_(N/C);1_T;1_(N/C);1_T])'
+```
+
 #### Longitudinal Doppler Effect
+
+* To calculate `[β;γ;Epx_(N/C);Epy_(N/C);Epz_(N/C);Bpx_T;Bpy_T;Bpz_T]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the electric field & of the magnetic field observed in the moving frame) from 3 known variables:
+```rpl
+v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=150_T  By=250_T  Bz=350_T
+@ Failing [ β=0.995 γ=10.01252 34864 Epx=100. N/C Epy=-1.04533 47190 7⁳¹² N/C Epz=7.46667 66091 6⁳¹¹ N/C Bpx=150_T Bpy=2 503.13088 158 T Bpz=3 504.38321 361 T ]
+@ C#31 NOT OK Errors in eqns 2, 3, 5 & 6. Now corrected, to be checked. Algebraics: "Inconsistent units" with corrections, see ISSUE #1356
+'ROOT(ⒺE & B Fields Transformation;[β;γ;Epx;Epy;Epz;Bpx;Bpy;Bpz];[1;1;1_(N/C);1_(N/C);1_(N/C);1_T;1_T;1_T])'
+```
+
 
 #### Transverse Doppler Effect
 
