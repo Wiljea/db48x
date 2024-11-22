@@ -1112,7 +1112,7 @@ static const cstring basic_equations[] =
     "'γ=1/√(1-β^2)' "
     "}",
 // Reference: https://farside.ph.utexas.edu/teaching/355/Surveyhtml/node156.html
-// Errors in eqns 2, 3, 5 & 6. Now corrected, to be checked. Algebraics: "Inconsistent units"
+// Errors in eqns 2, 3, 5 & 6. Now corrected, to be checked. Algebraics: "Inconsistent units". 5 new equations added
     "E & B Fields Transformation",  "{ "
     "'(Epx_(N/C))=(Ex_(N/C))' "
     //"'(Epy_(N/C))=γ*((Ey_(N/C))-β*(Bz_T))' "
@@ -1124,6 +1124,11 @@ static const cstring basic_equations[] =
     //"'(Bpz_T)=γ*((Bz_T)-β*(Ey_(N/C)))' "
     "'(Bpy_T)=γ*((By_T)+β/Ⓒc*(Ez_(N/C)))' "
     "'(Bpz_T)=γ*((Bz_T)-β/Ⓒc*(Ey_(N/C)))' "
+    "'(E_(N/C))=√((Ex_(N/C))^2+(Ey_(N/C))^2+(Ez_(N/C))^2)' "
+    "'(Ep_(N/C))=√((Epx_(N/C))^2+(Epy_(N/C))^2+(Epz_(N/C))^2)' "
+    "'(B_T)=√((Bx_T)^2+(By_T)^2+(Bz_T)^2)' "
+    "'(Bp_T)=√((Bpx_T)^2+(Bpy_T)^2+(Bpz_T)^2)' "
+    "'(Ep_(N/C))^2-(Ⓒc^2)*(Bp_T)^2=(E_(N/C))^2-(Ⓒc^2)*(B_T)^2' "
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
     "}",
