@@ -1023,7 +1023,7 @@ static const cstring basic_equations[] =
     "}",
     // Error in  eqn 1 cair => vsair
     "Doppler Effect",  "{ "
-    "'(f_Hz)=(f0_Hz)*(((cair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
+    "'(f_Hz)=(f0_Hz)*(((vsair_(m/s))+(vr_(m/s)))/((vsair_(m/s))-(vs_(m/s))))' "
     "'(vsair_(m/s))=√(1.4*((8.314462618153_(J/(mol*K)))/(0.0289645_(kg/mol))*(T_K)))' "
     "}",
 
