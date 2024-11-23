@@ -698,8 +698,8 @@ static const cstring basic_equations[] =
     "}",
 
     "Rayleigh’s Criterion",  "{ "
-    "'SIN(θr_°)=1.21966989*(λ_nm)/(d_m)' "
-    "'TAN(θr_°)=(y_m)/(L_m)' "
+    "'SIN(θr_°)=UBASE(1.21966989*(λ_nm)/(d_m))' "
+    "'TAN(θr_°)=UBASE((y_m)/(L_m))' "
     "}",
 // Error in second eqn last "+" to be replaced by "*"
     "Malus Law",  "{ "
@@ -967,7 +967,7 @@ static const cstring basic_equations[] =
     "}",
 
     "Stress On An Element",  "{ "
-    //Error in eqn (3) oh HP50g_AUR
+    //Error in eqn (3) of HP50g_AUR
     "'(σx1_kPa)=((σx_kPa)+(σy_kPa))/2+((σx_kPa)-(σy_kPa))/2*COS(2*(θ_°))+(τxy_kPa)*SIN(2*(θ_°))' "
     "'(σx1_kPa)+(σy1_kPa)=(σx_kPa)+(σy_kPa)' "
     //"'(τx1y1_kPa)=-(((σx_kPa)-(σy_kPa))/2)*SIN(2*(θ_°))+(τxy_kPa)*(σy_kPa)' "
@@ -1019,7 +1019,7 @@ static const cstring basic_equations[] =
     "'(I_(W/(m^2)))=1/2*(ρ_(kg/(m^3)))*(v_(m/s))*((ω_(r/s))/(1_r))^2*(sm_cm)^2' "
     "'(I_(W/m^2))=(Ps_W)/(4*Ⓒπ*(r_m)^2)' "
     //"'(β_dB)=10*LOG((I_(W/(m^2)))/(ⒸI0_(W/(m^2))))' "
-    "'(β_dB)=10*LOG10((I_(W/(m^2)))/(ⒸI0))' "
+    "'(β_dB)=→NUM((10_dB)*LOG10((I_(W/(m^2)))/(ⒸI0)))' "
     "}",
     // Error in  eqn 1 cair => vsair
     "Doppler Effect",  "{ "
