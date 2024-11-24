@@ -1145,9 +1145,10 @@ static const cstring basic_equations[] =
     "'β=(v_(m/s))/Ⓒc' "
     "'γ=1/√(1-β^2)' "
     "}",
-// Réef.: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.fisica.net/formulas/The-Cambridge-Handbook-of-Physics-Formulas.pdf
+// Ref.: chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.fisica.net/formulas/The-Cambridge-Handbook-of-Physics-Formulas.pdf
+// Name of var fp changed to fpr
     "Light Propagation",  "{ "
-    "'(fp_Hz)/(f_Hz)=γ*(1+β*COS(α_°))' "
+    "'(fpr_Hz)/(f_Hz)=γ*(1+β*COS(α_°))' "
     "'COS(θp_°)=(COS(θ_°)-β)/(1-β*COS(θ_°))' "
     "'Pθ=SIN(θ_°)/(2*γ^2*(1-β*COS(θ_°))^2)' "
     "'β=(v_(m/s))/Ⓒc' "
