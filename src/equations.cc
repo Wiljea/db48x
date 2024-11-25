@@ -1178,12 +1178,12 @@ static const cstring basic_equations[] =
     "'(Δtp_s)=γ*(Δt_s)' "
     "'(Δxp_m)=(Δx_m)/γ' "
     "}",
-
+// Error in eqn (3) r(m) => (r_m)
     "Gravitational Time Dilation",  "{ "
     "'(ΔtpG_s)=γG*(Δt_s)' "
     "'βe=(ve_(m/s))/Ⓒc' "
     "'γG=1/√(1-βe^2)' "
-    "'(ve_(m/s))=√(2*ⒸG*(M_kg)/r(m))' "
+    "'(ve_(m/s))=√(2*ⒸG*(M_kg)/(r_m))' "
     "}",
 
     "Gravitational Redshift",  "{ "
@@ -1219,10 +1219,10 @@ static const cstring basic_equations[] =
     "'(MGu_m)=ⒸG*(M_kg)/Ⓒc^2' "
     "'(ω_(r/s))=(2*(Ⓒπ_r))/(Tday_s)' "
     "}",
-
+// Error in eqn (2) "√" missing
     "B H Schwarzschild Geometry",  "{ "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
-    "'(ve_(m/s))=2*ⒸG*(M_kg)/(rs_m)' "
+    "'(ve_(m/s))=√(2*ⒸG*(M_kg)/(rs_m))' "
     "'(Vs_(m^3))=(4/3)*Ⓒπ*(rs_m)^3' "
     "'Vxsun=(V_(km^3))/(1.412*10^18_(km^3))' "
     "'rxearth=(r_km)/(6371_km)' "
