@@ -1188,9 +1188,9 @@ static const cstring basic_equations[] =
 // Rename "Rem" to "Remp" in eqn 2 & 4
     "Gravitational Redshift",  "{ "
     "'z=(λ∞_nm)/(λe_nm)-1' "
-    "'(λ∞_nm)/(λe_nm)=1/√(1-((rs_m)/(Rem_m)))' "
+    "'(λ∞_nm)/(λe_nm)=1/√(1-((rs_m)/(Remp_m)))' "
     "'(λ1_nm)/(λ2_nm)=√((1-(rs_m)/(R1_m))/(1-(rs_m)/(R2_m)))' "
-    "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Rem_m))' "
+    "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Remp_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
 // Ref https://mathpages.com/rr/s6-06/6-06.htm
