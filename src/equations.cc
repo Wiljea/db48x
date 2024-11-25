@@ -1185,7 +1185,7 @@ static const cstring basic_equations[] =
     "'γG=1/√(1-βe^2)' "
     "'(ve_(m/s))=√(2*ⒸG*(M_kg)/(r_m))' "
     "}",
-
+// Rename "Rem" to "Remp" in eqn 2 & 4
     "Gravitational Redshift",  "{ "
     "'z=(λ∞_nm)/(λe_nm)-1' "
     "'(λ∞_nm)/(λe_nm)=1/√(1-((rs_m)/(Rem_m)))' "
@@ -1193,7 +1193,7 @@ static const cstring basic_equations[] =
     "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Rem_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
-
+// Ref https://mathpages.com/rr/s6-06/6-06.htm
     "Circumnavigating Airplanes",  "{ "
     "'(Δt_s)=2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s) "
     "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "
