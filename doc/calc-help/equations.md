@@ -2338,15 +2338,15 @@ The 109 variables in the Relativity section are:
 * `Bpz`: Transformed z component of the magnetic field (dim.: mass/(time^2·current), in SI: tesla, T)
 * `E`: Total energy or, Norm of the Electric field ([E & B Fields Transformation](#E & B Fields Transformation)) (dim.: force/charge, in SI: N/C=V/m)
 * `Ep`: Transformed total energy
-* `E0`: Rest energy associated to the rest mass
+* `E0`: Total energy associated to the rest mass
 * `Ex`: X component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Ey`: Y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
-* `EZ`: Z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
+* `Ez`: Z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epx`: Transformed x component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epy`: Transformed y component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `Epz`: Transformed z component of the electric field (dim.: force/charge, in SI: N/C=V/m)
 * `f`: Light Doppler effect, frequency received in the frame at rest (dim.: 1/time, in SI: hertz, Hz)
-* `fp`: Light Doppler effect, frequency emitted in the moving frame (dim.: 1/time, in SI: hertz, Hz)
+* `fpr`: Light Doppler effect, frequency emitted in the moving frame (dim.: 1/time, in SI: hertz, Hz)
 * `fs`: Wave frequency of the source (dim.: 1/time, in SI: hertz, Hz)
 * `frl`: Relativistic longitudinal Doppler frequency (dim.: 1/time, in SI: hertz, Hz)
 * `frt`: Relativistic transverse Doppler frequency (dim.: 1/time, in SI: hertz, Hz)
@@ -2475,26 +2475,71 @@ v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=150_T  By
 ```
 
 #### Longitudinal Doppler Effect
-//zzzz Rendu ici
-* To calculate `[β;γ;Epx_(N/C);Epy_(N/C);Epz_(N/C);Bpx_T;Bpy_T;Bpz_T]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the electric field & of the magnetic field observed in the moving frame) from 3 known variables:
+
+* To calculate `[β;frl]` (Relativistic speed ratio; Transformed longitudinal Doppler frequency) from 2 known variables:
 ```rpl
-v=298 293 495.71_m/s  Ex=100_(N/C)  Ey=200_(N/C)  Ez=300_(N/C)  Bx=150_T  By=250_T  Bz=350_T
-@ Failing [ β=0.995 γ=10.01252 34864 Epx=100. N/C Epy=-1.04533 47190 7⁳¹² N/C Epz=7.46667 66091 6⁳¹¹ N/C Bpx=150_T Bpy=2 503.13088 158 T Bpz=3 504.38321 361 T ]
-@ C#31 NOT OK Algebraics: "Inconsistent units" with corrections, see ISSUE #1356
-'ROOT(ⒺE & B Fields Transformation;[β;γ;Epx;Epy;Epz;Bpx;Bpy;Bpz];[1;1;1_(N/C);1_(N/C);1_(N/C);1_T;1_T;1_T])'
+v=298 293 495.71_m/s  fs=2e3_Hz
+@ Expecting [ β=0.995 frl=100.12523 4864 Hz ]
+'ROOT(ⒺLongitudinal Doppler Effect;[β;frl];[1;1_Hz])'
 ```
 
 #### Transverse Doppler Effect
 
+* To calculate `[β;γ;frt]` (Relativistic speed ratio; Lorentz factor; Transformed transverse Doppler frequency) from 2 known variables:
+```rpl
+v=298 293 495.71_m/s  fs=2e3_Hz
+@ Expecting [ β=0.995 γ=10.01252 34864 frt=20 025.04697 29 Hz ]
+'ROOT(ⒺTransverse Doppler Effect;[β;γ;frt];[1;1;1_Hz])'
+```
+
 #### Light Propagation
+
+* To calculate `[β;γ;fp;θp;Pθ]` (Relativistic speed ratio; Lorentz factor; Transformed Doppler frequency; Emission angle in the moving frame for light aberration; Angular distribution of photon in the moving frame from a source isotropic and stationary) from 4 known variables:
+```rpl
+v=298 293 495.71_m/s  f=2e3_Hz  α=20_°  θ=10_°
+@ Failing [ β=0.995 γ=10.01252 34864 fpr=38 748.34889 97 Hz θp=120.44203 7302 ° Pθ=2.14021 57038 6 ]
+@ C#31 NOT OK MSOLVE: "Inconsistent units". Algebraics: OK
+'ROOT(ⒺLight Propagation;[β;γ;fpr;θp;Pθ];[1;1;1_Hz;1_°;1])'
+```
 
 #### Energy & Momentum
 
 The total relativistic energy `E` and the norm of the momentum `p` form the invariant `mo·c^2` which remains the same in all frames. The kinetic energy `K` is the difference between the total relativistic energy `E` and the rest energy `E0 = mo·c^2`.
 
+* To calculate `[β;γ;ppx_(kg*(m/s));ppy_(kg*(m/s));ppz_(kg*(m/s));Ep_J;E_J;K_J]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the momentum, Transformed total energy; Total & Kinetic energy of the moving mass) from 5 known variables:
+```rpl
+v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
+@ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=3.92123 95184⁳⁹ kg/s K= 1.33189 22556 7⁳¹⁹ J ]
+@ C#32 NOT OK MSOLVE & SOLVE: "Inconsistent units". Algebraics: OK
+'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
+```
+
 #### Ultrarelativistic Cases
 
+* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0;γ;β;v;Δt;Δxp]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
+```rpl
+K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.00009 00623 07_s
+@ Failing [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=0.00000 00124 25 s Δxp=3.72497 65249 3 m ]
+@ C#33 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
+'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_m])'
+```
+* **Example 2** The "Oh-My-God" particle (a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0;γ;β;v;Δt;Δxp]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, one can calculate the speed, the contracted space interval and proper time of the protons, the precision needs to be set to 32 digits and 28 significant digits:
+```rpl
+32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781_s
+@ Failing [ E0=1.50327 76180 161⁳⁻¹⁰ J γ=3.41052 60362 89408 32603 82⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 57283 93430 7331⁳⁻¹⁶ s Δxp=0.00000 02932 09900 57240 03256 07 m ]
+@ C#33 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
+'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_m])'
+```
+
 #### Gravitational Time Dilation
+zzz
+* To calculate `[β;γ;ppx_(kg*(m/s));ppy_(kg*(m/s));ppz_(kg*(m/s));Ep_J;E_J;K_J]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the momentum, Transformed total energy; Total & Kinetic energy of the moving mass) from 5 known variables:
+```rpl
+v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
+@ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=3.92123 95184⁳⁹ kg/s K= 1.33189 22556 7⁳¹⁹ J ]
+@ C#32 NOT OK MSOLVE & SOLVE: "Inconsistent units". Algebraics: OK
+'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
+```
 
 #### Gravitational Redshift
 
