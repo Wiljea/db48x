@@ -2297,7 +2297,7 @@ The 109 variables in the Relativity section are:
 * `βe`: Escape velocity relativistic speed ratio
 * `βp`: Plane velocity relativistic speed ratio
 * `βg`: Ground velocity relativistic speed ratio
-* `Δt`: Proper time interval ([Time Dilation](#Time Dilation)), or Duration of the circumnavigation trip at latitude `φ` for a non-rotating planet ([Circumnavigating Airplanes](#Circumnavigating Airplanes))
+* `Δt`: Proper time interval ([Time Dilation](#Time Dilation)), or Duration of the circumnavigation trip at latitude `φ` ([Circumnavigating Airplanes](#Circumnavigating Airplanes))
 * `Δtp`: Dilated time interval
 * `ΔtpG`: Gravitationally dilated time interval
 * `Δx`: Proper space interval
@@ -2319,7 +2319,7 @@ The 109 variables in the Relativity section are:
 * `ΔτWE`: Time difference between westward and eastward flights
 * `ΔτE`: Flight time in the eastward direction
 * `ΔτW`: Flight time in the westward direction
-* `Δτg`: Elapsed time variation due to the ground tangential velocity
+* `Δτg`: Elapsed time variation due to the ground tangential velocity 
 * `ΔτpE`: Elapsed time variation due to the plane altitude and velocity in the eastward direction
 * `ΔτpW`: Elapsed time variation due to the plane altitude and velocity in the westward direction
 * `As`: Schwarzschild  black hole surface area
@@ -2372,7 +2372,7 @@ The 109 variables in the Relativity section are:
 * `R`: Planet radius
 * `R1`: Radius to point 1
 * `R2`: Radius to point 2
-* `Rem`: Radius at which the photon is emitted
+* `Remp`: Radius at which the photon is emitted
 * `rs`: Schwarzschild  radius
 * `rxearth`: Radius factor as a multiple of Earth radius
 * `SBH`: Black hole entropy (dim.: energy/temperature, in SI: J/K)
@@ -2399,7 +2399,7 @@ The 109 variables in the Relativity section are:
 * `yp`: Transformed Y coordinate in the moving frame
 * `zp`: Transformed Z coordinate in the moving frame
 * `v`: Velocity along the x axis
-* `ve`: Escape velocity
+* `ve`: Escape velocity in a gravitational field
 * `z`: Gravitational redshift parameter
 
 The relativistic transformations are parametrized by the real constant `v` representing a velocity confined to the x-direction. The respective inverse transformation is then parameterized by the negative of this velocity.
@@ -2516,36 +2516,62 @@ v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s)
 
 #### Ultrarelativistic Cases
 
-* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0;γ;β;v;Δt;Δxp]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
+* **Example 1** In the 27 km circonference accelerator of LHC, protons are accelerated to kinetic energy of 6.8 TeV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, one can calculate the speed, the contracted space interval and proper time of the protons:
 ```rpl
 K=6.8_TeV  m0='Ⓒmp'  Δx=27_km  Δtp='Δx/(299 792 455.147_m/s)'  Δtp=0.00009 00623 07_s
 @ Failing [ E0=1.50327 76180 2⁳⁻¹⁰ J γ=7 248.36782 709 β=0.99999 99904 83 v=299 792 455.147 m/s Δt=0.00000 00124 25 s Δxp=3.72497 65249 3 m ]
 @ C#33 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
-'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_m])'
+'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
-* **Example 2** The "Oh-My-God" particle (a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0;γ;β;v;Δt;Δxp]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, one can calculate the speed, the contracted space interval and proper time of the protons, the precision needs to be set to 32 digits and 28 significant digits:
+* **Example 2** The "Oh-My-God" particle (probably a proton) had a kinetic energy of 3.2e20 eV. To calculate `[E0_J;γ;β;v_m/s;Δt_s;Δxp_m]` (Rest energy; Lorentz factor; Relativistic speed ratio; Speed; Proper time; Contracted space interval) from 5 known variables, in order to calculate the speed, the contracted space interval and proper time of the proton, the precision needs to be set to 32 digits and 28 significant digits:
 ```rpl
 32 PRECISION 28 SIG K=3.2e20_eV  m0='Ⓒmp'  Δx=100_km  Δtp='Δx/(299 792 457.99999 99999 99998 7113_m/s)'  Δtp=0.00033 35640 95198 15204 95755 781_s
 @ Failing [ E0=1.50327 76180 161⁳⁻¹⁰ J γ=3.41052 60362 89408 32603 82⁳¹¹ β=0.99999 99999 99999 99999 99957 014 v=299 792 457.99999 99999 99998 7113 m/s Δt=9.78042 95187 57283 93430 7331⁳⁻¹⁶ s Δxp=0.00000 02932 09900 57240 03256 07 m ]
 @ C#33 NOT OK MSOLVE & SOLVE: "Divide by zero". Algebraics: OK
-'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_m])'
+'ROOT(ⒺUltrarelativistic Cases;[E0;γ;β;v;Δt;Δxp];[1_J;1;1;1_(m/s);1_s;1_m])'
 ```
 
 #### Gravitational Time Dilation
-zzz
-* To calculate `[β;γ;ppx_(kg*(m/s));ppy_(kg*(m/s));ppz_(kg*(m/s));Ep_J;E_J;K_J]` (Relativistic speed ratio; Lorentz factor; Transformed x, y & z component of the momentum, Transformed total energy; Total & Kinetic energy of the moving mass) from 5 known variables:
+
+* To calculate `[ve_m/s;βe;γG;ΔtpG_s]` (Excape speed; Relativistic escape speed ratio; Lorentz factor associated to gravitational dilation; Gravitational dilated time interval) from 3 known variables:
 ```rpl
-v=299 192 873.084 m/s  px=10_(kg*(m/s))  py=20_(kg*(m/s))  pz=30_(kg*(m/s))  E=1.42176 77735 4e19_J
-@ Failing [ β=0.998 γ=15.81929 99292 ppx=-7.48730 91346 7⁳¹¹ kg·m/s ppy=20_(kg*(m/s)) ppz=30_(kg*(m/s)) Ep=2.24913 70834 6⁳²⁰ J E0=8.98755 17873 9⁳¹⁷ J m0=10. kg p=3.92123 95184⁳⁹ kg/s K= 1.33189 22556 7⁳¹⁹ J ]
-@ C#32 NOT OK MSOLVE & SOLVE: "Inconsistent units". Algebraics: OK
-'ROOT(ⒺEnergy & Momentum;[β;γ;ppx;ppy;ppz;Ep;E0;m0;p;K];[1;1;1_(kg*(m/s));1_(kg*(m/s));1_(kg*(m/s));1_J;1_J;1_kg;1_(kg*(m/s));1_J])'
+M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s  
+@ Expecting [ ve=210 912 146.007 m/s βe=0.70352 71914 92 γG=1.40712 61408 1 ΔtpG=1 407 126.14081 s ]
+'ROOT(ⒺGravitational Time Dilation;[ve;βe;γG;ΔtpG];[1_m/s;1;1;1_s])'
 ```
 
 #### Gravitational Redshift
 
+* To calculate `[rs_m;λ∞_nm;z;λ1_nm;zNL]` (Schwarzschild  radius; Wavelength of the photon as measured by the observer at infinity; Gravitational redshift; Wavelength of the photon as measured by the observer at position R1) from 7 known variables:
+```rpl
+λe=550_nm  λ2=550_nm  M=2.32e30_kg  Remp=70_km  R2=50e6_km  R1=10e6_km  M=4.10227 55e30_kg
+@ Failing [ rs=6 091.27004 242 m λ∞=575.61435 4886 nm z=4.65715 54338 2⁳⁻²  λ1=549.99986 5992 nm zNL=4.35090 71731 6⁳⁻² ]
+@ C#34  MSOLVER: "Inconsistent units". SOLVER: "Bad argument type"
+'ROOT(ⒺGravitational Redshift;[rs;λ∞;z;λ1;zNL];[1_m;1_nm;1;1_nm;1])'
+```
+
 #### Circumnavigating Airplanes
 
 It is assumed that the planes are circumnavigating at the same altitude `h`, same latitude `φ` and the during same flight duration `Δt` measured in the airplanes. The ground is rotating with the planet at the angular frequency `ω`. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the velocities of the plane and the planet surface are << `c` (slow airplanes over a slow rotating planet).
+
+* To calculate `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables:
+```rpl
+    "'(Δt_s)='2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s)' "
+    "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "
+    "'(ΔτE_ns)=(ΔτpE_ns)-(Δτg_ns)' "
+    "'(ΔτW_ns)=(ΔτpW_ns)-(Δτg_ns)' "
+    "'(ΔτpE_ns)=(1-'(MGu_m)/((R_m)+(hp_m))'-(βp+βg)/2)*(Δt_s)' "
+    "'(ΔτpW_ns)=(1-'(MGu_m)/((R_m)+(hp_m))'-(βp-βg)/2)*(Δt_s)' "
+    "'(Δτg_ns)='(1-'(MGu_m)/(R_m)'-'βg^2/2')*(Δt_s)' "
+    "'(MGu_m)='ⒸG*(M_kg)/Ⓒc^2' "
+    "'βp='(vp_(m/s))/Ⓒc' "
+    "'βg='(vg_(m/s))/Ⓒc' "
+    "'(vg_m/s)='(2*Ⓒπ*(R_km))/(Tday_s)*COS(φ_°)' "
+vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
+@ Failing [ Δt=49.37638 5345 h vg=0.45985 87355 13 km/s βp=7.45582 46558 7⁳⁻⁷ βg=1.53392 36303⁳⁻⁶ MGu=4.43389 13886 6⁳⁻³ m Δτg=49.37638 53105 7846 hΔτpE=49.37632 90338 0471 h ΔτpW=49.37640 47734 0897 h ΔτE=-202 596 385.50477 73 ns ΔτW=70 066 189.82998 21 ns ΔτWE=272 662 575.33475 94 ns ]
+@ C#35  MSOLVER & SOLVE: "Inconsistent units". SOLVER: "Bad argument type"
+'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_ns;1_ns;1_ns;1_ns;1_ns;1_ns])'
+```
 
 #### Clocks at different heights
 
