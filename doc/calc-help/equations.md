@@ -2303,16 +2303,16 @@ The 109 variables in the Relativity section are:
 * `Δx`: Proper space interval
 * `Δxp`: Contracted space interval
 * `λ1`: Wavelength of the photon as measured by the observer at position `R1`
-* `λ2`: Wavelength of the photon as measured by the observer at position `R2`
+* `λ2`: Wavelength of the photon as measured by the observer at position `R2`  yyy
 * `λ∞`: Wavelength of the photon as measured by the observer at infinity
 * `γ`: Lorentz factor
 * `γ21`: Factor of combined special and general relativity effects
-* `γv1`: Lorentz factor for velocitie `v1`
-* `γv2`: Lorentz factor for velocitie `v2`
+* `γv1`: Lorentz factor for velocity `v1`
+* `γv2`: Lorentz factor for velocity `v2`
 * `γG`: Lorentz factor associated to gravitational dilation
 * `γG1`: Lorentz factor associated to gravitational dilation at height `h1`
 * `γG2`: Lorentz factor associated to gravitational dilation at height `h2`
-* `ω`: Angular velocity of a rotating planet during a day (dim.: angle/time, in SI: r/s)
+* `ω`: Angular velocity associated to planet rotation (dim.: angle/time, in SI: r/s)
 * `φ`: Latitude (dim.: angle)
 * `θ` : Aberration of light, emission angle in the frame at rest
 * `θp` : Aberration of light, emission angle in the moving frame
@@ -2554,30 +2554,41 @@ M=2.32e30_kg  r=6.96e3_m  Δt=1e6_s
 
 It is assumed that the planes are circumnavigating at the same altitude `h`, same latitude `φ` and the during same flight duration `Δt` measured in the airplanes. The ground is rotating with the planet at the angular frequency `ω`. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the velocities of the plane and the planet surface are << `c` (slow airplanes over a slow rotating planet).
 
-* To calculate `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables:
+* To calculate `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables (maintain 24 digits of precision):
 ```rpl
-    "'(Δt_s)='2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s)' "
-    "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "
-    "'(ΔτE_ns)=(ΔτpE_ns)-(Δτg_ns)' "
-    "'(ΔτW_ns)=(ΔτpW_ns)-(Δτg_ns)' "
-    "'(ΔτpE_ns)=(1-'(MGu_m)/((R_m)+(hp_m))'-(βp+βg)/2)*(Δt_s)' "
-    "'(ΔτpW_ns)=(1-'(MGu_m)/((R_m)+(hp_m))'-(βp-βg)/2)*(Δt_s)' "
-    "'(Δτg_ns)='(1-'(MGu_m)/(R_m)'-'βg^2/2')*(Δt_s)' "
-    "'(MGu_m)='ⒸG*(M_kg)/Ⓒc^2' "
-    "'βp='(vp_(m/s))/Ⓒc' "
-    "'βg='(vg_(m/s))/Ⓒc' "
-    "'(vg_m/s)='(2*Ⓒπ*(R_km))/(Tday_s)*COS(φ_°)' "
-vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
-@ Failing [ Δt=49.37638 5345 h vg=0.45985 87355 13 km/s βp=7.45582 46558 7⁳⁻⁷ βg=1.53392 36303⁳⁻⁶ MGu=4.43389 13886 6⁳⁻³ m Δτg=49.37638 53105 7846 hΔτpE=49.37632 90338 0471 h ΔτpW=49.37640 47734 0897 h ΔτE=-202 596 385.50477 73 ns ΔτW=70 066 189.82998 21 ns ΔτWE=272 662 575.33475 94 ns ]
-@ C#35  MSOLVER & SOLVE: "Inconsistent units". SOLVER: "Bad argument type"
-'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_ns;1_ns;1_ns;1_ns;1_ns;1_ns])'
+24 PRESISION 24 SIG vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
+@ Failing [ Δt=177 754.98724 19224 92543 007 s vg=0.45985 87355 12899 48533 8115 km/s βp=0.00000 07455 82465 58690 9461 βg=0.00000 15339 23630 30326 6286 MGu=0.00443 38913 88656 93511 3865 m Δτg=177 754.98711 80049 56503 647 s ΔτpE=177 754.98711 79461 27621 648 s ΔτpW=177 754.98711 83527 12492 031 s ΔτE=-58.82888 1999 ns ΔτW=347.75598 8384 ns ΔτWE=406.58487 0383 ns ]
+@ C#35  MSOLVER & SOLVER: "Inconsistent units". SOLVER: "Bad argument type"
+'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 ```
 
 #### Clocks at different heights
 
 It is assumed that the two clocks are at rest with respect to the ground at a latitude `φ` and are rotating with the planet at the angular frequency `ω`. The clocks are at their respective heights `h1` and `h2` for inxtance at the top and bottom of a mountain. For simplicity, the planet is assumed to have a spherical distribution. The Schwarzschild metric is taken into account. The calculation should formally invokes an integral for the elapsed proper time along a path and is approximated here to the first order in speed since the tangential velociies at height `h1` and `h2` are << `c` (slow rotating planet).
 
+* To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision):
+```rpl
+24 PRESISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
+@ Expecting [ ω=0.00007 27220 52166 43039 9022 r/s v1=447.52521 41595 73890 38467 9 m/s v2=447.66570 23762 30482 40802 8 m/s MGu=0.00443 38913 88656 93479 3177 m γv1=1.00000 00000 01114 20118 646 γv2=1.00000 00000 01114 90084 182 γG1=1.00000 00006 95949 04933 059 γG2=1.00000 00006 95730 64385 435 γ21=1.00000 00000 00217 70582 07 ]
+'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
+```
+
 #### B H Schwarzschild Geometry
+
+* To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision):
+```rpl
+    "B H Schwarzschild Geometry",  "{ "
+    "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
+    "'(ve_(m/s))=√(2*ⒸG*(M_kg)/(rs_m))' " zzz jesuis ici
+    "'(Vs_(m^3))=(4/3)*Ⓒπ*(rs_m)^3' "
+    "'Vxsun=(V_(km^3))/(1.412*10^18_(km^3))' "
+    "'rxearth=(r_km)/(6371_km)' "
+    "'Mxsun=(M_kg)/(1.9885*10^30_kg)' "
+    "'Mxearth=(M_kg)/(5.972168*10^24_kg)' "
+24 PRESISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
+@ Expecting [ ω=0.00007 27220 52166 43039 9022 r/s v1=447.52521 41595 73890 38467 9 m/s v2=447.66570 23762 30482 40802 8 m/s MGu=0.00443 38913 88656 93479 3177 m γv1=1.00000 00000 01114 20118 646 γv2=1.00000 00000 01114 90084 182 γG1=1.00000 00006 95949 04933 059 γG2=1.00000 00006 95730 64385 435 γ21=1.00000 00000 00217 70582 07 ]
+'ROOT(ⒺB H Schwarzschild Geometry;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
+```
 
 #### B H Thermodynamics
 
