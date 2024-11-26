@@ -1193,9 +1193,9 @@ static const cstring basic_equations[] =
     "'zNL=ⒸG*(M_kg)/((Ⓒc)^2*(Remp_m))' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "}",
-// Ref https://mathpages.com/rr/s6-06/6-06.htm
+// Ref https://mathpages.com/rr/s6-06/6-06.htm  Adding ' at the end of eqn 1
     "Circumnavigating Airplanes",  "{ "
-    "'(Δt_s)=2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s) "
+    "'(Δt_s)=2*Ⓒπ*(R_km)*COS(φ_°)/(vp_m/s)' "
     "'(ΔτWE_ns)=(ΔτW_ns)-(ΔτE_ns)' "
     "'(ΔτE_ns)=(ΔτpE_ns)-(Δτg_ns)' "
     "'(ΔτW_ns)=(ΔτpW_ns)-(Δτg_ns)' "
