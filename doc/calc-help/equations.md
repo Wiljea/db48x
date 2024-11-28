@@ -2283,7 +2283,7 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 ```rpl
 λ=500_nm  Em=5_N/C  x=1e-8_m  t=5e-13_s
 @ Failing [ f=5.99584 916⁳¹⁴ Hz k=12 566 370.6144 r/m ω=3.76730 31346 2⁳¹⁵ r/s E=-1.42063 55667 3 N/C B=-0.00000 00047 39 T ]
-@ C#26 NOT OK MSOLVER: "Numerical presision lost". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
+@ C#26 NOT OK MSOLVER: "Numerical precision lost". SOLVE works for f & ω but with "Sign reversal" and fails for B: "Inconsistent units"
 @ But algebraics are OK and the unknown can be computed.
 'ROOT(ⒺElectromagnetic Waves;[f;k;ω;E;B];[1_Hz;1_(r/m);1_(r/s);1_(N/C);1_T])'
 ```
@@ -2556,15 +2556,15 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 
 * **Example 1** To calculate for a standard jet (500_mph) `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables (maintain 24 digits of precision):
 ```rpl
-24 PRESISION 24 SIG vp=223.52 m/s  Tday=86400_s  R=6371e3_m  hp=1e4_m  M=5.972168e24_kg  φ=7_°
+24 PRECISION 24 SIG vp=223.52 m/s  Tday=86400_s  R=6371e3_m  hp=1e4_m  M=5.972168e24_kg  φ=7_°
 @ Expecting [ Δt=177 754.98724 19224 92543 01 s vg=459.85873 55128 99485 33812 3 m/s βp=0.00000 07455 82465 58690 9446 βg=0.00000 15339 23630 30326 6272 MGu=0.00443 38913 88656 93479 3177 m Δτg=177 754.98711 80049 56503 649 s ΔτpE=177 754.98711 79461 27621 65 s ΔτpW=177 754.98711 83527 12492 033 s ΔτE=-58.82888 19990 00000 00000 03 ns ΔτW=347.75598 83839 99999 99999 7 ns ΔτWE=406.58487 03829 99999 99999 6 ns ]
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 @ IMPORTANT NOTE if I use less compatible units (see below) MSOLVER & SOLVER: "Inconsistent units". SOLVER: "Bad argument type".
-24 PRESISION 24 SIG vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
+24 PRECISION 24 SIG vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
 ```
 * **Example 2** To calculate for the circumnavigation of the Concorde at maximal speed (Mach 2.04) flying at an altitude of 60000 feet `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables (maintain 24 digits of precision):
 ```rpl
-24 PRESISION 24 SIG vp=605.27777 77777 77777 77777_m/s  Tday=86400_s  R=6371e3_m  hp=18288_m  M=5.972168e24_kg  φ=12_°
+24 PRECISION 24 SIG vp=605.27777 77777 77777 77777_m/s  Tday=86400_s  R=6371e3_m  hp=18288_m  M=5.972168e24_kg  φ=12_°
 @ Expecting [ Δt=64 689.99803 65516 53654 321 s vg=453.18771 12964 44358 64443 2 m/s βp=0.00000 20189 89342 87992 5866 βg=0.00000 15116 71488 73519 8112 MGu=0.00443 38913 88656 93479 3177 m Δτg=64 689.99799 14567 97869 7596 s ΔτpE=64 689.99799 12563 75377 464 s ΔτpW=64 689.99799 16512 49416 6709 s ΔτE=-200.42249 22956 00000 00000 3 ns ΔτW=194.45154 69112 99999 99999 7 ns ΔτWE=394.87403 92068 99999 99999 9 ns ]
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 ```
@@ -2575,7 +2575,7 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 
 * **EXAMPLE** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
-24 PRESISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
+24 PRECISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
 @ Expecting [ ω=0.00007 27220 52166 43039 9022 r/s v1=447.52521 41595 73890 38467 9 m/s v2=447.66570 23762 30482 40802 8 m/s MGu=0.00443 38913 88656 93479 3177 m γv1=1.00000 00000 01114 20118 646 γv2=1.00000 00000 01114 90084 182 γG1=1.00000 00006 95949 04933 059 γG2=1.00000 00006 95730 64385 435 γ21=1.00000 00000 00217 70582 07 ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 ```
@@ -2592,22 +2592,31 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 
 #### B H Schwarzschild Geometry
 
-* To calculate `[rs_m;ve_(m/s);Vs_(m^3);Vxsun;rxearth;Mxsun;Mxearth]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision):
+* For Sagittarius A*, the supermassive black hole at the Galactic Center of the Milky Way to calculate `[rs_m;ve_(m/s);Vs_(m^3);Vxsun;rxearth;Mxsun;Mxearth]` (Schwarzschild radius; Escape velocity; Schwarzschild volume; Factor multiplicative of Sun volume, of Earth radius, of Sun mass & of Earth mass) from 3 known variables (maintain 24 digits of precision):
 ```rpl
-    "B H Schwarzschild Geometry",  "{ "
-    "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
-    "'(ve_(m/s))=√(2*ⒸG*(M_kg)/(rs_m))' " zzz jesuis ici
-    "'(Vs_(m^3))=(4/3)*Ⓒπ*(rs_m)^3' "
-    "'Vxsun=(V_(km^3))/(1.412*10^18_(km^3))' "
-    "'rxearth=(r_km)/(6371_km)' "
-    "'Mxsun=(M_kg)/(1.9885*10^30_kg)' "
-    "'Mxearth=(M_kg)/(5.972168*10^24_kg)' "
-24 PRESISION 24 SIG  Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
-@ Expecting [ ω=0.00007 27220 52166 43039 9022 r/s v1=447.52521 41595 73890 38467 9 m/s v2=447.66570 23762 30482 40802 8 m/s MGu=0.00443 38913 88656 93479 3177 m γv1=1.00000 00000 01114 20118 646 γv2=1.00000 00000 01114 90084 182 γG1=1.00000 00006 95949 04933 059 γG2=1.00000 00006 95730 64385 435 γ21=1.00000 00000 00217 70582 07 ]
-'ROOT(ⒺB H Schwarzschild Geometry;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
+M=8.54e36_kg  r=12e9_m  V=8.54105 09309e30_m^3
+@ Failing [ rs=1.26806 32044 9⁳¹⁰ m ve=308 177 217.955 m/s Vs=8.54105 09309⁳³⁰ m↑3 Vxsun=6 048.90292 557 rxearth=1 883.53476 691 Mxsun=4 294 694.49334 Mxearth=1.42996 64711 4⁳¹² ]
+@ NOTE that the fact that `ve > Ⓒc` which is unphysical, prooves that we are probably in the presence of a blach hole
+@ C#35 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+'ROOT(ⒺB H Schwarzschild Geometry;[rs;ve;Vs;Vxsun;rxearth;Mxsun;Mxearth];[1_m;1_(m/s);1_(m^3);1;1;1;1])'
 ```
 
 #### B H Thermodynamics
+
+* **Example 1** For M31*, the supermassive black hole at the Galactic Center of Andromeda Galaxy to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
+```rpl
+M=1.708e45_kg  t=4.18902 53989e119_s
+@ Failing [ rs=2.53612 64089 8⁳¹⁸ m As=8.08261 06149 9⁳³⁷ m↑2 TH=7.18505 89680 3⁳⁻²³ K PBH=1.22150 43668 5⁳⁻⁵⁸ W SBH=1.06824 02553 1⁳⁸⁴ J/K tev=4.18902 53989⁳¹¹⁹ s Mxsun=8.58938 89866 7⁳¹⁴ MxSagA=200 000 000. Mxearth=2.85993 29422 7⁳²⁰ Txyr=1.32742 20469 6⁳¹¹² ]
+@ C#36 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
+```
+* **Example 1** For a small black hole having the mass of 1000_kg, to calculate `[rs_m;As_(m^2);TH_K;PBH_W;SBH_(J/K);tev_s;Mxsun;MxSagA;Mxearth;txyr]` (Schwarzschild radius; Schwarzschild area; Black hole temperature; Black hole evaporation power; Black hole entropy; Evaporation time; Factor multiplicative of Sun mass, of Sagittarius A* mass & of Earth mass; Multiplicative factor of a year) from 2 known variables (maintain 24 digits of precision):
+```rpl
+M=1000_kg  t=8.40716 15834 7⁳⁻⁸ s
+@ Failing [ rs=1.48485 15275⁳⁻²⁴ m As=2.77061 33606 7⁳⁻⁴⁷ m↑2 TH=1.22720 80717 4⁳²⁰ K PBH=3.56345 07152 6⁳²⁶ W SBH=0.36617 88084 J/K tev=8.40716 15834 7⁳⁻⁸ s Mxsun=5.02891 62685 4⁳⁻²⁸ MxSagA=1.17096 01873 5⁳⁻³⁴ Mxearth=1.67443 38069 5⁳⁻²² Txyr=2.66406 87452 4⁳⁻¹⁵ ]
+@ C#36 NOT OK MSOLVER: "Constant ?". Solve: "Bad argument type". Problems with scientific notation were corrected. TO BE CHECKED.
+'ROOT(ⒺB H Thermodynamics;[rs;As;TH;PBH;SBH;tev;Mxsun;MxSagA;Mxearth;txyr];[1_m;1_(m^2);1_K;1_W;1_(J/K);1_s;1;1;1;1])'
+```
 
 ## Modern Physics
 The 37 variables in the Modern Physics section are:
