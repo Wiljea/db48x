@@ -1219,17 +1219,17 @@ static const cstring basic_equations[] =
     "'(MGu_m)=ⒸG*(M_kg)/Ⓒc^2' "
     "'(ω_(r/s))=(2*(Ⓒπ_r))/(Tday_s)' "
     "}",
-// Error in eqn (2) "√" missing
+// Error in eqn (2) "√" missing; Scientific notations corrected in eqns 4, 6 & 7
     "B H Schwarzschild Geometry",  "{ "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "'(ve_(m/s))=√(2*ⒸG*(M_kg)/(rs_m))' "
     "'(Vs_(m^3))=(4/3)*Ⓒπ*(rs_m)^3' "
-    "'Vxsun=(V_(km^3))/(1.412*10^18_(km^3))' "
+    "'Vxsun=(V_(km^3))/(1.412e18_(km^3))' "
     "'rxearth=(r_km)/(6371_km)' "
-    "'Mxsun=(M_kg)/(1.9885*10^30_kg)' "
-    "'Mxearth=(M_kg)/(5.972168*10^24_kg)' "
+    "'Mxsun=(M_kg)/(1.9885e30_kg)' "
+    "'Mxearth=(M_kg)/(5.972168e24_kg)' "
     "}",
-
+// ERROR: Scientific notations corrected in eqns 7, 8, 9 & 10
     "B H Thermodynamics",  "{ "
     "'(TH_K)=(Ⓒℏ*(Ⓒc)^3)/(8*Ⓒπ*ⒸG*Ⓒk*(M_kg))' "
     "'(PBH_W)=(Ⓒℏ*(Ⓒc)^6)/(15360*Ⓒπ*(ⒸG)^2*(M_kg)^2)' "
@@ -1237,10 +1237,10 @@ static const cstring basic_equations[] =
     "'(As_(m^2))=4*Ⓒπ*(rs_m)^2' "
     "'(rs_m)=2*ⒸG*(M_kg)/(Ⓒc)^2' "
     "'(tev_s)=(5120*Ⓒπ*(ⒸG)^2*(M_kg)^3)/(Ⓒℏ*(Ⓒc)^4)' "
-    "'Mxsun=(M_kg)/(1.9885*10^30_kg)' "
-    "'MxSagA=(M_kg)/(8.54*10^36_kg)' "
-    "'Mxearth=(M_kg)/(5.972168*10^24_kg)' "
-    "'txyr=(t_s)/(3.15576*10^7_s)' "
+    "'Mxsun=(M_kg)/(1.9885e30_kg)' "
+    "'MxSagA=(M_kg)/(8.54e36_kg)' "
+    "'Mxearth=(M_kg)/(5.972168e24_kg)' "
+    "'txyr=(t_s)/(3.15576e7_s)' "
     "}",
 
     // ------------------------------------------------------------------------
