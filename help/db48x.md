@@ -1421,6 +1421,126 @@ does not have a `NXT` key unlike HP calculators. Instead, when necessary, the
 ### Functions in menus: example of hyperbolic functions
 
 
+## Useful functions for controlling precision in scientific calculations
+
+Scientific calculations lead to the numerical evaluation of expressions whose result is given in the form of a [decimal number](#Decimal-number) for which [scientific notation](#Entering-a-number-in-scientific-notation-with-_×10ⁿ_) is often used. Calculations must be made with sufficient [precision](#Precision) to avoid rounding errors affecting the validity of the results sought. Since DB48x has variable precision floating point, the default configuration of 24 digits is more than enough for most scientific applications. However, a numerical value `X`, whether a measurement result or a constant, is most of the time known with limited precision. It is therefore provided with either an absolute uncertainty `ΔX` which is here designated by standard uncertainty represented by `UsX`, or, equivalently, with a relative uncertainty `UrX=UsX/|X|`. This makes it possible to establish an interval (either of a statistical nature for a given probability distribution or of extreme limits or other estimations) for the values ​​of `Xval`:
+`Xval = X ± ΔX = X ± UsX` noted also as `Xval = X @ (UrX*100)%`. 
+
+The calculation of uncertainty in science (metrology) obeys a certain number of simple rules concerning the significant digits (SD):
+1) `UsX` and `UrX` must be rounded to count at most 2 SD.
+2) `UsX` and `UrX` are equivalent and are determined between them knowing the central value `X`.
+3) A central value `X` must be rounded so that its last decimal place corresponds to the last decimal place of `UsX`.
+4) A simple rule is that the final result of a calculation (multiplicative, functional, etc.) involving several uncertain values ​​gives a result that cannot be more precise than the least precise of the uncertain input values. Note that before rounding the final result, the intermediate calculations can be done at maximum precision, thus avoiding the accumulation of rounding errors.
+5) In the case of a sum (or difference) between two uncertain values, rounding is carried out to the leftmost decimal position of the last significant digit among the inputs of the final calculation.
+
+DB48x benefits from several features that support uncertainty calculations, SD display mode and manipulation:
+
+* [Significant digits mode](#SignificantDisplay) is a mode where values can
+  be displayed with a given number of SDs regardless of the precision of the
+  calculations.
+
+* [SIGDIG](#SIGDIG) is a command (DB48x extension) such that when applied as
+  `SigDig(X)` returns the number of significant digits of X.    
+
+* [TRUNC](#TRUNC) is a command (from HP50g) such that when applied as `TRUNC(X,n)`
+  with `n<0` returns the truncature of `X` after the number `n` of SD.
+
+* [ROUND](#ROUND) is a command (from HP50g) such that when applied as `ROUND(X,n)`
+  with `n<0` returns the rounded value of `X` after the number `n` of SD. If the
+  uncertainty `UsX` & `UrX` result from a calculation, the rule 1) (see above) is
+  easily implemented by `UsX=ROUND(UsX,-2)` and `UrX=ROUND(UrX,-2)`. 
+
+* The following five commands are added as extensions of DB48x to support the
+  remaining 4 rules.
+
+### ToUsX
+
+A command to calculate `UsX` from `UrX` & `X` which is executed by the RPL code
+`« * Abs -2 Round »`. This implements rule 2) for `UsX`.
+
+* Ex.
+```rpl
+  -3.141592654_m  0.000012  ToUsX
+  @ Expecting [0.000038_m]
+```  
+
+### ToUrX
+
+A command to calculate `UrX` from `UsX` & `X` which is executed by the RPL code
+`« Swap Abs ÷ -2 Round »`. This implements rule 2) for `UrX`.
+
+* Ex.
+```rpl
+  -3.141592654_m  0.000097_m  ToUrX
+  @ Expecting [0.000031]
+```  
+
+### UsXtoX
+
+A command to round `X` to its correct precision according to `UsX` which is executed 
+by the RPL code `« → X UsX « X UsX Uval Xpon X Uval Xpon - 2 - Round » »`. This
+implements rule 3). Examples 2 illustrates also ToUsX together with UsXtoX.
+
+* Ex.1
+```rpl
+  -3.141592654_m  0.000045_m  UsXtoX
+  @ Expecting [-3.141593_m]
+```
+
+* Ex.2 two steps: i) calculation of UsMu=ⓈMu & ii) correct rounding of `Mu='ⒸNA*Ⓒu'`
+```rpl
+  'ⒸNA*Ⓒu'  Duplicate  ⓇMu  ToUsX  UsXtoX  →Num
+  @ Expecting [0.00100 00000 0105 kg/mol]
+  @ which is the correctly rounded value of ⒸMu
+``` 
+
+### UrXtoX
+
+A command to round `X` to its correct precision according to `UrX` which is executed 
+by the RPL code `« → X UrX « X Dup UrX * Uval Xpon X Uval Xpon - 2 - Round » »`. This
+implements rules 2) & 3). Examples 2 & 3 illustrate also ToUrX together with UrXtoX. 
+
+* Ex.1
+```rpl
+  -3.141592654_m  0.000012  UrXtoX
+  @ Expecting [-3.141593_m]
+```
+
+* Ex.2 two steps: i) calculation of UrMu=ⓇMu & ii) correct rounding of `Mu='ⒸNA*Ⓒu'`
+```rpl
+  'ⒸNA*Ⓒu'  Duplicate  ⓈMu  ToUrX →Num UBase  UrXtoX →Num
+  @ Expecting [0.00100 00000 0105 kg/mol]
+  @ which is the correctly rounded value of ⒸMu
+``` 
+
+* Ex.3 two steps: i) calculation of Urε₀=Ⓡε₀ & ii) correct rounding of `ε₀='CONVERT(1/(Ⓒc^2·Ⓒμ₀);1_F/m)' `
+```rpl
+  'CONVERT(1/(Ⓒc^2·Ⓒμ₀);1_F/m)'  Duplicate  Ⓢε₀  ToUrX →Num UBase  UrXtoX →Num
+  @ Expecting [8.8541878188E-12_F/m]
+  @ which is the correctly rounded value of Ⓒε₀
+``` 
+
+### pYtopX
+
+A command to round `X` to the precision of `Y` which is executed by the RPL code 
+« Over Xpon Swap Duplicate SigDig Swap Xpon - - Round ». This implements 
+rules 4) & 5) but the user has to judge carefully to establish the respective 
+role of `X` and `Y`. There is no automatic use here, since it depends on the 
+precise nature of the calculation.  
+
+* Ex.1
+```rpl
+  -3.141592654_m 0.000045_m  pYtopX
+  @ Expecting [-3.141593_m]
+```
+
+* Ex.2
+```rpl
+  -3.141592654_m 0.00045  pYtopX
+  @ Expecting [-3.14159 m]
+```
+
+
 ## Using an infinite stack
 
 ### Showing multiple stack levels
@@ -2572,8 +2692,7 @@ equation library being contributed by Jean Wilson
   equations in the library.
 * The `Root` command now attempts symbolic solving using the `Isol` command.
   This can lead to exact solutions for common equations.
-* The `SigDig` command is a DB48x extension that returns the number of
-  significant digits in a number, i.e. the number of non-zero digits.
+* The `SigDig` , i.e. the number of non-zero digits.
 * The `xpon` and `mant` now apply to unit objects
 * Functions now accept assignments as input, e.g. `x=9` `sqrt` gives `3.0`
 * The equation referenced to by the `Equation` variable can now be identified
