@@ -374,16 +374,20 @@ static const cstring basic_constants[] =
     "StdP",     "[ 101.325_kPa "
                 "  0_kPa "
                 "  0 ]",
+    // *Faraday constant - Exact calculation
+    "F",        "[ 'CONVERT(ⒸNA*Ⓒqe;1_C/mol)' "
+                "  0_C/mol "
+                "  0 ]",
     // *Molar Mass Constant - Calculation from measurement
-    "Mu",      "[ 'ROUND(CONVERT(ⒸNA*Ⓒu;1_g/mol);XPON(ⓇMu*ⒸNA*Ⓒu)-XPON(ⒸNA*Ⓒu)-2)' "
+    "Mu",       "[ 'ROUND(CONVERT(ⒸNA*Ⓒu;1_g/mol);XPON(ⓇMu*ⒸNA*Ⓒu)-XPON(ⒸNA*Ⓒu)-2)' "
                 "  'ROUND(CONVERT(ⓇMu*ⒸMu;1_g/mol);-2)' "
                 "  'Ⓡu' ]",
     // *C12 Molar Mass - Calculation from measurement
-    "MC12",      "[ 'ROUND(CONVERT(12*ⒸMu;1_g/mol);XPON(UVAL(ⓇMC12*12*ⒸMu))-XPON(UVAL(12*ⒸMu))-2)' "
+    "MC12",     "[ 'ROUND(CONVERT(12*ⒸMu;1_g/mol);XPON(UVAL(ⓇMC12*12*ⒸMu))-XPON(UVAL(12*ⒸMu))-2)' "
                 "  'ROUND(CONVERT(ⓇMC12*ⒸMC12;1_kg/mol);-2)' "
                 "  'ⓇMu' ]",
     // *Loschmidt constant - Exact calculation
-    "n0",        "[ 'CONVERT(ⒸNA/ⒸVm;1_m^-3)' "
+    "n0",       "[ 'CONVERT(ⒸNA/ⒸVm;1_m^-3)' "
                 "  0_m^-3 "
                 "  0 ]",
 
@@ -435,6 +439,10 @@ static const cstring basic_constants[] =
     "μ₀",       "[ 'ROUND(CONVERT(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc);1_H/m);XPON(UVAL(Ⓡμ₀*4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc)))-XPON(UVAL(4*Ⓒπ*Ⓒα*Ⓒℏ/(Ⓒqe²*Ⓒc)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡμ₀*Ⓒμ₀);-2);1_H/m)' "
                 "  'Ⓡα' ]",
+    // *Coulomb constant - Calculation from measurement
+    "ke",     "[ 'ROUND(CONVERT(1/(4*Ⓒπ*Ⓒε₀);1_(N*(m/C)²));XPON(UVAL(Ⓡke/(4*Ⓒπ*Ⓒε₀)))-XPON(UVAL(1/(4*Ⓒπ*Ⓒε₀)))-2)' "
+                "  'CONVERT(ROUND(UBASE(Ⓡke*Ⓒke);-2);1_(N*(m/C)²))' "
+                "  'Ⓡε₀' ]",
 
     // ------------------------------------------------------------------------
     //   Particle masses
@@ -689,10 +697,6 @@ static const cstring basic_constants[] =
     "Rk",       "[ 'CONVERT(2*Ⓒπ*Ⓒℏ/Ⓒqe²;1_Ω)' "
                 "  0_Ω "
                 "  0 ]",
-    // *Faraday - Exact calculation
-    "F",        "[ 'CONVERT(ⒸNA*Ⓒqe;1_C/mol)' "
-                "  0_C/mol "
-                "  0 ]",
     // *Conductance quantum - Exact calculation
     "G0",       "[ 'CONVERT(Ⓒqe²/(Ⓒπ*Ⓒℏ);1_S)' "
                 "  0_S "
@@ -747,10 +751,6 @@ static const cstring basic_constants[] =
     // * qε₀ product - Calculation from measurement
     "qε₀",      "[ 'ROUND(CONVERT(Ⓒqe*Ⓒε₀;1_F*C/m);XPON(UVAL(Ⓡqε₀*Ⓒqe*Ⓒε₀))-XPON(UVAL(Ⓒqe*Ⓒε₀))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡqε₀*Ⓒqε₀);-2);1_F*C/m)' "
-                "  'Ⓡε₀' ]",
-    // *Coulomb constant - Calculation from measurement
-    "ke",     "[ 'ROUND(CONVERT(1/(4*Ⓒπ*Ⓒε₀);1_(N*(m/C)²));XPON(UVAL(Ⓡke/(4*Ⓒπ*Ⓒε₀)))-XPON(UVAL(1/(4*Ⓒπ*Ⓒε₀)))-2)' "
-                "  'CONVERT(ROUND(UBASE(Ⓡke*Ⓒke);-2);1_(N*(m/C)²))' "
                 "  'Ⓡε₀' ]",
     // *Dielectric constant - Definition convention
     "εsi",      "[ 11.9 "
