@@ -1,0 +1,87 @@
+### RPL Programming examples
+
+## RPL Programming language
+
+RPL stands for Reverse Polish Lisp and is the programming language used to program the calculator DB48x as well as 
+other calculators in the HP28 and HP48 families. It is a structured programming language based on RPN (Reverse 
+Polish Notation), but equally capable of processing algebraic expressions and formulae, implemented as a threaded 
+interpreter. RPL has many similarities to FORTH, both languages being stack-based, as well as the list-based LISP. 
+Contrary to other HP RPN calculators, which had a fixed four-level stack, the dynamic stack used by RPL is only 
+limited by available RAM, with the calculator displaying an error message when running out of memory rather than 
+silently dropping arguments off the stack as in fixed-sized RPN stacks.
+
+The programs in this section demonstrate basic programming concepts in RPL and are intended to develop and improve 
+your programming skills, and to provide supplementary functions for your calculator. The DB48X calculator features 
+a library of introductory programs covering mathematics, physics and computer science. It is accessible in ... 
+
+## What defines a RPL program? Simple examples
+
+A RPL program is a type 8 object which is a procedure consisting in a sequence of algebraic and RPN instructions, 
+each separated by a space, enclosed between the characters `«` and `»` delimiting respectively the beginning and 
+the end of the sequence. These characters are accessible on the keyboard by the function `«PROG»` (keys: `🟨 =`) 
+which writes `« »` at the level one of the stack with the cursor blinking in between. At this position one enters 
+the sequence of instructions defining the procedure which is completed by the key `Enter`. Then the program is 
+either executed with the key `=` (or by writing `Eval`) or it can be stored under a variable name and executed by
+recalling the variable name.
+
+The following programs take the values of the radius `r` and the height `h` of a cylinder to compute the total 
+area of the corresponding cylinder according to the equation `ACyl=2·π·R↑2+2·π·R·H`. It is assumed that `R=2_m` and 
+`H=3_m` values are a priori given respectively on level 1 and 2 of the stack. The program is stored in the `ACyl` 
+variable. It is given in 3 versions:
+
+* **Example 1**. Computing the area of a cylinder using directly RPN instructions to manipulate values on the stack.
+```rpl
+   « Duplicate Rot + * 2 * Ⓒπ * » 'ACyl' Store 
+   3_m 2_m ACyl →Num
+   @ Expecting [ 62.8319 m↑2 ]
+```
+* **Example 2**. Computing the area of a cylinder using using directly RPN instructions and global variables.
+```rpl
+   « 'R' Store 'H' Store 2 Ⓒπ * 'R' * 'R' 'H' + * →Num 'R' Purge 'H' Purge » 'ACyl' Store 
+   3_m 2_m ACyl →Num
+   @ Expecting [ 62.8319 m↑2 ]
+```
+* **Example 3**. Computing the area of a cylinder using an algebraic expression and global variables.
+```rpl
+   « 'R' Store 'H' Store '2*Ⓒπ*R*(R+H)' →Num 'R' Purge 'H' Purge » 'ACyl' Store 
+   3_m 2_m ACyl →Num
+   @ Expecting [ 62.8319 m↑2 ]
+```
+
+Note that global variables are defined in the actual directory and all sub-directories where they remain available
+to all programs. To leave intact the list of variables, as it is done here, it is needed to create and purge them 
+after their use as in example 2. In example 3, a short algabraic expression is use instead of RPN instructions 
+manipulating the stack. The use of algebraic instructions has the advantage of giving a more readable formula to be 
+computed but it is important to know that the most efficient execution is when glocal variables are avoided and 
+direct manipulation of the stack are done as in example 1.
+
+## Differences between the use of global and local variables
+
+Instead of global variables, it is more efficient to use local variables as illustrated in the following 2 examples 
+because their access is as fast as any number on the stack (contrary to global variables whose calling initiates a 
+search within the current directory and all sub-directories if needed). And also because their existence remains 
+temporary and is restrained to the code following them, as in example 1, and to all sub-programs of the main program 
+where they are defined, as in example 2, where the local variable 'Vt' serves to transfer internally to the program 
+the value of a constant parameter.  
+
+* **Example 1**. Computing the volume of a spherical cap of height H and radius R according to the equation
+`Vol=π/3*H^2*(3*R-H)` using an algebraic expression and local variables which read the values of H and R from the 
+stack.
+```rpl
+   « → h r 'Ⓒπ/3*h^2*(3*r-h)' →Num » 'Vol' Store 
+   3_m 10_m Vol 
+   @ Expecting [ 254.469 m↑3 ]
+```
+* **Example 2**. Computing the displacement 'Δx' of a falling mass having a terminal velocity 'Vt=100_m/s' according 
+to the equation `Δx=Vt*∫(ti;tf;TANH(t*Ⓒg/Vt);t)` where the speed is integrated between times `ti=0_s` and `tf=12_s`. 
+The program uses local variables and an algebraic expression in a subroutine.
+```rpl
+   « 100_m/s → Vt « → ti tf 'Vt*∫(ti;tf;TANH(t*Ⓒg/Vt);t)' » » 'Displ' Store 
+   0_s 12_s Displ →Num
+   @ Expecting [ 585.755 m ]
+```
+
+## Programming menus and tools
+
+The main programming menu is directly accessible on the keyboard by:
+
