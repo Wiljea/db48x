@@ -2438,7 +2438,11 @@ COMMAND_BODY(DoList)
                         return ERROR;
                 }
 
+                size_t scratch = rt.allocated();
                 program::run(prg, true);
+                size_t scratch_used = rt.allocated();
+                if (scratch_used > scratch)
+                    rt.free(scratch_used - scratch);
 
                 size_t after = rt.depth();
                 if (after < depth)
@@ -2530,7 +2534,11 @@ COMMAND_BODY(DoSubs)
                     if (!rt.push(lst->at(i + d)))
                         return ERROR;
 
+                size_t scratch = rt.allocated();
                 program::run(prg, true);
+                size_t scratch_used = rt.allocated();
+                if (scratch_used > scratch)
+                    rt.free(scratch_used - scratch);
 
                 size_t after = rt.depth();
                 if (after < depth)
