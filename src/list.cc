@@ -2363,20 +2363,6 @@ static size_t program_arity(object_p prg)
 }
 
 
-static void discard_intermediate_scratch(size_t before, size_t temp_end)
-// ----------------------------------------------------------------------------
-//   Drop scratchpad bytes allocated between two marks, keeping later data
-// ----------------------------------------------------------------------------
-{
-    size_t end = rt.allocated();
-    if (temp_end <= before || end <= temp_end)
-        return;
-    byte *base = rt.scratchpad() - end;
-    memmove(base + before, base + temp_end, end - temp_end);
-    rt.free(temp_end - before);
-}
-
-
 COMMAND_BODY(DoList)
 // ----------------------------------------------------------------------------
 //   Apply commands to lists
@@ -2440,10 +2426,11 @@ COMMAND_BODY(DoList)
             }
 
             // Run program on all the lists
-            scribble scr;
+            list_g result = list::make(lty, nullptr, 0);
             size_t depth = rt.depth();
             for (size_t i = 0; i < length; i++)
             {
+                cleaner purge;
                 size_t offs = base + count - 1;
                 for (size_t d = count; d --> 0; )
                 {
@@ -2452,9 +2439,7 @@ COMMAND_BODY(DoList)
                         return ERROR;
                 }
 
-                size_t before = rt.allocated();
                 program::run(prg, true);
-                size_t temp_end = rt.allocated();
 
                 size_t after = rt.depth();
                 if (after < depth)
@@ -2467,15 +2452,15 @@ COMMAND_BODY(DoList)
                 for (size_t d = added; d --> 0; )
                 {
                     object_g obj = rt.stack(d);
-                    if (!rt.append(obj))
+                    result = result->append(obj);
+                    if (!result)
                         return ERROR;
                 }
                 rt.drop(added);
-                discard_intermediate_scratch(before, temp_end);
+                result = purge(result);
             }
 
-            list_p result =  list::make(lty, scr.scratch(), scr.growth());
-            if (rt.drop(base + count) && rt.push(result))
+            if (result && rt.drop(base + count) && rt.push(+result))
                 return OK;
         }
     }
@@ -2538,18 +2523,17 @@ COMMAND_BODY(DoSubs)
             rt.drop(base + 1);
 
             // Run program on all subs in the list
-            scribble scr;
+            list_g result = list::make(lty, nullptr, 0);
             size_t depth = rt.depth();
             for (size_t i = 0; i < endsub; i++)
             {
+                cleaner purge;
                 nsub = i + 1;
                 for (size_t d = 0; d < count; d++)
                     if (!rt.push(lst->at(i + d)))
                         return ERROR;
 
-                size_t before = rt.allocated();
                 program::run(prg, true);
-                size_t temp_end = rt.allocated();
 
                 size_t after = rt.depth();
                 if (after < depth)
@@ -2562,15 +2546,15 @@ COMMAND_BODY(DoSubs)
                 for (size_t d = added; d --> 0; )
                 {
                     object_g obj = rt.stack(d);
-                    if (!rt.append(obj))
+                    result = result->append(obj);
+                    if (!result)
                         return ERROR;
                 }
                 rt.drop(added);
-                discard_intermediate_scratch(before, temp_end);
+                result = purge(result);
             }
 
-            list_p result =  list::make(lty, scr.scratch(), scr.growth());
-            if (rt.push(result))
+            if (result && rt.push(+result))
                 return OK;
         }
     }
