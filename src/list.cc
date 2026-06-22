@@ -2363,6 +2363,20 @@ static size_t program_arity(object_p prg)
 }
 
 
+static void discard_intermediate_scratch(size_t before, size_t temp_end)
+// ----------------------------------------------------------------------------
+//   Drop scratchpad bytes allocated between two marks, keeping later data
+// ----------------------------------------------------------------------------
+{
+    size_t end = rt.allocated();
+    if (temp_end <= before || end <= temp_end)
+        return;
+    byte *base = rt.scratchpad() - end;
+    memmove(base + before, base + temp_end, end - temp_end);
+    rt.free(temp_end - before);
+}
+
+
 COMMAND_BODY(DoList)
 // ----------------------------------------------------------------------------
 //   Apply commands to lists
@@ -2438,11 +2452,9 @@ COMMAND_BODY(DoList)
                         return ERROR;
                 }
 
-                size_t scratch = rt.allocated();
+                size_t before = rt.allocated();
                 program::run(prg, true);
-                size_t scratch_used = rt.allocated();
-                if (scratch_used > scratch)
-                    rt.free(scratch_used - scratch);
+                size_t temp_end = rt.allocated();
 
                 size_t after = rt.depth();
                 if (after < depth)
@@ -2459,6 +2471,7 @@ COMMAND_BODY(DoList)
                         return ERROR;
                 }
                 rt.drop(added);
+                discard_intermediate_scratch(before, temp_end);
             }
 
             list_p result =  list::make(lty, scr.scratch(), scr.growth());
@@ -2534,11 +2547,9 @@ COMMAND_BODY(DoSubs)
                     if (!rt.push(lst->at(i + d)))
                         return ERROR;
 
-                size_t scratch = rt.allocated();
+                size_t before = rt.allocated();
                 program::run(prg, true);
-                size_t scratch_used = rt.allocated();
-                if (scratch_used > scratch)
-                    rt.free(scratch_used - scratch);
+                size_t temp_end = rt.allocated();
 
                 size_t after = rt.depth();
                 if (after < depth)
@@ -2555,6 +2566,7 @@ COMMAND_BODY(DoSubs)
                         return ERROR;
                 }
                 rt.drop(added);
+                discard_intermediate_scratch(before, temp_end);
             }
 
             list_p result =  list::make(lty, scr.scratch(), scr.growth());
