@@ -15005,8 +15005,8 @@ directly to a heliocentric `[x y z]`. Define one per body as needed (`♂Pf`, �
 `JD` → `[x y z]`
 
 ```rpl
-« → JD « JD ♁Φf PosΦf » » '♁Pf' Sto     @ Earth position function
-« → JD « JD ♂Φf PosΦf » » '♂Pf' Sto     @ Mars  position function
+« → JD « JD ♁Φf PosΦf » » 'Ⓛ♁Pf' Sto     @ Earth position function
+« → JD « JD ♂Φf PosΦf » » 'Ⓛ♂Pf' Sto     @ Mars  position function
 ```
 
 ## VΦf
@@ -15017,7 +15017,7 @@ function** (`h = 0.5 day`).
 `JD  'Pf'` → `[vx vy vz]`   (au/day)
 
 ```rpl
-2459050.5 '♁Pf' VΦf
+2459050.5 'Ⓛ♁Pf' VΦf
 @ Expecting [ 0.01498469 0.00787138 -0.00000036 ]     (= 29.307 km/s)
 ```
 
@@ -15030,7 +15030,7 @@ Distance between two bodies at one date, from their **element functions**.
 `JD  'Af'  'Bf'` → `distance`   (au)
 
 ```rpl
-2459050.5 '♁Φf' '♂Φf' DABf
+2459050.5 'Ⓛ♁Φf' 'Ⓛ♂Φf' DABf
 @ Expecting 0.707458 au                               (Earth–Mars, 2020-07-20)
 ```
 
@@ -15042,13 +15042,29 @@ Julian Day of closest approach between two bodies inside a search window
 `'Af'  'Bf'  JD_lo  JD_hi` → `JD_min`
 
 ```rpl
-'♁Φf' '♂Φf' 2459120 2459140 T₀SDAToB
+'Ⓛ♁Φf' 'Ⓛ♂Φf' 2459120 2459140 T₀SDAToB
 @ Expecting 2459129.07                                (2020-10-06)
 ```
 
 ## θs
 
-Sidereal-time helper (Greenwich / local apparent sidereal time).
+Mean sidereal time from a **Universal-Time** Julian Date `JD` and a longitude
+`L`, using the IAU sidereal-time polynomial: `θs = GMST(JD) + L`, reduced to
+`[0, 360)°`. With `L = 0` this returns Greenwich mean sidereal time (GMST); with
+the observer’s longitude (East positive, West negative) it returns the local
+mean sidereal time. Sidereal time is the hour angle of the vernal equinox.
+
+`JD  L` → `θs` (°)
+
+```rpl
+2451545 0 θs
+@ Expecting 280.46061837 °     (GMST at the J2000.0 epoch, 2000-01-01 12:00 UT)
+```
+
+⚠️ Feed `θs` a **Universal-Time** Julian Date. DB48x’s `JDN` gives the Julian Date
+directly (this build carries the JDN half-day fix). Convert your civil (local)
+clock time to UT first. For example `20201006.120000_date JDN` (2020-10-06
+12:00 UT) → `2459129`, which `-73.58 θs` turns into a local mean sidereal time.
 
 ---
 
@@ -15082,6 +15098,11 @@ hyperbola into a capture orbit (set `r_a = r_p` for circular capture).
 
 `v∞  r_p  r_a  μ` → `{ ΔV_ins  v_hyp  v_cap }`
 
+```rpl
+2.5_km/s 3689_km 3689_km ⒸGM♂ TrToOrbi
+@ Expecting { 2021.27_m/s 5428.58_m/s 3407.31_m/s }   (circular capture)
+```
+
 ## LambertU
 
 Lambert's problem by the **universal-variable** formulation (Stumpff functions),
@@ -15106,6 +15127,11 @@ State vector to classical orbital elements.
 
 `[r]  [v]  μ` → `{ a  e  i  Ω  ω  ν }`
 
+```rpl
+[ -6045 -3490 2500 ] [ -3.457 6.618 2.533 ] 398600 rv2coe
+@ Expecting { 8788.10 0.17121 153.249 255.279 20.068 28.446 }
+```
+
 ---
 
 ## TrCost
@@ -15117,14 +15143,14 @@ and differences against each body's velocity.
 `t₁  t₂  'Af'  'Bf'` → `{ ΔV_tot  ΔV_dep  ΔV_arr }`   (km/s)
 
 ```rpl
-2459050.5 2459250.5 '♁Pf' '♂Pf' TrCost
+2459050.5 2459250.5 'Ⓛ♁Pf' 'Ⓛ♂Pf' TrCost
 @ Expecting { 6.3738 3.6446 2.7292 }                  (Earth→Mars, 200 days)
 ```
 
 The Moon plugs in identically:
 
 ```rpl
-2459050.5 2459250.5 '☾Hf' '♂Pf' TrCost
+2459050.5 2459250.5 '☾Hf' 'Ⓛ♂Pf' TrCost
 @ Expecting { 7.40385 4.67123 2.73262 }               (Moon→Mars)
 ```
 
@@ -15136,9 +15162,9 @@ For a fixed departure date, the flight time that minimises `TrCost` ΔV
 `t₁  'Af'  'Bf'  tof_lo  tof_hi` → `{ ΔV  tof }`
 
 ```rpl
-3 'AstronTXPrecision' STO
-2459054 '♁Pf' '♂Pf' 150 225 MinTofDV
-@ Expecting { 6.32086 205.20 }
+1 'AstronTXPrecision' STO
+2459054 'Ⓛ♁Pf' 'Ⓛ♂Pf' 150 225 MinTofDV
+@ Expecting { 6.32099 205.66 }
 ```
 
 ## MinΔVTraj
@@ -15149,13 +15175,14 @@ Optimal launch window: minimise ΔV over **both** departure date and flight time
 `'Af'  'Bf'  t₁_lo  t₁_hi  tof_lo  tof_hi` → `{ ΔV  t₁  tof }`
 
 ```rpl
-'♁Pf' '♂Pf' 2459030 2459075 150 225 MinΔVTraj
-@ Expecting { 6.31693 2459055.70 205.38 }             (Mars 2020 window; level 3)
+1 'AstronTXPrecision' STO
+'Ⓛ♁Pf' 'Ⓛ♂Pf' 2459030 2459075 150 225 MinΔVTraj
+@ Expecting { 6.31702 2459055.62 205.66 }             (Mars 2020 window; level 1)
 ```
 
-Runtime is set by the variable `AstronTXPrecision` (below) — level 3 ≈ 63 s on
-the simulator. The minimum ΔV is nearly identical at all levels; higher levels
-only sharpen the dates.
+Runtime is set by the variable `AstronTXPrecision` (below): this example runs at
+level 1 (≈ 13 s on the simulator); level 3 (≈ 63 s) only sharpens the dates —
+the minimum ΔV is nearly identical at every level.
 
 ## MinΔDTraj
 
@@ -15165,8 +15192,9 @@ smallest semi-major axis `a` (via `aTr`). A 1-D optimum by geometry.
 `t₁  'Af'  'Bf'  tof_lo  tof_hi` → `{ a  tof }`
 
 ```rpl
-2459054 '♁Pf' '♂Pf' 180 270 MinΔDTraj
-@ Expecting { 1.31743 228.22 }
+1 'AstronTXPrecision' STO
+2459054 'Ⓛ♁Pf' 'Ⓛ♂Pf' 180 270 MinΔDTraj
+@ Expecting { 1.31743 228.77 }
 ```
 
 ## aTr
@@ -15177,7 +15205,7 @@ solution). Used by `MinΔDTraj`.
 `t₁  t₂  'Af'  'Bf'` → `a`   (au)
 
 ```rpl
-2459054 2459282 '♁Pf' '♂Pf' aTr
+2459054 2459282 'Ⓛ♁Pf' 'Ⓛ♂Pf' aTr
 @ Expecting 1.31743
 ```
 
@@ -15189,8 +15217,9 @@ within `budget` (bisection).
 `t₁  'Af'  'Bf'  budget  tof_lo  tof_hi` → `{ tof  ΔV }`
 
 ```rpl
-2459054 '♁Pf' '♂Pf' 7 150 205 MinΔtTraj
-@ Expecting { 173.38 7.000 }                          (7 km/s budget)
+1 'AstronTXPrecision' STO
+2459054 'Ⓛ♁Pf' 'Ⓛ♂Pf' 7 150 205 MinΔtTraj
+@ Expecting { 173.63 6.990 }                          (7 km/s budget)
 ```
 
 ## AstronTXPrecision
@@ -15198,7 +15227,9 @@ within `budget` (bisection).
 Global variable controlling the iteration count of the window optimizers
 (`MinTofDV`, `MinΔVTraj`, `MinΔtTraj`, `MinΔDTraj`): `1`/`2`/`3` → `6`/`9`/`12`
 iterations. Simulator runtime for `MinΔVTraj` ≈ 16 / 35 / 63 s (hardware ≈ ×8).
-Use level 1 to explore, level 3 to refine.
+Use level 1 to explore, level 3 to refine. Set it before calling an optimizer
+(`1 'AstronTXPrecision' STO`); the routines read it to size their search and
+provide no built-in default.
 
 ---
 
@@ -15282,6 +15313,329 @@ above). Pioneer-Venus data below 100 km; Bougher et al. 1986 above.
 0_m    T♀Atm         @ Expecting 735.000 K
 50_km  P♀Atm         @ Expecting 106176 Pa
 87_km  ρ♀Atm         @ Expecting 0.00239308 kg/m^3
+```
+
+
+<!-- ========== Per-function reference fiches (added 2026-08-08) ========== -->
+
+## P♂DayAtm
+
+Mars **dayside** (Viking) pressure vs geometric altitude `Z`, Braeunig Tables 13/15 (−8…300 km).
+
+`Z` → pressure (`Pa`)
+
+```rpl
+0_m P♂DayAtm     @ Expecting 610.5 Pa
+```
+
+## ρ♂DayAtm
+
+Mars **dayside** density vs `Z`, `ρ=P/(R·T)` ≤120 km + Braeunig Table 15 (−8…300 km).
+
+`Z` → density (`kg/m³`)
+
+```rpl
+0_m ρ♂DayAtm     @ Expecting 0.0139758 kg/m^3
+```
+
+## T♂NightAtm
+
+Mars **nightside** (Pathfinder) temperature vs `Z`, Braeunig Tables 12/13.
+
+`Z` → temperature (`K`)
+
+```rpl
+0_m T♂NightAtm     @ Expecting 198.00 K
+```
+
+## P♂NightAtm
+
+Mars **nightside** (Pathfinder) pressure vs `Z`, Braeunig Table 13.
+
+`Z` → pressure (`Pa`)
+
+```rpl
+0_m P♂NightAtm     @ Expecting 610.5 Pa
+```
+
+## ρ♂NightAtm
+
+Mars **nightside** density vs `Z`, `ρ=P/(R·T)` ≤120 km.
+
+`Z` → density (`kg/m³`)
+
+```rpl
+0_m ρ♂NightAtm     @ Expecting 0.0161279 kg/m^3
+```
+
+## P♀Atm
+
+Venus pressure (single global model) vs `Z`, Braeunig Tables 18/20 (−3…300 km).
+
+`Z` → pressure (`Pa`)
+
+```rpl
+0_m P♀Atm     @ Expecting 9.332E6 Pa
+```
+
+## ρ♀Atm
+
+Venus density vs `Z`, `ρ=P/(R·T)` ≤100 km + Braeunig Table 20 (−3…300 km).
+
+`Z` → density (`kg/m³`)
+
+```rpl
+0_m ρ♀Atm     @ Expecting 66.3503 kg/m^3
+```
+
+## P♁StdAtm
+
+Earth pressure vs geometric altitude `Z` — U.S. Standard Atmosphere 1976 (≤86 km) + Braeunig fit to 1000 km. Part of the Earth family (`T/P/ρ/μ♁StdAtm`).
+
+`Z` → pressure (`MPa`)
+
+```rpl
+2000_m P♁StdAtm     @ Expecting 0.0795014065710 MPa
+```
+
+## ρ♁StdAtm
+
+Earth density vs `Z`, `ρ=P/(R·T)` in the homosphere (USSA 1976). Earth family (`T/P/ρ/μ♁StdAtm`).
+
+`Z` → density (`kg/m³`)
+
+```rpl
+2000_m ρ♁StdAtm     @ Expecting 1.006553696670 kg/m^3
+```
+
+## μ♁StdAtm
+
+Earth dynamic viscosity vs `Z` (Sutherland law on USSA-1976 temperature), valid −5…86 km. Earth family.
+
+`Z` → viscosity (`Pa·s`)
+
+```rpl
+2000_m μ♁StdAtm     @ Expecting 1.7259816E-5 Pa·s
+```
+
+## ☿Φf
+
+Mercury mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]` (au, degrees). Planet family: `☿♀♁♂♃♄⛢♆Φf`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ☿Φf     @ Expecting [ 0.38709935 0.20563985 7.00375687 … ]
+```
+
+## ♀Φf
+
+Venus mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ♀Φf     @ Expecting [ 0.72333646 0.00676828 3.39451394 … ]
+```
+
+## ♂Φf
+
+Mars mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ♂Φf     @ Expecting [ 1.52371414 0.09341030 1.84802052 … ]
+```
+
+## ♃Φf
+
+Jupiter mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ♃Φf     @ Expecting [ 5.20286315 0.04835901 1.30401944 … ]
+```
+
+## ♄Φf
+
+Saturn mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ♄Φf     @ Expecting [ 9.53641895 0.05375701 2.48638972 … ]
+```
+
+## ⛢Φf
+
+Uranus mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ⛢Φf     @ Expecting [ 19.1887615 0.04724840 0.77213862 … ]
+```
+
+## ♆Φf
+
+Neptune mean orbital elements from a Julian Day (Standish/JPL), `[a e I L ϖ Ω]`.
+
+`JD` → `[a e I L ϖ Ω]`
+
+```rpl
+2459050.5 ♆Φf     @ Expecting [ 30.0699768 0.00860097 1.77011616 … ]
+```
+
+## ♂Pf
+
+Mars heliocentric ecliptic position from a Julian Day (`♂Φf` composed with `PosΦf`). Companion of `♁Pf`.
+
+`JD` → `[x y z]` (au)
+
+```rpl
+2459050.5 ♂Pf     @ Expecting [ 1.159010882 -0.753079682 -0.044216374 ]
+```
+
+## DAToB
+
+Distance between two heliocentric position vectors, `|A−B|`, reduced to au. Primitive used by `DABf`/`T₀SD*`.
+
+`[A] [B]` → `d` (au)
+
+```rpl
+[ 1 0 0 ] [ 0 1 0 ] DAToB     @ Expecting 1.41421356 au
+```
+
+## DEarthToA
+
+Earth-referenced distance: Earth-to-body separation from two position vectors (thin wrapper of `DAToB`).
+
+`[E] [A]` → `d` (au)
+
+```rpl
+[ 1 0 0 ] [ 0 1 0 ] DEarthToA     @ Expecting 1.41421356 au
+```
+
+## T₀SDEarthToA
+
+Julian Day of closest approach **from Earth** to a body, over `[JD1 JD2]` (Earth-referenced `T₀SDAToB`; pass the body element fn as `'Ⓛ…'`).
+
+`'Ⓛ♂Φf' JD1 JD2` → `JDmin`
+
+```rpl
+'Ⓛ♂Φf' 2459120 2459140 T₀SDEarthToA     @ Expecting 2459129.07  (Mars, 2020-10-06)
+```
+
+## EaΦf
+
+Eccentric anomaly `E` by solving Kepler's equation (Root). Building block of `PosΦf`.
+
+`e M` → `E` (°)
+
+```rpl
+0.0167 5.0 EaΦf     @ Expecting 5.0848°
+```
+
+## νΦf
+
+True anomaly `ν` from eccentricity and eccentric anomaly. Building block of `PosΦf`.
+
+`e E` → `ν` (°)
+
+```rpl
+0.0167 5.0848 νΦf     @ Expecting 5.1703°
+```
+
+## rΦf
+
+Heliocentric distance `r` from semi-major axis, eccentricity and eccentric anomaly. Building block of `PosΦf`.
+
+`a e E` → `r` (au)
+
+```rpl
+1.0 0.0167 5.0848 rΦf     @ Expecting 0.98337 au
+```
+
+## uΦf
+
+Argument of latitude `u` from argument of perihelion and true anomaly. Building block of `PosΦf`.
+
+`ω ν` → `u` (°)
+
+```rpl
+30 60 uΦf     @ Expecting 60°
+```
+
+## λΦf
+
+Ecliptic longitude `λ` from node, inclination and argument of latitude. Building block of `PosΦf`.
+
+`Ω I u` → `λ` (°)
+
+```rpl
+100 7 50 λΦf     @ Expecting 48.7786°
+```
+
+## βΦf
+
+Ecliptic latitude `β` from inclination and argument of latitude. Building block of `PosΦf`.
+
+`I u` → `β` (°)
+
+```rpl
+7.0 50 βΦf     @ Expecting 5.3568°
+```
+
+## MSumC
+
+Σ of `c·cos(row·av)` over a Meeus periodic-term table. Internal helper of `☾Pos` (Moon), rarely called alone; input `tbl` is a term matrix.
+
+`av tbl` → `Σ`
+
+```rpl
+(internal — see ☾Pos)
+```
+
+## MSumS
+
+Σ of `c·sin(row·av)` over a Meeus periodic-term table. Internal helper of `☾Pos` (Moon).
+
+`av tbl` → `Σ`
+
+```rpl
+(internal — see ☾Pos)
+```
+
+## StumpC
+
+Stumpff function `C(z)` (three numerical regimes). Building block of the universal-variable Lambert solver.
+
+`z` → `C(z)`
+
+```rpl
+1.539854 StumpC     @ Expecting 0.439044
+```
+
+## StumpS
+
+Stumpff function `S(z)` (three numerical regimes). Building block of the Lambert solver.
+
+`z` → `S(z)`
+
+```rpl
+1.539854 StumpS     @ Expecting 0.154295
+```
+
+## LamUF
+
+Universal-variable Lambert time-of-flight residual `F(z)` (root-solved by `LambertU`). Args `z r1 r2 A μ dt`.
+
+`z r1 r2 A μ dt` → `F(z)`
+
+```rpl
+1.0 11375.85162 16383.22313 12372.27203 398600 3600 LamUF     @ Expecting -192258.13
 ```
 # Base functions
 
@@ -16437,9 +16791,10 @@ The Gregorian calendar jumps from 1582-10-04 to 1582-10-15.
 This command ignores that gap, so the Julian day number given by this command for dates on or before 1582-10-14 may deviate from other converters like
 [The NASA Julian Date/Time Converter](https://ssd.jpl.nasa.gov/tools/jdc).
 
-To compute the Julian Day Number for the first day of the millenium:
+A Julian Date begins at **noon** Universal Time: the whole day number belongs
+to noon, and midnight is half a day earlier. First day of the millenium, at noon:
 ```rpl
-20000101 JDN
+20000101.120000 JDN
 @ Expecting 2 451 545
 ```
 
@@ -16459,14 +16814,14 @@ It is the opposite of the `JDN` command.
 
 ```rpl
 2451545 JDN→
-@ Expecting Sat 1/Jan/2000
+@ Expecting Sat 1/Jan/2000, 12:00:00
 ```
 
 This command can be used in algebraic expressions:
 
 ```rpl
 'JDN→(2451545)'
-@ Expecting Sat 1/Jan/2000
+@ Expecting Sat 1/Jan/2000, 12:00:00
 ```
 # Debugging
 
