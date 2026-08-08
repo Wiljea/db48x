@@ -1636,6 +1636,8 @@ static const cstring basic_equations[] =
     "  'Vesc=SQRT(2·ⒸGM♁/(rorb_km))' "
     "  'gsurf=ⒸGM♁/(ⒸReq♁)↑2' "
     "}",
+    "Astronautics", nullptr,
+    "Astronautics/GeoCntrX", nullptr,
     "Astronautics/GeoCntrX/Stationary", nullptr,
     // ------------------------------------------------------------------------
 
@@ -1889,6 +1891,7 @@ static const cstring basic_equations[] =
     "}",
 
     // ------------------------------------------------------------------------
+    "Astronautics/HelioCntrX", nullptr,
     "Astronautics/HelioCntrX/Stationary", nullptr,
     // ------------------------------------------------------------------------
 
