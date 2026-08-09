@@ -124,6 +124,9 @@
 	"Recursion", "="
 	"UnitsBenchmark", "="
 
+"Examples"
+        "InteractiveMenu", "="
+
 "AstroExamples"
         "LightTime", "="
 
