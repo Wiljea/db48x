@@ -5,6 +5,7 @@
 @@ Shows a numbered target table; type a number 1-7 (or 0 to quit), press ENTER
 @@ to push it, then = (RUN) to resume. Computes today's Earth-to-target
 @@ distance with DAToB, then OWLT = d/c and RTT = 2·d/c.
+@@ An invitation to build your own RPL program from the astronomy library.
 @@ To extend: add a label, an element function 'Ⓛ…Φf', and a table row.
 @@ Author & design         : Jean Wilson
 @@ Co-authors & programming : Claude & Claude Code (Anthropic)
@@ -22,24 +23,32 @@
     IF DEPTH d0 > THEN
       → n
       «
-        IF n 1 ≥ n 7 ≤ AND THEN
-          DateTime JDN → jd
-          «
-            jd Ⓛ♁Pf
-            jd { 'Ⓛ☿Φf' 'Ⓛ♀Φf' 'Ⓛ♂Φf' 'Ⓛ♃Φf' 'Ⓛ♄Φf' 'Ⓛ⛢Φf' 'Ⓛ♆Φf' } n GET EVAL ⓁPosΦf
-            ⓁDAToB
-            DUP Ⓒc / 1_min CONVERT
-            → d owlt
+        IF n 0 ≠ THEN
+          IF n 1 ≥ n 7 ≤ AND THEN
+            DateTime JDN → jd
             «
-              CLLCD
-              "Target: " { "Mercury" "Venus" "Mars" "Jupiter" "Saturn" "Uranus" "Neptune" } n GET + 1 DISP
-              "Distance: " d + 3 DISP
-              "OWLT = " owlt + 5 DISP
-              "RTT  = " owlt 2 · + 6 DISP
-              "Press any key" 7 DISP
-              -1 WAIT DROP
+              jd Ⓛ♁Pf
+              jd { 'Ⓛ☿Φf' 'Ⓛ♀Φf' 'Ⓛ♂Φf' 'Ⓛ♃Φf' 'Ⓛ♄Φf' 'Ⓛ⛢Φf' 'Ⓛ♆Φf' } n GET EVAL ⓁPosΦf
+              ⓁDAToB
+              DUP Ⓒc / 1_min CONVERT
+              → d owlt
+              «
+                CLLCD
+                "Target: " { "Mercury" "Venus" "Mars" "Jupiter" "Saturn" "Uranus" "Neptune" } n GET + 1 DISP
+                "Distance: " d + 3 DISP
+                "OWLT = " owlt + 5 DISP
+                "RTT  = " owlt 2 · + 6 DISP
+                "Press any key" 7 DISP
+                -1 WAIT DROP
+              »
             »
-          »
+          ELSE
+            CLLCD
+            "Invalid choice." 3 DISP
+            "Enter 1-7, or 0 to quit." 4 DISP
+            "Press any key" 6 DISP
+            -1 WAIT DROP
+          END
         END
       »
     END
