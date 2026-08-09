@@ -41,7 +41,7 @@
                       CLLCD
                       "Target: " name + 1 DISP
                       "Elongation:" 3 DISP
-                      elong 4 DISP
+                      "  " elong + 4 DISP
                       "(Sun-Earth-planet angle)" 6 DISP
                       "Press any key" 7 DISP
                       -1 WAIT DROP
