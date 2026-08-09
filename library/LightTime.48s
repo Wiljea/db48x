@@ -1,0 +1,38 @@
+«
+@@ ============================================================
+@@ LightTime — One-Way Light Time (OWLT) & Round-Trip Time (RTT) to a planet
+@@ Editable Function-Library example (Jean Wilson's OWLT/RTT idea).
+@@ Shows a numbered target table, waits for a pick (1-7), then computes today's
+@@ Earth-to-target distance with DAToB and OWLT = d/c, RTT = 2·d/c.
+@@ To extend: add a label, an element function 'Ⓛ…Φf', and a table row.
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@ ============================================================
+  CLLCD
+  "   OWLT / RTT to a planet" 1 DISP
+  "1 Mercury  2 Venus  3 Mars" 3 DISP
+  "4 Jupiter  5 Saturn" 4 DISP
+  "6 Uranus   7 Neptune" 5 DISP
+  "Type 1-7, then press RUN =" 7 DISP
+  HALT
+  → n
+  «
+    DateTime JDN → jd
+    «
+      jd Ⓛ♁Pf
+      jd { 'Ⓛ☿Φf' 'Ⓛ♀Φf' 'Ⓛ♂Φf' 'Ⓛ♃Φf' 'Ⓛ♄Φf' 'Ⓛ⛢Φf' 'Ⓛ♆Φf' } n GET EVAL ⓁPosΦf
+      ⓁDAToB
+      DUP Ⓒc / 1_min CONVERT
+      → d owlt
+      «
+        CLLCD
+        "Target: " { "Mercury" "Venus" "Mars" "Jupiter" "Saturn" "Uranus" "Neptune" } n GET + 1 DISP
+        "Distance: " d + 3 DISP
+        "OWLT = " owlt + 5 DISP
+        "RTT  = " owlt 2 · + 6 DISP
+        "Press any key" 7 DISP
+        -1 WAIT DROP
+      »
+    »
+  »
+»
