@@ -35,7 +35,7 @@
                     CLLCD
                     "Target: " name + 1 DISP
                     "Apparent diameter:" 3 DISP
-                    "  " arcsec + " arcsec" + 4 DISP
+                    "  " arcsec →Str + " arcsec" + 4 DISP
                     "Press any key" 7 DISP
                     -1 WAIT DROP
                     name "Target" →Tag
