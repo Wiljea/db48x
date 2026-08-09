@@ -2,9 +2,10 @@
 @@ ============================================================
 @@ ApparentSize — apparent (angular) diameter of a planet, in arcseconds
 @@ Editable AstroExamples entry, companion of LightTime / Elongation.
-@@ Type 1-7 (or 0 to quit), ENTER, then =. Computes today's angular diameter
-@@ 2·atan(R/d): planet radius ⒸReq… over Earth-to-planet distance (DAToB), in
-@@ arcseconds. Displays it and leaves Target/arcsec tagged on the stack.
+@@ Type 1-7 (or 0 to quit), ENTER, then =. Angular diameter 2·R/d (small-angle,
+@@ exact to <1e-8 arcsec for planets): planet radius ⒸReq… over Earth-to-planet
+@@ distance (DAToB), in arcseconds. Displays it and leaves Target/arcsec tagged.
+@@ NB: local is named diam, NOT arcsec (which is the built-in arcsecant sec⁻¹).
 @@ An invitation to build your own RPL program from the astronomy library.
 @@ Author & design         : Jean Wilson
 @@ Co-authors & programming : Claude & Claude Code (Anthropic)
@@ -24,22 +25,22 @@
       «
         IF n 0 ≠ THEN
           IF n 1 ≥ n 7 ≤ AND THEN
-            DEG DateTime JDN → jd
+            DateTime JDN → jd
             «
-              jd Ⓛ♁Pf jd { 'Ⓛ☿Φf' 'Ⓛ♀Φf' 'Ⓛ♂Φf' 'Ⓛ♃Φf' 'Ⓛ♄Φf' 'Ⓛ⛢Φf' 'Ⓛ♆Φf' } n GET EVAL ⓁPosΦf ⓁDAToB → dist
+              jd Ⓛ♁Pf jd { 'Ⓛ☿Φf' 'Ⓛ♀Φf' 'Ⓛ♂Φf' 'Ⓛ♃Φf' 'Ⓛ♄Φf' 'Ⓛ⛢Φf' 'Ⓛ♆Φf' } n GET EVAL ⓁPosΦf ⓁDAToB 1_km CONVERT → dist
               «
-                { ⒸReq☿ ⒸReq♀ ⒸReq♂ ⒸReq♃ ⒸReq♄ ⒸReq⛢ ⒸReq♆ } n GET →Num dist 1_km CONVERT / ATAN 2 · Uval 3600 · → arcsec
+                { ⒸReq☿ ⒸReq♀ ⒸReq♂ ⒸReq♃ ⒸReq♄ ⒸReq⛢ ⒸReq♆ } n GET →Num dist / 2 · 206264.806 · → diam
                 «
                   { "Mercury" "Venus" "Mars" "Jupiter" "Saturn" "Uranus" "Neptune" } n GET → name
                   «
                     CLLCD
                     "Target: " name + 1 DISP
                     "Apparent diameter:" 3 DISP
-                    "  " arcsec →Str + " arcsec" + 4 DISP
+                    "  " diam →Str + " arcsec" + 4 DISP
                     "Press any key" 7 DISP
                     -1 WAIT DROP
                     name "Target" →Tag
-                    arcsec "arcsec" →Tag
+                    diam "arcsec" →Tag
                   »
                 »
               »
