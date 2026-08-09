@@ -131,6 +131,7 @@
         "LightTime", "="
         "Elongation", "="
         "ApparentSize", "="
+        "SkyCoords", "="
 
 "Configs"
 
