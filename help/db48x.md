@@ -18305,10 +18305,16 @@ value can be used as an argument to `Menu` or `TMenu`.
 # Missions — Earth To Mars & Back
 
 Pedagogical Earth⇄Mars round-trip planners, built on the Astronautics transfer
-machinery (universal-variable Lambert, gravity assist) and the heliocentric
-ephemerides. Dates are Julian Days; ΔV in km/s. Two mission classes are covered:
-**conjunction** (long stay, lowest ΔV) with RTPlan, and **opposition** (short stay,
-Venus gravity-assist return) with OppRoute and RTPlanOpp.
+machinery (universal-variable Lambert, gravity assist) and the heliocentric ephemerides.
+Dates are Julian Days; ΔV in km/s. Two mission classes are covered: **conjunction** (long
+stay, lowest ΔV) with `RTPlan`, and **opposition** (short stay, Venus gravity-assist
+return) with `OppRoute` and `RTPlanOpp`. `MarsRoundTrip` compares the two side by side,
+and `MissionΔV` gives an end-to-end propulsive ΔV budget.
+
+An **Examples** submenu holds **four named worked missions**, each a specific Venus-flyby
+return shown with its to-scale trajectory figure: **ETMB1** (2022), **ETMB2** (2035 — the
+featured soft-entry twin, where the Venus swing-by does the most work), **ETMB3** (2042)
+and **ETMB4** (2048).
 
 ## RTPlan
 
