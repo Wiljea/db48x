@@ -1535,7 +1535,7 @@ static const cstring basic_equations[] =
     "  'Fnet=(Q_kg/s)·(Ve_m/s)+((Pe_MPa)-(Pa_MPa))·(Ae_m↑2)' "
     "}",
     //19.
-    "Over extended conic nozzle",  "{ "
+    "Over Extended Conic Nozzle",  "{ "
     "  'Pt=(Pc_MPa)·(1+(k-1)/2)↑(-k/(k-1))' "
     "  'Tt=(Tc_K)/(1+(k-1)/2)' "
     "  'At=((Q_kg/s)/(Pt_MPa))·SQRT((ⒸR·(Tt_K))/((M_(g/mol))·k))' "
@@ -2077,7 +2077,7 @@ static const cstring basic_equations[] =
     "  'TOF=Ⓒπ·SQRT((atxJ_km)↑3/ⒸGM♃)' "
     "}",
     //45.
-    "Path to Saturne Satellites",  "{ "
+    "Path to Saturn Satellites",  "{ "
     "  'atxS=((rp_km)+(rmoon_km))/2' "
     "  'Vpark=SQRT(ⒸGM♄/(rp_km))' "
     "  'dv1=SQRT(ⒸGM♄·(2/(rp_km)-1/(atxS_km)))-SQRT(ⒸGM♄/(rp_km))' "
