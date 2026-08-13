@@ -18290,7 +18290,7 @@ TMENU
 
 Return the last menu entry, or `0` if there is no current menu. The returned
 value can be used as an argument to `Menu` or `TMenu`.
-# Missions — To Mars & Back
+# Missions — Earth To Mars & Back
 
 Pedagogical Earth⇄Mars round-trip planners, built on the Astronautics transfer
 machinery (universal-variable Lambert, gravity assist) and the heliocentric
@@ -18400,6 +18400,57 @@ ascent 4.1, Earth entry 0 km/s), with parking orbits LEO 6678 km and Mars 3689 k
 { 2459055.617 2459259.801 517.558 2459777.359 2460049.376 6.31786 6.50523 12.82309 } MissionΔV
 @ Expecting 8_TOTAL:22.47 km/s — AscentEarth 9.4, TMI 3.81, MOI 2.07, EDL 0.6,
 @ AscentMars 4.1, TEI 2.48, Entry 0. A typical chemical Mars round-trip budget.
+```
+
+## ETMB1
+
+Earth-To-Mars-&-Back mission 2022 (launch), Venus-flyby return — a worked example. It
+runs the validated opposition-class return (Mars→Venus→Earth) at fixed dates: it calls
+OppRoute and computes the Earth entry speed, and returns the return-leg itinerary as tagged
+values. Here Venus turns the trajectory ~31°, cutting the Earth entry to a gentle ~5.4 km/s — the flagship, where the swing-by really works.
+
+![ETMB1 trajectory](img/etmb1.bmp)
+
+`(no input)` → `MarsDeparture VenusFlyby EarthArrival ReturnDays dVTEI turnReq EarthEntry`
+
+```rpl
+ETMB1
+@ Expecting MarsDeparture:2459930 VenusFlyby:2460150 EarthArrival:2460220 ReturnDays:290
+@ dVTEI_kms:5.90 turnReq_deg:30.9° EarthEntry_kms:5.44
+```
+
+## ETMB2
+
+Earth-To-Mars-&-Back mission 2042 (launch), Venus-flyby return — a worked example. It
+runs the validated opposition-class return (Mars→Venus→Earth) at fixed dates: it calls
+OppRoute and computes the Earth entry speed, and returns the return-leg itinerary as tagged
+values. Here Venus barely bends the path (~7°), so the Earth entry is a brutal ~14.7 km/s — the 6.4-yr resonance gives a feasible passage, but a weak assist.
+
+![ETMB2 trajectory](img/etmb2.bmp)
+
+`(no input)` → `MarsDeparture VenusFlyby EarthArrival ReturnDays dVTEI turnReq EarthEntry`
+
+```rpl
+ETMB2
+@ Expecting MarsDeparture:2466965 VenusFlyby:2467105 EarthArrival:2467170 ReturnDays:205
+@ dVTEI_kms:9.19 turnReq_deg:7.5° EarthEntry_kms:14.69
+```
+
+## ETMB3
+
+Earth-To-Mars-&-Back mission 2048 (launch), Venus-flyby return — a worked example. It
+runs the validated opposition-class return (Mars→Venus→Earth) at fixed dates: it calls
+OppRoute and computes the Earth entry speed, and returns the return-leg itinerary as tagged
+values. The cheapest full mission (outbound v∞ only ~3.6 km/s), though Venus turns just ~10°; Earth entry ~9.6 km/s.
+
+![ETMB3 trajectory](img/etmb3.bmp)
+
+`(no input)` → `MarsDeparture VenusFlyby EarthArrival ReturnDays dVTEI turnReq EarthEntry`
+
+```rpl
+ETMB3
+@ Expecting MarsDeparture:2469315 VenusFlyby:2469470 EarthArrival:2469535 ReturnDays:220
+@ dVTEI_kms:6.24 turnReq_deg:9.7° EarthEntry_kms:9.58
 ```
 # Numerical integration
 

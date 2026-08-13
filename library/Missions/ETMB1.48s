@@ -1,0 +1,26 @@
+«
+@@ ============================================================
+@@ ETMB1 — Earth-To-Mars-&-Back mission (2022): Venus-flyby return (worked example)
+@@ Fixed dates for the validated opposition-class return (Mars->Venus->Earth). Calls
+@@ OppRoute and computes the Earth entry speed. The fiche figure shows the full
+@@ to-scale trajectory (outbound + Venus-assisted return).
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@ Input  : (none)
+@@   ( -- MarsDeparture VenusFlyby EarthArrival ReturnDays dVTEI turnReq EarthEntry )  tagged
+@@ ============================================================
+ 2459930 2460150 2460220 → t3 tv t4 «
+   t3 tv t4 ⓁOppRoute → R «
+     tv Ⓛ♀Pf  t4 Ⓛ♁Pf  t4 tv -  0.00029591220828559  ⓁLambertU 2 GET
+     t4 0.5 + Ⓛ♁Pf  t4 0.5 - Ⓛ♁Pf  -  -  DUP DOT √  1731.4568 ·  → entE «
+       t3 "MarsDeparture" →Tag
+       tv "VenusFlyby" →Tag
+       t4 "EarthArrival" →Tag
+       R 5 GET "ReturnDays" →Tag
+       R 1 GET "dVTEI_kms" →Tag
+       R 3 GET "turnReq_deg" →Tag
+       entE "EarthEntry_kms" →Tag
+     »
+   »
+ »
+»
