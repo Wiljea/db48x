@@ -63,3 +63,19 @@ sibling of the Earth and Mars position functions used by the transfer tools.
 ```rpl
 2459950 ♀Pf     @ Expecting [ 0.6140036 -0.3890710 -0.0407721 ]  (au, 2023-01-05)
 ```
+
+## MarsRoundTrip
+
+Compare a conjunction versus an opposition Earth⇄Mars round trip. It runs RTPlan
+(conjunction) and RTPlanOpp (opposition Venus-flyby return), computes the opposition
+Earth-entry speed, and leaves five tagged values on the stack for a side-by-side read.
+Slow (~90 s) — it chains both optimisers. Then explore your own windows with RTPlan and
+RTPlanOpp directly.
+
+(no input) → `Conj_years Conj_dVtot Opp_return_d Opp_TEI Opp_entry`
+
+```rpl
+MarsRoundTrip
+@ Expecting Conj_years:2.72 Conj_dVtot:12.82 Opp_return_d:290 Opp_TEI:5.90 Opp_entry:5.44
+@ Conjunction 2.72 yr / 12.82 km/s; opposition Venus return, Earth entry only 5.4 km/s.
+```
