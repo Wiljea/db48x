@@ -18376,10 +18376,23 @@ MarsRoundTrip
 
 End-to-end propulsive ΔV budget of a conjunction round trip. Feed it an RTPlan itinerary;
 it recomputes the two transfer legs (TrCost) for their departure/arrival v∞, converts the
-space burns from parking orbits with TrToOrbi (TMI, MOI, TEI), and adds representative
-atmospheric phases (Earth ascent 9.4, Mars EDL 0.6, Mars ascent 4.1, Earth entry 0 km/s,
-aerobraked). It returns eight tagged ΔV values (phases plus total), in km/s. Chains after
-RTPlan; the example below uses a fixed conjunction itinerary so it runs instantly.
+space burns from parking orbits with TrToOrbi, and adds representative atmospheric phases.
+It returns eight tagged ΔV values (seven phases plus the total), in km/s. Chains after
+RTPlan; the example uses a fixed conjunction itinerary so it runs instantly.
+
+The seven propulsive phases, in chronological order:
+
+* **AscentEarth** — Earth surface to Low Earth Orbit (the launch to a parking orbit).
+* **TMI** — Trans-Mars Injection: from LEO onto the interplanetary transfer to Mars.
+* **MOI** — Mars Orbit Insertion: braking capture from the arrival hyperbola into Mars orbit.
+* **EDL_Mars** — Entry, Descent and Landing: from Mars orbit down to the surface.
+* **AscentMars** — Mars surface back up to Mars orbit.
+* **TEI** — Trans-Earth Injection: from Mars orbit onto the return transfer to Earth.
+* **EntryEarth** — Earth atmospheric entry on return (aerobraked, so ~0).
+
+The space phases (TMI, MOI, TEI) are computed rigorously; the atmospheric phases
+(ascents, EDL, entry) are representative values (Earth ascent 9.4, Mars EDL 0.6, Mars
+ascent 4.1, Earth entry 0 km/s), with parking orbits LEO 6678 km and Mars 3689 km.
 
 `{ itinerary }` → `1_AscentEarth … 8_TOTAL`
 
