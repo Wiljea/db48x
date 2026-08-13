@@ -2124,6 +2124,7 @@ static const cstring basic_equations[] =
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
     // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83)
+    // As of 26-08-13: Total 815 vars, 1138 eqns, 267 sims in 247 subsections, 21 sections (1138/315=3.61; 815/397=2.05)
 };
 //   clang-format on
 
