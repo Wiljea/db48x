@@ -40,6 +40,7 @@
 	"PosΦf",	"=/library/Astronomy/PosΦf.48s"
 	"♁Pf",		"=/library/Astronomy/♁Pf.48s"
 	"♂Pf",		"=/library/Astronomy/♂Pf.48s"
+	"♀Pf",		"=/library/Astronomy/♀Pf.48s"
 	"VΦf",		"=/library/Astronomy/VΦf.48s"
 
 "Astronautics"
@@ -126,6 +127,14 @@
 
 "Examples"
         "InteractiveMenu", "="
+
+"Missions"
+
+"Missions/To Mars & Back"
+
+	"RTPlan",	"=/library/Missions/RTPlan.48s"
+	"OppRoute",	"=/library/Missions/OppRoute.48s"
+	"RTPlanOpp",	"=/library/Missions/RTPlanOpp.48s"
 
 "Configs"
 
