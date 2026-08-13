@@ -79,3 +79,20 @@ MarsRoundTrip
 @ Expecting Conj_years:2.72 Conj_dVtot:12.82 Opp_return_d:290 Opp_TEI:5.90 Opp_entry:5.44
 @ Conjunction 2.72 yr / 12.82 km/s; opposition Venus return, Earth entry only 5.4 km/s.
 ```
+
+## MissionΔV
+
+End-to-end propulsive ΔV budget of a conjunction round trip. Feed it an RTPlan itinerary;
+it recomputes the two transfer legs (TrCost) for their departure/arrival v∞, converts the
+space burns from parking orbits with TrToOrbi (TMI, MOI, TEI), and adds representative
+atmospheric phases (Earth ascent 9.4, Mars EDL 0.6, Mars ascent 4.1, Earth entry 0 km/s,
+aerobraked). It returns eight tagged ΔV values (phases plus total), in km/s. Chains after
+RTPlan; the example below uses a fixed conjunction itinerary so it runs instantly.
+
+`{ itinerary }` → `1_AscentEarth … 8_TOTAL`
+
+```rpl
+{ 2459055.617 2459259.801 517.558 2459777.359 2460049.376 6.31786 6.50523 12.82309 } MissionΔV
+@ Expecting 8_TOTAL:22.47 km/s — AscentEarth 9.4, TMI 3.81, MOI 2.07, EDL 0.6,
+@ AscentMars 4.1, TEI 2.48, Entry 0. A typical chemical Mars round-trip budget.
+```

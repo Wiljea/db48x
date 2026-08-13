@@ -136,6 +136,7 @@
 	"OppRoute",	"=/library/Missions/OppRoute.48s"
 	"RTPlanOpp",	"=/library/Missions/RTPlanOpp.48s"
 	"MarsRoundTrip",	"=/library/Missions/MarsRoundTrip.48s"
+	"MissionΔV",	"=/library/Missions/MissionΔV.48s"
 
 "Configs"
 
