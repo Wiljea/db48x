@@ -7,14 +7,15 @@
 @@ Author & design         : Jean Wilson
 @@ Co-authors & programming : Claude & Claude Code (Anthropic)
 @@
-@@ Input  : t3 tv t4   ( t3 tv t4 -- { ΔVTEI matchErr turnReq turnMax tof } )
+@@ Input  : t3 tv t4   ( t3 tv t4 -- { ΔVTEI matchErr turnReq turnMax tof EarthEntry } )
 @@   t3 : Mars departure (JD)   tv : Venus flyby (JD)   t4 : Earth arrival (JD)
-@@ Output : ΔVTEI, matchErr, turnMax (km/s, km/s, °), turnReq (°), tof (d)
-@@   matchErr → 0 and turnReq ≤ turnMax  ⇒  a feasible free flyby.
+@@ Output : ΔVTEI, matchErr (km/s), turnReq, turnMax (°), tof (d), EarthEntry (km/s)
+@@   matchErr → 0 and turnReq ≤ turnMax  ⇒  a feasible free flyby. A low EarthEntry
+@@   means the Venus swing-by softened the return (the mark of a strong assist).
 @@ ============================================================
  → t3 tv t4
- « 0 0 0 0 0 0 0 0 0 0 0 0
-   → mu vM vV L1 L2 viMo viVi viVo dV mErr tReq tMax
+ « 0 0 0 0 0 0 0 0 0 0 0 0 0
+   → mu vM vV L1 L2 viMo viVi viVo dV mErr tReq tMax entE
    «
      0.00029591220828559 'mu' STO
      DEG
@@ -29,7 +30,8 @@
      viVi DUP DOT √  viVo DUP DOT √  -  ABS  1731.4568 ·  'mErr' STO
      viVi viVo DOT  viVi DUP DOT √  viVo DUP DOT √  ·  /  ACOS  'tReq' STO
      viVi DUP DOT √ 1731.4568 · 1_km/s ·   6351.8 1_km ·   ⒸGM♀  ⓁGAssist  1 GET Uval 'tMax' STO
-     dV  mErr  tReq  tMax  t4 t3 -  5 →List
+     L2 2 GET  t4 'Ⓛ♁Pf' ⓁVΦf  -  DUP DOT √  1731.4568 ·  'entE' STO
+     dV  mErr  tReq  tMax  t4 t3 -  entE  6 →List
    »
  »
 »

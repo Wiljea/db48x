@@ -42,15 +42,16 @@ does not exceed turnMax.
 
 Evaluate one Mars→Venus→Earth gravity-assist return: two Lambert arcs patched by a Venus
 swing-by. It returns the Mars-departure ΔV, the v∞ mismatch at Venus (near zero for a
-valid ballistic flyby), the required versus achievable turn angle, and the return time.
-Instant, no search. A route is feasible when matchErr is near zero and turnReq does not
-exceed turnMax.
+valid ballistic flyby), the required versus achievable turn angle, the return time, and the
+Earth entry speed. Instant, no search. A route is feasible when matchErr is near zero and
+turnReq does not exceed turnMax; a low EarthEntry marks a strong Venus assist (soft entry).
 
-`t3 tv t4` → `{ ΔVTEI matchErr turnReq turnMax tof }`
+`t3 tv t4` → `{ ΔVTEI matchErr turnReq turnMax tof EarthEntry }`
 
 ```rpl
 2459950 2460160 2460240 OppRoute
-@ Expecting { 6.857 0.268 29.61 37.70 290 } — feasible since turnReq 29.6 ≤ turnMax 37.7
+@ Expecting { 6.857 0.268 29.61 37.70 290 4.87 } — feasible (turnReq 29.6 ≤ turnMax 37.7);
+@ EarthEntry only 4.87 km/s = a soft, Venus-assisted entry
 ```
 
 ## ♀Pf
