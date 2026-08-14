@@ -19618,7 +19618,7 @@ ascent 4.1, Earth entry 0 km/s), with parking orbits LEO 6678 km and Mars 3689 k
 
 Earth-To-Mars-&-Back mission 2022 (launch), Venus-flyby return — a worked example. It runs
 the validated opposition-class return (Mars→Venus→Earth) at fixed dates via OppRoute and
-returns the return-leg itinerary as tagged values. The original 2022 mission. Venus turns ~31°, giving a gentle Earth entry of ~5.4 km/s.
+returns the return-leg itinerary as tagged values. The original 2022 mission. Venus turns ~31°, giving a gentle Earth entry of ~5.4 km/s. Its outbound Earth→Mars leg follows the Mars 2020 / Perseverance window (optimised by `RTPlan`).
 
 ![ETMB1 trajectory](img/etmb1.bmp)
 
