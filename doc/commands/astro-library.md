@@ -733,3 +733,15 @@ Universal-variable Lambert time-of-flight residual `F(z)` (root-solved by `Lambe
 ```rpl
 1.0 11375.85162 16383.22313 12372.27203 398600 3600 LamUF     @ Expecting -192258.13
 ```
+
+## PeriSel
+
+Time of the lunar perigee passage (Selene) nearest a given date, from Meeus' *Astronomical
+Algorithms* (2nd ed., ch. 50, full Table 50.A). The input is a Julian Day (or a date value);
+the result is the Julian Day of the perigee.
+
+`JD` → `JDperigee`
+
+```rpl
+2464291.5 PeriSel     @ Expecting 2464292.421948  (lunar perigee 2034-Nov-25)
+```
