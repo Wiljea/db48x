@@ -44,3 +44,7 @@
 /sim/*.qrc
 /sim/qrc_*.cpp
 /sim/config.qrc
+/db48x
+/sim.sh
+/help/left-shift.png
+/sim/help/
