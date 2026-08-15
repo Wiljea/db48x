@@ -2042,9 +2042,8 @@ static double posphi_to_double(algebraic_g a)
         return hwdouble_p(+a)->value();
     if (t == object::ID_hwfloat)
         return hwfloat_p(+a)->value();
-    if (decimal_g d = a->as<decimal>())
-        return d->to_double();
-    return 0.0;
+    algebraic::to_decimal(a);
+    return decimal_p(+a)->to_double();
 }
 
 
