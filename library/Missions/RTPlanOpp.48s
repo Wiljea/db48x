@@ -15,7 +15,7 @@
 @@   Venus 2023-07-24, Earth 2023-10-02; near-ballistic matchErr<1 m/s, turnReq ≤ turnMax ✓).
 @@ ============================================================
  → t3lo t3hi
- « 1000000 'zzP' STO  0 'zzt3' STO  0 'zztv' STO  0 'zzt4' STO
+ « 'Precision' RCL 'HardwareFloatingPoint' RCL → savP savH « HFP 15 Precision 1000000 'zzP' STO  0 'zzt3' STO  0 'zztv' STO  0 'zzt4' STO
    t3lo t3hi FOR t3
      130 290 FOR d1
        60 200 FOR d2
@@ -46,5 +46,6 @@
      5 STEP
    »
    zzt3 zztv zzt4 3 →List   zzt3 zztv zzt4 ⓁOppRoute  +
+   savP Precision  IF savH THEN HFP ELSE SFP END »
  »
 »
