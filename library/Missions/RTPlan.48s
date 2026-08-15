@@ -1,4 +1,6 @@
 «
+ 'Precision' RCL 'HardwareFloatingPoint' RCL → savP savH
+ « HFP 15 Precision
 @@ ============================================================
 @@ RTPlan — conjunction-class Earth⇄Mars round-trip optimiser (heliocentric ΔV)
 @@ Optimises the outbound Earth→Mars leg (MinΔVTraj), then the return Mars→Earth
@@ -41,5 +43,7 @@
           »
        »
     »
+ »
+savP Precision  IF savH THEN HFP ELSE SFP END
  »
 »

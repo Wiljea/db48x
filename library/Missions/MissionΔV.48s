@@ -1,4 +1,6 @@
 «
+ 'Precision' RCL 'HardwareFloatingPoint' RCL → savP savH
+ « HFP 15 Precision
 @@ ============================================================
 @@ MissionΔV — end-to-end propulsive ΔV budget of a conjunction round trip
 @@ Takes an RTPlan itinerary { t1 t2 stay t3 t4 ΔVout ΔVret ΔVtot }. Recomputes the two
@@ -46,5 +48,7 @@
        »
      »
    »
+ »
+savP Precision  IF savH THEN HFP ELSE SFP END
  »
 »
