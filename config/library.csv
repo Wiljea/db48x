@@ -145,6 +145,8 @@
 
 "Missions/Earth To Mars & Back"
 
+"Missions/Earth To Mars & Back/Planners"
+
 	"RTPlan",	"=/library/Missions/RTPlan.48s"
 	"OppRoute",	"=/library/Missions/OppRoute.48s"
 	"RTPlanOpp",	"=/library/Missions/RTPlanOpp.48s"
