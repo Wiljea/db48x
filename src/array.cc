@@ -2153,7 +2153,11 @@ static double lam_stumpS(double z)
 static double lam_UF(double z, double r1, double r2, double A, double mu, double dt)
 {
     double cz = lam_stumpC(z), sz = lam_stumpS(z);
+    if (cz <= 0.0)
+        return 1e30;
     double y  = r1 + r2 + A * (z * sz - 1.0) / sqrt(cz);
+    if (y < 0.0)
+        return 1e30;   // infeasible arc: signal a large residual to the secant
     return pow(y / cz, 1.5) * sz + A * sqrt(y) - sqrt(mu) * dt;
 }
 
@@ -2212,16 +2216,29 @@ COMMAND_BODY(LambertUN)
     }
 
     double cz = lam_stumpC(z2), sz = lam_stumpS(z2);
-    double y  = r1 + r2 + A * (z2 * sz - 1.0) / sqrt(cz);
-    double f  = 1.0 - y / r1;
-    double g  = A * sqrt(y / mu);
-    double gd = 1.0 - y / r2;
-
+    double y  = (cz > 0.0) ? r1 + r2 + A * (z2 * sz - 1.0) / sqrt(cz) : -1.0;
     double v1[3], v2[3];
-    for (int i = 0; i < 3; i++)
+    if (y > 0.0)
     {
-        v1[i] = (r2v[i] - f * r1v[i]) / g;
-        v2[i] = (gd * r2v[i] - r1v[i]) / g;
+        double f  = 1.0 - y / r1;
+        double g  = A * sqrt(y / mu);
+        double gd = 1.0 - y / r2;
+        for (int i = 0; i < 3; i++)
+        {
+            v1[i] = (r2v[i] - f * r1v[i]) / g;
+            v2[i] = (gd * r2v[i] - r1v[i]) / g;
+        }
+        bool ok = true;
+        for (int i = 0; i < 3; i++)
+            if (!std::isfinite(v1[i]) || !std::isfinite(v2[i]))
+                ok = false;
+        if (!ok)
+            for (int i = 0; i < 3; i++) { v1[i] = 1e6; v2[i] = 1e6; }
+    }
+    else
+    {
+        // infeasible / degenerate transfer: huge sentinel so the search rejects it
+        for (int i = 0; i < 3; i++) { v1[i] = 1e6; v2[i] = 1e6; }
     }
 
     algebraic_g a1x = hwdouble::make(v1[0]);
