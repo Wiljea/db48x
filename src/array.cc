@@ -2115,6 +2115,132 @@ COMMAND_BODY(PosPhifN)
 }
 
 
+
+static bool read_vec3(object_p o, double v[3])
+// ----------------------------------------------------------------------------
+//   Read a 3-vector (array of 3 reals) into C++ doubles
+// ----------------------------------------------------------------------------
+{
+    array_g a = o ? o->as<array>() : nullptr;
+    if (!a)
+        return false;
+    for (uint i = 0; i < 3; i++)
+    {
+        object_p e = a->at(i);
+        algebraic_g ea = e ? e->as_algebraic() : nullptr;
+        if (!ea)
+            return false;
+        v[i] = posphi_to_double(ea);
+    }
+    return true;
+}
+
+
+static double lam_stumpC(double z)
+{
+    if (z > 1e-6)  { double s = sqrt(z);  return (1.0 - cos(s)) / z; }
+    if (z < -1e-6) { double s = sqrt(-z); return (cosh(s) - 1.0) / (-z); }
+    return 0.5;
+}
+
+static double lam_stumpS(double z)
+{
+    if (z > 1e-6)  { double s = sqrt(z);  return (s - sin(s)) / pow(z, 1.5); }
+    if (z < -1e-6) { double s = sqrt(-z); return (sinh(s) - s) / pow(-z, 1.5); }
+    return 1.0 / 6.0;
+}
+
+static double lam_UF(double z, double r1, double r2, double A, double mu, double dt)
+{
+    double cz = lam_stumpC(z), sz = lam_stumpS(z);
+    double y  = r1 + r2 + A * (z * sz - 1.0) / sqrt(cz);
+    return pow(y / cz, 1.5) * sz + A * sqrt(y) - sqrt(mu) * dt;
+}
+
+
+COMMAND_BODY(LambertUN)
+// ----------------------------------------------------------------------------
+//   Native universal-variable Lambert solver: [r1] [r2] dt mu -> { [v1] [v2] }
+// ----------------------------------------------------------------------------
+{
+    object_p o_r1 = rt.stack(3);
+    object_p o_r2 = rt.stack(2);
+    object_p o_dt = rt.stack(1);
+    object_p o_mu = rt.stack(0);
+    if (!o_r1 || !o_r2 || !o_dt || !o_mu)
+        return ERROR;
+
+    double r1v[3], r2v[3];
+    if (!read_vec3(o_r1, r1v) || !read_vec3(o_r2, r2v))
+    {
+        rt.type_error();
+        return ERROR;
+    }
+    algebraic_g adt = o_dt->as_algebraic();
+    algebraic_g amu = o_mu->as_algebraic();
+    if (!adt || !amu)
+    {
+        rt.type_error();
+        return ERROR;
+    }
+    double dt = posphi_to_double(adt);
+    double mu = posphi_to_double(amu);
+
+    const double PI = 3.14159265358979323846;
+    double r1 = sqrt(r1v[0]*r1v[0] + r1v[1]*r1v[1] + r1v[2]*r1v[2]);
+    double r2 = sqrt(r2v[0]*r2v[0] + r2v[1]*r2v[1] + r2v[2]*r2v[2]);
+    double d  = r1v[0]*r2v[0] + r1v[1]*r2v[1] + r1v[2]*r2v[2];
+    double cosd = d / (r1 * r2);
+    if (cosd > 1.0)  cosd = 1.0;
+    if (cosd < -1.0) cosd = -1.0;
+    double dth = acos(cosd);
+    double crossz = r1v[0]*r2v[1] - r1v[1]*r2v[0];
+    if (crossz < 0.0)
+        dth = 2.0 * PI - dth;
+    double A = sin(dth) * sqrt(r1 * r2 / (1.0 - cos(dth)));
+
+    double z1 = 0.0, z2 = 1.0;
+    double F1 = lam_UF(z1, r1, r2, A, mu, dt);
+    double F2 = lam_UF(z2, r1, r2, A, mu, dt);
+    double dz = 1.0;
+    for (int it = 0; it < 30 && dz >= 1e-7; it++)
+    {
+        double zn = z2 - F2 * (z2 - z1) / (F2 - F1);
+        dz = fabs(zn - z2);
+        z1 = z2; F1 = F2; z2 = zn;
+        F2 = lam_UF(z2, r1, r2, A, mu, dt);
+    }
+
+    double cz = lam_stumpC(z2), sz = lam_stumpS(z2);
+    double y  = r1 + r2 + A * (z2 * sz - 1.0) / sqrt(cz);
+    double f  = 1.0 - y / r1;
+    double g  = A * sqrt(y / mu);
+    double gd = 1.0 - y / r2;
+
+    double v1[3], v2[3];
+    for (int i = 0; i < 3; i++)
+    {
+        v1[i] = (r2v[i] - f * r1v[i]) / g;
+        v2[i] = (gd * r2v[i] - r1v[i]) / g;
+    }
+
+    algebraic_g a1x = hwdouble::make(v1[0]);
+    algebraic_g a1y = hwdouble::make(v1[1]);
+    algebraic_g a1z = hwdouble::make(v1[2]);
+    algebraic_g a2x = hwdouble::make(v2[0]);
+    algebraic_g a2y = hwdouble::make(v2[1]);
+    algebraic_g a2z = hwdouble::make(v2[2]);
+    array_g av1 = array_p(list::make(ID_array, a1x, a1y, a1z));
+    array_g av2 = array_p(list::make(ID_array, a2x, a2y, a2z));
+    if (!av1 || !av2)
+        return ERROR;
+    list_g result = list::make(ID_list, av1, av2);
+    if (result && rt.drop() && rt.drop() && rt.drop() && rt.top(+result))
+        return OK;
+    return ERROR;
+}
+
+
 algebraic_p array::one_norm(algebraic_r ao, bool column)
 // ----------------------------------------------------------------------------
 //   Compute a row or column 1-norm

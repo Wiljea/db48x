@@ -297,6 +297,7 @@ CMD(exp)
 CMD(log10)                      ALIAS(log10, "log")
 CMD(exp10)                      ALIAS(exp10, "alog")
 CMD(PosPhifN)
+CMD(LambertUN)
 
 // Conversions
 NAMED(ToDecimal, "→Decimal")
