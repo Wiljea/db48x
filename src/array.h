@@ -183,6 +183,7 @@ array_p operator/(array_r x, array_r y);
 FUNCTION_MAT(det);
 COMMAND_DECLARE_SPECIAL(dot,   algebraic, 2, PREC_DECL(MULTIPLICATIVE); );
 COMMAND_DECLARE_SPECIAL(cross, algebraic, 2, PREC_DECL(MULTIPLICATIVE); );
+COMMAND_DECLARE(PosPhifN, 1);
 COMMAND_DECLARE(ToArray, ~2);
 COMMAND_DECLARE(FromArray, 1);
 COMMAND_DECLARE(ConstantArray, 2);

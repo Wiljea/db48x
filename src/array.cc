@@ -41,6 +41,9 @@
 #include "tag.h"
 #include "unit.h"
 #include "variables.h"
+#include "hwfp.h"
+#include "decimal.h"
+#include <cmath>
 
 
 RECORDER(matrix, 16, "Determinant computation");
@@ -2022,6 +2025,93 @@ COMMAND_BODY(cross)
                 rt.type_error();
         }
     }
+    return ERROR;
+}
+
+
+
+static double posphi_to_double(algebraic_g a)
+// ----------------------------------------------------------------------------
+//   Read a real algebraic as a C++ double (hwdouble / hwfloat / decimal)
+// ----------------------------------------------------------------------------
+{
+    if (!a)
+        return 0.0;
+    object::id t = a->type();
+    if (t == object::ID_hwdouble)
+        return hwdouble_p(+a)->value();
+    if (t == object::ID_hwfloat)
+        return hwfloat_p(+a)->value();
+    if (decimal_g d = a->as<decimal>())
+        return d->to_double();
+    return 0.0;
+}
+
+
+COMMAND_BODY(PosPhifN)
+// ----------------------------------------------------------------------------
+//   Native ephemeris: orbital elements [a e I L w O] -> heliocentric [x y z]
+// ----------------------------------------------------------------------------
+{
+    object_p obj = rt.stack(0);
+    if (!obj)
+        return ERROR;
+    array_g v = obj->as<array>();
+    if (!v)
+    {
+        rt.type_error();
+        return ERROR;
+    }
+
+    double el[6];
+    for (uint i = 0; i < 6; i++)
+    {
+        object_p eo = v->at(i);
+        algebraic_g ea = eo ? eo->as_algebraic() : nullptr;
+        if (!ea)
+        {
+            rt.type_error();
+            return ERROR;
+        }
+        el[i] = posphi_to_double(ea);
+    }
+
+    const double PI  = 3.14159265358979323846;
+    const double D2R = PI / 180.0;
+    double a = el[0], e = el[1], Iang = el[2];
+    double L = el[3], w = el[4], O = el[5];
+
+    double M = fmod(L - w, 360.0);
+    if (M > 180.0)   M -= 360.0;
+    if (M <= -180.0) M += 360.0;
+    M *= D2R;
+
+    double E = M;
+    for (int k = 0; k < 12; k++)
+    {
+        double dE = (E - e * sin(E) - M) / (1.0 - e * cos(E));
+        E -= dE;
+        if (fabs(dE) < 1e-15)
+            break;
+    }
+
+    double nu = 2.0 * atan2(sqrt(1.0 + e) * sin(E / 2.0),
+                            sqrt(1.0 - e) * cos(E / 2.0));
+    double r  = a * (1.0 - e * cos(E));
+    double u  = (w - O) * D2R + nu;
+    double Or = O * D2R;
+    double Ir = Iang * D2R;
+
+    double x = r * (cos(u) * cos(Or) - sin(u) * cos(Ir) * sin(Or));
+    double y = r * (cos(u) * sin(Or) + sin(u) * cos(Ir) * cos(Or));
+    double z = r * sin(u) * sin(Ir);
+
+    algebraic_g ax = hwdouble::make(x);
+    algebraic_g ay = hwdouble::make(y);
+    algebraic_g az = hwdouble::make(z);
+    array_g result = array_p(list::make(ID_array, ax, ay, az));
+    if (result && rt.top(+result))
+        return OK;
     return ERROR;
 }
 
