@@ -269,9 +269,11 @@ example scans the real **Mars 2020 (Perseverance)** launch window of late July 2
 @ Expecting { 6.31702 2459055.62 205.66 }   (Mars 2020 = Perseverance window; level 1)
 ```
 
-Runtime is set by the variable `AstronTXPrecision` (below): this example runs at
-level 1 (≈ 13 s on the simulator); level 3 (≈ 63 s) only sharpens the dates —
-the minimum ΔV is nearly identical at every level.
+Runtime is set by the variable `AstronTXPrecision` (below): with the native
+`PosPhifN` / `LambertUN` commands of this branch, this example runs at level 1 in
+≈ 70 ms on the simulator, level 3 in ≈ 220 ms. Level 3 only sharpens the dates —
+the minimum ΔV is nearly identical at every level (6.31702 at level 1 versus
+6.31693 at level 3, i.e. 1e-4 km/s, while t₁ moves by 0.08 d and tof by 0.28 d).
 
 ## MinΔDTraj
 
@@ -315,7 +317,11 @@ within `budget` (bisection).
 
 Global variable controlling the iteration count of the window optimizers
 (`MinTofDV`, `MinΔVTraj`, `MinΔtTraj`, `MinΔDTraj`): `1`/`2`/`3` → `6`/`9`/`12`
-iterations. Simulator runtime for `MinΔVTraj` ≈ 16 / 35 / 63 s (hardware ≈ ×8).
+iterations. The search is 2-D, so the cost grows as the *square* of the iteration
+count: measured simulator runtime for `MinΔVTraj` ≈ 70 / 130 / 220 ms with the
+native `PosPhifN` / `LambertUN` commands of this branch (hardware ≈ ×8). On the
+pure-RPL path (branches without those commands) the same three runs take
+≈ 16 / 35 / 63 s.
 Use level 1 to explore, level 3 to refine. Set it before calling an optimizer
 (`1 'AstronTXPrecision' STO`); the routines read it to size their search and
 provide no built-in default.
