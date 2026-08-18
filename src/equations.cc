@@ -1406,7 +1406,7 @@ static const cstring basic_equations[] =
     //T#*: 24 simulations, 101 equations, 75 variables, 8 figures
     //1a.
     "Thrust",  "{ "
-    "  'F=(Q_kg/s)·(Ve_m/s)+((Pe_kPa)-(Pa_kPa))·(Ae_m↑2)' "
+    "  'Fnet=(Q_kg/s)·(Ve_m/s)+((Pe_kPa)-(Pa_kPa))·(Ae_m↑2)' "
     "}",
     //1b.
     "Rocket ΔV",  "{ "
@@ -1428,7 +1428,7 @@ static const cstring basic_equations[] =
     "}",
     //5.
     "Rocket Engine Specific Impulse",  "{ "
-    "  'Isp=(F_N)/((Q_kg/s)·Ⓒg)' "
+    "  'Isp=(Fnet_N)/((Q_kg/s)·Ⓒg)' "
     "}",
     //6.
     "Exhaust Nozzle Throat Parameters",  "{ "
@@ -1455,7 +1455,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♁StdAtm(H_m)' "
+    "  'Pa=ⓁP♁StdAtm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //10.
@@ -1463,7 +1463,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♁StdAtm(H_m)' "
+    "  'Pa=ⓁP♁StdAtm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //11.
@@ -1471,7 +1471,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♁StdAtm(H_m)' "
+    "  'Pa=ⓁP♁StdAtm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //12.
@@ -1479,7 +1479,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♂DayAtm(H_m)' "
+    "  'Pa=ⓁP♂DayAtm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //13.
@@ -1487,7 +1487,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♂DayAtm(H_m)' "
+    "  'Pa=ⓁP♂DayAtm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //14.
@@ -1495,7 +1495,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♂NightAtm(H_m)' "
+    "  'Pa=ⓁP♂NightAtm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //15.
@@ -1503,7 +1503,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♀Atm(H_m)' "
+    "  'Pa=ⓁP♀Atm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //16.
@@ -1511,7 +1511,7 @@ static const cstring basic_equations[] =
     "  'Nm=SQRT((2/(k-1))·(((Pc_MPa)/(Pe_MPa))↑((k-1)/k)-1))' "
     "  'Ae=((At_m↑2)/Nm)·((1+(k-1)/2·Nm↑2)/((k+1)/2))↑((k+1)/(2·(k-1)))' "
     "  'AeAt=(Ae_m↑2)/(At_m↑2)' "
-    "  'Pa=P♀Atm(H_m)' "
+    "  'Pa=ⓁP♀Atm(H_m)' "
     "  'Pe=Pa_MPa' "
     "}",
     //17.
@@ -1603,12 +1603,12 @@ static const cstring basic_equations[] =
     "  'Cfx=SQRT((2·k↑2/(k-1))·(2/(k+1))↑((k+1)/(k-1))·(1-((Pe_MPa)/(Pc_MPa))↑((k-1)/k)))+((Pe_MPa)-(Pa_MPa))/(Pc_MPa)·(Ae_m↑2)/(At_m↑2)' "
     "  'Cstar=(Pc_MPa)·(At_m↑2)/(Q_kg/s)' "
     "  'Isp=(Pc_MPa)·(At_m↑2)/((Q_kg/s)·Ⓒg)·Cfx' "
-    "  'F=(Pc_MPa)·(At_m↑2)·Cfx' "
+    "  'Fnet=(Pc_MPa)·(At_m↑2)·Cfx' "
     "}",
     //B-2.
     "Total Impulse",  "{ "
     "  'It=(Isp_s)·Ⓒg·(Mp_kg)' "
-    "  'F=(It_N·s)/(Δt_s)' "
+    "  'Fnet=(It_N·s)/(Δt_s)' "
     "}",
     //B-3.
     "Vertical Ascent with Gravity Loss",  "{ "
@@ -1707,7 +1707,7 @@ static const cstring basic_equations[] =
     "  'ω=atan(tan(lat_°)/cos(Az_°))-(ν_°)' "
     "  'dlon=atan(sin(lat_°)·tan(Az_°))' "
     "  'lonAN=(lon2_°)-atan(sin(lat_°)·tan(Az_°))' "
-    "  'Ω=θs(JDbo;lonAN)' "
+    "  'Ω=Ⓛθs(JDbo;lonAN)' "
     "}",
 
     //10.
@@ -2105,7 +2105,7 @@ static const cstring basic_equations[] =
     "}",
     //48.
     "Launch Window from a Site",  "{ "
-    "  'LST=θs(JD0;(lonE_°))' "
+    "  'LST=Ⓛθs(JD0;(lonE_°))' "
     "  'dOmega=(OmegaT_°)-(LST_°)' "
     "  'twait=(dOmega_°)/(360.98565_°/d)' "
     "}",
