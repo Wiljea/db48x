@@ -13109,8 +13109,7 @@ The 90 variables in the Rocketry section are:
 * `Cstar`: Characteristic exhaust velocity (dim.: speed)
 * `CtnRatio`: Contraction ratio of the major cross-sectional area of the combuster divided by the throat area
 * `Dt`: Throat diameter
-* `F`: Engine thrust (dim.: force, in SI: N)
-* `Fnet`: Net engine thrust (dim.: force, in SI: N) 
+* `Fnet`: Net engine thrust (dim.: force, in SI: N)
 * `H`: Starting height of rocket engine 
 * `Isp`: Specific impulse (dim.: time, in SI: s)
 * `Isp1`: First stage specific impulse (dim.: time, in SI: s)
@@ -13181,15 +13180,15 @@ The 24 simulations are inspired from the solutions of P#1 to #12 of [1] and ex. 
 
 #### Thrust
 
-These equations derive from the conservation of momentum during the propulsion phase of a rocket whose engine ejects gas at velocity `Ve`, consuming fuel at rate `Q` to produce thrust `F`. After burn duration `Δt` this results in a change in velocity, `ΔV`, for the rocket. 
+These equations derive from the conservation of momentum during the propulsion phase of a rocket whose engine ejects gas at velocity `Ve`, consuming fuel at rate `Q` to produce thrust `Fnet`. After burn duration `Δt` this results in a change in velocity, `ΔV`, for the rocket. 
 
 ![Thrust](img/RocketPropulsion.bmp)
 
-* To calculate: `[F_kN]` (Rocket thrust) from 7 known variables:
+* To calculate: `[Fnet_kN]` (Rocket thrust) from 7 known variables:
 ```rpl
 Q=30_kg/s  Ve=3100_m/s  Ae=0.7_m↑2  Pe=5_kPa  Pa=0_kPa  Δt=60_s  Mo=30000_kg
-@ Expecting [ F=96.5 kN ] 
-'ROOT(ⒺThrust;[F];[1_kN])'
+@ Expecting [ Fnet=96.5 kN ] 
+'ROOT(ⒺThrust;[Fnet];[1_kN])'
 ```
 
 #### Rocket ΔV
@@ -13212,7 +13211,7 @@ Mf=75000_kg  C=3100_m/s  ΔV=700_m/s
 
 #### Burn Duration
 
-![Burn Duration](img/CombustionChamber&Nozzle.bmp)
+![Burn Duration](img/CombustionChamberNozzle.bmp)
 
 * To calculate: `[ΔV_m/s;Δt_s]` (Velocity change; Burn duration) from 5 known variables:
 ```rpl
@@ -13234,7 +13233,7 @@ Pc=50_atm  Pe=1_atm  Tc=3470_K  M=21.40_(g/mol)   k=1.221
 
 * To calculate: `[Isp_s]` (Specific impulse) from 2 known variables:
 ```rpl
-F=1000000_N  Q=400_kg/s
+Fnet=1000000_N  Q=400_kg/s
 @ Expecting [ Isp=254.92905 32444 8 s ]
 'ROOT(ⒺRocket Engine Specific Impulse;[Isp];[1_s])'
 ```
@@ -13366,7 +13365,7 @@ Q=100_kg/s  k=1.2  M=24_(g/mol)  Tc=3600_K  Pc=5_MPa  Pa=0.05_MPa  Pe=0.05_MPa
 
 #### Under Extended Conic Nozzle
 
-* The previous and the next 2 simulations prove that the highest value of thrust F is found with adapted Conic Nozzle (Pa/Pe=1) as shown in the figure.
+* The previous and the next 2 simulations prove that the highest value of thrust Fnet is found with adapted Conic Nozzle (Pa/Pe=1) as shown in the figure.
 
 ![Under-Extended Conic Nozzle](img/OptimalThrust.bmp)
 
@@ -13467,7 +13466,7 @@ and `θe` (exit) are read from the Rao chart and label the figure.
 Propellant residence time `ts` in the chamber, from the ideal-gas specific volume `V` (chamber `Tc`,
 `Pc`, mean molar mass `M`), the chamber volume `Vc=Lstar·At`, and the mass flow `Q`.
 
-![Combustion Chamber Stay-Time](img/CombustionChamber&Nozzle.bmp)
+![Combustion Chamber Stay-Time](img/CombustionChamberNozzle.bmp)
 
 * To calculate: `[V_m↑3/kg;Vc_m↑3;ts_ms]` (Specific volume; Chamber volume; Stay-time) from 6 known variables:
 ```rpl
@@ -13480,28 +13479,28 @@ Lstar=1.1_m  At=0.0344398985_m↑2  Q=100_kg/s  Tc=3600_K  Pc=5_MPa  M=24_(g/mol
 
 The dimensionless thrust coefficient `Cfx` isolates the nozzle's contribution to thrust; it links the
 throat (characteristic velocity `Cstar`) and the nozzle to specific impulse via `Isp=Cfx·Cstar/Ⓒg`,
-and gives `F=Cfx·Pc·At`. Shown for the adapted case — reproducing the thrust of « Properly Adapted
+and gives `Fnet=Cfx·Pc·At`. Shown for the adapted case — reproducing the thrust of « Properly Adapted
 Conic Nozzle ».
 
 ![Thrust Coefficient](img/RocketEgineGeometry2.bmp)
 
-* To calculate: `[Cfx;Cstar_m/s;Isp_s;F_kN]` (Thrust coefficient; Characteristic velocity; Specific impulse; Thrust) from 7 known variables:
+* To calculate: `[Cfx;Cstar_m/s;Isp_s;Fnet_kN]` (Thrust coefficient; Characteristic velocity; Specific impulse; Thrust) from 7 known variables:
 ```rpl
 k=1.2  Pc=5_MPa  Pe=0.05_MPa  Pa=0.05_MPa  At=0.03443989851769_m↑2  Ae=0.40883751863782_m↑2  Q=100_kg/s
-@ Expecting [ Cfx=1.64452 13 Cstar=1 721.99493 m/s Isp=288.76908 s F=283.18573 kN ]
-'ROOT(ⒺThrust Coefficient;[Cfx;Cstar;Isp;F];[1_1;1_m/s;1_s;1_kN])'
+@ Expecting [ Cfx=1.64452 13 Cstar=1 721.99493 m/s Isp=288.76908 s Fnet=283.18573 kN ]
+'ROOT(ⒺThrust Coefficient;[Cfx;Cstar;Isp;Fnet];[1_1;1_m/s;1_s;1_kN])'
 ```
 
 #### Total Impulse
 
 Total impulse delivered by a burn: `It=Isp·Ⓒg·Mp` (specific impulse × standard gravity × propellant
-mass), equivalently `F·Δt`; the mean thrust over the burn is `F=It/Δt`.
+mass), equivalently `Fnet·Δt`; the mean thrust over the burn is `Fnet=It/Δt`.
 
-* To calculate: `[It_N·s;F_kN]` (Total impulse; Mean thrust) from 3 known variables:
+* To calculate: `[It_N·s;Fnet_kN]` (Total impulse; Mean thrust) from 3 known variables:
 ```rpl
 Isp=300_s  Mp=10000_kg  Δt=120_s
-@ Expecting [ It=29 419 950 N·s F=245.16625 kN ]
-'ROOT(ⒺTotal Impulse;[It;F];[1_N·s;1_kN])'
+@ Expecting [ It=29 419 950 N·s Fnet=245.16625 kN ]
+'ROOT(ⒺTotal Impulse;[It;Fnet];[1_N·s;1_kN])'
 ```
 
 #### Vertical Ascent with Gravity Loss
