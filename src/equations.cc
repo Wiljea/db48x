@@ -1403,7 +1403,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Rocketry", nullptr,
     // ------------------------------------------------------------------------
-    //T#*: 33 simulations (ROOT), 132 equations, 89 variables, 15 figures
+    //T#*: 34 simulations (ROOT), 140 equations, 111 variables, 16 figures
     //1a.
     "Thrust",  "{ "
     "  'Fnet=(Q_kg/s)·(Ve_m/s)+((Pe_kPa)-(Pa_kPa))·(Ae_m↑2)' "
@@ -1635,6 +1635,17 @@ static const cstring basic_equations[] =
     "  'Vcirc=SQRT(ⒸGM♁/(rorb_km))' "
     "  'Vesc=SQRT(2·ⒸGM♁/(rorb_km))' "
     "  'gsurf=ⒸGM♁/(ⒸReq♁)↑2' "
+    "}",
+    //C-3.  (ogive nose shown; for a conical nose use 'XN=0.666·(LNose_mm)')
+    "Barrowman Method",  "{ "
+    "  'XN=0.466·(LNose_mm)' "
+    "  'CNN=2' "
+    "  'CNT=2·(((dR_mm)/(dN_mm))↑2-((dF_mm)/(dN_mm))↑2)' "
+    "  'XT=(XP_mm)+(LT_mm)/3·(1+(1-(dF_mm)/(dR_mm))/(1-((dF_mm)/(dR_mm))↑2))' "
+    "  'CNF=(1+(RB_mm)/((SFs_mm)+(RB_mm)))·(4·NF·((SFs_mm)/(dN_mm))↑2/(1+SQRT(1+(2·(LF_mm)/((CR_mm)+(CT_mm)))↑2)))' "
+    "  'XF=(XB_mm)+(XR_mm)/3·((CR_mm)+2·(CT_mm))/((CR_mm)+(CT_mm))+1/6·((CR_mm)+(CT_mm)-(CR_mm)·(CT_mm)/((CR_mm)+(CT_mm)))' "
+    "  'CNR=CNN+CNT+CNF' "
+    "  'XCP=(CNN·(XN_mm)+CNT·(XT_mm)+CNF·(XF_mm))/CNR' "
     "}",
     "Astronautics", nullptr,
     "Astronautics/Geocentric", nullptr,
@@ -2597,11 +2608,27 @@ HELP_BODY(assignment)
 //     Modern Physics                       43
 //     Nuclear Physics                      52
 //     Finance                               6
-//     Rocketry                             89
+//     Rocketry                             111
 //     Geocentric / Stationary              54
 //     Geocentric / Trajectory              80
 //     Heliocentric / Stationary            12
 //     Heliocentric / Trajectory           129
 // --------------------------------------------------------------------------
-//     GRAND TOTAL                        1094
+//     GRAND TOTAL                        1116
+// ==========================================================================
+
+// ==========================================================================
+//   Equation Library - overall census
+//   (counting conventions: a *section* is a `##` heading in
+//   doc/calc-help/equations.md, a *sub-section* is a `###` or `####` heading,
+//   a *simulation* is one ROOT call, an *equation* is one entry of an
+//   equation set solved by ROOT in this file, and the variable count is the
+//   sum of the per-section lists - see the grand total above.)
+// --------------------------------------------------------------------------
+//     Sections            (## in equations.md)                 21
+//     Sub-sections        (### and #### in equations.md)      248
+//     Simulations         (ROOT calls in equations.md)        268
+//     Equations           (solved by ROOT, this file)        1147
+//     Variables           (sum of the per-section lists)     1116
+//     Figures             (in equations.md)                   108
 // ==========================================================================

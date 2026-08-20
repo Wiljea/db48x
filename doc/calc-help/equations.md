@@ -2894,7 +2894,7 @@ n='5*12' I%Yr=13 PV=-63000 FV=10000 PYr=12
 
 ## Rocketry
 
-The 89 variables in the Rocketry section are:
+The 111 variables in the Rocketry section are:
 
 * `α`: Divergent cone half-angle
 * `Δt`: Elapsed time or Burn duration time
@@ -2986,6 +2986,28 @@ The 89 variables in the Rocketry section are:
 * `Vcirc`: Circular-orbit velocity (dim.: speed)
 * `Vesc`: Escape velocity (dim.: speed)
 * `gsurf`: Surface gravity (dim.: length/time^2, in SI: m/s^2)
+* `LNose`: Length of nose (dim.: length)
+* `dN`: Diameter at base of nose (dim.: length)
+* `dF`: Diameter at front of transition (dim.: length)
+* `dR`: Diameter at rear of transition (dim.: length)
+* `LT`: Length of transition (dim.: length)
+* `XP`: Distance from tip of nose to front of transition (dim.: length)
+* `CR`: Fin root chord (dim.: length)
+* `CT`: Fin tip chord (dim.: length)
+* `SFs`: Fin semispan (dim.: length)
+* `LF`: Length of fin mid-chord line (dim.: length)
+* `RB`: Radius of body at aft end (dim.: length)
+* `XR`: Distance between fin root leading edge and fin tip leading edge parallel to body (dim.: length)
+* `XB`: Distance from nose tip to fin root chord leading edge (dim.: length)
+* `NF`: Number of fins
+* `XN`: Center of pressure of the nose, from the nose tip (dim.: length)
+* `CNN`: Force coefficient of the nose
+* `CNT`: Force coefficient of the transition
+* `XT`: Center of pressure of the transition, from the nose tip (dim.: length)
+* `CNF`: Force coefficient of the fins
+* `XF`: Center of pressure of the fins, from the nose tip (dim.: length)
+* `CNR`: Force coefficient of the rocket
+* `XCP`: Center of pressure of the rocket, from the nose tip (dim.: length)
 
 * References: [1]: http://www.braeunig.us/space/problem.htm
 & [2] http://www.braeunig.us/space/sup1.htm
@@ -3375,6 +3397,26 @@ horb=200_km
 'ROOT(ⒺMulti Planet Launch ΔV;[rorb;Vcirc;Vesc;gsurf];[1_km;1_m/s;1_m/s;1_m/s↑2])'
 ```
 Swap the body constant to compare: **Mars** (♂) → `[ 3 596.2 km; 3 450.99146 m/s; 4 880.43892 m/s; 3.71317 22 m/s↑2 ]` · **Venus** (♀) → `[ 6 251.8 km; 7 208.49565 m/s; 10 194.35231 m/s; 8.87003 28 m/s↑2 ]`.
+#### Barrowman Method
+
+Subsonic centre of pressure of a finned rocket, by the algebraic method James S. Barrowman published
+in 1967 at NASA's Sounding Rocket Branch. Each part contributes a normal-force coefficient and its own
+centre of pressure, measured from the nose tip; the rocket's `XCP` is their coefficient-weighted mean.
+The nose always contributes `CNN=2`, and a transition that narrows rearward gives a **negative** `CNT`.
+Shown for an ogive nose — for a conical nose replace `0.466` by `0.666` in `XN`. The vehicle is stable
+when its centre of gravity lies ahead of `XCP`, conventionally by one to two body calibers `dN`.
+
+`LF` is not independent: it is the fin mid-chord length `√(SFs↑2+(XR+CT/2-CR/2)↑2)`, here `√(245↑2+65↑2)`.
+
+![Barrowman Method](img/BarrowmanMethod.bmp)
+
+* To calculate: `[XN_mm;CNN;CNT;XT_mm;CNF;XF_mm;CNR;XCP_mm]` (Nose CP; Nose, transition and fin force coefficients; Transition and fin CP; Rocket force coefficient; Rocket centre of pressure) from 14 known variables:
+```rpl
+LNose=405_mm  dN=205_mm  dF=205_mm  dR=165_mm  LT=125_mm  XP=905_mm  CR=245_mm  CT=125_mm  SFs=245_mm  LF=253.475837112732_mm  RB=85_mm  XR=125_mm  XB=1765_mm  NF=3
+@ Expecting [ XN=188.73 mm CNN=2 CNT=-0.70434 26531 83 XT=965.24774 7748 mm CNF=7.99426 99069 4 XF=1 868.61486 486 mm CNR=9.28992 72537 6 XCP=1 575.44898 065 mm ]
+'ROOT(ⒺBarrowman Method;[XN;CNN;CNT;XT;CNF;XF;CNR;XCP];[1_mm;1_1;1_1;1_mm;1_1;1_mm;1_1;1_mm])'
+```
+
 ## Astronautics
 
 ### Geocentric / Stationary
