@@ -1403,7 +1403,7 @@ static const cstring basic_equations[] =
     // ------------------------------------------------------------------------
     "Rocketry", nullptr,
     // ------------------------------------------------------------------------
-    //T#*: 24 simulations, 101 equations, 75 variables, 8 figures
+    //T#*: 33 simulations (ROOT), 132 equations, 89 variables, 15 figures
     //1a.
     "Thrust",  "{ "
     "  'Fnet=(Q_kg/s)·(Ve_m/s)+((Pe_kPa)-(Pa_kPa))·(Ae_m↑2)' "
@@ -2593,15 +2593,15 @@ HELP_BODY(assignment)
 //     Solid State Devices                  53
 //     Stress Analysis                      28
 //     Waves                                40
-//     Relativity                          107
+//     Relativity                          109
 //     Modern Physics                       43
 //     Nuclear Physics                      52
 //     Finance                               6
-//     Rocketry                             90
+//     Rocketry                             89
 //     Geocentric / Stationary              54
 //     Geocentric / Trajectory              80
 //     Heliocentric / Stationary            12
 //     Heliocentric / Trajectory           129
 // --------------------------------------------------------------------------
-//     GRAND TOTAL                        1093
+//     GRAND TOTAL                        1094
 // ==========================================================================

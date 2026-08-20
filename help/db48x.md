@@ -12026,7 +12026,7 @@ d=14_cm  m=3.75_kg  Id=486.5_lb*in^2
 
 
 ## Solid State Devices
-The 54 variables in the Solid State Devices section are:
+The 53 variables in the Solid State Devices section are:
 
 * `αF`: Forward common-base current gain
 * `αR`: Reverse common-base current gain
@@ -12219,7 +12219,7 @@ Stresses and strains are positive in the directions shown in the picture.
 
 
 ## Waves
-The 39 variables in the Waves section are:
+The 40 variables in the Waves section are:
 
 * `β`: Sound intensity level (dim.: intensity in logarithmic scale, in SI: decibel, dB)
 * `Δp`: Sound pressure variafion around atmospheric pressure (dim.: force/area, in SI: pascal, Pa)
@@ -12367,7 +12367,7 @@ f1=400_Hz f2=402_Hz t=5_s sm=2e-6_m
 
 
 ## Relativity
-The 110 variables in the Relativity section are:
+The 109 variables in the Relativity section are:
 
 * `α`: Light Doppler effect, light arrival angle in the rest frame
 * `β`: Relativistic speed ratio
@@ -13081,7 +13081,7 @@ n='5*12' I%Yr=13 PV=-63000 FV=10000 PYr=12
 
 ## Rocketry
 
-The 90 variables in the Rocketry section are:
+The 89 variables in the Rocketry section are:
 
 * `α`: Divergent cone half-angle
 * `Δt`: Elapsed time or Burn duration time
