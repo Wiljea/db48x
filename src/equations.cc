@@ -2136,6 +2136,7 @@ static const cstring basic_equations[] =
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
     // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83)
     // As of 26-08-13: Total 815 vars, 1138 eqns, 267 sims in 247 subsections, 21 sections (1138/315=3.61; 815/397=2.05)
+    // As of 26-08-20: Total 1116 vars, 1147 eqns, 268 sims in 248 subsections, 21 sections (eqns: 1147/315=3.64; vars: 1116/397=2.81 in comparison with the HP50g Equation Library)
 };
 //   clang-format on
 
