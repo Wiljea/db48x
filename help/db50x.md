@@ -10782,7 +10782,7 @@ In accordance with microscopic Ohm's law, the current density is proportional to
 
 The 30 variables in the Fluids section are:
 
-* `ε`: Roughness (dim.: length)
+* `ϵ`: Roughness (dim.: length)
 * `μ`: Dynamic viscosity (dim.: force·time/volume, in SI: N·s/m^3)
 * `ρ`: Density (dim.: mass/volume, in SI: kg/m^3)
 * `ΔP`: Pressure change (dim.: force/area, in SI: pascal, Pa)
@@ -12152,7 +12152,7 @@ ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  
 The 28 variables in the Stress Analysis section are:
 
 * `δ`: Elongation
-* `ϵ`: Normal strain
+* `ε`: Normal strain
 * `γ`: Shear strain (dim.: angle)
 * `φ`: Angle of twist
 * `σ`: Normal stress (dim.: pressure, in SI: pascal, Pa)
@@ -12247,10 +12247,10 @@ The 40 variables in the Waves section are:
 * `favg`: Frequency average (dim.: 1/time; in SI: hertz, Hz)
 * `fbeat`: Beat frequency (dim.: 1/time; in SI: hertz, Hz)
 * `f0`: Emission frequency (dim.: 1/time; in SI: hertz, Hz)
-* `ffixed-fixed`: frequency of harmonics on a string fixed at both ends (dim.: 1/time; in SI: hertz, Hz)
-* `ffixed-free`: frequency of harmonics on a string fixed at one end and free at the other end (dim.: 1/time; in SI: hertz, Hz)
-* `fopen-open`: frequency of harmonics in a tube open at both ends (dim.: 1/time; in SI: hertz, Hz)
-* `fopen-close`: frequency of harmonics in a tube open at one end and close at the other end (dim.: 1/time; in SI: hertz, Hz)
+* `ffixedfixed`: frequency of harmonics on a string fixed at both ends (dim.: 1/time; in SI: hertz, Hz)
+* `ffixedfree`: frequency of harmonics on a string fixed at one end and free at the other end (dim.: 1/time; in SI: hertz, Hz)
+* `fopenopen`: frequency of harmonics in a tube open at both ends (dim.: 1/time; in SI: hertz, Hz)
+* `fopenclose`: frequency of harmonics in a tube open at one end and close at the other end (dim.: 1/time; in SI: hertz, Hz)
 * `I`: Sound intensity (dim.: energy/(area·time), in SI: W/m^2)
 * `k`: Angular wave number (dim.: agle/length, in SI: r/m)
 * `M`: Mach number
@@ -12487,7 +12487,7 @@ The 109 variables in the Relativity section are:
 * `v`: Velocity along the x axis
 * `ve`: Escape velocity in a gravitational field
 * `z`: Gravitational redshift parameter
-* `znl`: Newtonian limit of the gravitational redshift parameter
+* `zNL`: Newtonian limit of the gravitational redshift parameter
 
 The relativistic transformations are parametrized by the real constant `v` representing a velocity confined to the x-direction. The respective inverse transformation is then parameterized by the negative of this velocity.
 
@@ -12651,14 +12651,14 @@ It is assumed that the planes are circumnavigating at the same altitude `h`, sam
 
 * **Example 1** To calculate for a standard jet (500_mph) `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables:
 ```rpl
-vp=500_mph  Tday=86400_s  R=6371_km  hp=1e4_m  M=5.972168e24_kg  φ=7_°
-@ Expecting [ Δt=177 754.98724 2 s vg=459.85873 5513 m/s βp=7.45582 46558 7⁳⁻⁷ βg=1.53392 36303⁳⁻⁶ MGu=4.43502 76722 1⁳⁻³ m Δτg=177 754.98711 8 s ΔτpE=177 754.98711 8 s ΔτpW=177 754.98711 8 s ΔτE=-58.77919 8501 ns ΔτW=347.80567 188 ns ΔτWE=406.58487 0381 ns ]
+vp=500_mph  Tday=86400_s  R='(ⒸReq♁^2*ⒸRp♁)^(1/3)'  hp=1e4_m  M='ⒸM♁'  φ=7_°
+@ Expecting [ Δt=177 754.76631 6 s vg=459.85816 397 m/s βp=7.45582 46558 7⁳⁻⁷ βg=1.53392 17238⁳⁻⁶ MGu=4.43502 91574 4⁳⁻³ m Δτg=177 754.76619 2 s ΔτpE=177 754.76619 2 s ΔτpW=177 754.76619 3 s ΔτE=-58.77832 6184 ns ΔτW=347.80553 354 ns ΔτWE=406.58385 9721 ns ]
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 ```
 * **Example 2** To calculate for the circumnavigation of the Concorde at maximal speed (Mach 2.04) flying at an altitude of 60000 feet `[Δt_s;vg_m/s;βp;βg;MGu_m;Δτg_ns;ΔτpE_ns;ΔτpW_ns;ΔτE_ns;ΔτW_ns;ΔτWE_ns]` (Flight time duration of the circumnavigation trip at latitude `φ`; Ground speed of rotating earth at latitude `φ`; Plane speed ratio; Ground speed ratio; Reduced gravitational mass given in geometrized units; Elapsed time variation due to the ground tangential velocity; Elapsed time variation due to the plane altitude and velocity in the Eastward & Westward direction; Flight time in the Eastward & Westward direction; Time difference between westward and eastward flights) from 6 known variables:
 ```rpl
-vp=605.27777 77777 77777 77777_m/s  Tday=86400_s  R=6371e3_m  hp=18288_m  M=5.972168e24_kg  φ=12_°
-@ Expecting [ Δt=64 689.99803 66 s vg=453.18771 1296 m/s βp=2.01898 93428 8⁳⁻⁶ βg=1.51167 14887 4⁳⁻⁶ MGu=4.43502 76722 1⁳⁻³ m Δτg=64 689.99799 14 s ΔτpE=64 689.99799 12 s ΔτpW=64 689.99799 16 s ΔτE=-200.38946 8271 ns ΔτW=194.48457 0936 ns ΔτWE=394.87403 9207 ns ]
+vp=605.27777 77777 77777 77777_m/s  Tday=86400_s  R='UBASE((ⒸReq♁^2*ⒸRp♁)^(1/3))'  hp=18288_m  M='ⒸM♁'  φ=12_°
+@ Expecting [ Δt=64 689.91763 55 s vg=453.18714 8045 m/s βp=2.01898 93428 8⁳⁻⁶ βg=1.51166 96099 3⁳⁻⁶ MGu=4.43502 91574 4⁳⁻³ m Δτg=64 689.91759 04 s ΔτpE=64 689.91759 02 s ΔτpW=64 689.91759 06 s ΔτE=-200.38861 0717 ns ΔτW=194.48444 6939 ns ΔτWE=394.87305 7656 ns ]
 'ROOT(ⒺCircumnavigating Airplanes;[Δt;vg;βp;βg;MGu;Δτg;ΔτpE;ΔτpW;ΔτE;ΔτW;ΔτWE];[1_s;1_m/s;1;1;1_m;1_s;1_s;1_s;1_ns;1_ns;1_ns])'
 ```
 
@@ -12668,8 +12668,8 @@ It is assumed that the two clocks are at rest with respect to the ground at a la
 
 * **Example 1a)** (Earth): To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (choose `h2 > h1`):
 ```rpl
-Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
-@ Expecting [ ω=7.27220 52166 4⁳⁻⁵ r/s v1=447.52521 416 m/s v2=447.66570 2376 m/s MGu=4.43502 76722 1⁳⁻³ m γv1=1. γv2=1. γG1=1.00000 00007 γG2=1.00000 00007 γ21=1. ]
+Tday=86400_s  R='UBASE((ⒸReq♁^2*ⒸRp♁)^(1/3))'  h1=0_m  h2=2000_m  M='ⒸM♁'  φ=15_°
+@ Expecting [ ω=7.27220 52166 4⁳⁻⁵ r/s v1=447.52465 795 m/s v2=447.66514 6162 m/s MGu=4.43502 91574 4⁳⁻³ m γv1=1. γv2=1. γG1=1.00000 00007 γG2=1.00000 00007 γ21=1. ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 @ Save result for later use
 ```
@@ -12702,8 +12702,8 @@ Tday=86400_s  R=6371e3_m  h1=0_m  h2=2000_m  M=5.972168e24_kg  φ=15_°
 ```
 * **Example 2a)** (Earth, Mount Everest):  This mount has an height of 3660_m with repect to the surrounding ground which is at an altitude of 5200_m. To calculate `[ω_r/s;v1_m/s;v2_m/s;MGu_m;γv1;γv2;γG1;γG2;γ21]` (Angular velocity associated to planet rotation; Velocity at height `h1` & `h2` and latitude `φ`; Reduced gravitational mass given in geometrized units; Lorentz factor for velocity `v1` & `v2`; Lorentz factor associated to gravitational dilation at height `h1` & `h2`; Factor of combined special and general relativity effects) from 6 known variables (maintain 24 digits of precision & choose `h2 > h1`):
 ```rpl
-Tday=86400_s  R=6371e3_m  h1=5200_m  h2=8860_m  M=5.972168e24_kg  φ=15_°
-@ Expecting [ ω=7.27220 52166 4⁳⁻⁵ r/s v1=447.89048 3523 m/s v2=448.14757 6959 m/s MGu=4.43502 76722 1⁳⁻³ m γv1=1. γv2=1. γG1=1.00000 00007 γG2=1.00000 00007 γ21=1. ]
+Tday=86400_s  R='UBASE((ⒸReq♁^2*ⒸRp♁)^(1/3))'  h1=5200_m  h2=8860_m  M='ⒸM♁'  φ=15_°
+@ Expecting [ ω=7.27220 52166 4⁳⁻⁵ r/s v1=447.88992 7309 m/s v2=448.14702 0745 m/s MGu=4.43502 91574 4⁳⁻³ m γv1=1. γv2=1. γG1=1.00000 00007 γG2=1.00000 00007 γ21=1. ]
 'ROOT(ⒺClocks at different heights;[ω;v1;v2;MGu;γv1;γv2;γG1;γG2;γ21];[1_r/s;1_m/s;1_m/s;1_m;1;1;1;1;1])'
 @ Save result for later use
 ```
@@ -12801,7 +12801,7 @@ The 43 variables in the Modern Physics section are :
 * `q`: Heat transfer rate (dim.: energy/time, in SI: watt, W)
 * `r`: Radius of electron orbit in level `n`
 * `T`: Temperature
-* `V0`: Stopping potential (dim.: energy/charge, In SI: volt,V)
+* `Vo`: Stopping potential (dim.: energy/charge, In SI: volt,V)
 * `v`: Speed of emitted electron
 * `vmax`: Maximum speed of ejected photoelectron
 
@@ -13018,19 +13018,19 @@ A=40  Z=19  AXβ⊕=40  ZXβ⊕=19  mX=39.963998166_u  mY=39.9623831237_u
 
 * **Example 1**  For the nuclear reaction: α + N14 → O17 + p (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of N14; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: to balance `Z`, the α & p are replaced here by the neutral atoms He4 & H1):
 ```rpl
-A=14  Z=7  AX=14  ZX=7  Aa=4  Ab=1  Za=2  Zb=1  mX=14.00307400443_u  mY=16.99913175650_u  ma=4.00260325413_u  mb=1.00782503223_u
+A=14  Z=7  AX=14  ZX=7  Aa=4  Ab=1  Za=2  Zb=1  mX=14.00307400443_u  mY=16.99913175650_u  ma='ⒸmHe'  mb='ⒸmH'
 @ Expecting [ N=7 Δm=-0.00127 95301 7 u Q=-1.19187 42911 2 MeV ΔKtot=-1.19187 42911 2 MeV AY=17 ZY=8 ]
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 * **Example 2**  For the nuclear reaction: α + Al27 → P30 + n (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of Al27; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of the daughter nuclide) from 12 known variables (note: to balance `Z`, α is replaced by the neutral atom He4):
 ```rpl
-A=27  Z=13  AX=27  ZX=13  Aa=4  Ab=1  Za=2  Zb=0  mX=14.00307400443_u  mY=16.99913175650_u  ma='ⒸmHe'  mb='Ⓒmn'
-@ Expecting [ N=14 Δm=-2.11941 39960 6⁳⁻³ u Q=-1.97422 07830 5 MeV ΔKtot=-1.97422 07830 5 MeV AY=30 ZY=15 ]
+A=27  Z=13  AX=27  ZX=13  Aa=4  Ab=1  Za=2  Zb=0  mX=26.98153853_u  mY=29.97831349_u  ma='ⒸmHe'  mb='Ⓒmn'
+@ Expecting [ N=14 Δm=-2.83662 19260 6⁳⁻³ u Q=-2.64229 54507 7 MeV ΔKtot=-2.64229 54507 7 MeV AY=30 ZY=15 ]
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
 * **Example 3**  For the fusion nuclear reaction: D2 + Li6 → He4 + He4 (represented as a + X → Y + b), to calculate `[N;Δm_u;Q_MeV;ΔKtot_MeV;AY;ZY]` (Number of neutron of Li6; Mass default; Reaction energy; Variation of total kinetic energy, Mass number & Proton number of one of the daughter nuclide) from 12 known variables :
 ```rpl
-A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY=4.00260325413_u  ma=2.01410177812_u  mb='ⒸmHe'
+A=6  Z=3  AX=6  ZX=3  Aa=2  Ab=4  Za=1  Zb=2  mX=6.0151228874_u  mY='ⒸmHe'  ma='ⒸmD'  mb='ⒸmHe'
 @ Expecting [ N=3 Δm=0.02401 81572 6 u Q=22.37276 21509 MeV ΔKtot=22.37276 21509 MeV AY=4 ZY=2 ]
 'ROOT(ⒺGeneral Nuclear Reaction;[N;Δm;Q;ΔKtot;AY;ZY];[1;1_u;1_MeV;1_MeV;1;1])'
 ```
@@ -14115,8 +14115,8 @@ distance `dmoon` (simplified patched conic). `ΔVtli=vtli−v1`; `tof=π·√(at
 
 * To calculate: `[r1_km;atx_km;v1_m/s;vtli_m/s;ΔVtli_m/s;varr_m/s;tof_s]` from `Hp`, `dmoon`:
 ```rpl
-Hp=185_km  dmoon=384400_km
-@ Expecting [ r1=6 563.1 km  atx=195 481.55 km  v1=7 793.17366 60481 m/s  vtli=10 928.31379 5739 m/s  ΔVtli=3 135.14012 96907 m/s  varr=186.58589 04079 4 m/s  TOF=430 070.51454 616 s ]
+Hp=185_km  dmoon='Ⓒa☽'
+@ Expecting [ r1=6 563.1 km  atx=195 481.05 km  v1=7 793.17366 60481 m/s  vtli=10 928.31355 7115 m/s  ΔVtli=3 135.13989 10667 m/s  varr=186.58637 17301 6 m/s  tof=430 068.86450 461 s ]
 'ROOT(ⒺTranslunar Injection;[r1;atx;v1;vtli;ΔVtli;varr;tof];[1_km;1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -14248,7 +14248,6 @@ The variables of the Heliocentric / Trajectory section are:
 * `rA`: Departure planet's orbital radius
 * `rapo`: Capture-orbit apoapsis radius
 * `rB`: Destination planet's orbital radius
-* `rE`: Earth's orbital radius
 * `rEar`: Earth's orbital radius
 * `rL2`: Sun-Earth L2 distance from Earth
 * `rm`: Capture-orbit radius at the target planet
@@ -14324,8 +14323,8 @@ Minimum-energy heliocentric transfer between planetary orbits `rA` and `rB`: tra
 
 * To calculate: `[atx_au;VcsA_m/s;VcsB_m/s;VtxA_m/s;VtxB_m/s;vinfD_m/s;vinfA_m/s;TOF_s]` from `rA`, `rB`:
 ```rpl
-rA=1_au  rB=1.524_au
-@ Expecting [ atx=1.262 au  VcsA=29 784.69182 9677 m/s  VcsB=24 126.85018 5249 m/s  VtxA=32 730.74699 1986 m/s  VtxB=21 476.86810 4977 m/s  vinfD=2 946.05516 23088 m/s  vinfA=2 649.98208 02712 m/s  TOF=22 370 268.98169 7 s ]
+rA='Ⓒa♁'  rB='Ⓒa♂'
+@ Expecting [ atx=1.26183 97204 901 au  VcsA=29 784.69182 9677 m/s  VcsB=24 129.38801 3252 m/s  VtxA=32 729.38296 232 m/s  VtxB=21 480.49129 1046 m/s  vinfD=2 944.69113 26433 m/s  vinfA=2 648.89672 2206 m/s  TOF=22 366 007.43426 9 s ]
 'ROOT(ⒺHeliocentric Hohmann Transfer;[atx;VcsA;VcsB;VtxA;VtxB;vinfD;vinfA;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -14338,8 +14337,8 @@ Faster-than-Hohmann transfer with a chosen `atx`: `ecc=1−rA/atx`, true anomaly
 
 * To calculate: `[ecc;ν_°;Ea_°;TOF_s]` from `rA`, `rB`, `atx`:
 ```rpl
-rA=1_au  rB=1.524_au  atx=1.3_au
-@ Expecting [ ecc=0.23076 92307 6923  ν=146.48805 93894 1 °  Ea=138.30245 33968 4 °  TOF=16 827 452.85711 3 s ]
+rA='Ⓒa♁'  rB='Ⓒa♂'  atx=1.3_au
+@ Expecting [ ecc=0.23076 92307 6923  ν=146.41173 06538 6 °  Ea=138.21050 00844 °  TOF=16 813 447.69866 2 s ]
 'ROOT(ⒺOne Tangent Interplanetary Transfer;[ecc;ν;Ea;TOF];[1_1;1_°;1_°;1_s])'
 ```
 
@@ -14412,8 +14411,8 @@ Full interplanetary Δv budget: heliocentric Hohmann → `vinfD`/`vinfA` → dep
 
 * To calculate: `[atx_au;VcsA_m/s;VtxA_m/s;vinfD_m/s;VcsB_m/s;VtxB_m/s;vinfA_m/s;r0_km;Vo_m/s;TMI_m/s;Varr_m/s;MOI_m/s;dVtot_m/s;TOF_s]` from `rA`, `rB`, `Hp`, `rm`:
 ```rpl
-rA=1_au  rB=1.524_au  Hp=200_km  rm=3896.2_km
-@ Expecting [ atx=1.262 au  …  TMI=3 611.74115 793 m/s  MOI=2 070.35297 95932 m/s  dVtot=5 682.09413 75232 m/s  TOF=22 370 268.98169 7 s ]
+rA='Ⓒa♁'  rB='Ⓒa♂'  Hp=200_km  rm='ⒸReq♂+500_km'
+@ Expecting [ atx=1.26183 97204 901 au  …  TMI=3 611.38861 05542 m/s  MOI=2 069.81903 47049 m/s  dVtot=5 681.20764 5259 m/s  TOF=22 366 007.43426 9 s ]
 'ROOT(ⒺPatched Conic Mission Capstone;[atx;VcsA;VtxA;vinfD;VcsB;VtxB;vinfA;r0;Vo;TMI;Varr;MOI;dVtot;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -14424,8 +14423,8 @@ distances. Earth-Mars ≈ 780 d.
 
 * To calculate: `[P1_d;P2_d;Tsyn_d]` from `rA`, `rB`:
 ```rpl
-rA=1_au  rB=1.524_au
-@ Expecting [ P1=365.25689 83840 4 d  P2=687.18849 11630 2 d  Tsyn=779.66978 86054 9 d ]
+rA='Ⓒa♁'  rB='Ⓒa♂'
+@ Expecting [ P1=365.25689 83840 4 d  P2=686.97168 71422 8 d  Tsyn=779.94906 19991 4 d ]
 'ROOT(ⒺSynodic Period & Launch Window;[P1;P2;Tsyn];[1_d;1_d;1_d])'
 ```
 
@@ -14438,8 +14437,8 @@ Bi-elliptic wins (`dgain>0`) for radius ratios above ≈11.94, at the cost of mu
 
 * To calculate: `[atx_au;dvH_m/s;abe1_au;abe2_au;dv1_m/s;dv2_m/s;dv3_m/s;dvBE_m/s;dgain_m/s]` from `rA`, `rB`, `rstar`:
 ```rpl
-rA=1_au  rB=30.07_au  rstar=50_au
-@ Expecting [ atx=15.535 au  dvH=15 707.33870 8 m/s  …  dvBE=15 377.05850 9 m/s  dgain=330.28020 0 m/s ]
+rA='Ⓒa♁'  rB='Ⓒa♆'  rstar=50_au
+@ Expecting [ atx=15.52381 00949 12 au  dvH=15 707.85453 8503 m/s  …  dvBE=15 377.29638 7135 m/s  dgain=330.55815 13679 4 m/s ]
 'ROOT(ⒺBi Elliptic vs Hohmann;[atx;dvH;abe1;abe2;dv1;dv2;dv3;dvBE;dgain];[1_au;1_m/s;1_au;1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s])'
 ```
 
@@ -14451,7 +14450,7 @@ makes `dVesc≪vinf`.
 
 * To calculate: `[Vsun_m/s;Vplanet_m/s;vinf_m/s;r0_km;Vo_m/s;dVesc_m/s;C3_km²/s²]` from `rA`, `Hp`:
 ```rpl
-rA=1_au  Hp=200_km
+rA='Ⓒa♁'  Hp=200_km
 @ Expecting [ Vsun=42 121.91513 6632 m/s  Vplanet=29 784.69182 9677 m/s  vinf=12 337.22330 6955 m/s  r0=6 578.1 km  Vo=16 534.72738 8576 m/s  dVesc=8 750.44415 60348 m/s  C3=152.20707 89256 8 km↑2/s↑2 ]
 'ROOT(ⒺSolar System Escape;[Vsun;Vplanet;vinf;r0;Vo;dVesc;C3];[1_m/s;1_m/s;1_m/s;1_km;1_m/s;1_m/s;1_km²/s²])'
 ```
@@ -14466,7 +14465,7 @@ relative speed to Earth an interceptor must supply.
 
 * To calculate: `[vobj_m/s;vEarth_m/s;vt_m/s;vr_m/s;fpa_°;dVint_m/s]` from `aobj`, `eobj`, `rX`:
 ```rpl
-aobj=2_au  eobj=0.6  rX=1_au
+aobj=2_au  eobj=0.6  rX='Ⓒa♁'
 @ Expecting [ vobj=36 478.64856 4376 m/s  vEarth=29 784.69182 9677 m/s  vt=33 697.53210 9306 m/s  vr=13 970.25879 594 m/s  fpa=22.51782 53582 27 °  dVint=14 507.87544 3339 m/s ]
 'ROOT(ⒺInterception Of Incoming Object;[vobj;vEarth;vt;vr;fpa;dVint];[1_m/s;1_m/s;1_m/s;1_m/s;1_°;1_m/s])'
 ```
@@ -14478,7 +14477,7 @@ from a parking orbit, `TOF`.
 
 * To calculate: `[atx_au;vinfD_m/s;vinfA_m/s;r0_km;Vo_m/s;dVdep_m/s;TOF_s]` from `rA`, `rB`, `Hp`:
 ```rpl
-rA=1_au  rB=2.766_au  Hp=200_km
+rA='Ⓒa♁'  rB=2.766_au  Hp=200_km
 @ Expecting [ atx=1.883 au  vinfD=6 314.21403 12133 m/s  vinfA=4 857.88002 65311 m/s  r0=6 578.1 km  Vo=12 690.91918 3449 m/s  dVdep=4 906.63595 09072 m/s  TOF=40 771 590.51552 5 s ]
 'ROOT(ⒺAsteroid Belt Injection Orbit;[atx;vinfD;vinfA;r0;Vo;dVdep;TOF];[1_au;1_m/s;1_m/s;1_km;1_m/s;1_m/s;1_s])'
 ```
@@ -14489,10 +14488,10 @@ Why route via Venus: a direct Earth→Mercury transfer arrives at `vinfMe`≈9.6
 capture), whereas Earth→Venus arrives at only `vinfV`≈2.7 km/s, and a close Venus flyby (`rpV`)
 can turn the relative velocity up to `turnV` to shed energy toward Mercury.
 
-* To calculate: `[aEM_au;vinfMe_m/s;aEV_au;vinfV_m/s;eccV;turnV_°]` from `rE`, `rV`, `rMe`, `rpV`:
+* To calculate: `[aEM_au;vinfMe_m/s;aEV_au;vinfV_m/s;eccV;turnV_°]` from `rEar`, `rV`, `rMe`, `rpV`:
 ```rpl
-rEar=1_au  rV=0.723332_au  rMe=0.387098_au  rpV=6351.8_km
-@ Expecting [ aEM=0.69354 9 au  vinfMe=9 611.49649 90762 m/s  aEV=0.86166 6 au  vinfV=2 706.56344 64884 m/s  eccV=1.14323 16126 178  turnV=122.02214 72385 6 ° ]
+rEar='Ⓒa♁'  rV='Ⓒa♀'  rMe='Ⓒa☿'  rpV='ⒸReq♀+300_km'
+@ Expecting [ aEM=0.69354 90449 464 au  vinfMe=9 611.49352 04222 m/s  aEV=0.86166 29016 6321 au  vinfV=2 706.64286 92436 m/s  eccV=1.14324 00188 617  turnV=122.02062 64879 5 ° ]
 'ROOT(ⒺTo Mercury Through Venus;[aEM;vinfMe;aEV;vinfV;eccV;turnV];[1_au;1_m/s;1_au;1_m/s;1_1;1_°])'
 ```
 
@@ -14505,8 +14504,8 @@ apoapsis reaches a moon (`rapo`): `MOIsat=Vhyp−Vcap`. Very elliptic capture �
 
 * To calculate: `[aES_au;vinfSa_m/s;Vhyp_m/s;acap_km;Vcap_m/s;MOIsat_m/s]` from `rEar`, `rSa`, `rp`, `rapo`:
 ```rpl
-rEar=1_au  rSa=9.5826_au  rp=62268_km  rapo=1221870_km
-@ Expecting [ aES=5.2913 au  vinfSa=5 438.86133 30872 m/s  Vhyp=35 329.92291 6638 m/s  acap=642 069 km  Vcap=34 051.88845 6207 m/s  MOIsat=1 278.03446 0431 m/s ]
+rEar='Ⓒa♁'  rSa='Ⓒa♄'  rp='ⒸReq♄+2000_km'  rapo=1221870_km
+@ Expecting [ aES=5.29127 80886 927 au  vinfSa=5 438.86510 88691 m/s  Vhyp=35 329.92349 7901 m/s  acap=642 069 km  Vcap=34 051.88845 6207 m/s  MOIsat=1 278.03504 16935 m/s ]
 'ROOT(ⒺSaturn Injection Orbit;[aES;vinfSa;Vhyp;acap;Vcap;MOIsat];[1_au;1_m/s;1_m/s;1_km;1_m/s;1_m/s])'
 ```
 
@@ -14517,7 +14516,7 @@ Huge Δv (Jupiter is massive). Io/Ganymede/Callisto: swap `rmoon`.
 
 * To calculate: `[atxJ_km;Vpark_m/s;dv1_m/s;Vmoon_m/s;dv2_m/s;dVtot_m/s;TOF_s]` from `rp`, `rmoon`:
 ```rpl
-rp=71892_km  rmoon=670900_km
+rp='ⒸReq♃+400_km'  rmoon=670900_km
 @ Expecting [ atxJ=371 396 km  Vpark=41 978.30942 4483 m/s  dv1=14 441.96956 8412 m/s  Vmoon=13 741.56926 5939 m/s  dv2=7 695.71042 35521 m/s  dVtot=22 137.67999 1965 m/s  TOF=63 174.30581 9566 s ]
 'ROOT(ⒺPath to Jupiter Satellites;[atxJ;Vpark;dv1;Vmoon;dv2;dVtot;TOF];[1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
@@ -14528,7 +14527,7 @@ In-system Hohmann to a Saturnian moon `rmoon` (Titan by default). Enceladus/Rhea
 
 * To calculate: `[atxS_km;Vpark_m/s;dv1_m/s;Vmoon_m/s;dv2_m/s;dVtot_m/s;TOF_s]` from `rp`, `rmoon`:
 ```rpl
-rp=62268_km  rmoon=1221870_km
+rp='ⒸReq♄+2000_km'  rmoon=1221870_km
 @ Expecting [ atxS=642 069 km  Vpark=24 684.22816 9978 m/s  dv1=9 367.66028 62295 m/s  Vmoon=5 572.36440 77728 m/s  dv2=3 837.03823 5274 m/s  dVtot=13 204.69852 1504 m/s  TOF=262 403.97839 812 s ]
 'ROOT(ⒺPath to Saturn Satellites;[atxS;Vpark;dv1;Vmoon;dv2;dVtot;TOF];[1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
@@ -14542,8 +14541,8 @@ parking orbit `rp`. Symmetric to the outbound leg.
 
 * To calculate: `[atx_au;vinfMars_m/s;vinfEar_m/s;Vo_m/s;TEI_m/s;TOF_s]` from `rMars`, `rEar`, `rp`:
 ```rpl
-rMars=1.524_au  rEar=1_au  rp=3896.2_km
-@ Expecting [ atx=1.262 au  vinfMars=2 649.98208 02712 m/s  vinfEar=2 946.05516 23088 m/s  Vo=5 385.82358 19282 m/s  TEI=2 070.35297 95932 m/s  TOF=22 370 268.98169 7 s ]
+rMars='Ⓒa♂'  rEar='Ⓒa♁'  rp='ⒸReq♂+500_km'
+@ Expecting [ atx=1.26183 97204 901 au  vinfMars=2 648.89672 2206 m/s  vinfEar=2 944.69113 26433 m/s  Vo=5 385.28963 70399 m/s  TEI=2 069.81903 47049 m/s  TOF=22 366 007.43426 9 s ]
 'ROOT(ⒺFrom Mars to Earth;[atx;vinfMars;vinfEar;Vo;TEI;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -14557,8 +14556,8 @@ arrival — hypersonic entry, peak-g, then terminal descent — as at Jezero cra
 
 * To calculate: `[gmars_m/s^2;amax_m/s^2;amaxg;vterm_m/s]` from `Ventry`, `fpa`, `Hs`, `ρa`, `Cd`, `Ad`, `msat`, `rmars`:
 ```rpl
-Ventry=6000_m/s  fpa=12_°  Hs=11.1_km  ρa=0.015_kg/m³  Cd=1.5  Ad=10_m↑2  msat=1000_kg  rmars=3389.5_km
-@ Expecting [ gmars=3.72786 63038 873 m/s↑2  amax=124.03205 94017 m/s↑2  amaxg=12.64775 01900 95  vterm=182.03458 28898 7 m/s ]
+Ventry=6000_m/s  fpa=12_°  Hs=11.1_km  ρa=0.015_kg/m³  Cd=1.5  Ad=10_m↑2  msat=1000_kg  rmars='(ⒸReq♂^2*ⒸRp♂)^(1/3)'
+@ Expecting [ gmars=3.72782 18628 2 m/s↑2  amax=124.03205 94017 m/s↑2  amaxg=12.64775 01900 95  vterm=182.03349 78408 6 m/s ]
 'ROOT(ⒺMars Landing;[gmars;amax;amaxg;vterm];[1_m/s^2;1_m/s^2;1_1;1_m/s])'
 ```
 
@@ -14584,7 +14583,7 @@ Waiting at Sun-Earth L2 (`dSunL2`,`VL2`), then intercepting a newly-found object
 
 * To calculate: `[dSunL2_km;PL2_s;VL2_m/s;vobj_m/s;vt_m/s;vr_m/s;fpa_°;vfly_m/s]` from `rL2`, `aobj`, `eobj`, `rX`:
 ```rpl
-rL2=1501531.72084_km  aobj=2_au  eobj=0.6  rX=1_au
+rL2=1501531.72084_km  aobj=2_au  eobj=0.6  rX='Ⓒa♁'
 @ Expecting [ dSunL2=151 099 402.421 km  PL2=31 558 148.6281 s  VL2=30 083.68952 m/s  vobj=36 478.64856 m/s  vt=33 697.53211 m/s  vr=13 970.25880 m/s  fpa=22.51782 536 °  vfly=14 430.10703 6062 m/s ]
 'ROOT(ⒺComet Interceptor;[dSunL2;PL2;VL2;vobj;vt;vr;fpa;vfly];[1_km;1_s;1_m/s;1_m/s;1_m/s;1_m/s;1_°;1_m/s])'
 ```
