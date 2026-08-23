@@ -4215,7 +4215,7 @@ Full interplanetary Δv budget: heliocentric Hohmann → `vinfD`/`vinfA` → dep
 
 * To calculate: `[atx_au;VcsA_m/s;VtxA_m/s;vinfD_m/s;VcsB_m/s;VtxB_m/s;vinfA_m/s;r0_km;Vo_m/s;TMI_m/s;Varr_m/s;MOI_m/s;dVtot_m/s;TOF_s]` from `rA`, `rB`, `Hp`, `rm`:
 ```rpl
-rA='Ⓒa♁'  rB='Ⓒa♂'  Hp=200_km  rm='ⒸReq♂+500_km'
+rA='Ⓒa♁'  rB='Ⓒa♂'  Hp=200_km  'ⒸReq♂+500_km' →NUM 'rm' STO
 @ Expecting [ atx=1.26183 97204 901 au  …  TMI=3 611.38861 05542 m/s  MOI=2 069.81903 47049 m/s  dVtot=5 681.20764 5259 m/s  TOF=22 366 007.43426 9 s ]
 'ROOT(ⒺPatched Conic Mission Capstone;[atx;VcsA;VtxA;vinfD;VcsB;VtxB;vinfA;r0;Vo;TMI;Varr;MOI;dVtot;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
@@ -4294,7 +4294,7 @@ can turn the relative velocity up to `turnV` to shed energy toward Mercury.
 
 * To calculate: `[aEM_au;vinfMe_m/s;aEV_au;vinfV_m/s;eccV;turnV_°]` from `rEar`, `rV`, `rMe`, `rpV`:
 ```rpl
-rEar='Ⓒa♁'  rV='Ⓒa♀'  rMe='Ⓒa☿'  rpV='ⒸReq♀+300_km'
+rEar='Ⓒa♁'  rV='Ⓒa♀'  rMe='Ⓒa☿'  'ⒸReq♀+300_km' →NUM 'rpV' STO
 @ Expecting [ aEM=0.69354 90449 464 au  vinfMe=9 611.49352 04222 m/s  aEV=0.86166 29016 6321 au  vinfV=2 706.64286 92436 m/s  eccV=1.14324 00188 617  turnV=122.02062 64879 5 ° ]
 'ROOT(ⒺTo Mercury Through Venus;[aEM;vinfMe;aEV;vinfV;eccV;turnV];[1_au;1_m/s;1_au;1_m/s;1_1;1_°])'
 ```
@@ -4308,7 +4308,7 @@ apoapsis reaches a moon (`rapo`): `MOIsat=Vhyp−Vcap`. Very elliptic capture �
 
 * To calculate: `[aES_au;vinfSa_m/s;Vhyp_m/s;acap_km;Vcap_m/s;MOIsat_m/s]` from `rEar`, `rSa`, `rp`, `rapo`:
 ```rpl
-rEar='Ⓒa♁'  rSa='Ⓒa♄'  rp='ⒸReq♄+2000_km'  rapo=1221870_km
+rEar='Ⓒa♁'  rSa='Ⓒa♄'  'ⒸReq♄+2000_km' →NUM 'rp' STO  rapo=1221870_km
 @ Expecting [ aES=5.29127 80886 927 au  vinfSa=5 438.86510 88691 m/s  Vhyp=35 329.92349 7901 m/s  acap=642 069 km  Vcap=34 051.88845 6207 m/s  MOIsat=1 278.03504 16935 m/s ]
 'ROOT(ⒺSaturn Injection Orbit;[aES;vinfSa;Vhyp;acap;Vcap;MOIsat];[1_au;1_m/s;1_m/s;1_km;1_m/s;1_m/s])'
 ```
@@ -4320,7 +4320,7 @@ Huge Δv (Jupiter is massive). Io/Ganymede/Callisto: swap `rmoon`.
 
 * To calculate: `[atxJ_km;Vpark_m/s;dv1_m/s;Vmoon_m/s;dv2_m/s;dVtot_m/s;TOF_s]` from `rp`, `rmoon`:
 ```rpl
-rp='ⒸReq♃+400_km'  rmoon=670900_km
+'ⒸReq♃+400_km' →NUM 'rp' STO  rmoon=670900_km
 @ Expecting [ atxJ=371 396 km  Vpark=41 978.30942 4483 m/s  dv1=14 441.96956 8412 m/s  Vmoon=13 741.56926 5939 m/s  dv2=7 695.71042 35521 m/s  dVtot=22 137.67999 1965 m/s  TOF=63 174.30581 9566 s ]
 'ROOT(ⒺPath to Jupiter Satellites;[atxJ;Vpark;dv1;Vmoon;dv2;dVtot;TOF];[1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
@@ -4331,7 +4331,7 @@ In-system Hohmann to a Saturnian moon `rmoon` (Titan by default). Enceladus/Rhea
 
 * To calculate: `[atxS_km;Vpark_m/s;dv1_m/s;Vmoon_m/s;dv2_m/s;dVtot_m/s;TOF_s]` from `rp`, `rmoon`:
 ```rpl
-rp='ⒸReq♄+2000_km'  rmoon=1221870_km
+'ⒸReq♄+2000_km' →NUM 'rp' STO  rmoon=1221870_km
 @ Expecting [ atxS=642 069 km  Vpark=24 684.22816 9978 m/s  dv1=9 367.66028 62295 m/s  Vmoon=5 572.36440 77728 m/s  dv2=3 837.03823 5274 m/s  dVtot=13 204.69852 1504 m/s  TOF=262 403.97839 812 s ]
 'ROOT(ⒺPath to Saturn Satellites;[atxS;Vpark;dv1;Vmoon;dv2;dVtot;TOF];[1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
@@ -4345,7 +4345,7 @@ parking orbit `rp`. Symmetric to the outbound leg.
 
 * To calculate: `[atx_au;vinfMars_m/s;vinfEar_m/s;Vo_m/s;TEI_m/s;TOF_s]` from `rMars`, `rEar`, `rp`:
 ```rpl
-rMars='Ⓒa♂'  rEar='Ⓒa♁'  rp='ⒸReq♂+500_km'
+rMars='Ⓒa♂'  rEar='Ⓒa♁'  'ⒸReq♂+500_km' →NUM 'rp' STO
 @ Expecting [ atx=1.26183 97204 901 au  vinfMars=2 648.89672 2206 m/s  vinfEar=2 944.69113 26433 m/s  Vo=5 385.28963 70399 m/s  TEI=2 069.81903 47049 m/s  TOF=22 366 007.43426 9 s ]
 'ROOT(ⒺFrom Mars to Earth;[atx;vinfMars;vinfEar;Vo;TEI;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
