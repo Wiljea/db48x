@@ -3919,8 +3919,8 @@ distance `dmoon` (simplified patched conic). `ΔVtli=vtli−v1`; `tof=π·√(at
 
 * To calculate: `[r1_km;atx_km;v1_m/s;vtli_m/s;ΔVtli_m/s;varr_m/s;tof_s]` from `Hp`, `dmoon`:
 ```rpl
-Hp=185_km  dmoon=384400_km
-@ Expecting [ r1=6 563.1 km  atx=195 481.55 km  v1=7 793.17366 60481 m/s  vtli=10 928.31379 5739 m/s  ΔVtli=3 135.14012 96907 m/s  varr=186.58589 04079 4 m/s  TOF=430 070.51454 616 s ]
+Hp=185_km  dmoon='Ⓒa☽'
+@ Expecting [ r1=6 563.1 km  atx=195 481.05 km  v1=7 793.17366 60481 m/s  vtli=10 928.31355 7115 m/s  ΔVtli=3 135.13989 10667 m/s  varr=186.58637 17301 6 m/s  tof=430 068.86450 461 s ]
 'ROOT(ⒺTranslunar Injection;[r1;atx;v1;vtli;ΔVtli;varr;tof];[1_km;1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
