@@ -586,7 +586,7 @@ In accordance with microscopic Ohm's law, the current density is proportional to
 
 The 30 variables in the Fluids section are:
 
-* `ε`: Roughness (dim.: length)
+* `ϵ`: Roughness (dim.: length)
 * `μ`: Dynamic viscosity (dim.: force·time/volume, in SI: N·s/m^3)
 * `ρ`: Density (dim.: mass/volume, in SI: kg/m^3)
 * `ΔP`: Pressure change (dim.: force/area, in SI: pascal, Pa)
@@ -1956,7 +1956,7 @@ ND=1e16_1/cm^3  W=6_μ  a=1_μ  L=2_μ  μn=1248_cm^2/(V*s)  VGS=-4_V  VDS=4_V  
 The 28 variables in the Stress Analysis section are:
 
 * `δ`: Elongation
-* `ϵ`: Normal strain
+* `ε`: Normal strain
 * `γ`: Shear strain (dim.: angle)
 * `φ`: Angle of twist
 * `σ`: Normal stress (dim.: pressure, in SI: pascal, Pa)
@@ -2051,10 +2051,10 @@ The 40 variables in the Waves section are:
 * `favg`: Frequency average (dim.: 1/time; in SI: hertz, Hz)
 * `fbeat`: Beat frequency (dim.: 1/time; in SI: hertz, Hz)
 * `f0`: Emission frequency (dim.: 1/time; in SI: hertz, Hz)
-* `ffixed-fixed`: frequency of harmonics on a string fixed at both ends (dim.: 1/time; in SI: hertz, Hz)
-* `ffixed-free`: frequency of harmonics on a string fixed at one end and free at the other end (dim.: 1/time; in SI: hertz, Hz)
-* `fopen-open`: frequency of harmonics in a tube open at both ends (dim.: 1/time; in SI: hertz, Hz)
-* `fopen-close`: frequency of harmonics in a tube open at one end and close at the other end (dim.: 1/time; in SI: hertz, Hz)
+* `ffixedfixed`: frequency of harmonics on a string fixed at both ends (dim.: 1/time; in SI: hertz, Hz)
+* `ffixedfree`: frequency of harmonics on a string fixed at one end and free at the other end (dim.: 1/time; in SI: hertz, Hz)
+* `fopenopen`: frequency of harmonics in a tube open at both ends (dim.: 1/time; in SI: hertz, Hz)
+* `fopenclose`: frequency of harmonics in a tube open at one end and close at the other end (dim.: 1/time; in SI: hertz, Hz)
 * `I`: Sound intensity (dim.: energy/(area·time), in SI: W/m^2)
 * `k`: Angular wave number (dim.: agle/length, in SI: r/m)
 * `M`: Mach number
@@ -2291,7 +2291,7 @@ The 109 variables in the Relativity section are:
 * `v`: Velocity along the x axis
 * `ve`: Escape velocity in a gravitational field
 * `z`: Gravitational redshift parameter
-* `znl`: Newtonian limit of the gravitational redshift parameter
+* `zNL`: Newtonian limit of the gravitational redshift parameter
 
 The relativistic transformations are parametrized by the real constant `v` representing a velocity confined to the x-direction. The respective inverse transformation is then parameterized by the negative of this velocity.
 
@@ -2605,7 +2605,7 @@ The 43 variables in the Modern Physics section are :
 * `q`: Heat transfer rate (dim.: energy/time, in SI: watt, W)
 * `r`: Radius of electron orbit in level `n`
 * `T`: Temperature
-* `V0`: Stopping potential (dim.: energy/charge, In SI: volt,V)
+* `Vo`: Stopping potential (dim.: energy/charge, In SI: volt,V)
 * `v`: Speed of emitted electron
 * `vmax`: Maximum speed of ejected photoelectron
 
@@ -4052,7 +4052,6 @@ The variables of the Heliocentric / Trajectory section are:
 * `rA`: Departure planet's orbital radius
 * `rapo`: Capture-orbit apoapsis radius
 * `rB`: Destination planet's orbital radius
-* `rE`: Earth's orbital radius
 * `rEar`: Earth's orbital radius
 * `rL2`: Sun-Earth L2 distance from Earth
 * `rm`: Capture-orbit radius at the target planet
@@ -4293,7 +4292,7 @@ Why route via Venus: a direct Earth→Mercury transfer arrives at `vinfMe`≈9.6
 capture), whereas Earth→Venus arrives at only `vinfV`≈2.7 km/s, and a close Venus flyby (`rpV`)
 can turn the relative velocity up to `turnV` to shed energy toward Mercury.
 
-* To calculate: `[aEM_au;vinfMe_m/s;aEV_au;vinfV_m/s;eccV;turnV_°]` from `rE`, `rV`, `rMe`, `rpV`:
+* To calculate: `[aEM_au;vinfMe_m/s;aEV_au;vinfV_m/s;eccV;turnV_°]` from `rEar`, `rV`, `rMe`, `rpV`:
 ```rpl
 rEar=1_au  rV=0.723332_au  rMe=0.387098_au  rpV=6351.8_km
 @ Expecting [ aEM=0.69354 9 au  vinfMe=9 611.49649 90762 m/s  aEV=0.86166 6 au  vinfV=2 706.56344 64884 m/s  eccV=1.14323 16126 178  turnV=122.02214 72385 6 ° ]
