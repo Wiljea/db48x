@@ -43,6 +43,7 @@
 #include "variables.h"
 #include "hwfp.h"
 #include "decimal.h"
+#include "integer.h"
 #include <cmath>
 
 
@@ -2030,6 +2031,36 @@ COMMAND_BODY(cross)
 
 
 
+static double decimal_to_double_fast(decimal_p d)
+// ----------------------------------------------------------------------------
+//   Convert a decimal to a C++ double without rendering it as text
+// ----------------------------------------------------------------------------
+//   decimal::to_double() renders the value into a string and calls strtod().
+//   That costs around 70us per call on Android, where strtod comes from bionic.
+//   Reading the base-1000 mantissa directly costs a few hundred nanoseconds.
+{
+    decimal::info s = d->shape();
+    size_t        n = s.nkigits;
+    if (n > 7)
+        n = 7;                  // 21 digits, more than a double can represent
+    double m = 0.0;
+    for (size_t i = 0; i < n; i++)
+    {
+        decimal::kint k = decimal::kigit(s.base, i);
+        if (k > 999)
+            return d->to_double();      // Denormal: NaN or infinity
+        m = m * 1000.0 + double(k);
+    }
+    if (m == 0.0)
+        return 0.0;
+    double e = double(s.exponent) - 3.0 * double(n);
+    double v = e < -300.0
+        ? (m * std::pow(10.0, -300.0)) * std::pow(10.0, e + 300.0)
+        : m * std::pow(10.0, e);
+    return d->type() == object::ID_neg_decimal ? -v : v;
+}
+
+
 static double posphi_to_double(algebraic_g a)
 // ----------------------------------------------------------------------------
 //   Read a real algebraic as a C++ double (hwdouble / hwfloat / decimal)
@@ -2042,7 +2073,21 @@ static double posphi_to_double(algebraic_g a)
         return hwdouble_p(+a)->value();
     if (t == object::ID_hwfloat)
         return hwfloat_p(+a)->value();
-    algebraic::to_decimal(a);
+    if (t == object::ID_integer)
+        return double(integer_p(+a)->value<uint64_t>());
+    if (t == object::ID_neg_integer)
+        return -double(integer_p(+a)->value<uint64_t>());
+    if (t == object::ID_decimal || t == object::ID_neg_decimal)
+        return decimal_to_double_fast(decimal_p(+a));
+    if (!algebraic::to_decimal(a) || !a)
+        return 0.0;
+    t = a->type();
+    if (t == object::ID_decimal || t == object::ID_neg_decimal)
+        return decimal_to_double_fast(decimal_p(+a));
+    if (t == object::ID_hwdouble)
+        return hwdouble_p(+a)->value();
+    if (t == object::ID_hwfloat)
+        return hwfloat_p(+a)->value();
     return decimal_p(+a)->to_double();
 }
 
@@ -2145,8 +2190,8 @@ static double lam_stumpC(double z)
 
 static double lam_stumpS(double z)
 {
-    if (z > 1e-6)  { double s = sqrt(z);  return (s - sin(s)) / pow(z, 1.5); }
-    if (z < -1e-6) { double s = sqrt(-z); return (sinh(s) - s) / pow(-z, 1.5); }
+    if (z > 1e-6)  { double s = sqrt(z);  return (s - sin(s)) / (z * s); }
+    if (z < -1e-6) { double s = sqrt(-z); return (sinh(s) - s) / (-z * s); }
     return 1.0 / 6.0;
 }
 
@@ -2158,7 +2203,8 @@ static double lam_UF(double z, double r1, double r2, double A, double mu, double
     double y  = r1 + r2 + A * (z * sz - 1.0) / sqrt(cz);
     if (y < 0.0)
         return 1e30;   // infeasible arc: signal a large residual to the secant
-    return pow(y / cz, 1.5) * sz + A * sqrt(y) - sqrt(mu) * dt;
+    double q = y / cz;
+    return q * sqrt(q) * sz + A * sqrt(y) - sqrt(mu) * dt;
 }
 
 
