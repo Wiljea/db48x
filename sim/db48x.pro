@@ -145,6 +145,10 @@ clang:   QMAKE_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wno-vla-extension
 gcc:     QMAKE_CFLAGS   += -Wall -Wno-unknown-warning-option -Wno-packed-bitfield-compat
 gcc:     QMAKE_CXXFLAGS += -Wall -Wno-unknown-warning-option -Wno-packed-bitfield-compat
 
+# Optimize: CONFIG += debug above otherwise leaves us at -O0
+QMAKE_CFLAGS   += -O2
+QMAKE_CXXFLAGS += -O2
+
 isEmpty(OBJECTS_DIR): OBJECTS_DIR=db48x-build
 
 ICON = db48x.icns
