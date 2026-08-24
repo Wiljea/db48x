@@ -1,0 +1,95 @@
+Directory {
+
+@@ ===========================================================================
+@@
+@@	DB48X speed test - see issue #1725
+@@
+@@	Five timings. Each program runs its own TEVAL and leaves the elapsed
+@@	time on the stack, in milliseconds. Nothing else is measured and
+@@	nothing is stored.
+@@
+@@	Iteration counts differ, so divide each time by its count before
+@@	comparing. The number that matters is the cost of Tget divided by the
+@@	cost of Tadd, per iteration:
+@@
+@@	    desktop simulator, x86-64    1.18
+@@	    DM32 hardware                0.89
+@@	    Samsung Galaxy S20 FE        8.0
+@@
+@@	Author & design          : Jean Wilson
+@@	Co-authors & programming : Claude & Claude Code (Anthropic)
+@@
+@@ ===========================================================================
+
+
+@@ ---------------------------------------------------------------------------
+@@	Tadd - integer addition, 100000 times
+@@	The interpreter baseline: no array is involved anywhere.
+@@ ---------------------------------------------------------------------------
+
+Tadd
+«
+	« 1 100000 FOR i 1 2 + DROP NEXT » TEVAL
+»
+
+
+@@ ---------------------------------------------------------------------------
+@@	Tpush - push an array literal and drop it, 100000 times
+@@	The array is never read, only placed on the stack and discarded.
+@@ ---------------------------------------------------------------------------
+
+Tpush
+«
+	« 1 100000 FOR i [ 5000 10000 2100 ] DROP NEXT » TEVAL
+»
+
+
+@@ ---------------------------------------------------------------------------
+@@	Tget - read one element of an array, 10000 times
+@@	This is the operation under investigation.
+@@ ---------------------------------------------------------------------------
+
+Tget
+«
+	« 1 10000 FOR i [ 5000 10000 2100 ] 1 GET DROP NEXT » TEVAL
+»
+
+
+@@ ---------------------------------------------------------------------------
+@@	Tarr - add two arrays, 10000 times
+@@	Reads three elements and builds a new array.
+@@ ---------------------------------------------------------------------------
+
+Tarr
+«
+	« 1 10000 FOR i [ 5000 10000 2100 ] DUP + DROP NEXT » TEVAL
+»
+
+
+@@ ---------------------------------------------------------------------------
+@@	Tlam - full Lambert solver, 10000 times
+@@	A real workload: reads two 3-vectors, runs a bounded secant loop,
+@@	builds the result.
+@@ ---------------------------------------------------------------------------
+
+Tlam
+«
+	« 1 10000 FOR i [ 5000 10000 2100 ] [ -14600 2500 7000 ] 3600 398600 LambertUN DROP NEXT » TEVAL
+»
+
+}
+
+
+@@ ===========================================================================
+@@	Tell the tester what to do next
+@@ ===========================================================================
+
+"Test de vitesse charge.
+
+Touche VAR : 5 programmes.
+Executez-les un par un :
+Tadd Tpush Tget Tarr Tlam
+
+Notez chaque temps en ms."
+
+VariablesMenu
