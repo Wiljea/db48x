@@ -166,3 +166,11 @@
 	"Eqns",		"=/config/equations.csv"
 	"Lib",		"=/config/library.csv"
 	"Units",	"=/config/units.csv"
+
+"Speed Test"
+
+	"Tadd",		"=/library/Bench/Tadd.48s"
+	"Tpush",		"=/library/Bench/Tpush.48s"
+	"Tget",		"=/library/Bench/Tget.48s"
+	"Tarr",		"=/library/Bench/Tarr.48s"
+	"Tsolve",	"=/library/Bench/Tsolve.48s"

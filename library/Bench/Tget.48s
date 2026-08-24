@@ -1,0 +1,12 @@
+«
+@@ ============================================================
+@@ Tget — read one element of an array, 10000 times
+@@ This is the operation under investigation in issue #1725.
+@@ Returns the elapsed time in milliseconds.
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@
+@@ Input  : none   ( -- duration )
+@@ ============================================================
+	« 1 10000 FOR i [ 5000 10000 2100 ] 1 GET DROP NEXT » TEVAL
+»

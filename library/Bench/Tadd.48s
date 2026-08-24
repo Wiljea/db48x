@@ -1,0 +1,12 @@
+«
+@@ ============================================================
+@@ Tadd — integer addition, 100000 times
+@@ Interpreter baseline: no array is involved anywhere.
+@@ Returns the elapsed time in milliseconds.
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@
+@@ Input  : none   ( -- duration )
+@@ ============================================================
+	« 1 100000 FOR i 1 2 + DROP NEXT » TEVAL
+»

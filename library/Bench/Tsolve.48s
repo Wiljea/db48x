@@ -1,0 +1,13 @@
+«
+@@ ============================================================
+@@ Tsolve — full Lambert solver, 10000 times
+@@ A real workload: reads two 3-vectors, runs a bounded secant loop
+@@ on the universal variable, and builds the result.
+@@ Returns the elapsed time in milliseconds.
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@
+@@ Input  : none   ( -- duration )
+@@ ============================================================
+	« 1 10000 FOR i [ 5000 10000 2100 ] [ -14600 2500 7000 ] 3600 398600 LambertUN DROP NEXT » TEVAL
+»

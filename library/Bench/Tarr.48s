@@ -1,0 +1,12 @@
+«
+@@ ============================================================
+@@ Tarr — add two arrays, 10000 times
+@@ Reads three elements and builds a new array.
+@@ Returns the elapsed time in milliseconds.
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@
+@@ Input  : none   ( -- duration )
+@@ ============================================================
+	« 1 10000 FOR i [ 5000 10000 2100 ] DUP + DROP NEXT » TEVAL
+»

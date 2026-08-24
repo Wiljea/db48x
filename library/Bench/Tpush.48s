@@ -1,0 +1,12 @@
+«
+@@ ============================================================
+@@ Tpush — push an array literal and drop it, 100000 times
+@@ The array is never read, only placed on the stack and discarded.
+@@ Returns the elapsed time in milliseconds.
+@@ Author & design         : Jean Wilson
+@@ Co-authors & programming : Claude & Claude Code (Anthropic)
+@@
+@@ Input  : none   ( -- duration )
+@@ ============================================================
+	« 1 100000 FOR i [ 5000 10000 2100 ] DROP NEXT » TEVAL
+»
