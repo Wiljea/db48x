@@ -2136,7 +2136,7 @@ static const cstring basic_equations[] =
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
     // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83)
     // As of 26-08-13: Total 815 vars, 1101 eqns, 267 sims in 247 subsections, 21 sections (1101/315=3.50; 815/397=2.05)
-    // As of 26-08-20: Total 1114 vars, 1109 eqns, 268 sims in 248 subsections, 21 sections (eqns: 1109/315=3.52; vars: 1114/397=2.81 in comparison with the HP50g Equation Library)
+    // As of 26-08-20: Total 1115 vars, 1109 eqns, 268 sims in 248 subsections, 21 sections (eqns: 1109/315=3.52; vars: 1115/397=2.81 in comparison with the HP50g Equation Library)
 };
 //   clang-format on
 
@@ -2602,7 +2602,7 @@ HELP_BODY(assignment)
 //     Oscillations                         25
 //     Plane Geometry                       21
 //     Solid geometry                       12
-//     Solid State Devices                  53
+//     Solid State Devices                  54
 //     Stress Analysis                      28
 //     Waves                                40
 //     Relativity                          109
@@ -2615,7 +2615,7 @@ HELP_BODY(assignment)
 //     Heliocentric / Stationary            12
 //     Heliocentric / Trajectory           128
 // --------------------------------------------------------------------------
-//     GRAND TOTAL                        1114
+//     GRAND TOTAL                        1115
 // ==========================================================================
 
 // ==========================================================================
@@ -2630,6 +2630,6 @@ HELP_BODY(assignment)
 //     Sub-sections        (### and #### in equations.md)      248
 //     Simulations         (ROOT calls in equations.md)        268
 //     Equations           (solved by ROOT, this file)        1109
-//     Variables           (sum of the per-section lists)     1114
+//     Variables           (sum of the per-section lists)     1115
 //     Figures             (in equations.md)                   109
 // ==========================================================================
