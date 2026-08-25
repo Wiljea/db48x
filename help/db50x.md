@@ -13126,7 +13126,6 @@ The 111 variables in the Rocketry section are:
 * `k`: Specific heat ratio
 * `L`: Solid Rocket combustion length
 * `Lc`: Combustion chamber length
-* `Ln`: Axial length of the nozzle from throat to exit plane
 * `Li`: Fractional axial length based on a 15-degree conical nozzle
 * `Lstar`: Combustion chamber characteristic length for a given propellant
 * `M`: average molecular weight of the exhaust gases
@@ -13805,7 +13804,7 @@ Az=86_°  lat=32_°  lon2=-60_°  ν=25.7975314366_°  JDbo=2451838.125
 
 Time from `ν0` to `ν`: eccentric anomaly `cos(Ea)=(ecc+cos ν)/(1+ecc·cos ν)`; mean anomaly
 `M=Ea−ecc·sin(Ea)` (deg via `180/π`); period `P=2π√(a³/ⒸGM♁)`; `Δt=(M−M0)/360·P`.
-(`acos` branch valid for `ν` in 0…180°.)
+(`acos()` branch valid for `ν` in 0…180°.)
 
 * To calculate: `[Ea0_°;Ea_°;M0_°;M_°;P_s;Δt_s]` from `a`, `ecc`, `ν0`, `ν`:
 ```rpl
@@ -13816,7 +13815,7 @@ a=7500_km  ecc=0.1  ν0=30_°  ν=90_°
 
 #### Time in Elliptic 2
 
-True anomaly after `Δt`: `M=M0+Δt/P·360`; Kepler `Ea=M+ecc·sin(Ea)` (deg, solved by `Root`);
+True anomaly after `Δt`: `M=M0+Δt/P·360`; Kepler `Ea=M+ecc·sin(Ea)` (deg, solved by `Root(...)`);
 then `ν` from `Ea` via `→Polar(ℝ→ℂ(...))` (correct quadrant).
 
 * To calculate: `[Ea0_°;M0_°;P_s;M_°;Ea_°;ν_°]` from `a`, `ecc`, `ν0`, `Δt`:
