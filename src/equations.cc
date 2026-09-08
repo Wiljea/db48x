@@ -1409,16 +1409,16 @@ static const cstring basic_equations[] =
     "Math/Probability", nullptr,
     //T#*: 30 vars 203 eqns 38 sims 32 secs
     // ------------------------------------------------------------------------
-    //   Distributions de probabilite. Conception : Jean Wilson
-    //   Co-auteurs & programmation : Claude Code (Anthropic)
+    //   Probability distributions. Design: Jean Wilson
+    //   Co-authors & programming: Claude Code (Anthropic)
     //
-    //   REGLE D'ORDRE : les lignes tautologiques 'x=x' donnent une touche de
-    //   menu aux noms qui entreraient en collision avec une constante. Elles
-    //   doivent TOUJOURS venir apres les equations qui definissent vraiment
-    //   les grandeurs : le solveur retient la premiere equation eligible.
+    //   ORDERING RULE: a tautological line such as 'x=x' exists only to give a
+    //   menu key to a name that would otherwise collide with a constant.  Such
+    //   lines must ALWAYS come after the equations that really define the
+    //   quantities: the solver keeps the first eligible equation.
     //
-    //   NOMS INTERDITS car ils resolvent vers des constantes : sigma, alpha,
-    //   k, gamma, g. D'ou sigma -> sx, alpha -> ap, k -> sh, gamma -> sc.
+    //   FORBIDDEN NAMES, because they resolve to constants: sigma, alpha, k,
+    //   gamma, g.  Hence sigma -> sx, alpha -> ap, k -> sh, gamma -> sc.
 
     "Norml",  "{ "
     "  'CDF=0.5*(1+erf((X-μ)/(sx*√(2))))' "
