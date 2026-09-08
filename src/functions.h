@@ -338,6 +338,9 @@ NFUNCTION(RelativeRound, 2);
 NFUNCTION(PrecisionRound, 2);
 
 NFUNCTION(xroot, 2);
+
+NFUNCTION(GammaP, 2);
+NFUNCTION(BetaI, 3);
 NFUNCTION(comb, 2);
 NFUNCTION(perm, 2);
 NFUNCTION_EXT(Sum,     4, SYMARGS_DECL(SYMARG(1) SYMARG(4)); );

@@ -1792,3 +1792,251 @@ NFUNCTION_BODY(PercentTotal)
     algebraic_g hundred = integer::make(100);
     return x/y * hundred;
 }
+
+// ============================================================================
+//
+//   Regularised incomplete gamma and beta functions
+//
+// ============================================================================
+//
+//   These two are the primitives from which the chi-square, gamma, beta,
+//   Student and Fisher distributions all follow in closed form, and from
+//   which UTPC, UTPF and UTPT can be built.
+//
+//   A series for the lower incomplete gamma when x < a+1, a continued
+//   fraction for the upper one otherwise, and a continued fraction for the
+//   incomplete beta, all evaluated by the modified method of Lentz. They are
+//   written against the arithmetic of the calculator, so they follow whatever
+//   precision is in force.
+
+static algebraic_g incomplete_epsilon()
+// ----------------------------------------------------------------------------
+//   Convergence threshold for the series and the continued fractions
+// ----------------------------------------------------------------------------
+{
+    return algebraic::epsilon(2);
+}
+
+
+static algebraic_g gamma_p_series(algebraic_r a, algebraic_r x, algebraic_r lga)
+// ----------------------------------------------------------------------------
+//   Series for the regularised lower incomplete gamma, used when x < a+1
+// ----------------------------------------------------------------------------
+{
+    algebraic_g one = integer::make(1);
+    algebraic_g eps = incomplete_epsilon();
+    algebraic_g ap  = a;
+    algebraic_g del = one / ap;
+    algebraic_g sum = del;
+    if (!one || !eps || !del)
+        return nullptr;
+    for (uint i = 0; i < 2000 && !program::interrupted(); i++)
+    {
+        ap  = ap + one;
+        del = del * x / ap;
+        sum = sum + del;
+        if (!ap || !del || !sum)
+            return nullptr;
+        if (smaller_magnitude(del, sum * eps))
+            return sum * exp::run(ln::run(x) * a - x - lga);
+    }
+    rt.precision_loss_error();
+    return nullptr;
+}
+
+
+static algebraic_g gamma_q_fraction(algebraic_r a, algebraic_r x, algebraic_r lga)
+// ----------------------------------------------------------------------------
+//   Continued fraction for the regularised upper incomplete gamma, x >= a+1
+// ----------------------------------------------------------------------------
+{
+    algebraic_g one  = integer::make(1);
+    algebraic_g two  = integer::make(2);
+    algebraic_g tiny = decimal::make(1, -300);
+    algebraic_g eps  = incomplete_epsilon();
+    algebraic_g b    = x + one - a;
+    algebraic_g c    = one / tiny;
+    algebraic_g d    = one / b;
+    algebraic_g h    = d;
+    if (!one || !two || !tiny || !eps || !b || !c || !d)
+        return nullptr;
+    for (uint i = 1; i < 2000 && !program::interrupted(); i++)
+    {
+        algebraic_g ii = integer::make(i);
+        algebraic_g an = -(ii * (ii - a));
+        b = b + two;
+        d = an * d + b;
+        if (!ii || !an || !b || !d)
+            return nullptr;
+        if (smaller_magnitude(d, tiny))
+            d = tiny;
+        c = b + an / c;
+        if (!c)
+            return nullptr;
+        if (smaller_magnitude(c, tiny))
+            c = tiny;
+        d = one / d;
+        algebraic_g del = d * c;
+        h = h * del;
+        if (!d || !del || !h)
+            return nullptr;
+        if (smaller_magnitude(del - one, eps))
+            return h * exp::run(ln::run(x) * a - x - lga);
+    }
+    rt.precision_loss_error();
+    return nullptr;
+}
+
+
+static algebraic_g beta_fraction(algebraic_r a, algebraic_r b, algebraic_r x)
+// ----------------------------------------------------------------------------
+//   Continued fraction for the incomplete beta function
+// ----------------------------------------------------------------------------
+{
+    algebraic_g one  = integer::make(1);
+    algebraic_g tiny = decimal::make(1, -300);
+    algebraic_g eps  = incomplete_epsilon();
+    algebraic_g apb  = a + b;
+    algebraic_g ap1  = a + one;
+    algebraic_g am1  = a - one;
+    algebraic_g c    = one;
+    algebraic_g d    = one - apb * x / ap1;
+    if (!one || !tiny || !eps || !apb || !ap1 || !am1 || !d)
+        return nullptr;
+    if (smaller_magnitude(d, tiny))
+        d = tiny;
+    d = one / d;
+    algebraic_g h = d;
+    if (!d)
+        return nullptr;
+    for (uint m = 1; m < 2000 && !program::interrupted(); m++)
+    {
+        algebraic_g mm = integer::make(m);
+        algebraic_g m2 = mm + mm;
+        if (!mm || !m2)
+            return nullptr;
+
+        // Even step of the recurrence
+        algebraic_g aa = mm * (b - mm) * x / ((am1 + m2) * (a + m2));
+        d = one + aa * d;
+        if (!aa || !d)
+            return nullptr;
+        if (smaller_magnitude(d, tiny))
+            d = tiny;
+        c = one + aa / c;
+        if (!c)
+            return nullptr;
+        if (smaller_magnitude(c, tiny))
+            c = tiny;
+        d = one / d;
+        h = h * d * c;
+        if (!d || !h)
+            return nullptr;
+
+        // Odd step of the recurrence
+        aa = -((a + mm) * (apb + mm) * x / ((a + m2) * (ap1 + m2)));
+        d = one + aa * d;
+        if (!aa || !d)
+            return nullptr;
+        if (smaller_magnitude(d, tiny))
+            d = tiny;
+        c = one + aa / c;
+        if (!c)
+            return nullptr;
+        if (smaller_magnitude(c, tiny))
+            c = tiny;
+        d = one / d;
+        algebraic_g del = d * c;
+        h = h * del;
+        if (!d || !del || !h)
+            return nullptr;
+        if (smaller_magnitude(del - one, eps))
+            return h;
+    }
+    rt.precision_loss_error();
+    return nullptr;
+}
+
+
+NFUNCTION_BODY(GammaP)
+// ----------------------------------------------------------------------------
+//   Regularised lower incomplete gamma, given a then x
+// ----------------------------------------------------------------------------
+{
+    algebraic_g &x = args[0];
+    algebraic_g &a = args[1];
+    if (x->is_symbolic() || a->is_symbolic())
+        return expression::make(ID_GammaP, args, 2, ID_expression, true);
+
+    settings::SaveNumericalResults snr(true);
+    algebraic_g zero = integer::make(0);
+    algebraic_g one  = integer::make(1);
+    if (!zero || !one)
+        return nullptr;
+    if (a->is_negative(false) || a->is_zero(false) || x->is_negative(false))
+    {
+        rt.domain_error();
+        return nullptr;
+    }
+    if (x->is_zero(false))
+        return zero;
+
+    algebraic_g lga = lgamma::run(a);
+    algebraic_g cut = x - (a + one);
+    if (!lga || !cut)
+        return nullptr;
+    if (cut->is_negative(false))
+        return gamma_p_series(a, x, lga);
+    algebraic_g q = gamma_q_fraction(a, x, lga);
+    return q ? one - q : nullptr;
+}
+
+
+NFUNCTION_BODY(BetaI)
+// ----------------------------------------------------------------------------
+//   Regularised incomplete beta, given a then b then x
+// ----------------------------------------------------------------------------
+{
+    algebraic_g &x = args[0];
+    algebraic_g &b = args[1];
+    algebraic_g &a = args[2];
+    if (x->is_symbolic() || a->is_symbolic() || b->is_symbolic())
+        return expression::make(ID_BetaI, args, 3, ID_expression, true);
+
+    settings::SaveNumericalResults snr(true);
+    algebraic_g zero = integer::make(0);
+    algebraic_g one  = integer::make(1);
+    algebraic_g two  = integer::make(2);
+    if (!zero || !one || !two)
+        return nullptr;
+    algebraic_g omx = one - x;
+    if (!omx)
+        return nullptr;
+    if (a->is_negative(false) || a->is_zero(false) ||
+        b->is_negative(false) || b->is_zero(false) ||
+        x->is_negative(false) || omx->is_negative(false))
+    {
+        rt.domain_error();
+        return nullptr;
+    }
+    if (x->is_zero(false))
+        return zero;
+    if (omx->is_zero(false))
+        return one;
+
+    algebraic_g bt = exp::run(lgamma::run(a + b) - lgamma::run(a)
+                              - lgamma::run(b)
+                              + a * ln::run(x) + b * ln::run(omx));
+    algebraic_g cut = x - (a + one) / (a + b + two);
+    if (!bt || !cut)
+        return nullptr;
+
+    // Use the symmetry of the function where the fraction converges slowly
+    if (cut->is_negative(false))
+    {
+        algebraic_g cf = beta_fraction(a, b, x);
+        return cf ? bt * cf / a : nullptr;
+    }
+    algebraic_g cf = beta_fraction(b, a, omx);
+    return cf ? one - bt * cf / b : nullptr;
+}
