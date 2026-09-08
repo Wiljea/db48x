@@ -2040,3 +2040,133 @@ NFUNCTION_BODY(BetaI)
     algebraic_g cf = beta_fraction(b, a, omx);
     return cf ? one - bt * cf / b : nullptr;
 }
+
+
+// ============================================================================
+//
+//   Upper tail probabilities
+//
+// ============================================================================
+//
+//   The four functions of the HP50G, built on the two primitives above.
+//   Each returns the probability that the variable exceeds the value given.
+
+NFUNCTION_BODY(UTPC)
+// ----------------------------------------------------------------------------
+//   Upper tail of the chi-square law, given the degrees of freedom then x
+// ----------------------------------------------------------------------------
+{
+    algebraic_g &x = args[0];
+    algebraic_g &n = args[1];
+    if (x->is_symbolic() || n->is_symbolic())
+        return expression::make(ID_UTPC, args, 2, ID_expression, true);
+
+    settings::SaveNumericalResults snr(true);
+    algebraic_g one = integer::make(1);
+    algebraic_g two = integer::make(2);
+    if (!one || !two)
+        return nullptr;
+    if (n->is_negative(false) || n->is_zero(false))
+    {
+        rt.domain_error();
+        return nullptr;
+    }
+    if (x->is_negative(false) || x->is_zero(false))
+        return one;
+    algebraic_g ga[2] = { x / two, n / two };
+    if (!ga[0] || !ga[1])
+        return nullptr;
+    algebraic_g p = GammaP::evaluate(ID_GammaP, ga, 2);
+    return p ? one - p : nullptr;
+}
+
+
+NFUNCTION_BODY(UTPN)
+// ----------------------------------------------------------------------------
+//   Upper tail of the normal law, given the mean, the variance, then x
+// ----------------------------------------------------------------------------
+{
+    algebraic_g &x = args[0];
+    algebraic_g &v = args[1];
+    algebraic_g &m = args[2];
+    if (x->is_symbolic() || v->is_symbolic() || m->is_symbolic())
+        return expression::make(ID_UTPN, args, 3, ID_expression, true);
+
+    settings::SaveNumericalResults snr(true);
+    algebraic_g two  = integer::make(2);
+    algebraic_g half = decimal::make(5, -1);
+    if (!two || !half)
+        return nullptr;
+    if (v->is_negative(false) || v->is_zero(false))
+    {
+        rt.domain_error();
+        return nullptr;
+    }
+    algebraic_g z = (x - m) / sqrt::run(two * v);
+    return z ? half * erfc::run(z) : nullptr;
+}
+
+
+NFUNCTION_BODY(UTPT)
+// ----------------------------------------------------------------------------
+//   Upper tail of the Student law, given the degrees of freedom then t
+// ----------------------------------------------------------------------------
+{
+    algebraic_g &t = args[0];
+    algebraic_g &n = args[1];
+    if (t->is_symbolic() || n->is_symbolic())
+        return expression::make(ID_UTPT, args, 2, ID_expression, true);
+
+    settings::SaveNumericalResults snr(true);
+    algebraic_g one  = integer::make(1);
+    algebraic_g two  = integer::make(2);
+    algebraic_g half = decimal::make(5, -1);
+    if (!one || !two || !half)
+        return nullptr;
+    if (n->is_negative(false) || n->is_zero(false))
+    {
+        rt.domain_error();
+        return nullptr;
+    }
+    algebraic_g ba[3] = { n / (n + t * t), half, n / two };
+    if (!ba[0] || !ba[2])
+        return nullptr;
+    algebraic_g i = BetaI::evaluate(ID_BetaI, ba, 3);
+    if (!i)
+        return nullptr;
+    if (t->is_negative(false))
+        return one - half * i;
+    return half * i;
+}
+
+
+NFUNCTION_BODY(UTPF)
+// ----------------------------------------------------------------------------
+//   Upper tail of the Fisher law, numerator then denominator then x
+// ----------------------------------------------------------------------------
+{
+    algebraic_g &x = args[0];
+    algebraic_g &d = args[1];
+    algebraic_g &n = args[2];
+    if (x->is_symbolic() || n->is_symbolic() || d->is_symbolic())
+        return expression::make(ID_UTPF, args, 3, ID_expression, true);
+
+    settings::SaveNumericalResults snr(true);
+    algebraic_g one = integer::make(1);
+    algebraic_g two = integer::make(2);
+    if (!one || !two)
+        return nullptr;
+    if (n->is_negative(false) || n->is_zero(false) ||
+        d->is_negative(false) || d->is_zero(false))
+    {
+        rt.domain_error();
+        return nullptr;
+    }
+    if (x->is_negative(false) || x->is_zero(false))
+        return one;
+    algebraic_g ba[3] = { n * x / (n * x + d), d / two, n / two };
+    if (!ba[0] || !ba[1] || !ba[2])
+        return nullptr;
+    algebraic_g i = BetaI::evaluate(ID_BetaI, ba, 3);
+    return i ? one - i : nullptr;
+}
