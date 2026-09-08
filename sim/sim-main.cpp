@@ -110,10 +110,10 @@ static void copy(const QString &fromName, const QString &toName)
     if (!to.exists())
         to.mkpath(toName);
 
-    for (QDirIterator it(fromName, QDirIterator::Subdirectories);
-         it.hasNext();
-         it.next())
+    QDirIterator it(fromName, QDirIterator::Subdirectories);
+    while (it.hasNext())
     {
+        it.next();
         const auto fi = it.fileInfo();
         if (!fi.isHidden())
         {
