@@ -1331,6 +1331,18 @@ Earth gravitational parameter
 Exact nominal value (IAU 2015). Earth's gravitational parameter. An exact nominal
 value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
+### GMs♁ constant
+
+Earth-Moon system gravitational parameter
+
+Measured. Gravitational parameter of the Earth and the Moon together, the sum of
+the values of the JPL planetary ephemeris DE440 (398600.435507 and
+4902.800118 km³/s²). Use it far from the Earth, beyond the orbit of the Moon:
+sphere of influence, Lagrange points of the Sun-Earth system, heliocentric
+orbits. Near the Earth, use `GM♁`. The standard uncertainty is the one of the
+Earth's GM in the IERS Conventions, 0.0008 km³/s².
+[Reference 4](#reference-4) [Reference 44](#reference-44)
+
 ### M♁ constant
 
 Earth mass
@@ -1387,23 +1399,27 @@ minimum speed needed to break free from Earth's gravitational pull and never ret
 
 Earth sidereal rotation period
 
-Measured. Earth's sidereal rotation period (one sidereal day), the time for one
-rotation relative to the fixed stars. [Reference 24](#reference-24)
+Earth's sidereal rotation period, the time for one rotation relative to the
+fixed stars (the stellar day). It is 86400 s divided by the rate of the Earth
+rotation angle, 1.00273781191135448 turns per UT1 day. The sidereal day of
+astronomers, 86164.0905 s, is measured from the equinox, which precesses: it is
+8.4 ms shorter. The uncertainty reflects the variations of the length of the
+day, of the order of a millisecond. [Reference 44](#reference-44)
 
 ### ωrot♁ constant
 
 Earth rotation angular velocity
 
 Earth's sidereal rotation angular velocity, computed as `2π/Prot♁` from the
-sidereal rotation period. The unit is radians per second (`r/s`). [Reference 24](#reference-24)
+sidereal rotation period. The unit is radians per second (`r/s`). [Reference 44](#reference-44)
 
 ### ϵ♁ constant
 
 Earth axial tilt
 
-Measured. Earth's axial tilt (obliquity of the ecliptic), the primary driver of the
-seasons. It is the angle of the planet's rotational axis relative to its orbital plane.
-[Reference 24](#reference-24)
+Earth's axial tilt (obliquity of the ecliptic at J2000, 84381.406″), the primary
+driver of the seasons. It is the angle of the planet's rotational axis relative
+to its orbital plane. [Reference 43](#reference-43)
 
 ### a♁ constant
 
@@ -1619,8 +1635,10 @@ orbital mean motion. The unit is radians per second (`r/s`). [Reference 22](#ref
 
 Moon axial tilt
 
-Measured. Moon's axial tilt is the angle of the planet's rotational axis
-relative to its orbital plane. [Reference 22](#reference-22)
+Measured. Moon's axial tilt is the angle of its rotational axis relative to
+the ecliptic. By Cassini's laws, the axis, the normal to the orbit and the
+normal to the ecliptic stay in one plane: relative to its own orbit, the tilt
+is about 6.7°. [Reference 22](#reference-22)
 
 ### a☽ constant
 
@@ -2585,8 +2603,10 @@ the uncertainty uses the positive magnitude. The unit is radians per second
 
 Pluto axial tilt
 
-Measured. Pluto's axial tilt is the angle of the planet's rotational
-axis relative to its orbital plane. [Reference 26](#reference-26)
+Pluto's axial tilt is the angle of the planet's rotational axis relative to
+its orbital plane. It is computed from the recommended direction of the north
+pole of rotation (α₀ = 132.993°, δ₀ = −6.163°) and the orbit of Pluto.
+[Reference 22](#reference-22)
 
 ### a♇ constant
 
@@ -3953,6 +3973,14 @@ Lamy, L., Prangé, R., Berthier, J., et al. (2025). "A new rotation period and l
 ### Reference 42
 
 Warwick, J.W., et al. (1989). "Voyager Planetary Radio Astronomy at Neptune". Science, 246(4936), 1498–1501. DOI: 10.1126/science.246.4936.1498 — Radio rotation period of Neptune, 16.11 ± 0.05 h, source for `Prot♆`.
+
+### Reference 43
+
+Capitaine, N., Wallace, P.T., & Chapront, J. (2003). "Expressions for IAU 2000 precession quantities". Astronomy & Astrophysics, 412, 567–586. DOI: 10.1051/0004-6361:20031539 — Obliquity of the ecliptic at J2000, ε₀ = 84381.406″, adopted by IAU 2006 Resolution B1; source for `ϵ♁`.
+
+### Reference 44
+
+Petit, G., & Luzum, B. (eds.) (2010). IERS Conventions (2010). IERS Technical Note No. 36. Verlag des Bundesamts für Kartographie und Geodäsie, Frankfurt am Main. — Earth rotation angle, 1.00273781191135448 turns per UT1 day; source for `Prot♁` and `ωrot♁`.
 
 ### Particle physics data
 

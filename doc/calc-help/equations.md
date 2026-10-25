@@ -3550,7 +3550,7 @@ speed (geostationary if inclination = 0).
 * To calculate: `[r_km;H_km;v_m/s]` (Orbital radius; Altitude; Circular velocity) from 1 known variable:
 ```rpl
 P=ⒸProt♁
-@ Expecting [ r=42 164.16815 02 km H=35 786.06815 02 km v=3 074.65999 204 m/s ]
+@ Expecting [ r=42 164.17089 06 km H=35 786.07089 06 km v=3 074.65989 213 m/s ]
 'ROOT(ⒺGeosynchronous Orbit;[r;H;v];[1_km;1_km;1_m/s])'
 ```
 
@@ -3604,12 +3604,13 @@ H=200_km
 
 #### Earth’s Sphere Of Influence
 
-`Rsoi=Dsp·(Mp/Ms)^(2/5)`, using the GM ratio `ⒸGM♁/ⒸGM☉` (G cancels → no G-uncertainty).
+`Rsoi=Dsp·(Mp/Ms)^(2/5)`, using the GM ratio `ⒸGMs♁/ⒸGM☉` (G cancels → no G-uncertainty).
+The sphere extends beyond the Moon, so the mass is the one of the Earth-Moon system.
 Same formula for a moon (moon↔planet, planet↔Sun).
 
 * To calculate: `[Rsoi_km]` (Sphere-of-influence radius) from constants only:
 ```rpl
-@ Expecting [ Rsoi=924 646.75636 9 km ]
+@ Expecting [ Rsoi=929 179.38758 7 km ]
 'ROOT(ⒺEarth’s Sphere Of Influence;[Rsoi];[1_km])'
 ```
 
@@ -3952,7 +3953,7 @@ m/s — hence disposal above GEO rather than deorbit.
 * To calculate: `[rgeo_km;dHmin_km;rgrave_km;atx_km;vcg_m/s;vp_m/s;vgr_m/s;va_m/s;ΔV1_m/s;ΔV2_m/s;ΔVtot_m/s]` from `CR`, `AtoM`:
 ```rpl
 CR=1.3  AtoM=0.015
-@ Expecting [ rgeo=42 164.16815 02 km dHmin=254.5 km rgrave=42 418.66815 02 km atx=42 291.41815 02 km vcg=3 074.65999 204 m/s vp=3 079.28216 642 m/s vgr=3 065.42257 097 m/s va=3 060.80734 518 m/s ΔV1=4.62217 43810 9 m/s ΔV2=4.61522 57856 1 m/s ΔVtot=9.23740 01667 m/s ]
+@ Expecting [ rgeo=42 164.17089 06 km dHmin=254.5 km rgrave=42 418.67089 06 km atx=42 291.42089 06 km vcg=3 074.65989 213 m/s vp=3 079.28206 606 m/s vgr=3 065.42247 195 m/s va=3 060.80724 661 m/s ΔV1=4.62217 39316 1 m/s ΔV2=4.61522 53372 6 m/s ΔVtot=9.23739 92688 7 m/s ]
 'ROOT(ⒺGEO Graveyard Disposal;[rgeo;dHmin;rgrave;atx;vcg;vp;vgr;va;ΔV1;ΔV2;ΔVtot];[1_km;1_km;1_km;1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s])'
 ```
 
@@ -4005,23 +4006,24 @@ H=700_km  ecc=0
 #### Collinear Lagrange Points
 
 Sun-Earth L1/L2 from the rotating-frame equilibrium (Sun gravity + Earth gravity =
-centrifugal). `rapp=Ⓒa♁·(ⒸGM♁/3ⒸGM☉)^⅓`; `rL1`/`rL2` solved implicitly. JWST sits at L2.
+centrifugal). `rapp=Ⓒa♁·(ⒸGMs♁/3ⒸGM☉)^⅓`; `rL1`/`rL2` solved implicitly. JWST sits at L2.
+At 1.5 million km the Moon is inside, so the second mass is the Earth-Moon system.
 
 * To calculate: `[rapp_km;rL2_km;rL1_km]` (constants only):
 ```rpl
-@ Expecting [ rapp=1 496 558.48134 km rL2=1 501 531.72084 km rL1=1 491 550.96228 km ]
+@ Expecting [ rapp=1 502 669.44742 km rL2=1 507 683.31143 km rL1=1 497 620.87809 km ]
 'ROOT(ⒺCollinear Lagrange Points;[rapp;rL2;rL1];[1_km;1500000_km;1500000_km])'
 ```
 
 #### JWST at Sun Earth L2
 
-L2 geometry: `dSunL2=Ⓒa♁+rL2`, period about the Sun `PL2=2π√(Ⓒa♁³/(ⒸGM☉+ⒸGM♁))` (≈1 yr, so
+L2 geometry: `dSunL2=Ⓒa♁+rL2`, period about the Sun `PL2=2π√(Ⓒa♁³/(ⒸGM☉+ⒸGMs♁))` (≈1 yr, so
 it tracks Earth), heliocentric speed `VL2`. The real halo orbit is a 3-body periodic orbit.
 
 * To calculate: `[dSunL2_km;PL2_s;VL2_m/s]` from `rL2`:
 ```rpl
-rL2=1501531.72084_km
-@ Expecting [ dSunL2=151 099 402.421 km PL2=31 558 148.6281 s VL2=30 083.68952 19 m/s ]
+rL2=1507683.31143_km
+@ Expecting [ dSunL2=151 105 554.011 km PL2=31 558 148.0452 s VL2=30 084.91485 11 m/s ]
 'ROOT(ⒺJWST at Sun Earth L2;[dSunL2;PL2;VL2];[1_km;1_s;1_m/s])'
 ```
 
@@ -4432,8 +4434,8 @@ Waiting at Sun-Earth L2 (`dSunL2`,`VL2`), then intercepting a newly-found object
 
 * To calculate: `[dSunL2_km;PL2_s;VL2_m/s;vobj_m/s;vt_m/s;vr_m/s;fpa_°;vfly_m/s]` from `rL2`, `aobj`, `eobj`, `rX`:
 ```rpl
-rL2=1501531.72084_km  aobj=2_au  eobj=0.6  rX='Ⓒa♁'
-@ Expecting [ dSunL2=151 099 402.421 km PL2=31 558 148.6281 s VL2=30 083.68952 19 m/s vobj=36 478.64856 44 m/s vt=33 697.53210 93 m/s vr=13 970.25879 59 m/s fpa=22.51782 53582 ° vfly=14 430.10703 61 m/s ]
+rL2=1507683.31143_km  aobj=2_au  eobj=0.6  rX='Ⓒa♁'
+@ Expecting [ dSunL2=151 105 554.011 km PL2=31 558 148.0452 s VL2=30 084.91485 11 m/s vobj=36 478.64856 44 m/s vt=33 697.53210 93 m/s vr=13 970.25879 59 m/s fpa=22.51782 53582 ° vfly=14 429.80021 62 m/s ]
 'ROOT(ⒺComet Interceptor;[dSunL2;PL2;VL2;vobj;vt;vr;fpa;vfly];[1_km;1_s;1_m/s;1_m/s;1_m/s;1_m/s;1_°;1_m/s])'
 ```
 

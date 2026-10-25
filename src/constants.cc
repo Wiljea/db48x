@@ -1398,6 +1398,11 @@ static const cstring basic_constants[] =
     "GM♁",      "[ 3.986004E14_m³/s² "
                 "  0_m³/s² "
                 "  0 ]",
+    // *Earth-Moon system gravitational parameter - Measurement [4]
+    "GMs♁",     "[ 4.03503235625E14_m³/s² "
+                "  0.000000008E14_m³/s² "
+                "  'ROUND(ⓈGMs♁/ⒸGMs♁;-2)' "
+                "  4.035E14_m³/s² ]",
     // *Earth mass - Calculation from GM and G
     "M♁",       "[ 'ROUND(CONVERT(ⒸGM♁/ⒸG;1_kg);XPON(UVAL(ⒸGM♁/ⒸG·ⓇG))-XPON(UVAL(ⒸGM♁/ⒸG))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇM♁*ⒸM♁);-2);1_kg)' "
@@ -1429,9 +1434,9 @@ static const cstring basic_constants[] =
     "Ve♁",      "[ 'ROUND(CONVERT(√(2·ⒸGM♁/(ⒸReq♁²·ⒸRp♁)↑(1/3));1_m/s);XPON(UVAL(ⓇVe♁*√(2·ⒸGM♁/(ⒸReq♁²·ⒸRp♁)↑(1/3))))-XPON(UVAL(√(2·ⒸGM♁/(ⒸReq♁²·ⒸRp♁)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe♁*ⒸVe♁);-2);1_m/s)' "
                 "  '1/2·(ⓇGM♁+(2/3·(2·ⓇReq♁+ⓇRp♁)))' ]",
-    // *Earth sidereal rotation period - Measurement [24]
-    "Prot♁",    "[ 86164.0905_s "
-                "  0.0001_s "
+    // *Earth sidereal rotation period (stellar day) - Calculation from the Earth rotation angle [44]
+    "Prot♁",    "[ 86164.0989_s "
+                "  0.001_s "
                 "  'ROUND(ⓈProt♁/ⒸProt♁;-2)' "
                 "  8.616E4_s ]",
     // *Earth orbital period - Computed [27]
@@ -1442,7 +1447,7 @@ static const cstring basic_constants[] =
     "ωrot♁",    "[ 'ROUND(CONVERT((2*Ⓒπ*1_r)/ⒸProt♁;1_r/s);XPON(UVAL(Ⓡωrot♁*(2*Ⓒπ*1_r)/ⒸProt♁))-XPON(UVAL((2*Ⓒπ*1_r)/ⒸProt♁))-2)' "
                 "  'CONVERT(ROUND(Ⓡωrot♁*(2*Ⓒπ*1_r)/ⒸProt♁;-2);1_r/s)' "
                 "  'ⓇProt♁' ]",
-    // *Earth axial tilt - Measurement [24]
+    // *Earth axial tilt - Obliquity of the ecliptic at J2000, IAU 2006 [43]
     "ϵ♁",       "[ 23.4393_° "
                 "  0.0001_° "
                 "  'ROUND(Ⓢϵ♁/Ⓒϵ♁;-2)' "
@@ -2114,9 +2119,9 @@ static const cstring basic_constants[] =
     "ωrot♇",    "[ 'ROUND(CONVERT(-(2*Ⓒπ*1_r)/ⒸProt♇;1_r/s);XPON(UVAL(Ⓡωrot♇*(2*Ⓒπ*1_r)/ⒸProt♇))-XPON(UVAL((2*Ⓒπ*1_r)/ⒸProt♇))-2)' "
                 "  'CONVERT(ROUND(Ⓡωrot♇*(2*Ⓒπ*1_r)/ⒸProt♇;-2);1_r/s)' "
                 "  'ⓇProt♇' ]",
-    // *Pluto axial tilt - Measurement [26]
-    "ϵ♇",       "[ 119.591_° "
-                "  0.001_° "
+    // *Pluto axial tilt - Calculation from pole direction and orbit [22]
+    "ϵ♇",       "[ 119.61_° "
+                "  0.01_° "
                 "  'ROUND(Ⓢϵ♇/Ⓒϵ♇;-2)' "
                 "  119.6_° ]",
     // *Pluto semi-major axis - Measurement [23]
