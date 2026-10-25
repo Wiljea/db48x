@@ -2212,8 +2212,8 @@ static const cstring basic_constants[] =
                 "  0.030E-52_1/m² "
                 "  'ROUND(ⓈΛ/ⒸΛ;-2)' ]",
     // *Hubble constant - Measurement [1]
-    "H₀",       "[ 67.4_km/(s·Mpc) "
-                "  0.5_km/(s·Mpc) "
+    "H₀",       "[ 67.36_km/(s·Mpc) "
+                "  0.54_km/(s·Mpc) "
                 "  'ROUND(ⓈH₀/ⒸH₀;-2)' ]",
     // *Baryon density parameter - Measurement [1]
     "ωb",       "[ 0.02237 "
@@ -2224,9 +2224,9 @@ static const cstring basic_constants[] =
                 "  0.0012 "
                 "  'ROUND(Ⓢωc/Ⓒωc;-2)' ]",
     // *CMB acoustic scale - Measurement [1]
-    "100θ*",    "[ 1.04109 "
-                "  0.00030 "
-                "  'ROUND(0.00030/1.04109;-2)' "
+    "100θ*",    "[ 1.04110 "
+                "  0.00031 "
+                "  'ROUND(0.00031/1.04110;-2)' "
                 "  1.041 ]",
 
     // ------------------------------------------------------------------------
@@ -2235,8 +2235,8 @@ static const cstring basic_constants[] =
                 "  0.0073 "
                 "  'ROUND(Ⓢτr/Ⓒτr;-2)' ]",
     // *Scalar spectral index - Measurement [1]
-    "ns",       "[ 0.9665 "
-                "  0.0038 "
+    "ns",       "[ 0.9649 "
+                "  0.0042 "
                 "  'ROUND(Ⓢns/Ⓒns;-2)' ]",
     // *Power spectrum amplitude - Measurement [1]
     "(ln(10¹⁰As))", "[ 3.044 "
@@ -2256,19 +2256,19 @@ static const cstring basic_constants[] =
     "RG",       "[ 50000_ly "
                 "  5000_ly "
                 "  'ROUND(ⓈRG/ⒸRG;-2)' ]",
-    // *Distance to Sgr A* - Measurement [6] [7]
-    "D●SgrA*",  "[ 26673_ly "
-                "  42_ly "
-                "  'ROUND(42/26673;-2)' "
-                "  2.667E4_ly ]",
-    // *Sgr A* Schwarzschild radius - Measurement [7]
-    "R●SgrA*",  "[ 12.0E6_km "
-                "  0.4E6_km "
-                "  'ROUND(0.4E6/12.0E6;-2)' ]",
-    // *Sgr A* black hole mass - Measurement [7]
+    // *Distance to Sgr A* - Measurement [6]
+    "D●SgrA*",  "[ 26996_ly "
+                "  102_ly "
+                "  'ROUND(102/26996;-2)' "
+                "  2.700E4_ly ]",
+    // *Sgr A* Schwarzschild radius - Calculation 2GM/c² from the mass [6]
+    "R●SgrA*",  "[ 12.69E6_km "
+                "  0.12E6_km "
+                "  'ROUND(0.12E6/12.69E6;-2)' ]",
+    // *Sgr A* black hole mass - Measurement [6]
     "M●SgrA*",  "[ 4.297E6_M☉ "
-                "  0.012E6_M☉ "
-                "  'ROUND(0.012E6/4.297E6;-2)' ]",
+                "  0.042E6_M☉ "
+                "  'ROUND(0.042E6/4.297E6;-2)' ]",
     // *Andromeda galaxy total mass - Measurement [35] [36]
     "MNGC224",  "[ 1.4E12_M☉ "
                 "  0.4E12_M☉ "
@@ -2289,13 +2289,13 @@ static const cstring basic_constants[] =
                 "  36000_ly "
                 "  'ROUND(ⓈDNGC224/ⒸDNGC224;-2)' "
                 "  2.482E6_ly ]",
-    // *Vega gravitational parameter - Measurement [13] [14]
-    "GM★Vega",  "[ 1.89E19_m³/s² "
-                "  0.05E19_m³/s² "
+    // *Vega gravitational parameter - Calculation from measured mass [3] [13]
+    "GM★Vega",  "[ 2.833E20_m³/s² "
+                "  0.098E20_m³/s² "
                 "  'ROUND(ⓈGM★Vega/ⒸGM★Vega;-2)' ]",
-    // *Vega luminosity - Measurement [13] [14]
-    "L★Vega",   "[ 1.51E27_W "
-                "  0.05E27_W "
+    // *Vega luminosity - Calculation from measured luminosity [3] [13]
+    "L★Vega",   "[ 1.536E28_W "
+                "  0.017E28_W "
                 "  'ROUND(ⓈL★Vega/ⒸL★Vega;-2)' ]",
 
     "Materials",     nullptr,

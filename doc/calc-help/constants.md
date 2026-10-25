@@ -2970,7 +2970,9 @@ Hubble constant
 
 It is the measured current rate of expansion of the universe, expressed
 in `km/(s·Mpc)`. Its value is measured from observations of the cosmic
-microwave background and Type Ia supernovae. [Planck 2020](#planck-2020)
+microwave background and Type Ia supernovae.
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### ωb constant
 
@@ -2978,14 +2980,18 @@ Baryon density parameter
 
 It is the measured physical density of baryonic matter (ordinary matter)
 in the universe, measured from the cosmic microwave background power
-spectrum. [Planck 2020](#planck-2020)
+spectrum.
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### ωc constant
 
 Dark matter density parameter
 
 It is the measured physical density of cold dark matter in the universe,
-measured from the cosmic microwave background power spectrum. [Planck 2020](#planck-2020)
+measured from the cosmic microwave background power spectrum.
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### 100θ* constant
 
@@ -2993,7 +2999,9 @@ CMB acoustic scale
 
 The CMB Acoustic scale corresponds to the measure of one hundred times
 the angular size of the sound horizon at recombination, measured from
-the position of the first acoustic peak in the CMB power spectrum. [Planck 2020](#planck-2020)
+the position of the first acoustic peak in the CMB power spectrum.
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### τr constant
 
@@ -3001,7 +3009,9 @@ Reionization optical depth
 
 It is the measured integrated optical depth to Thomson scattering from
 the epoch of reionization, measured from the CMB polarization spectrum.
-[Planck 2020](#planck-2020)
+
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### ns constant
 
@@ -3009,7 +3019,9 @@ Scalar spectral index
 
 It is the measured tilt of the primordial power spectrum of density
 fluctuations, where ns=1 corresponds to a scale-invariant Harrison-
-Zel'dovich spectrum. [Planck 2020](#planck-2020)
+Zel'dovich spectrum.
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### (ln(10¹⁰As)) constant
 
@@ -3017,7 +3029,9 @@ Power spectrum amplitude
 
 Measured amplitude of the primordial power spectrum. The logarithm
 of the scalar power spectrum amplitude, normalized at a pivot scale
-of `0.05 Mpc⁻¹`. [Planck 2020](#planck-2020)
+of `0.05 Mpc⁻¹`.
+Planck 2018, base-ΛCDM, TT,TE,EE+lowE+lensing; the uncertainty is the 68 %
+interval, one standard deviation. [Planck 2020](#planck-2020)
 
 ### MG constant
 
@@ -3025,7 +3039,10 @@ Milky Way total mass
 
 Measured total mass of the Milky Way galaxy, including baryonic
 and dark matter components, estimated from stellar kinematics and
-satellite galaxy dynamics. [Reference 8](#reference-8) [Reference 9](#reference-9) [Reference 10](#reference-10)
+satellite galaxy dynamics.
+The value is an estimate across several studies, which do not all agree;
+its uncertainty is the spread of these estimates, not a measured standard
+deviation. [Reference 8](#reference-8) [Reference 9](#reference-9) [Reference 10](#reference-10)
 
 ### fDMG constant
 
@@ -3033,38 +3050,48 @@ Milky Way dark matter fraction
 
 Measured fraction of dark matter in the Milky Way galaxy. Estimated
 from rotation curves, satellite dynamics, and gravitational lensing.
-[Reference 9](#reference-9) [Reference 32](#reference-32)
+The value is an estimate across several studies, which do not all agree;
+its uncertainty is the spread of these estimates, not a measured standard
+deviation. [Reference 9](#reference-9) [Reference 32](#reference-32)
 
 ### RG constant
 
 Milky Way disk radius
 
 Measure of the equatorial radius of the Milky Way galaxy's disk,
-estimated from star count surveys and kinematic models. [Reference 8](#reference-8) [Reference 9](#reference-9)
+estimated from star count surveys and kinematic models.
+The value is an estimate across several studies, which do not all agree;
+its uncertainty is the spread of these estimates, not a measured standard
+deviation. [Reference 8](#reference-8) [Reference 9](#reference-9)
 
 ### D●SgrA* constant
 
 Distance to Sgr A*
 
-Measured distance from the Sun to the black hole Sagittarius A* at
-the Galactic centre, measured by stellar orbit monitoring with the
-GRAVITY instrument. [Reference 6](#reference-6) [Reference 7](#reference-7)
+Distance from the Sun to the black hole Sagittarius A* at the Galactic
+centre, 8277 pc, from the orbits of the stars around it measured with the
+GRAVITY instrument. The uncertainty combines the statistical (9 pc) and
+systematic (30 pc) ones. [Reference 6](#reference-6)
+
 
 ### R●SgrA* constant
 
 Sgr A* Schwarzschild radius
 
-Measured Schwarzschild radius of the black hole Sagittarius A*, derived
-from its mass measurement by the Event Horizon Telescope collaboration.
-[Reference 7](#reference-7)
+Schwarzschild radius of the black hole Sagittarius A*, 2GM/c², computed from
+its mass `M●SgrA*`. It agrees with the size of the shadow imaged by the Event
+Horizon Telescope. [Reference 6](#reference-6) [Reference 7](#reference-7)
+
 
 ### M●SgrA* constant
 
 Sgr A* black hole mass
 
-Measured mass of the supermassive black hole Sagittarius A* at the
-Galactic centre, measured from the orbits of stars in its immediate vicinity.
-[Reference 7](#reference-7)
+Mass of the supermassive black hole Sagittarius A* at the Galactic centre,
+from the orbits of the stars in its immediate vicinity, in the same analysis as
+its distance `D●SgrA*`. The uncertainty combines the statistical
+(0.012×10⁶ M☉) and systematic (0.040×10⁶ M☉) ones. [Reference 6](#reference-6)
+
 
 ### MNGC224 constant
 
@@ -3072,21 +3099,30 @@ Andromeda galaxy total mass
 
 Measure of the total mass of the Andromeda galaxy (M31, NGC 224), including
 dark matter, estimated from satellite galaxy kinematics and gravitational
-timing arguments. [Reference 35](#reference-35) [Reference 36](#reference-36)
+timing arguments.
+The value is an estimate across several studies, which do not all agree;
+its uncertainty is the spread of these estimates, not a measured standard
+deviation. [Reference 35](#reference-35) [Reference 36](#reference-36)
 
 ### fDMNGC224 constant
 
 Andromeda dark matter fraction
 
 Measured fraction of dark matter in the Andromeda galaxy (M31), estimated
-from dynamical modelling of its halo. [Reference 31](#reference-31) [Reference 35](#reference-35)
+from dynamical modelling of its halo.
+The value is an estimate across several studies, which do not all agree;
+its uncertainty is the spread of these estimates, not a measured standard
+deviation. [Reference 31](#reference-31) [Reference 35](#reference-35)
 
 ### RNGC224 constant
 
 Andromeda galaxy disk radius
 
 Measurement of the mean equatorial radius of the Andromeda galaxy (M31),
-estimated from stellar population surveys. [Reference 34](#reference-34)
+estimated from stellar population surveys.
+The value is an estimate across several studies, which do not all agree;
+its uncertainty is the spread of these estimates, not a measured standard
+deviation. [Reference 34](#reference-34)
 
 ### DNGC224 constant
 
@@ -3100,17 +3136,21 @@ giant branch. [Reference 29](#reference-29)
 
 Vega gravitational parameter
 
-Measurement of the gravitational parameter of the star Vega (mass times
-gravitational constant `G`). Measured by interferometry and spectral
-analysis. [Reference 13](#reference-13) [Reference 14](#reference-14)
+Gravitational parameter of the star Vega, its mass times the gravitational
+constant `G`. The mass, 2.135 ± 0.074 solar masses, comes from a model of the
+rapidly rotating star fitted to its spectrum and to interferometry; it is
+multiplied by the nominal solar value `GM☉`.
+[Reference 13](#reference-13) [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
+
 
 ### L★Vega constant
 
 Vega luminosity
 
-Measured luminosity of the star Vega, used as a photometric reference
-standard in stellar astronomy. [Reference 13](#reference-13) [Reference 14](#reference-14)
-
+Luminosity of the star Vega, used as a photometric reference standard in
+stellar astronomy: log L = 1.6034 ± 0.0049 in solar units, that is 40.12 ± 0.45
+times the nominal solar luminosity `L☉`.
+[Reference 13](#reference-13) [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 
 ## Materials constants
@@ -4096,7 +4136,7 @@ Tiesinga, E., et al. (2021). "CODATA recommended values of the fundamental physi
 
 ### Reference 6
 
-GRAVITY Collaboration (2021). "Mass distribution in the Galactic Center based on interferometric astrometry of multiple stellar orbits". Astronomy & Astrophysics, 647, A59. arXiv:2012.02169 — DOI: 10.1051/0004-6361/202040208
+GRAVITY Collaboration (2022). "The mass distribution in the Galactic Centre from interferometric astrometry of multiple stellar orbits". Astronomy & Astrophysics. arXiv:2112.07478 — DOI: 10.1051/0004-6361/202142465 — Mass and distance of Sgr A*, source for `M●SgrA*`, `D●SgrA*` and `R●SgrA*`.
 
 ### Reference 7
 
@@ -4116,7 +4156,7 @@ Posti, L., & Helmi, A. (2019). "Mass and shape of the Milky Way's dark matter ha
 
 ### Reference 13
 
-Yoon, J., et al. (2010). "A New View of Vega's Composition, Mass, and Age". The Astrophysical Journal, 708(1), 71–79. arXiv:0910.3124 — DOI: 10.1088/0004-637X/708/1/71
+Yoon, J., et al. (2010). "A New View of Vega's Composition, Mass, and Age". The Astrophysical Journal, 708(1), 71–79. DOI: 10.1088/0004-637X/708/1/71
 
 ### Reference 14
 
