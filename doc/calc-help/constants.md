@@ -1121,7 +1121,11 @@ Mercury semi-major axis
 
 Mercury's orbital semi-major axis is a measured quantity. It is half the length
 of the longest diameter of the elliptical orbit, which is also the average
-distance from one of the radii to the orbit. [Reference 23](#reference-23)
+distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e☿ constant
 
@@ -1129,14 +1133,22 @@ Mercury orbital eccentricity
 
 Mercury's orbital eccentricity is a measured quantity, it is the largest of
 all major planets. When different from 0, it is a measure of how much a
-planet's elliptical path deviates from a perfect circle. [Reference 23](#reference-23)
+planet's elliptical path deviates from a perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i☿ constant
 
 Mercury orbital inclination
 
 Mercury's orbital inclination with respect to the ecliptic plane is a measured
-angle. [Reference 23](#reference-23)
+angle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω☿ constant
 
@@ -1144,7 +1156,11 @@ Mercury longitude of ascending node
 
 Mercury's longitude of the ascending node is a measured angle quantifying the
 horizontal orientation of the orbit. It represents where Mercury crosses
-northward through Earth's orbital plane. [Reference 23](#reference-23)
+northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω☿ constant
 
@@ -1152,7 +1168,11 @@ Mercury argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit crosses
 the reference plane northward) and the perihelion (the closest point to the
-Sun), measured in the direction of motion. [Reference 23](#reference-23)
+Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb☿ constant
 
@@ -1269,20 +1289,31 @@ Venus semi-major axis
 
 Measured. Venus's orbital semi-major axis is half the length of the longest
 diameter of the elliptical orbit, which is also the average distance from one
-of the radii to the orbit. [Reference 23](#reference-23)
+of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e♀ constant
 
 Venus orbital eccentricity
 
-Measured. Venus's orbital eccentricity, nearly circular (therefore, near 0). [Reference 23](#reference-23)
+Measured. Venus's orbital eccentricity, nearly circular (therefore, near 0).
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♀ constant
 
 Venus orbital inclination
 
 Venus's orbital inclination with respect to the ecliptic plane is a measured angle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
 [Reference 23](#reference-23)
+
 
 ### Ω♀ constant
 
@@ -1290,7 +1321,11 @@ Venus longitude of ascending node
 
 Venus's longitude of the ascending node is a measured angle quantifying the
 horizontal orientation of the orbit. It represents where Venus crosses northward
-through Earth's orbital plane. [Reference 23](#reference-23)
+through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♀ constant
 
@@ -1298,7 +1333,11 @@ Venus argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit crosses
 the reference plane northward) and the perihelion (the closest point to the Sun),
-measured in the direction of motion. [Reference 23](#reference-23)
+measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♀ constant
 
@@ -1434,7 +1473,11 @@ to the orbit. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 Earth orbital eccentricity
 
-Measured. Earth's orbital eccentricity (low since the orbit is nearly circular) . [Reference 23](#reference-23)
+Measured. Earth's orbital eccentricity (low since the orbit is nearly circular) .
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♁ constant
 
@@ -1445,7 +1488,11 @@ Measured (reference plane constant
 near zero relative to the J2000.0 ecliptic plane).
 The Earth's orbital inclination is often defined by convention with respect to
 the reference plane (effectively zero) as being the ecliptic plane (in such case
-this angle is zero). [Reference 23](#reference-23)
+this angle is zero).
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω♁ constant
 
@@ -1453,7 +1500,11 @@ Earth longitude of ascending node
 
 Earth’s longitude of the ascending node is a measured angle quantifying the
 horizontal orientation of the orbit. It represents where the Earth crosses
-northward through Earth's orbital plane. [Reference 23](#reference-23)
+northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♁ constant
 
@@ -1461,7 +1512,11 @@ Earth argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit crosses
 the reference plane northward) and the perihelion (the closest point to the
-Sun), measured in the direction of motion. [Reference 23](#reference-23)
+Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♁ constant
 
@@ -1646,7 +1701,11 @@ Moon semi-major axis
 
 Measured. Moon's orbital semi-major axis (mean Earth-Moon distance). It is half
 the length of the longest diameter of the elliptical orbit, which is also the
-average distance from one of the radii to the orbit. [Reference 25](#reference-25)
+average distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 45](#reference-45)
+
 
 ### e☽ constant
 
@@ -1655,29 +1714,46 @@ Moon orbital eccentricity
 Measured. Moon's orbital eccentricity. The Moon's elliptical orbit causes
 noticeable variation in its apparent size (supermoon and micromoon effects).
 When different from 0, it is a measure of how much the moon's elliptical path
-deviates from a perfect circle. [Reference 25](#reference-25)
+deviates from a perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 45](#reference-45)
+
 
 ### i☽ constant
 
 Moon orbital inclination
 
 Moon's orbital inclination is a measured angle with respect to the ecliptic
-plane. [Reference 25](#reference-25)
+plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 28](#reference-28)
+
 
 ### Ω☽ constant
 
 Moon longitude of ascending node
 
-Moon's longitude of the ascending node is a measured angle quantifying the
-horizontal orientation of the orbit. It represents where the Moon crosses
-northward through Earth's orbital plane.. [Reference 25](#reference-25)
+Mean longitude of the ascending node of the lunar orbit at J2000,
+Ω = 125.0445479° − 1934.1362891°·T (T in Julian centuries from J2000). The
+node regresses by 19.34° per year, one turn in 18.61 years, so the value is
+only valid near J2000. The uncertainty is the rounding to the last digit, a
+bound of a uniform distribution divided by √3.
+[Reference 27](#reference-27)
+
 
 ### ω☽ constant
 
 Moon argument of perigee
 
-Measured. Moon's argument of perigee. It is the most recent point in its
-orbit when it was closest to the Earth. [Reference 25](#reference-25)
+Mean argument of perigee of the lunar orbit at J2000, the mean longitude of
+perigee ϖ = 83.3532465° + 4069.0137287°·T minus the longitude of the node Ω.
+The perigee advances by 40.69° per year, one turn in 8.85 years, so the value
+is only valid near J2000. The uncertainty is the rounding to the last digit, a
+bound of a uniform distribution divided by √3.
+[Reference 27](#reference-27)
+
 
 ### Porb☽ constant
 
@@ -1810,7 +1886,11 @@ Mars semi-major axis
 
 Measured. Mars's orbital semi-major axis is half the length of the longest
 diameter of the elliptical orbit, which is also the average distance from
-one of the radii to the orbit. [Reference 23](#reference-23)
+one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e♂ constant
 
@@ -1818,21 +1898,33 @@ Mars orbital eccentricity
 
 Measured. Mars's orbital eccentricity, significantly larger than Earth's.
 When different from 0, it is a measure of how much a planet's elliptical
-path deviates from a perfect circle. [Reference 23](#reference-23)
+path deviates from a perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♂ constant
 
 Mars orbital inclination
 
 Mars's orbital inclination is a measured angle with respect to the ecliptic
-plane. [Reference 23](#reference-23)
+plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω♂ constant
 
 Mars longitude of ascending node
 Mars's longitude of the ascending node is a measured angle quantifying the
 horizontal orientation of the orbit. It represents where Mars crosses
-northward through Earth's orbital plane. [Reference 23](#reference-23)
+northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♂ constant
 
@@ -1840,7 +1932,11 @@ Mars argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit crosses
 the reference plane northward) and the perihelion (the closest point to the
-Sun), measured in the direction of motion. [Reference 23](#reference-23)
+Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♂ constant
 
@@ -1966,7 +2062,11 @@ Jupiter semi-major axis
 
 Measured. Jupiter's orbital semi-major axis is half the length of the
 longest diameter of the elliptical orbit, which is also the average
-distance from one of the radii to the orbit. [Reference 23](#reference-23)
+distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e♃ constant
 
@@ -1974,14 +2074,22 @@ Jupiter orbital eccentricity
 
 Measured. Jupiter's orbital eccentricity. When different from 0, it
 is a measure of how much a planet's elliptical path deviates from a
-perfect circle. [Reference 23](#reference-23)
+perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♃ constant
 
 Jupiter orbital inclination
 
 Jupiter's orbital inclination is a measured angle with respect to the
-ecliptic plane. [Reference 23](#reference-23)
+ecliptic plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω♃ constant
 
@@ -1989,7 +2097,11 @@ Jupiter longitude of ascending node
 
 Jupiter's longitude of the ascending node is a measured angle
 quantifying the horizontal orientation of the orbit. It represents
-where Jupiter crosses northward through Earth's orbital plane. [Reference 23](#reference-23)
+where Jupiter crosses northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♃ constant
 
@@ -1997,7 +2109,11 @@ Jupiter argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit
 crosses the reference plane northward) and the perihelion (the closest
-point to the Sun), measured in the direction of motion. [Reference 23](#reference-23)
+point to the Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♃ constant
 
@@ -2128,7 +2244,11 @@ Saturn semi-major axis
 
 Measured. Saturn's orbital semi-major axis is half the length of the
 longest diameter of the elliptical orbit, which is also the average
-distance from one of the radii to the orbit. [Reference 23](#reference-23)
+distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e♄ constant
 
@@ -2136,14 +2256,22 @@ Saturn orbital eccentricity
 
 Measured. Saturn's orbital eccentricity. When different from 0, it is
 a measure of how much a planet's elliptical path deviates from a perfect
-circle. [Reference 23](#reference-23)
+circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♄ constant
 
 Saturn orbital inclination
 
 Saturn's orbital inclination is a measured angle with respect to the
-ecliptic plane. [Reference 23](#reference-23)
+ecliptic plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω♄ constant
 
@@ -2151,7 +2279,11 @@ Saturn longitude of ascending node
 
 Saturn's longitude of the ascending node is a measured angle quantifying
 the horizontal orientation of the orbit. It represents where Saturn
-crosses northward through Earth's orbital plane. [Reference 23](#reference-23)
+crosses northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♄ constant
 
@@ -2159,7 +2291,11 @@ Saturn argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit
 crosses the reference plane northward) and the perihelion (the closest
-point to the Sun), measured in the direction of motion. [Reference 23](#reference-23)
+point to the Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♄ constant
 
@@ -2289,7 +2425,11 @@ Uranus semi-major axis
 
 Measured. Uranus's orbital semi-major axis is half the length of the
 longest diameter of the elliptical orbit, which is also the average
-distance from one of the radii to the orbit. [Reference 23](#reference-23)
+distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e⛢ constant
 
@@ -2297,14 +2437,22 @@ Uranus orbital eccentricity
 
 Measured. Uranus's orbital eccentricity. When different from 0, it
 is a measure of how much a planet's elliptical path deviates from a
-perfect circle. [Reference 23](#reference-23)
+perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i⛢ constant
 
 Uranus orbital inclination
 
 Uranus's orbital inclination is a measured angle with respect to the
-ecliptic plane. [Reference 23](#reference-23)
+ecliptic plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω⛢ constant
 
@@ -2312,7 +2460,11 @@ Uranus longitude of ascending node
 
 Uranus's longitude of the ascending node is a measured angle quantifying
 the horizontal orientation of the orbit. It represents where Uranus
-crosses northward through Earth's orbital plane. [Reference 23](#reference-23)
+crosses northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω⛢ constant
 
@@ -2320,7 +2472,11 @@ Uranus argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit
 crosses the reference plane northward) and the perihelion (the closest
-point to the Sun), measured in the direction of motion. [Reference 23](#reference-23)
+point to the Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb⛢ constant
 
@@ -2451,7 +2607,11 @@ Neptune semi-major axis
 
 Measured. Neptune's orbital semi-major axis is half the length of the
 longest diameter of the elliptical orbit, which is also the average
-distance from one of the radii to the orbit. [Reference 23](#reference-23)
+distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e♆ constant
 
@@ -2459,14 +2619,22 @@ Neptune orbital eccentricity
 
 Measured. Neptune's orbital eccentricity. When different from 0, it
 is a measure of how much a planet's elliptical path deviates from a
-perfect circle. [Reference 23](#reference-23)
+perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♆ constant
 
 Neptune orbital inclination
 
 Neptune's orbital inclination is a measured angle with respect to
-the ecliptic plane. [Reference 23](#reference-23)
+the ecliptic plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω♆ constant
 
@@ -2474,7 +2642,11 @@ Neptune longitude of ascending node
 
 Neptune's longitude of the ascending node is a measured angle quantifying
 the horizontal orientation of the orbit. It represents where Neptune
-crosses northward through Earth's orbital plane. [Reference 23](#reference-23)
+crosses northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♆ constant
 
@@ -2482,7 +2654,11 @@ Neptune argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit
 crosses the reference plane northward) and the perihelion (the closest
-point to the Sun), measured in the direction of motion. [Reference 23](#reference-23)
+point to the Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♆ constant
 
@@ -2614,7 +2790,11 @@ Pluto semi-major axis
 
 Measured. Pluto's orbital semi-major axis is half the length of the
 longest diameter of the elliptical orbit, which is also the average
-distance from one of the radii to the orbit. [Reference 23](#reference-23)
+distance from one of the radii to the orbit.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### e♇ constant
 
@@ -2622,14 +2802,22 @@ Pluto orbital eccentricity
 
 Measured. Pluto's orbital eccentricity, large enough to bring it inside
 Neptune's orbit near perihelion. When different from 0, it is a measure
-of how much a planet's elliptical path deviates from a perfect circle. [Reference 23](#reference-23)
+of how much a planet's elliptical path deviates from a perfect circle.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### i♇ constant
 
 Pluto orbital inclination
 
 Pluto's orbital inclination is a measured angle with respect to the ecliptic
-plane, ir is the highest of any solar system body traditionally listed. [Reference 23](#reference-23)
+plane, ir is the highest of any solar system body traditionally listed.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Ω♇ constant
 
@@ -2637,7 +2825,11 @@ Pluto longitude of ascending node
 
 Pluto's longitude of the ascending node is a measured angle quantifying
 the horizontal orientation of the orbit. It represents where Pluto crosses
-northward through Earth's orbital plane. [Reference 23](#reference-23)
+northward through Earth's orbital plane.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### ω♇ constant
 
@@ -2645,7 +2837,11 @@ Pluto argument of perihelion
 
 It is the measured angle between the ascending node (where the orbit crosses
 the reference plane northward) and the perihelion (the closest point to the
-Sun), measured in the direction of motion. [Reference 23](#reference-23)
+Sun), measured in the direction of motion.
+The source gives no uncertainty: the value is taken as exact to ± one unit of its last digit, a bound
+of a uniform distribution, whose standard uncertainty is that bound divided by √3.
+[Reference 23](#reference-23)
+
 
 ### Porb♇ constant
 
@@ -3982,6 +4178,10 @@ Capitaine, N., Wallace, P.T., & Chapront, J. (2003). "Expressions for IAU 2000 p
 
 Petit, G., & Luzum, B. (eds.) (2010). IERS Conventions (2010). IERS Technical Note No. 36. Verlag des Bundesamts für Kartographie und Geodäsie, Frankfurt am Main. — Earth rotation angle, 1.00273781191135448 turns per UT1 day; source for `Prot♁` and `ωrot♁`.
 
+### Reference 45
+
+Wieczorek, M.A., Jolliff, B.L., Khan, A., et al. (2006). "The constitution and structure of the lunar interior". Reviews in Mineralogy and Geochemistry, 60(1), 221–364. DOI: 10.2138/rmg.2006.60.3 — Mean semi-major axis and eccentricity of the lunar orbit, source for `a☽` and `e☽`.
+
 ### Particle physics data
 
 ### Reference 15
@@ -4025,7 +4225,7 @@ NASA JPL Solar System Dynamics — Horizons On-Line Ephemeris System. URL: https
 
 ### Reference 24
 
-Seidelmann, P.K., & Fukushima, T. (1992). "Why new time scales?" Astronomy & Astrophysics, 265(2), 833–838.
+McCarthy, D.D., & Seidelmann, P.K. (2009). Time: From Earth Rotation to Atomic Physics. Wiley-VCH, Weinheim. ISBN: 978-3-527-40780-4 — Julian, Gregorian and tropical years; the mean tropical year at J2000, 365.2421896698 days, follows the planetary theory of Laskar (1986), Astronomy & Astrophysics, 157, 59–70.
 
 ### Reference 25
 

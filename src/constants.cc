@@ -1276,28 +1276,28 @@ static const cstring basic_constants[] =
                 "  'ROUND(Ⓢϵ☿/Ⓒϵ☿;-2)' ]",
     // *Mercury semi-major axis - Measurement [23]
     "a☿",       "[ 57909050_km "
-                "  10_km "
+                "  5.8_km "
                 "  'ROUND(Ⓢa☿/Ⓒa☿;-2)' "
                 "  5.791E7_km ]",
 
     // ------------------------------------------------------------------------
     // *Mercury orbital eccentricity - Measurement [23]
     "e☿",       "[ 0.205630 "
-                "  0.000001 "
+                "  0.00000058 "
                 "  'ROUND(Ⓢe☿/Ⓒe☿;-2)' "
                 "  0.2056 ]",
     // *Mercury orbital inclination - Measurement [23]
     "i☿",       "[ 7.005_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi☿/Ⓒi☿;-2)' ]",
     // *Mercury longitude of ascending node - Measurement [23]
     "Ω☿",       "[ 48.331_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ☿/ⒸΩ☿;-2)' "
                 "  48.33_° ]",
     // *Mercury argument of perihelion - Measurement [23]
     "ω☿",       "[ 29.124_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω☿/Ⓒω☿;-2)' "
                 "  29.12_° ]",
     // *Mercury time of perihelion passage - Computed via IFTE from Tp and Porb [27]
@@ -1364,28 +1364,28 @@ static const cstring basic_constants[] =
                 "  177.4_° ]",
     // *Venus semi-major axis - Measurement [23]
     "a♀",       "[ 108208000_km "
-                "  10_km "
+                "  5.8_km "
                 "  'ROUND(Ⓢa♀/Ⓒa♀;-2)' "
                 "  1.082E8_km ]",
 
     // ------------------------------------------------------------------------
     // *Venus orbital eccentricity - Measurement [23]
     "e♀",       "[ 0.006772 "
-                "  0.000001 "
+                "  0.00000058 "
                 "  'ROUND(Ⓢe♀/Ⓒe♀;-2)' ]",
     // *Venus orbital inclination - Measurement [23]
     "i♀",       "[ 3.39458_° "
-                "  0.00001_° "
+                "  0.0000058_° "
                 "  'ROUND(Ⓢi♀/Ⓒi♀;-2)' "
                 "  3.395_° ]",
     // *Venus longitude of ascending node - Measurement [23]
     "Ω♀",       "[ 76.680_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ♀/ⒸΩ♀;-2)' "
                 "  76.68_° ]",
     // *Venus argument of perihelion - Measurement [23]
     "ω♀",       "[ 54.884_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω♀/Ⓒω♀;-2)' "
                 "  54.88_° ]",
     // *Venus time of perihelion passage - Computed via IFTE from Tp and Porb [27]
@@ -1461,21 +1461,21 @@ static const cstring basic_constants[] =
     // ------------------------------------------------------------------------
     // *Earth orbital eccentricity - Measurement [23]
     "e♁",       "[ 0.0167086 "
-                "  0.0000001 "
+                "  0.000000058 "
                 "  'ROUND(Ⓢe♁/Ⓒe♁;-2)' "
                 "  0.01671 ]",
     // *Earth orbital inclination - Measurement [23]
     "i♁",       "[ 0.00005_° "
-                "  0.00001_° "
+                "  0.0000058_° "
                 "  'ROUND(Ⓢi♁/Ⓒi♁;-2)' ]",
     // *Earth longitude of ascending node - Measurement [23]
     "Ω♁",       "[ 348.74_° "
-                "  0.01_° "
+                "  0.0058_° "
                 "  'ROUND(ⓈΩ♁/ⒸΩ♁;-2)' "
                 "  348.7_° ]",
     // *Earth argument of perihelion - Measurement [23]
     "ω♁",       "[ 114.20783_° "
-                "  0.00001_° "
+                "  0.0000058_° "
                 "  'ROUND(Ⓢω♁/Ⓒω♁;-2)' "
                 "  114.2_° ]",
     // *Earth time of perihelion passage - Computed via IFTE from Tp and Porb [27]
@@ -1512,7 +1512,7 @@ static const cstring basic_constants[] =
     // ------------------------------------------------------------------------
     // Calendar and astronomical years
     // *Tropical year (equinox to equinox, J2000) - seasonal year [24]
-    "Ytrop♁",   "[ 365.24219_d "
+    "Ytrop♁",   "[ 365.2421897_d "
                 "  0_d "
                 "  0 ]",
     // *Julian year - exact, defines the light-year [24]
@@ -1582,29 +1582,29 @@ static const cstring basic_constants[] =
                 "  0.0001_° "
                 "  'ROUND(Ⓢϵ☽/Ⓒϵ☽;-2)' "
                 "  1.542_° ]",
-    // *Moon semi-major axis - Measurement [25]
+    // *Moon semi-major axis - Measurement [45]
     "a☽",       "[ 384399_km "
-                "  1_km "
+                "  0.58_km "
                 "  'ROUND(Ⓢa☽/Ⓒa☽;-2)' "
                 "  3.844E5_km ]",
 
     // ------------------------------------------------------------------------
-    // *Moon orbital eccentricity - Measurement [25]
+    // *Moon orbital eccentricity - Measurement [45]
     "e☽",       "[ 0.0549 "
-                "  0.0001 "
+                "  0.000058 "
                 "  'ROUND(Ⓢe☽/Ⓒe☽;-2)' ]",
-    // *Moon orbital inclination - Measurement [25]
+    // *Moon orbital inclination - Measurement [28]
     "i☽",       "[ 5.145_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi☽/Ⓒi☽;-2)' ]",
-    // *Moon longitude of ascending node - Measurement [25]
-    "Ω☽",       "[ 125.08_° "
-                "  0.01_° "
+    // *Moon longitude of the mean ascending node at J2000 - Calculation [27]
+    "Ω☽",       "[ 125.0445_° "
+                "  0.000058_° "
                 "  'ROUND(ⓈΩ☽/ⒸΩ☽;-2)' "
                 "  125.1_° ]",
-    // *Moon argument of perigee - Measurement [25]
-    "ω☽",       "[ 318.15_° "
-                "  0.01_° "
+    // *Moon mean argument of perigee at J2000 - Calculation [27]
+    "ω☽",       "[ 318.3087_° "
+                "  0.000058_° "
                 "  'ROUND(Ⓢω☽/Ⓒω☽;-2)' "
                 "  318.2_° ]",
     // *Moon time of perigee passage - PeriSel (full Meeus ch.50); unc = ch.50
@@ -1677,27 +1677,27 @@ static const cstring basic_constants[] =
                 "  'ROUND(Ⓢϵ♂/Ⓒϵ♂;-2)' ]",
     // *Mars semi-major axis - Measurement [23]
     "a♂",       "[ 227939200_km "
-                "  100_km "
+                "  58_km "
                 "  'ROUND(Ⓢa♂/Ⓒa♂;-2)' "
                 "  2.279E8_km ]",
 
     // ------------------------------------------------------------------------
     // *Mars orbital eccentricity - Measurement [23]
     "e♂",       "[ 0.0934 "
-                "  0.0001 "
+                "  0.000058 "
                 "  'ROUND(Ⓢe♂/Ⓒe♂;-2)' ]",
     // *Mars orbital inclination - Measurement [23]
     "i♂",       "[ 1.850_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi♂/Ⓒi♂;-2)' ]",
     // *Mars longitude of ascending node - Measurement [23]
     "Ω♂",       "[ 49.558_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ♂/ⒸΩ♂;-2)' "
                 "  49.56_° ]",
     // *Mars argument of perihelion - Measurement [23]
     "ω♂",       "[ 286.502_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω♂/Ⓒω♂;-2)' "
                 "  286.5_° ]",
     // *Mars time of perihelion passage - Computed via IFTE from Tp and Porb [27]
@@ -1764,27 +1764,27 @@ static const cstring basic_constants[] =
                 "  'ROUND(Ⓢϵ♃/Ⓒϵ♃;-2)' ]",
     // *Jupiter semi-major axis - Measurement [23]
     "a♃",       "[ 778570000_km "
-                "  1000_km "
+                "  580_km "
                 "  'ROUND(Ⓢa♃/Ⓒa♃;-2)' "
                 "  7.786E8_km ]",
 
     // ------------------------------------------------------------------------
     // *Jupiter orbital eccentricity - Measurement [23]
     "e♃",       "[ 0.0489 "
-                "  0.0001 "
+                "  0.000058 "
                 "  'ROUND(Ⓢe♃/Ⓒe♃;-2)' ]",
     // *Jupiter orbital inclination - Measurement [23]
     "i♃",       "[ 1.303_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi♃/Ⓒi♃;-2)' ]",
     // *Jupiter longitude of ascending node - Measurement [23]
     "Ω♃",       "[ 100.464_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ♃/ⒸΩ♃;-2)' "
                 "  100.5_° ]",
     // *Jupiter argument of perihelion - Measurement [23]
     "ω♃",       "[ 273.867_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω♃/Ⓒω♃;-2)' "
                 "  273.9_° ]",
     // *Jupiter time of perihelion passage - Computed via IFTE from Tp and Porb [27]
@@ -1855,27 +1855,27 @@ static const cstring basic_constants[] =
                 "  'ROUND(Ⓢϵ♄/Ⓒϵ♄;-2)' ]",
     // *Saturn semi-major axis - Measurement [23]
     "a♄",       "[ 1433530000_km "
-                "  10000_km "
+                "  5800_km "
                 "  'ROUND(Ⓢa♄/Ⓒa♄;-2)' "
                 "  1.434E9_km ]",
 
     // ------------------------------------------------------------------------
     // *Saturn orbital eccentricity - Measurement [23]
     "e♄",       "[ 0.0565 "
-                "  0.0001 "
+                "  0.000058 "
                 "  'ROUND(Ⓢe♄/Ⓒe♄;-2)' ]",
     // *Saturn orbital inclination - Measurement [23]
     "i♄",       "[ 2.485_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi♄/Ⓒi♄;-2)' ]",
     // *Saturn longitude of ascending node - Measurement [23]
     "Ω♄",       "[ 113.665_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ♄/ⒸΩ♄;-2)' "
                 "  113.7_° ]",
     // *Saturn argument of perihelion - Measurement [23]
     "ω♄",       "[ 339.392_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω♄/Ⓒω♄;-2)' "
                 "  339.4_° ]",
     // *Saturn time of perihelion passage - Computed via IFTE from Tp and Porb [27]
@@ -1946,27 +1946,27 @@ static const cstring basic_constants[] =
                 "  'ROUND(Ⓢϵ⛢/Ⓒϵ⛢;-2)' ]",
     // *Uranus semi-major axis - Measurement [23]
     "a⛢",       "[ 2872460000_km "
-                "  10000_km "
+                "  5800_km "
                 "  'ROUND(Ⓢa⛢/Ⓒa⛢;-2)' "
                 "  2.872E9_km ]",
 
     // ------------------------------------------------------------------------
     // *Uranus orbital eccentricity - Measurement [23]
     "e⛢",       "[ 0.04717 "
-                "  0.00001 "
+                "  0.0000058 "
                 "  'ROUND(Ⓢe⛢/Ⓒe⛢;-2)' ]",
     // *Uranus orbital inclination - Measurement [23]
     "i⛢",       "[ 0.773_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi⛢/Ⓒi⛢;-2)' ]",
     // *Uranus longitude of ascending node - Measurement [23]
     "Ω⛢",       "[ 74.006_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ⛢/ⒸΩ⛢;-2)' "
                 "  74.01_° ]",
     // *Uranus argument of perihelion - Measurement [23]
     "ω⛢",       "[ 96.998857_° "
-                "  0.000001_° "
+                "  0.00000058_° "
                 "  'ROUND(Ⓢω⛢/Ⓒω⛢;-2)' "
                 "  97.00_° ]",
     // *Uranus time of perihelion passage - Computed via IFTE from Tp and Porb [27]  (last perihelion 1966; next ~2050)
@@ -2036,27 +2036,27 @@ static const cstring basic_constants[] =
                 "  'ROUND(Ⓢϵ♆/Ⓒϵ♆;-2)' ]",
     // *Neptune semi-major axis - Measurement [23]
     "a♆",       "[ 4495060000_km "
-                "  10000_km "
+                "  5800_km "
                 "  'ROUND(Ⓢa♆/Ⓒa♆;-2)' "
                 "  4.495E9_km ]",
 
     // ------------------------------------------------------------------------
     // *Neptune orbital eccentricity - Measurement [23]
     "e♆",       "[ 0.00859 "
-                "  0.00001 "
+                "  0.0000058 "
                 "  'ROUND(Ⓢe♆/Ⓒe♆;-2)' ]",
     // *Neptune orbital inclination - Measurement [23]
     "i♆",       "[ 1.770_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢi♆/Ⓒi♆;-2)' ]",
     // *Neptune longitude of ascending node - Measurement [23]
     "Ω♆",       "[ 131.784_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ♆/ⒸΩ♆;-2)' "
                 "  131.8_° ]",
     // *Neptune argument of perihelion - Measurement [23]
     "ω♆",       "[ 273.187_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω♆/Ⓒω♆;-2)' "
                 "  273.2_° ]",
     // *Neptune time of perihelion passage - Computed via IFTE from Tp and Porb [4]  (EXCEPTION: Tp = next perihelion 2042; floor-IFTE returns it unchanged)
@@ -2126,27 +2126,27 @@ static const cstring basic_constants[] =
                 "  119.6_° ]",
     // *Pluto semi-major axis - Measurement [23]
     "a♇",       "[ 5906380000_km "
-                "  10000_km "
+                "  5800_km "
                 "  'ROUND(Ⓢa♇/Ⓒa♇;-2)' "
                 "  5.906E9_km ]",
 
     // ------------------------------------------------------------------------
     // *Pluto orbital eccentricity - Measurement [23]
     "e♇",       "[ 0.2488 "
-                "  0.0001 "
+                "  0.000058 "
                 "  'ROUND(Ⓢe♇/Ⓒe♇;-2)' ]",
     // *Pluto orbital inclination - Measurement [23]
     "i♇",       "[ 17.16_° "
-                "  0.01_° "
+                "  0.0058_° "
                 "  'ROUND(Ⓢi♇/Ⓒi♇;-2)' ]",
     // *Pluto longitude of ascending node - Measurement [23]
     "Ω♇",       "[ 110.299_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(ⓈΩ♇/ⒸΩ♇;-2)' "
                 "  110.3_° ]",
     // *Pluto argument of perihelion - Measurement [23]
     "ω♇",       "[ 113.834_° "
-                "  0.001_° "
+                "  0.00058_° "
                 "  'ROUND(Ⓢω♇/Ⓒω♇;-2)' "
                 "  113.8_° ]",
     // *Pluto time of perihelion passage - Computed via IFTE from Tp and Porb [4]  (last perihelion 1989)
