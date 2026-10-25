@@ -1230,15 +1230,15 @@ static const cstring basic_constants[] =
                 "  'ⓇG' "
                 "  3.301E23_kg ]",
     // *Mercury equatorial radius - Measurement [22]
-    "Req☿",     "[ 2439.7_km "
-                "  0.1_km "
+    "Req☿",     "[ 2440.53_km "
+                "  0.04_km "
                 "  'ROUND(ⓈReq☿/ⒸReq☿;-2)' "
-                "  2440._km ]",
+                "  2441._km ]",
     // *Mercury polar radius - Measurement [22]
-    "Rp☿",      "[ 2439.7_km "
-                "  0.1_km "
+    "Rp☿",      "[ 2438.26_km "
+                "  0.04_km "
                 "  'ROUND(ⓈRp☿/ⒸRp☿;-2)' "
-                "  2440._km ]",
+                "  2438._km ]",
     // *Mercury oblateness - Calculation from measurement [22]
     "f☿",       "[ 'ROUND(1-ⒸRp☿/ⒸReq☿;XPON(UVAL(Ⓡf☿*(1-ⒸRp☿/ⒸReq☿)))-XPON(1-ⒸRp☿/ⒸReq☿)-2)' "
                 "  'ROUND(Ⓡf☿*Ⓒf☿;-2)' "
@@ -1257,8 +1257,8 @@ static const cstring basic_constants[] =
     "Ve☿",      "[ 'ROUND(CONVERT(√(2·ⒸGM☿/(ⒸReq☿²·ⒸRp☿)↑(1/3));1_m/s);XPON(UVAL(ⓇVe☿*√(2·ⒸGM☿/(ⒸReq☿²·ⒸRp☿)↑(1/3))))-XPON(UVAL(√(2·ⒸGM☿/(ⒸReq☿²·ⒸRp☿)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe☿*ⒸVe☿);-2);1_m/s)' "
                 "  0.02 ]",
-    // *Mercury sidereal rotation period - Measurement [22]
-    "Prot☿",    "[ 5067014.4_s "
+    // *Mercury sidereal rotation period - Calculation from rotation rate [22]
+    "Prot☿",    "[ 5067027.0_s "
                 "  0.1_s "
                 "  'ROUND(ⓈProt☿/ⒸProt☿;-2)' "
                 "  5.067E6_s ]",
@@ -1318,12 +1318,12 @@ static const cstring basic_constants[] =
                 "  4.867E24_kg ]",
     // *Venus equatorial radius - Measurement [22]
     "Req♀",     "[ 6051.8_km "
-                "  0.1_km "
+                "  1.0_km "
                 "  'ROUND(ⓈReq♀/ⒸReq♀;-2)' "
                 "  6052._km ]",
     // *Venus polar radius - Measurement [22]
     "Rp♀",      "[ 6051.8_km "
-                "  0.1_km "
+                "  1.0_km "
                 "  'ROUND(ⓈRp♀/ⒸRp♀;-2)' "
                 "  6052._km ]",
     // *Venus oblateness - Calculation from measurement [22]
@@ -1344,8 +1344,8 @@ static const cstring basic_constants[] =
     "Ve♀",      "[ 'ROUND(CONVERT(√(2·ⒸGM♀/(ⒸReq♀²·ⒸRp♀)↑(1/3));1_m/s);XPON(UVAL(ⓇVe♀*√(2·ⒸGM♀/(ⒸReq♀²·ⒸRp♀)↑(1/3))))-XPON(UVAL(√(2·ⒸGM♀/(ⒸReq♀²·ⒸRp♀)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe♀*ⒸVe♀);-2);1_m/s)' "
                 "  '1/2·(ⓇGM♀+(2/3·(2·ⓇReq♀+ⓇRp♀)))' ]",
-    // *Venus sidereal rotation period - Measurement [22]
-    "Prot♀",    "[ 20996772.8_s "
+    // *Venus sidereal rotation period - Calculation from rotation rate [22]
+    "Prot♀",    "[ 20996797.0_s "
                 "  8.64_s "
                 "  'ROUND(ⓈProt♀/ⒸProt♀;-2)' "
                 "  2.100E7_s ]",
@@ -1610,10 +1610,15 @@ static const cstring basic_constants[] =
 
     "Astronomy/Mars",     nullptr,
 
-    // *Mars gravitational parameter - Measurement [4]
-    "GM♂",      "[ 4.28283758161E13_m³/s² "
-                "  0.00000000091E13_m³/s² "
+    // *Mars gravitational parameter (planet alone) - Measurement [37]
+    "GM♂",      "[ 4.282837362E13_m³/s² "
+                "  0.00000008E13_m³/s² "
                 "  'ROUND(ⓈGM♂/ⒸGM♂;-2)' "
+                "  4.283E13_m³/s² ]",
+    // *Mars system gravitational parameter (planet and moons) - Measurement [4] [37]
+    "GMs♂",     "[ 4.2828375816E13_m³/s² "
+                "  0.00000008E13_m³/s² "
+                "  'ROUND(ⓈGMs♂/ⒸGMs♂;-2)' "
                 "  4.283E13_m³/s² ]",
     // *Mars mass - Calculation from GM and G
     "M♂",       "[ 'ROUND(CONVERT(ⒸGM♂/ⒸG;1_kg);XPON(UVAL(ⒸGM♂/ⒸG·ⓇG))-XPON(UVAL(ⒸGM♂/ⒸG))-2)' "
@@ -1700,6 +1705,11 @@ static const cstring basic_constants[] =
     "GM♃",      "[ 1.26686534E17_m³/s² "
                 "  0_m³/s² "
                 "  0 ]",
+    // *Jupiter system gravitational parameter (planet and moons) - Measurement [4] [37]
+    "GMs♃",     "[ 1.267127641E17_m³/s² "
+                "  0.0000000042E17_m³/s² "
+                "  'ROUND(ⓈGMs♃/ⒸGMs♃;-2)' "
+                "  1.267E17_m³/s² ]",
     // *Jupiter mass - Calculation from GM and G
     "M♃",       "[ 'ROUND(CONVERT(ⒸGM♃/ⒸG;1_kg);XPON(UVAL(ⒸGM♃/ⒸG·ⓇG))-XPON(UVAL(ⒸGM♃/ⒸG))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇM♃*ⒸM♃);-2);1_kg)' "
@@ -1778,10 +1788,15 @@ static const cstring basic_constants[] =
 
     "Astronomy/Saturn",     nullptr,
 
-    // *Saturn gravitational parameter - Measurement [4]
-    "GM♄",      "[ 3.79405848418E16_m³/s² "
-                "  0.00000000091E16_m³/s² "
+    // *Saturn gravitational parameter (planet alone) - Measurement [37]
+    "GM♄",      "[ 3.793120623E16_m³/s² "
+                "  0.000000024E16_m³/s² "
                 "  'ROUND(ⓈGM♄/ⒸGM♄;-2)' "
+                "  3.793E16_m³/s² ]",
+    // *Saturn system gravitational parameter (planet and moons) - Measurement [4] [37]
+    "GMs♄",     "[ 3.794058484E16_m³/s² "
+                "  0.000000024E16_m³/s² "
+                "  'ROUND(ⓈGMs♄/ⒸGMs♄;-2)' "
                 "  3.794E16_m³/s² ]",
     // *Saturn mass - Calculation from GM and G
     "M♄",       "[ 'ROUND(CONVERT(ⒸGM♄/ⒸG;1_kg);XPON(UVAL(ⒸGM♄/ⒸG·ⓇG))-XPON(UVAL(ⒸGM♄/ⒸG))-2)' "
@@ -1864,10 +1879,15 @@ static const cstring basic_constants[] =
 
     "Astronomy/Uranus",     nullptr,
 
-    // *Uranus gravitational parameter - Measurement [4]
-    "GM⛢",      "[ 5.7945564E15_m³/s² "
-                "  0.0000040E15_m³/s² "
+    // *Uranus gravitational parameter (planet alone) - Measurement [37]
+    "GM⛢",      "[ 5.7939513E15_m³/s² "
+                "  0.0000044E15_m³/s² "
                 "  'ROUND(ⓈGM⛢/ⒸGM⛢;-2)' "
+                "  5.794E15_m³/s² ]",
+    // *Uranus system gravitational parameter (planet and moons) - Measurement [4] [37]
+    "GMs⛢",     "[ 5.7945564E15_m³/s² "
+                "  0.0000044E15_m³/s² "
+                "  'ROUND(ⓈGMs⛢/ⒸGMs⛢;-2)' "
                 "  5.795E15_m³/s² ]",
     // *Uranus mass - Calculation from GM and G
     "M⛢",       "[ 'ROUND(CONVERT(ⒸGM⛢/ⒸG;1_kg);XPON(UVAL(ⒸGM⛢/ⒸG·ⓇG))-XPON(UVAL(ⒸGM⛢/ⒸG))-2)' "
@@ -1950,10 +1970,15 @@ static const cstring basic_constants[] =
 
     "Astronomy/Neptune",     nullptr,
 
-    // *Neptune gravitational parameter - Measurement [4]
-    "GM♆",      "[ 6.83652710058E15_m³/s² "
-                "  0.00000010058E15_m³/s² "
+    // *Neptune gravitational parameter (planet alone) - Measurement [37]
+    "GM♆",      "[ 6.83509997E15_m³/s² "
+                "  0.00000963E15_m³/s² "
                 "  'ROUND(ⓈGM♆/ⒸGM♆;-2)' "
+                "  6.835E15_m³/s² ]",
+    // *Neptune system gravitational parameter (planet and moons) - Measurement [4] [37]
+    "GMs♆",     "[ 6.83652710E15_m³/s² "
+                "  0.00000963E15_m³/s² "
+                "  'ROUND(ⓈGMs♆/ⒸGMs♆;-2)' "
                 "  6.837E15_m³/s² ]",
     // *Neptune mass - Calculation from GM and G
     "M♆",       "[ 'ROUND(CONVERT(ⒸGM♆/ⒸG;1_kg);XPON(UVAL(ⒸGM♆/ⒸG·ⓇG))-XPON(UVAL(ⒸGM♆/ⒸG))-2)' "
@@ -2035,10 +2060,14 @@ static const cstring basic_constants[] =
 
     "Astronomy/Pluto",     nullptr,
 
-    // *Pluto gravitational parameter - Measurement [4]
-    "GM♇",      "[ 9.755E11_m³/s² "
-                "  0.005E11_m³/s² "
+    // *Pluto gravitational parameter (planet alone) - Measurement [37]
+    "GM♇",      "[ 8.693E11_m³/s² "
+                "  0.004E11_m³/s² "
                 "  'ROUND(ⓈGM♇/ⒸGM♇;-2)' ]",
+    // *Pluto system gravitational parameter (planet and moons) - Measurement [4] [37]
+    "GMs♇",     "[ 9.755E11_m³/s² "
+                "  0.005E11_m³/s² "
+                "  'ROUND(ⓈGMs♇/ⒸGMs♇;-2)' ]",
     // *Pluto mass - Calculation from GM and G
     "M♇",       "[ 'ROUND(CONVERT(ⒸGM♇/ⒸG;1_kg);XPON(UVAL(ⒸGM♇/ⒸG·ⓇG))-XPON(UVAL(ⒸGM♇/ⒸG))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇM♇*ⒸM♇);-2);1_kg)' "

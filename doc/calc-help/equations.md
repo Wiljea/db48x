@@ -4231,7 +4231,7 @@ closest approach `rp=a(1−ecc)`, turn angle `dturn=2·asin(1/ecc)`.
 * To calculate: `[bimp_km;a_km;ecc;rp_km;dturn_°]` from `vinf`, `dmiss`, `gam`:
 ```rpl
 vinf=2438.2_m/s  dmiss=18500_km  gam=150.451_°
-@ Expecting [ bimp=9 123.60278 285 km a=-7 204.31927 146 km ecc=1.61362 55894 7 rp=4 420.75465 968 km dturn=76.59173 79349 ° ]
+@ Expecting [ bimp=9 123.60278 285 km a=-7 204.31890 205 km ecc=1.61362 56404 3 rp=4 420.75480 016 km dturn=76.59173 5077 ° ]
 'ROOT(ⒺArrival Hyperbola;[bimp;a;ecc;rp;dturn];[1_km;1_km;1_1;1_km;1_°])'
 ```
 
@@ -4261,7 +4261,7 @@ Full interplanetary Δv budget: heliocentric Hohmann → `vinfD`/`vinfA` → dep
 * To calculate: `[atx_au;VcsA_m/s;VtxA_m/s;vinfD_m/s;VcsB_m/s;VtxB_m/s;vinfA_m/s;r0_km;Vo_m/s;TMI_m/s;Varr_m/s;MOI_m/s;dVtot_m/s;TOF_s]` from `rA`, `rB`, `Hp`, `rm`:
 ```rpl
 rA='Ⓒa♁'  rB='Ⓒa♂'  Hp=200_km  'ⒸReq♂+500_km' →NUM 'rm' STO
-@ Expecting [ atx=1.26183 97204 9 au VcsA=29 784.69182 97 m/s VtxA=32 729.38296 23 m/s vinfD=2 944.69113 264 m/s VcsB=24 129.38801 33 m/s VtxB=21 480.49129 1 m/s vinfA=2 648.89672 221 m/s r0=6 578.1 km Vo=11 395.67184 31 m/s TMI=3 611.38861 055 m/s Varr=5 385.28963 704 m/s MOI=2 069.81903 47 m/s dVtot=5 681.20764 526 m/s TOF=22 366 007.4343 s ]
+@ Expecting [ atx=1.26183 97204 9 au VcsA=29 784.69182 97 m/s VtxA=32 729.38296 23 m/s vinfD=2 944.69113 264 m/s VcsB=24 129.38801 33 m/s VtxB=21 480.49129 1 m/s vinfA=2 648.89672 221 m/s r0=6 578.1 km Vo=11 395.67184 31 m/s TMI=3 611.38861 055 m/s Varr=5 385.28953 237 m/s MOI=2 069.81901 504 m/s dVtot=5 681.20762 56 m/s TOF=22 366 007.4343 s ]
 'ROOT(ⒺPatched Conic Mission Capstone;[atx;VcsA;VtxA;vinfD;VcsB;VtxB;vinfA;r0;Vo;TMI;Varr;MOI;dVtot;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -4354,7 +4354,7 @@ apoapsis reaches a moon (`rapo`): `MOIsat=Vhyp−Vcap`. Very elliptic capture �
 * To calculate: `[aES_au;vinfSa_m/s;Vhyp_m/s;acap_km;Vcap_m/s;MOIsat_m/s]` from `rEar`, `rSa`, `rp`, `rapo`:
 ```rpl
 rEar='Ⓒa♁'  rSa='Ⓒa♄'  'ⒸReq♄+2000_km' →NUM 'rp' STO  rapo=1221870_km
-@ Expecting [ aES=5.29127 80886 9 au vinfSa=5 438.86510 887 m/s Vhyp=35 329.92349 79 m/s acap=642 069 km Vcap=34 051.88845 62 m/s MOIsat=1 278.03504 169 m/s ]
+@ Expecting [ aES=5.29127 80886 9 au vinfSa=5 438.86510 887 m/s Vhyp=35 325.66008 74 m/s acap=642 069 km Vcap=34 047.67951 76 m/s MOIsat=1 277.98056 975 m/s ]
 'ROOT(ⒺSaturn Injection Orbit;[aES;vinfSa;Vhyp;acap;Vcap;MOIsat];[1_au;1_m/s;1_m/s;1_km;1_m/s;1_m/s])'
 ```
 
@@ -4377,7 +4377,7 @@ In-system Hohmann to a Saturnian moon `rmoon` (Titan by default). Enceladus/Rhea
 * To calculate: `[atxS_km;Vpark_m/s;dv1_m/s;Vmoon_m/s;dv2_m/s;dVtot_m/s;TOF_s]` from `rp`, `rmoon`:
 ```rpl
 'ⒸReq♄+2000_km' →NUM 'rp' STO  rmoon=1221870_km
-@ Expecting [ atxS=642 069 km Vpark=24 684.22817 m/s dv1=9 367.66028 623 m/s Vmoon=5 572.36440 777 m/s dv2=3 837.03823 527 m/s dVtot=13 204.69852 15 m/s TOF=262 403.97839 8 s ]
+@ Expecting [ atxS=642 069 km Vpark=24 681.17710 87 m/s dv1=9 366.50240 899 m/s Vmoon=5 571.67564 305 m/s dv2=3 836.56396 325 m/s dVtot=13 203.06637 22 m/s TOF=262 436.41650 4 s ]
 'ROOT(ⒺPath to Saturn Satellites;[atxS;Vpark;dv1;Vmoon;dv2;dVtot;TOF];[1_km;1_m/s;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -4391,7 +4391,7 @@ parking orbit `rp`. Symmetric to the outbound leg.
 * To calculate: `[atx_au;vinfMars_m/s;vinfEar_m/s;Vo_m/s;TEI_m/s;TOF_s]` from `rMars`, `rEar`, `rp`:
 ```rpl
 rMars='Ⓒa♂'  rEar='Ⓒa♁'  'ⒸReq♂+500_km' →NUM 'rp' STO
-@ Expecting [ atx=1.26183 97204 9 au vinfMars=2 648.89672 221 m/s vinfEar=2 944.69113 264 m/s Vo=5 385.28963 704 m/s TEI=2 069.81903 47 m/s TOF=22 366 007.4343 s ]
+@ Expecting [ atx=1.26183 97204 9 au vinfMars=2 648.89672 221 m/s vinfEar=2 944.69113 264 m/s Vo=5 385.28953 237 m/s TEI=2 069.81901 504 m/s TOF=22 366 007.4343 s ]
 'ROOT(ⒺFrom Mars to Earth;[atx;vinfMars;vinfEar;Vo;TEI;TOF];[1_au;1_m/s;1_m/s;1_m/s;1_m/s;1_s])'
 ```
 
@@ -4406,7 +4406,7 @@ arrival — hypersonic entry, peak-g, then terminal descent — as at Jezero cra
 * To calculate: `[gmars_m/s^2;amax_m/s^2;amaxg;vterm_m/s]` from `Ventry`, `fpa`, `Hs`, `ρa`, `Cd`, `Ad`, `msat`, `rmars`:
 ```rpl
 Ventry=6000_m/s  fpa=12_°  Hs=11.1_km  ρa=0.015_kg/m³  Cd=1.5  Ad=10_m↑2  msat=1000_kg  rmars='(ⒸReq♂^2*ⒸRp♂)^(1/3)'
-@ Expecting [ gmars=3.72782 18628 2 m/s↑2 amax=124.03205 9402 m/s↑2 amaxg=12.64775 01901 vterm=182.03349 7841 m/s ]
+@ Expecting [ gmars=3.72782 16716 7 m/s↑2 amax=124.03205 9402 m/s↑2 amaxg=12.64775 01901 vterm=182.03349 3174 m/s ]
 'ROOT(ⒺMars Landing;[gmars;amax;amaxg;vterm];[1_m/s^2;1_m/s^2;1_1;1_m/s])'
 ```
 

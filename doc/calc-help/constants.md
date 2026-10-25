@@ -1058,15 +1058,15 @@ It is measured by radar altimetry and spacecraft imaging. [Reference 22](#refere
 
 Mercury polar radius
 
-Mercury's polar radius is also measured, since Mercury being essentially
-spherical; equatorial and polar radii are equal within measurement precision. [Reference 22](#reference-22)
+Mercury's polar radius is measured by MESSENGER laser altimetry and radio occultations
+(best-fit ellipsoid of Perry et al. 2015). It is about 2.3 km smaller than the equatorial radius. [Reference 22](#reference-22)
 
 ### f☿ constant
 
 Mercury oblateness
 
 Mercury's oblateness is calculated from its equatorial and polar radii measurement.
-Due to Mercury's near-spherical shape, this value is effectively zero. [Reference 22](#reference-22)
+Mercury is nearly spherical: its oblateness is about 0.001. [Reference 22](#reference-22)
 
 ### ρv☿ constant
 
@@ -1325,7 +1325,7 @@ computation is carried out in Julian Day Number and converted to a date with
 Earth gravitational parameter
 
 Exact nominal value (IAU 2015). Earth's gravitational parameter. An exact nominal
-value defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### M♁ constant
 
@@ -1333,21 +1333,21 @@ Earth mass
 
 Earth's mass, derived from the gravitational parameter `GM♁` and the measured
 gravitational constant `G` as `GM♁/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Particle Data Group 2023](#particle-data-group-2023) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [IAU 2015 Resolution B3](#iau-2015-resolution-b3) [Reference 5](#reference-5)
 
 ### Req♁ constant
 
 Earth equatorial radius
 
 Exact nominal value (IAU 2015). Earth's equatorial radius. An exact nominal value
-defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Rp♁ constant
 
 Earth polar radius
 
 Exact nominal value (IAU 2015). Earth's polar radius. An exact nominal value
-defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### f♁ constant
 
@@ -1356,28 +1356,28 @@ Earth oblateness
 Calculated from nominal value. Earth's oblateness, reflecting its equatorial
 bulge due to rotation. Calculated from `Req♁` and `Rp♁`. When greater than 0, it
 describes how much a celestial body deviates from a perfect sphere, forming an
-"oblate spheroid". [Particle Data Group 2023](#particle-data-group-2023)
+"oblate spheroid". [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### ρv♁ constant
 
 Earth mean density
 
 Calculated from nominal value. Earth's mean density, calculated from its gravitational
-parameter and volume. [Particle Data Group 2023](#particle-data-group-2023)
+parameter and volume. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### g♁ constant
 
 Earth surface gravity
 
 Calculated from nominal value. Earth's surface gravity at the equator, calculated
-from `GM♁` and `Req♁`. [Particle Data Group 2023](#particle-data-group-2023)
+from `GM♁` and `Req♁`. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Ve♁ constant
 
 Earth escape velocity
 
 Calculated from nominal value, it is valid at the equatorial surface. It is the
-minimum speed needed to break free from Earth's gravitational pull and never return. [Particle Data Group 2023](#particle-data-group-2023)
+minimum speed needed to break free from Earth's gravitational pull and never return. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Prot♁ constant
 
@@ -1408,7 +1408,7 @@ Earth semi-major axis
 Exact nominal value (1 AU by definition). Earth's orbital semi-major axis, defined
 as exactly 1 astronomical unit (AU). It is half the length of the longest diameter
 of the elliptical orbit, which is also the average distance from one of the radii
-to the orbit. [Particle Data Group 2023](#particle-data-group-2023)
+to the orbit. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### e♁ constant
 
@@ -1691,8 +1691,22 @@ perigee, and must not be used to check this value. [Reference 27](#reference-27)
 
 Mars gravitational parameter
 
-Measured. Mars system gravitational parameter, including the contribution of
-its moons Phobos and Deimos, measured by spacecraft radio tracking. [Reference 4](#reference-4)
+Measured. Gravitational parameter of Mars alone, without Phobos and Deimos, from
+the JPL MAR097 satellite ephemeris. It is the one to use near the planet
+(orbits, captures, flybys) and the one from which the mass, density, surface
+gravity and escape velocity are derived. For heliocentric trajectories, use the
+system value `GMs♂`. [Reference 37](#reference-37)
+
+### GMs♂ constant
+
+Mars system gravitational parameter
+
+Measured. Gravitational parameter of Mars together with Phobos and Deimos, as
+used by the JPL planetary ephemeris DE440 for the motion around the Sun. Use it
+far from the planet, for heliocentric trajectories; near the planet, use `GM♂`.
+DE440 publishes no uncertainty: the standard uncertainty is the one of the
+planet alone in the MAR097 satellite ephemeris. [Reference 4](#reference-4)
+[Reference 37](#reference-37)
 
 ### M♂ constant
 
@@ -1700,7 +1714,7 @@ Mars mass
 
 Mars's mass, derived from the gravitational parameter `GM♂` and the measured
 gravitational constant `G` as `GM♂/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 4](#reference-4) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 37](#reference-37) [Reference 5](#reference-5)
 
 ### Req♂ constant
 
@@ -1726,14 +1740,14 @@ celestial body deviates from a perfect sphere, forming an "oblate spheroid". [Re
 Mars mean density
 
 Calculated from measurement. Mars's mean density, intermediate between rocky
-and metallic compositions. [Reference 4](#reference-4) [Reference 22](#reference-22)
+and metallic compositions. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### g♂ constant
 
 Mars surface gravity
 
 Calculated from measurement. Mars's surface gravity, approximately 38% of
-Earth's. [Reference 4](#reference-4) [Reference 22](#reference-22)
+Earth's. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Ve♂ constant
 
@@ -1741,7 +1755,7 @@ Mars escape velocity
 
 Calculated from measurement, it is valid at the equatorial surface. It is the
 minimum speed needed to break free from Mars's gravitational pull and never
-return. [Reference 4](#reference-4) [Reference 22](#reference-22)
+return. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Prot♂ constant
 
@@ -1832,7 +1846,18 @@ computation is carried out in Julian Day Number and converted to a date with
 Jupiter gravitational parameter
 
 Exact nominal value (IAU 2015). Jupiter system gravitational parameter.
-An exact nominal value defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+An exact nominal value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
+
+### GMs♃ constant
+
+Jupiter system gravitational parameter
+
+Measured. Gravitational parameter of Jupiter together with the Galilean moons,
+as used by the JPL planetary ephemeris DE440 for the motion around the Sun. Use
+it far from the planet, for heliocentric trajectories; near the planet, use
+`GM♃`. DE440 publishes no uncertainty: the standard uncertainty is the one of
+the planet alone in the JUP365 satellite ephemeris. [Reference 4](#reference-4)
+[Reference 37](#reference-37)
 
 ### M♃ constant
 
@@ -1840,21 +1865,21 @@ Jupiter mass
 
 Jupiter's mass, derived from the gravitational parameter `GM♃` and the measured
 gravitational constant `G` as `GM♃/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Particle Data Group 2023](#particle-data-group-2023) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [IAU 2015 Resolution B3](#iau-2015-resolution-b3) [Reference 5](#reference-5)
 
 ### Req♃ constant
 
 Jupiter equatorial radius
 
 Exact nominal value (IAU 2015). Jupiter's equatorial radius. An exact
-nominal value defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+nominal value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Rp♃ constant
 
 Jupiter polar radius
 
 Exact nominal value (IAU 2015). Jupiter's polar radius. An exact nominal
-value defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### f♃ constant
 
@@ -1863,21 +1888,21 @@ Jupiter oblateness
 Calculated from nominal value. It is the largest of any planet due to its
 rapid rotation and gaseous composition. When greater than 0, it describes
 how much a celestial body deviates from a perfect sphere, forming an
-"oblate spheroid". [Particle Data Group 2023](#particle-data-group-2023)
+"oblate spheroid". [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### ρv♃ constant
 
 Jupiter mean density
 
 Calculated from nominal value. Jupiter's mean density, lower than water
-due to its gaseous composition. [Particle Data Group 2023](#particle-data-group-2023)
+due to its gaseous composition. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### g♃ constant
 
 Jupiter surface gravity
 
 Calculated from nominal value. Jupiter's surface gravity at the 1-bar
-pressure level. [Particle Data Group 2023](#particle-data-group-2023)
+pressure level. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Ve♃ constant
 
@@ -1885,7 +1910,7 @@ Jupiter escape velocity
 
 Calculated from nominal value, it is valid at the equatorial surface.
 It is the minimum speed needed to break free from Jupiter's gravitational
-pull and never return. [Particle Data Group 2023](#particle-data-group-2023)
+pull and never return. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Prot♃ constant
 
@@ -1976,8 +2001,22 @@ computation is carried out in Julian Day Number and converted to a date with
 
 Saturn gravitational parameter
 
-Measured. Saturn system gravitational parameter, measured by radio
-tracking of the Cassini spacecraft. [Reference 4](#reference-4)
+Measured. Gravitational parameter of Saturn alone, without Titan and the other
+moons, from the JPL SAT441 satellite ephemeris. It is the one to use near the
+planet (orbits, captures, flybys) and the one from which the mass, density,
+surface gravity and escape velocity are derived. For heliocentric trajectories,
+use the system value `GMs♄`. [Reference 37](#reference-37)
+
+### GMs♄ constant
+
+Saturn system gravitational parameter
+
+Measured. Gravitational parameter of Saturn together with Titan and the other
+moons, as used by the JPL planetary ephemeris DE440 for the motion around the
+Sun. Use it far from the planet, for heliocentric trajectories; near the planet,
+use `GM♄`. DE440 publishes no uncertainty: the standard uncertainty is the one
+of the planet alone in the SAT441 satellite ephemeris. 
+[Reference 4](#reference-4) [Reference 37](#reference-37)
 
 ### M♄ constant
 
@@ -1985,7 +2024,7 @@ Saturn mass
 
 Saturn's mass, derived from the gravitational parameter `GM♄` and the measured
 gravitational constant `G` as `GM♄/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 4](#reference-4) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 37](#reference-37) [Reference 5](#reference-5)
 
 ### Req♄ constant
 
@@ -2014,14 +2053,14 @@ Saturn mean density
 Calculated from measurement. Saturn's mean density, the lowest of any
 planet constant
 
-less than that of water. [Reference 4](#reference-4) [Reference 22](#reference-22)
+less than that of water. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### g♄ constant
 
 Saturn surface gravity
 
 Calculated from measurement. Saturn's surface gravity at the 1-bar
-pressure level. [Reference 4](#reference-4) [Reference 22](#reference-22)
+pressure level. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Ve♄ constant
 
@@ -2029,7 +2068,7 @@ Saturn escape velocity
 
 Calculated from measurement, it is valid at the equatorial surface.
 It is the minimum speed needed to break free from Saturn's gravitational
-pull and never return. [Reference 4](#reference-4) [Reference 22](#reference-22)
+pull and never return. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Prot♄ constant
 
@@ -2120,8 +2159,22 @@ computation is carried out in Julian Day Number and converted to a date with
 
 Uranus gravitational parameter
 
-Measured. Uranus system gravitational parameter, measured by Voyager
-2 radio tracking. [Reference 4](#reference-4)
+Measured. Gravitational parameter of Uranus alone, without its moons, from the
+JPL URA111 satellite ephemeris. It is the one to use near the planet (orbits,
+captures, flybys) and the one from which the mass, density, surface gravity and
+escape velocity are derived. For heliocentric trajectories, use the system value
+`GMs⛢`. [Reference 37](#reference-37)
+
+### GMs⛢ constant
+
+Uranus system gravitational parameter
+
+Measured. Gravitational parameter of Uranus together with its moons, as used by
+the JPL planetary ephemeris DE440 for the motion around the Sun. Use it far from
+the planet, for heliocentric trajectories; near the planet, use `GM⛢`. DE440
+publishes no uncertainty: the standard uncertainty is the one of the planet
+alone in the URA111 satellite ephemeris. [Reference 4](#reference-4) 
+[Reference 37](#reference-37)
 
 ### M⛢ constant
 
@@ -2129,7 +2182,7 @@ Uranus mass
 
 Uranus's mass, derived from the gravitational parameter `GM⛢` and the measured
 gravitational constant `G` as `GM⛢/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 4](#reference-4) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 37](#reference-37) [Reference 5](#reference-5)
 
 ### Req⛢ constant
 
@@ -2157,14 +2210,14 @@ spheroid". [Reference 22](#reference-22)
 Uranus mean density
 
 Calculated from measurement. Uranus's mean density, characteristic of
-an ice giant. [Reference 4](#reference-4) [Reference 22](#reference-22)
+an ice giant. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### g⛢ constant
 
 Uranus surface gravity
 
 Calculated from measurement. Uranus's surface gravity at the 1-bar
-pressure level. [Reference 4](#reference-4) [Reference 22](#reference-22)
+pressure level. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Ve⛢ constant
 
@@ -2172,7 +2225,7 @@ Uranus escape velocity
 
 Calculated from measurement, it is valid at the equatorial surface.
 It is the minimum speed needed to break free from Uranus's gravitational
-pull and never return. [Reference 4](#reference-4) [Reference 22](#reference-22)
+pull and never return. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Prot⛢ constant
 
@@ -2267,8 +2320,22 @@ the past. [Reference 27](#reference-27)
 
 Neptune gravitational parameter
 
-Measured. Neptune system gravitational parameter, measured by Voyager
-2 radio tracking and Hubble Space Telescope astrometry of Triton. [Reference 4](#reference-4)
+Measured. Gravitational parameter of Neptune alone, without Triton, from the JPL
+NEP097 satellite ephemeris. It is the one to use near the planet (orbits,
+captures, flybys) and the one from which the mass, density, surface gravity and
+escape velocity are derived. For heliocentric trajectories, use the system value
+`GMs♆`. [Reference 37](#reference-37)
+
+### GMs♆ constant
+
+Neptune system gravitational parameter
+
+Measured. Gravitational parameter of Neptune together with Triton, as used by
+the JPL planetary ephemeris DE440 for the motion around the Sun. Use it far from
+the planet, for heliocentric trajectories; near the planet, use `GM♆`. DE440
+publishes no uncertainty: the standard uncertainty is the one of the planet
+alone in the NEP097 satellite ephemeris. [Reference 4](#reference-4) 
+[Reference 37](#reference-37)
 
 ### M♆ constant
 
@@ -2276,7 +2343,7 @@ Neptune mass
 
 Neptune's mass, derived from the gravitational parameter `GM♆` and the measured
 gravitational constant `G` as `GM♆/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 4](#reference-4) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 37](#reference-37) [Reference 5](#reference-5)
 
 ### Req♆ constant
 
@@ -2304,14 +2371,14 @@ much a celestial body deviates from a perfect sphere, forming an
 Neptune mean density
 
 Calculated from measurement. Neptune's mean density, characteristic of
-an ice giant. [Reference 4](#reference-4) [Reference 22](#reference-22)
+an ice giant. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### g♆ constant
 
 Neptune surface gravity
 
 Calculated from measurement. Neptune's surface gravity at the 1-bar
-pressure level. [Reference 4](#reference-4) [Reference 22](#reference-22)
+pressure level. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Ve♆ constant
 
@@ -2319,7 +2386,7 @@ Neptune escape velocity
 
 Calculated from measurement, it is valid at the equatorial surface. It
 is the minimum speed needed to break free from Neptune's gravitational
-pull and never return. [Reference 4](#reference-4) [Reference 22](#reference-22)
+pull and never return. [Reference 37](#reference-37) [Reference 22](#reference-22)
 
 ### Prot♆ constant
 
@@ -2412,8 +2479,22 @@ returns it unchanged, giving the useful upcoming date. [Reference 4](#reference-
 
 Pluto gravitational parameter
 
-Measured. Pluto system gravitational parameter, measured by New Horizons
-radio tracking. [Reference 4](#reference-4)
+Measured. Gravitational parameter of Pluto alone, without Charon, from the JPL
+PLU060 satellite ephemeris. It is the one to use near the planet (orbits,
+captures, flybys) and the one from which the mass, density, surface gravity and
+escape velocity are derived. For heliocentric trajectories, use the system value
+`GMs♇`. [Reference 37](#reference-37)
+
+### GMs♇ constant
+
+Pluto system gravitational parameter
+
+Measured. Gravitational parameter of Pluto together with Charon, as used by the
+JPL planetary ephemeris DE440 for the motion around the Sun. Use it far from the
+planet, for heliocentric trajectories; near the planet, use `GM♇`. DE440
+publishes no uncertainty: the standard uncertainty combines those of Pluto (0.4
+km³/s²) and Charon (0.3 km³/s²) in the PLU060 satellite ephemeris. 
+[Reference 4](#reference-4) [Reference 37](#reference-37)
 
 ### M♇ constant
 
@@ -2421,7 +2502,7 @@ Pluto mass
 
 Pluto's mass, derived from the gravitational parameter `GM♇` and the measured
 gravitational constant `G` as `GM♇/G`. The relative uncertainty is carried as
-`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 4](#reference-4) [Reference 5](#reference-5)
+`ⓇG` (the dominant term), so the mass self-corrects whenever `G` is updated. [Reference 37](#reference-37) [Reference 5](#reference-5)
 
 ### Req♇ constant
 
@@ -2448,13 +2529,13 @@ effectively zero. [Reference 26](#reference-26)
 Pluto mean density
 
 Calculated from measurement. Pluto's mean density, consistent with
-a mixture of rock and ice. [Reference 4](#reference-4) [Reference 26](#reference-26)
+a mixture of rock and ice. [Reference 37](#reference-37) [Reference 26](#reference-26)
 
 ### g♇ constant
 
 Pluto surface gravity
 
-Calculated from measurement. Pluto's surface gravity. [Reference 4](#reference-4) [Reference 26](#reference-26)
+Calculated from measurement. Pluto's surface gravity. [Reference 37](#reference-37) [Reference 26](#reference-26)
 
 ### Ve♇ constant
 
@@ -2462,7 +2543,7 @@ Pluto escape velocity
 
 Calculated from measurement, it is valid at the equatorial surface.
 It is the minimum speed needed to break free from Pluto's gravitational
-pull and never return. [Reference 4](#reference-4) [Reference 26](#reference-26)
+pull and never return. [Reference 37](#reference-37) [Reference 26](#reference-26)
 
 ### Prot♇ constant
 
@@ -2556,26 +2637,26 @@ decades in the past. [Reference 4](#reference-4)
 Solar mass
 
 It is derived from the exact nominal solar gravitational parameter
-`GM☉` and the measured gravitational constant `G`. [Particle Data Group 2024](#particle-data-group-2024) [Particle Data Group 2023](#particle-data-group-2023) [Reference 5](#reference-5)
+`GM☉` and the measured gravitational constant `G`. [Particle Data Group 2024](#particle-data-group-2024) [IAU 2015 Resolution B3](#iau-2015-resolution-b3) [Reference 5](#reference-5)
 
 ### GM☉ constant
 
 Solar gravitational parameter
 
 It is an exact nominal value defined by the International Astronomical
-Union (IAU 2015 Resolution B3). [Particle Data Group 2023](#particle-data-group-2023)
+Union (IAU 2015 Resolution B3). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### L☉ constant
 
 Solar luminosity
 
-It is an exact nominal value defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+It is an exact nominal value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Req☉ constant
 
 Solar equatorial radius
 
-It is an exact nominal value defined by the IAU (2015). [Particle Data Group 2023](#particle-data-group-2023)
+It is an exact nominal value defined by the IAU (2015). [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Rp☉ constant
 
@@ -2599,14 +2680,14 @@ from a perfect sphere, forming an "oblate spheroid". [Reference 18](#reference-1
 Solar mean density
 
 It is calculated from the nominal gravitational parameter `GM☉`, the
-gravitational constant `G`, and the solar radii measurement. [Particle Data Group 2023](#particle-data-group-2023)
+gravitational constant `G`, and the solar radii measurement. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### g☉ constant
 
 Solar surface gravity
 
 The Solar surface gravity at the equator is calculated from `GM☉`
-and the measurement of the equatorial radius `Req☉`. [Particle Data Group 2023](#particle-data-group-2023)
+and the measurement of the equatorial radius `Req☉`. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Ve☉ constant
 
@@ -2614,7 +2695,7 @@ Solar escape velocity
 
 The Solar escape velocity at the equatorial surface is calculated from
 `GM☉` and the measurement of solar radii. It is the minimum speed needed
-to break free from Sun's gravitational pull and never return. [Particle Data Group 2023](#particle-data-group-2023)
+to break free from Sun's gravitational pull and never return. [IAU 2015 Resolution B3](#iau-2015-resolution-b3)
 
 ### Prot☉ constant
 
@@ -3755,9 +3836,9 @@ Planck Collaboration (2020). "Planck 2018 results. VI. Cosmological parameters".
 
 Particle Data Group (2024). "Review of Particle Physics — Astrophysical Constants". Physical Review D, 110, 030001. DOI: 10.1103/PhysRevD.110.030001
 
-### Particle Data Group 2023
+### IAU 2015 Resolution B3
 
-Particle Data Group 2023 Prša, A., et al. (2016). "Nominal values for selected solar and planetary quantities: IAU 2015 Resolution B3". The Astronomical Journal, 152(2), 41. arXiv:1605.09788 — DOI: 10.3847/0004-6256/152/2/41
+Prša, A., et al. (2016). "Nominal values for selected solar and planetary quantities: IAU 2015 Resolution B3". The Astronomical Journal, 152(2), 41. arXiv:1605.09788 — DOI: 10.3847/0004-6256/152/2/41
 
 ### WGS-84
 
@@ -3824,6 +3905,10 @@ Watkins, L.L., Evans, N.W., & An, J.H. (2010). Monthly Notices of the Royal Astr
 ### Reference 36
 
 Zhang, X., Chen, B., Chen, P., Sun, J., & Tian, Z. (2024). Monthly Notices of the Royal Astronomical Society, 528, 2653. DOI: 10.1093/mnras/stae025 — Updated dynamical mass of the Andromeda galaxy, corroborating `MNGC224`.
+
+### Reference 37
+
+Jacobson, R.A., et al. JPL Solar System Dynamics — Planetary Satellite Physical Parameters, GM of the planets alone from the satellite ephemerides MAR097, JUP365, SAT441, URA111, NEP097 and PLU060. [Source](https://ssd.jpl.nasa.gov/sats/phys_par/) Accessed: October 2026.
 
 ### Particle physics data
 
