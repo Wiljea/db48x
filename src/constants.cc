@@ -1219,9 +1219,9 @@ static const cstring basic_constants[] =
 
     "Astronomy/Mercury",     nullptr,
 
-    // *Mercury gravitational parameter - Measurement [4]
+    // *Mercury gravitational parameter - Measurement [4] [39]
     "GM☿",      "[ 2.2031868551E13_m³/s² "
-                "  0.0000000091E13_m³/s² "
+                "  0.00000012E13_m³/s² "
                 "  'ROUND(ⓈGM☿/ⒸGM☿;-2)' "
                 "  2.203E13_m³/s² ]",
     // *Mercury mass - Calculation from GM and G
@@ -1242,7 +1242,7 @@ static const cstring basic_constants[] =
     // *Mercury oblateness - Calculation from measurement [22]
     "f☿",       "[ 'ROUND(1-ⒸRp☿/ⒸReq☿;XPON(UVAL(Ⓡf☿*(1-ⒸRp☿/ⒸReq☿)))-XPON(1-ⒸRp☿/ⒸReq☿)-2)' "
                 "  'ROUND(Ⓡf☿*Ⓒf☿;-2)' "
-                "  'ⓇRp☿+ⓇReq☿' ]",
+                "  'ⒸRp☿/(ⒸReq☿-ⒸRp☿)·(ⓇRp☿+ⓇReq☿)' ]",
     // *Mercury mean density - Calculation from measurement [4] [22]
     "ρv☿",       "[ 'ROUND(CONVERT(ⒸGM☿/(ⒸG·4/3·Ⓒπ·ⒸReq☿²·ⒸRp☿);1_kg/m³);XPON(UVAL(Ⓡρv☿*ⒸGM☿/(ⒸG·4/3·Ⓒπ·ⒸReq☿²·ⒸRp☿)))-XPON(UVAL(ⒸGM☿/(ⒸG·4/3·Ⓒπ·ⒸReq☿²·ⒸRp☿)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv☿*Ⓒρv☿);-2);1_kg/m³)' "
@@ -1306,9 +1306,9 @@ static const cstring basic_constants[] =
 
     "Astronomy/Venus",     nullptr,
 
-    // *Venus gravitational parameter - Measurement [4]
+    // *Venus gravitational parameter - Measurement [4] [39]
     "GM♀",      "[ 3.24858592E14_m³/s² "
-                "  0.00000012E14_m³/s² "
+                "  0.000000064E14_m³/s² "
                 "  'ROUND(ⓈGM♀/ⒸGM♀;-2)' "
                 "  3.249E14_m³/s² ]",
     // *Venus mass - Calculation from GM and G
@@ -1531,20 +1531,20 @@ static const cstring basic_constants[] =
                 "  'CONVERT(ROUND(UBASE(ⓇM☽*ⒸM☽);-2);1_kg)' "
                 "  'ⓇG' "
                 "  7.346E22_kg ]",
-    // *Moon equatorial radius - Measurement [22]
+    // *Moon equatorial radius - Measurement [28]
     "Req☽",     "[ 1738.1_km "
                 "  0.1_km "
                 "  'ROUND(ⓈReq☽/ⒸReq☽;-2)' "
                 "  1738._km ]",
-    // *Moon polar radius - Measurement [22]
+    // *Moon polar radius - Measurement [28]
     "Rp☽",      "[ 1736.0_km "
                 "  0.1_km "
                 "  'ROUND(ⓈRp☽/ⒸRp☽;-2)' "
                 "  1736._km ]",
-    // *Moon oblateness - Calculation from measurement [22]
+    // *Moon oblateness - Calculation from measurement [28]
     "f☽",       "[ 'ROUND(1-ⒸRp☽/ⒸReq☽;XPON(UVAL(Ⓡf☽*(1-ⒸRp☽/ⒸReq☽)))-XPON(1-ⒸRp☽/ⒸReq☽)-2)' "
                 "  'ROUND(Ⓡf☽*Ⓒf☽;-2)' "
-                "  'ⓇRp☽+ⓇReq☽' ]",
+                "  'ⒸRp☽/(ⒸReq☽-ⒸRp☽)·(ⓇRp☽+ⓇReq☽)' ]",
     // *Moon mean density - Calculation from measurement [4] [22]
     "ρv☽",       "[ 'ROUND(CONVERT(ⒸGM☽/(ⒸG·4/3·Ⓒπ·ⒸReq☽²·ⒸRp☽);1_kg/m³);XPON(UVAL(Ⓡρv☽*ⒸGM☽/(ⒸG·4/3·Ⓒπ·ⒸReq☽²·ⒸRp☽)))-XPON(UVAL(ⒸGM☽/(ⒸG·4/3·Ⓒπ·ⒸReq☽²·ⒸRp☽)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv☽*Ⓒρv☽);-2);1_kg/m³)' "
@@ -1638,7 +1638,7 @@ static const cstring basic_constants[] =
     // *Mars oblateness - Calculation from measurement [22]
     "f♂",       "[ 'ROUND(1-ⒸRp♂/ⒸReq♂;XPON(UVAL(Ⓡf♂*(1-ⒸRp♂/ⒸReq♂)))-XPON(1-ⒸRp♂/ⒸReq♂)-2)' "
                 "  'ROUND(Ⓡf♂*Ⓒf♂;-2)' "
-                "  'ⓇRp♂+ⓇReq♂' ]",
+                "  'ⒸRp♂/(ⒸReq♂-ⒸRp♂)·(ⓇRp♂+ⓇReq♂)' ]",
     // *Mars mean density - Calculation from measurement [4] [22]
     "ρv♂",       "[ 'ROUND(CONVERT(ⒸGM♂/(ⒸG·4/3·Ⓒπ·ⒸReq♂²·ⒸRp♂);1_kg/m³);XPON(UVAL(Ⓡρv♂*ⒸGM♂/(ⒸG·4/3·Ⓒπ·ⒸReq♂²·ⒸRp♂)))-XPON(UVAL(ⒸGM♂/(ⒸG·4/3·Ⓒπ·ⒸReq♂²·ⒸRp♂)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv♂*Ⓒρv♂);-2);1_kg/m³)' "
@@ -1816,7 +1816,7 @@ static const cstring basic_constants[] =
     // *Saturn oblateness - Calculation from measurement [22]
     "f♄",       "[ 'ROUND(1-ⒸRp♄/ⒸReq♄;XPON(UVAL(Ⓡf♄*(1-ⒸRp♄/ⒸReq♄)))-XPON(1-ⒸRp♄/ⒸReq♄)-2)' "
                 "  'ROUND(Ⓡf♄*Ⓒf♄;-2)' "
-                "  'ⓇRp♄+ⓇReq♄' ]",
+                "  'ⒸRp♄/(ⒸReq♄-ⒸRp♄)·(ⓇRp♄+ⓇReq♄)' ]",
     // *Saturn mean density - Calculation from measurement [4] [22]
     "ρv♄",       "[ 'ROUND(CONVERT(ⒸGM♄/(ⒸG·4/3·Ⓒπ·ⒸReq♄²·ⒸRp♄);1_kg/m³);XPON(UVAL(Ⓡρv♄*ⒸGM♄/(ⒸG·4/3·Ⓒπ·ⒸReq♄²·ⒸRp♄)))-XPON(UVAL(ⒸGM♄/(ⒸG·4/3·Ⓒπ·ⒸReq♄²·ⒸRp♄)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv♄*Ⓒρv♄);-2);1_kg/m³)' "
@@ -1831,11 +1831,11 @@ static const cstring basic_constants[] =
     "Ve♄",      "[ 'ROUND(CONVERT(√(2·ⒸGM♄/(ⒸReq♄²·ⒸRp♄)↑(1/3));1_m/s);XPON(UVAL(ⓇVe♄*√(2·ⒸGM♄/(ⒸReq♄²·ⒸRp♄)↑(1/3))))-XPON(UVAL(√(2·ⒸGM♄/(ⒸReq♄²·ⒸRp♄)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe♄*ⒸVe♄);-2);1_m/s)' "
                 "  '1/2·(ⓇGM♄+(2/3·(2·ⓇReq♄+ⓇRp♄)))' ]",
-    // *Saturn sidereal rotation period - Measurement [22]
-    "Prot♄",    "[ 38361_s "
-                "  50_s "
+    // *Saturn sidereal rotation period - Measurement [40]
+    "Prot♄",    "[ 38018_s "
+                "  58_s "
                 "  'ROUND(ⓈProt♄/ⒸProt♄;-2)' "
-                "  3.836E4_s ]",
+                "  3.802E4_s ]",
     // *Saturn orbital period - Computed, anomalistic perigee interval [27]
     "Porb♄",    "[ 928565359_s "
                 "  0_s "
@@ -1907,7 +1907,7 @@ static const cstring basic_constants[] =
     // *Uranus oblateness - Calculation from measurement [22]
     "f⛢",       "[ 'ROUND(1-ⒸRp⛢/ⒸReq⛢;XPON(UVAL(Ⓡf⛢*(1-ⒸRp⛢/ⒸReq⛢)))-XPON(1-ⒸRp⛢/ⒸReq⛢)-2)' "
                 "  'ROUND(Ⓡf⛢*Ⓒf⛢;-2)' "
-                "  'ⓇRp⛢+ⓇReq⛢' ]",
+                "  'ⒸRp⛢/(ⒸReq⛢-ⒸRp⛢)·(ⓇRp⛢+ⓇReq⛢)' ]",
     // *Uranus mean density - Calculation from measurement [4] [22]
     "ρv⛢",       "[ 'ROUND(CONVERT(ⒸGM⛢/(ⒸG·4/3·Ⓒπ·ⒸReq⛢²·ⒸRp⛢);1_kg/m³);XPON(UVAL(Ⓡρv⛢*ⒸGM⛢/(ⒸG·4/3·Ⓒπ·ⒸReq⛢²·ⒸRp⛢)))-XPON(UVAL(ⒸGM⛢/(ⒸG·4/3·Ⓒπ·ⒸReq⛢²·ⒸRp⛢)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv⛢*Ⓒρv⛢);-2);1_kg/m³)' "
@@ -1922,11 +1922,11 @@ static const cstring basic_constants[] =
     "Ve⛢",      "[ 'ROUND(CONVERT(√(2·ⒸGM⛢/(ⒸReq⛢²·ⒸRp⛢)↑(1/3));1_m/s);XPON(UVAL(ⓇVe⛢*√(2·ⒸGM⛢/(ⒸReq⛢²·ⒸRp⛢)↑(1/3))))-XPON(UVAL(√(2·ⒸGM⛢/(ⒸReq⛢²·ⒸRp⛢)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe⛢*ⒸVe⛢);-2);1_m/s)' "
                 "  '1/2·(ⓇGM⛢+(2/3·(2·ⓇReq⛢+ⓇRp⛢)))' ]",
-    // *Uranus sidereal rotation period - Measurement [22]
-    "Prot⛢",    "[ 62064_s "
-                "  10_s "
+    // *Uranus sidereal rotation period - Measurement [41]
+    "Prot⛢",    "[ 62092.31_s "
+                "  0.04_s "
                 "  'ROUND(ⓈProt⛢/ⒸProt⛢;-2)' "
-                "  6.206E4_s ]",
+                "  6.209E4_s ]",
     // *Uranus orbital period - Computed, anomalistic perigee interval [27]
     "Porb⛢",    "[ 2658520424_s "
                 "  0_s "
@@ -1998,7 +1998,7 @@ static const cstring basic_constants[] =
     // *Neptune oblateness - Calculation from measurement [22]
     "f♆",       "[ 'ROUND(1-ⒸRp♆/ⒸReq♆;XPON(UVAL(Ⓡf♆*(1-ⒸRp♆/ⒸReq♆)))-XPON(1-ⒸRp♆/ⒸReq♆)-2)' "
                 "  'ROUND(Ⓡf♆*Ⓒf♆;-2)' "
-                "  'ⓇRp♆+ⓇReq♆' ]",
+                "  'ⒸRp♆/(ⒸReq♆-ⒸRp♆)·(ⓇRp♆+ⓇReq♆)' ]",
     // *Neptune mean density - Calculation from measurement [4] [22]
     "ρv♆",       "[ 'ROUND(CONVERT(ⒸGM♆/(ⒸG·4/3·Ⓒπ·ⒸReq♆²·ⒸRp♆);1_kg/m³);XPON(UVAL(Ⓡρv♆*ⒸGM♆/(ⒸG·4/3·Ⓒπ·ⒸReq♆²·ⒸRp♆)))-XPON(UVAL(ⒸGM♆/(ⒸG·4/3·Ⓒπ·ⒸReq♆²·ⒸRp♆)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv♆*Ⓒρv♆);-2);1_kg/m³)' "
@@ -2013,9 +2013,9 @@ static const cstring basic_constants[] =
     "Ve♆",      "[ 'ROUND(CONVERT(√(2·ⒸGM♆/(ⒸReq♆²·ⒸRp♆)↑(1/3));1_m/s);XPON(UVAL(ⓇVe♆*√(2·ⒸGM♆/(ⒸReq♆²·ⒸRp♆)↑(1/3))))-XPON(UVAL(√(2·ⒸGM♆/(ⒸReq♆²·ⒸRp♆)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe♆*ⒸVe♆);-2);1_m/s)' "
                 "  '1/2·(ⓇGM♆+(2/3·(2·ⓇReq♆+ⓇRp♆)))' ]",
-    // *Neptune sidereal rotation period - Measurement [22]
-    "Prot♆",    "[ 58000_s "
-                "  100_s "
+    // *Neptune sidereal rotation period - Measurement [42]
+    "Prot♆",    "[ 57996_s "
+                "  180_s "
                 "  'ROUND(ⓈProt♆/ⒸProt♆;-2)' ]",
     // *Neptune orbital period - Sidereal [28]
     "Porb♆",    "[ 5200416000_s "
@@ -2075,12 +2075,12 @@ static const cstring basic_constants[] =
                 "  1.462E22_kg ]",
     // *Pluto equatorial radius - Measurement [26]
     "Req♇",     "[ 1188.3_km "
-                "  1.6_km "
+                "  0.8_km "
                 "  'ROUND(ⓈReq♇/ⒸReq♇;-2)' "
                 "  1188._km ]",
     // *Pluto polar radius - Measurement [26]
     "Rp♇",      "[ 1188.3_km "
-                "  1.6_km "
+                "  0.8_km "
                 "  'ROUND(ⓈRp♇/ⒸRp♇;-2)' "
                 "  1188._km ]",
     // *Pluto oblateness - Calculation from measurement [26]
@@ -2101,8 +2101,8 @@ static const cstring basic_constants[] =
     "Ve♇",      "[ 'ROUND(CONVERT(√(2·ⒸGM♇/(ⒸReq♇²·ⒸRp♇)↑(1/3));1_m/s);XPON(UVAL(ⓇVe♇*√(2·ⒸGM♇/(ⒸReq♇²·ⒸRp♇)↑(1/3))))-XPON(UVAL(√(2·ⒸGM♇/(ⒸReq♇²·ⒸRp♇)↑(1/3))))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇVe♇*ⒸVe♇);-2);1_m/s)' "
                 "  '1/2·(ⓇGM♇+(2/3·(2·ⓇReq♇+ⓇRp♇)))' ]",
-    // *Pluto sidereal rotation period - Measurement [26]
-    "Prot♇",    "[ 551856.7_s "
+    // *Pluto sidereal rotation period - Calculation from rotation rate [22]
+    "Prot♇",    "[ 551856.1_s "
                 "  0.1_s "
                 "  'ROUND(ⓈProt♇/ⒸProt♇;-2)' "
                 "  5.519E5_s ]",
@@ -2167,17 +2167,17 @@ static const cstring basic_constants[] =
     "Req☉",     "[ 695700_km "
                 "  0_km "
                 "  0 ]",
-    // *Solar polar radius - Measurement [18] [19]
-    "Rp☉",      "[ 695508_km "
-                "  140_km "
+    // *Solar polar radius - Calculation from nominal value and measurement [3] [38]
+    "Rp☉",      "[ 695694.8_km "
+                "  0.4_km "
                 "  'ROUND(ⓈRp☉/ⒸRp☉;-2)' "
-                "  6.955E5_km ]",
+                "  6.957E5_km ]",
 
     // ------------------------------------------------------------------------
-    // *Solar oblateness - Calculation from measurement [18] [19]
+    // *Solar oblateness - Calculation from measurement [3] [38]
     "f☉",       "[ 'ROUND(1-ⒸRp☉/ⒸReq☉;XPON(UVAL(Ⓡf☉*(1-ⒸRp☉/ⒸReq☉)))-XPON(1-ⒸRp☉/ⒸReq☉)-2)' "
                 "  'ROUND(Ⓡf☉*Ⓒf☉;-2)' "
-                "  'ⓇRp☉+ⓇReq☉' ]",
+                "  'ⒸRp☉/(ⒸReq☉-ⒸRp☉)·(ⓇRp☉+ⓇReq☉)' ]",
     // *Solar mean density - Calculation from nominal value [3]
     "ρv☉",       "[ 'ROUND(CONVERT(ⒸGM☉/(ⒸG·4/3·Ⓒπ·ⒸReq☉²·ⒸRp☉);1_kg/m³);XPON(UVAL(Ⓡρv☉*ⒸGM☉/(ⒸG·4/3·Ⓒπ·ⒸReq☉²·ⒸRp☉)))-XPON(UVAL(ⒸGM☉/(ⒸG·4/3·Ⓒπ·ⒸReq☉²·ⒸRp☉)))-2)' "
                 "  'CONVERT(ROUND(UBASE(Ⓡρv☉*Ⓒρv☉);-2);1_kg/m³)' "

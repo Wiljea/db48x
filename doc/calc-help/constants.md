@@ -1038,7 +1038,9 @@ measured value of the Rydberg constant `R∞`. [CODATA](#codata)
 
 Mercury gravitational parameter
 
-It is measured by radio tracking of spacecraft (Mariner 10, MESSENGER). [Reference 4](#reference-4)
+It is measured by radio tracking of spacecraft (Mariner 10, MESSENGER). DE440 publishes no uncertainty: the standard uncertainty, 0.0012 km³/s², is the
+one of the MESS160A gravity field in the Planetary Data System.
+[Reference 4](#reference-4) [Reference 39](#reference-39)
 
 ### M☿ constant
 
@@ -1182,7 +1184,9 @@ perihelion roughly four times per year. [Reference 27](#reference-27)
 Venus gravitational parameter
 
 Venus's gravitational parameter, measured by radio tracking of spacecraft
-(Magellan, Venus Express). [Reference 4](#reference-4)
+(Magellan, Venus Express). DE440 publishes no uncertainty: the standard uncertainty, 0.0064 km³/s², is the
+one of the MGN180U gravity field in the Planetary Data System.
+[Reference 4](#reference-4) [Reference 39](#reference-39)
 
 ### M♀ constant
 
@@ -1553,13 +1557,16 @@ gravitational constant `G` as `GM☽/G`. The relative uncertainty is carried as
 
 Moon equatorial radius
 
-Measured. Moon's equatorial radius, measured by laser altimetry (LRO mission). [Reference 22](#reference-22)
+Measured. Moon's equatorial radius, measured by laser altimetry (LRO mission).
+The source gives no uncertainty: the one shown is one unit of the last digit.
+[Reference 28](#reference-28)
 
 ### Rp☽ constant
 
 Moon polar radius
 
-Measured. Moon's polar radius. [Reference 22](#reference-22)
+Measured. Moon's polar radius. The source gives no uncertainty: the one shown
+is one unit of the last digit. [Reference 28](#reference-28)
 
 ### f☽ constant
 
@@ -1568,7 +1575,7 @@ Moon oblateness
 Calculated from measurement. Moon's oblateness, reflecting its slight equatorial
 bulge. Calculated from `Req☽` and `Rp☽`. When greater than 0, it describes how
 much a celestial body deviates from a perfect sphere, forming an "oblate spheroid".
-[Reference 22](#reference-22)
+[Reference 28](#reference-28)
 
 ### ρv☽ constant
 
@@ -2075,8 +2082,12 @@ pull and never return. [Reference 37](#reference-37) [Reference 22](#reference-2
 Saturn sidereal rotation period
 
 Measured. Saturn's sidereal rotation period is the true time it takes
-to spin 360° on its axis (System III, based on Cassini radio
-measurements). [Reference 22](#reference-22)
+to spin 360° on its axis. The period of Saturn's radio emissions changed by
+several minutes between Voyager and Cassini and does not follow the interior.
+This value, 10 h 33 min 38 s, comes from the waves that Saturn's interior
+excites in the C ring. The source gives +1 min 52 s / −1 min 19 s as a 90 %
+interval; the standard uncertainty is its mean half-width divided by 1.645.
+[Reference 40](#reference-40)
 
 ### ωrot♄ constant
 
@@ -2232,8 +2243,10 @@ pull and never return. [Reference 37](#reference-37) [Reference 22](#reference-2
 Uranus sidereal rotation period
 
 Measured. Uranus's sidereal rotation period is the true time it takes
-to spin 360° on its axis. Uranus rotates retrograde relative to its
-orbital motion. [Reference 22](#reference-22)
+to spin 360° on its axis, 17.247864 ± 0.000010 h, from ten years of Hubble
+observations of its aurorae, which follow the magnetic poles. It is 28 s longer
+than the Voyager 2 value of 1986, 17.24 ± 0.01 h. Uranus rotates retrograde
+relative to its orbital motion. [Reference 41](#reference-41)
 
 ### ωrot⛢ constant
 
@@ -2393,8 +2406,12 @@ pull and never return. [Reference 37](#reference-37) [Reference 22](#reference-2
 Neptune sidereal rotation period
 
 Measured. Neptune's sidereal rotation period is the true time it takes
-to spin 360° on its axis (System III, from Voyager 2 radio measurements).
-[Reference 22](#reference-22)
+to spin 360° on its axis, 16.11 ± 0.05 h from the periodicity of the radio
+emissions observed by Voyager 2 in 1989 (System III). It is the only
+measurement of the rotation of the interior. Two long-lived cloud features give
+15.96630 ± 0.00003 h (Karkoschka 2011), the period adopted by the IAU for
+cartography; it is not known which of the two follows the interior.
+[Reference 42](#reference-42) [Reference 22](#reference-22)
 
 ### ωrot♆ constant
 
@@ -2509,13 +2526,15 @@ gravitational constant `G` as `GM♇/G`. The relative uncertainty is carried as
 Pluto equatorial radius
 
 Measured. Pluto's equatorial radius, measured by New Horizons occultation
-and imaging. [Reference 26](#reference-26)
+and imaging. The source gives 1188.3 ± 1.6 km at two standard deviations;
+the standard uncertainty is half of it. [Reference 26](#reference-26)
 
 ### Rp♇ constant
 
 Pluto polar radius
 
-Measured. Pluto's polar radius. Pluto is essentially spherical. [Reference 26](#reference-26)
+Measured. Pluto's polar radius. Pluto is essentially spherical: the source
+finds no measurable oblateness (less than 0.6 %). [Reference 26](#reference-26)
 
 ### f♇ constant
 
@@ -2550,8 +2569,8 @@ pull and never return. [Reference 37](#reference-37) [Reference 26](#reference-2
 Pluto sidereal rotation period
 
 Measured. Pluto's sidereal rotation period is the true time it takes to
-spin 360° on its axis. Pluto rotates retrograde and is tidally locked to
-its moon Charon. [Reference 26](#reference-26)
+spin 360° on its axis, 360°/|Ẇ| from the recommended rotation rate. Pluto
+rotates retrograde and is tidally locked to its moon Charon. [Reference 22](#reference-22)
 
 ### ωrot♇ constant
 
@@ -2662,8 +2681,12 @@ It is an exact nominal value defined by the IAU (2015). [IAU 2015 Resolution B3]
 
 Solar polar radius
 
-It is measured by helioseismology and limb-darkening observations.
-[Reference 18](#reference-18) [Reference 19](#reference-19)
+The Sun is very slightly flattened by its rotation: its equatorial radius
+exceeds its polar radius by 7.2 ± 0.5 milliarcseconds seen from Earth, that is
+5.22 ± 0.36 km, as measured by the HMI instrument of the Solar Dynamics
+Observatory. The polar radius is the nominal radius `Req☉` minus that
+difference.
+[IAU 2015 Resolution B3](#iau-2015-resolution-b3) [Reference 38](#reference-38)
 
 ### f☉ constant
 
@@ -2671,9 +2694,10 @@ Solar oblateness
 
 The Solar oblateness (or flattening) is calculated from the nominal
 equatorial radius and the polar radius measurement as
-`f☉=1−Rp☉/Req☉`. Its uncertainty is inherited from Jupiter `♃Rp☉`.
-When greater than 0, it describes how much a celestial body deviates
-from a perfect sphere, forming an "oblate spheroid". [Reference 18](#reference-18) [Reference 19](#reference-19)
+`f☉=1−Rp☉/Req☉`. Its uncertainty comes from the measured difference
+between the two radii, about 7 %. When greater than 0, it describes how much
+a celestial body deviates from a perfect sphere, forming an "oblate spheroid".
+[IAU 2015 Resolution B3](#iau-2015-resolution-b3) [Reference 38](#reference-38)
 
 ### ρv☉ constant
 
@@ -3909,6 +3933,26 @@ Zhang, X., Chen, B., Chen, P., Sun, J., & Tian, Z. (2024). Monthly Notices of th
 ### Reference 37
 
 Jacobson, R.A., et al. JPL Solar System Dynamics — Planetary Satellite Physical Parameters, GM of the planets alone from the satellite ephemerides MAR097, JUP365, SAT441, URA111, NEP097 and PLU060. [Source](https://ssd.jpl.nasa.gov/sats/phys_par/) Accessed: October 2026.
+
+### Reference 38
+
+Kuhn, J.R., Bush, R., Emilio, M., & Scholl, I.F. (2012). "The Precise Solar Shape and Its Variability". Science, 337(6102), 1638–1640. DOI: 10.1126/science.1223231 — Equator-to-pole difference of the solar radius, 7.2 ± 0.5 mas, source for `Rp☉` and `f☉`.
+
+### Reference 39
+
+NASA Planetary Data System, Geosciences Node. Header records of the gravity fields JGMESS_160A (Konopliv et al. 2020, MESSENGER: GM☿ = 22031.86869 ± 0.00120 km³/s²) and SHGJ180U (Konopliv et al. 1999, Magellan: GM♀ = 324858.59208 ± 0.00638 km³/s²). [Source](https://pds-geosciences.wustl.edu/) Accessed: October 2026.
+
+### Reference 40
+
+Mankovich, C., Marley, M.S., Fortney, J.J., & Movshovitz, N. (2019). "Cassini Ring Seismology as a Probe of Saturn's Interior. I. Rigid Rotation". The Astrophysical Journal, 871(1), 1. arXiv:1805.10286 — DOI: 10.3847/1538-4357/aaf798 — Rotation period of Saturn's interior, source for `Prot♄`.
+
+### Reference 41
+
+Lamy, L., Prangé, R., Berthier, J., et al. (2025). "A new rotation period and longitude system for Uranus". Nature Astronomy, 9(5). DOI: 10.1038/s41550-025-02492-z — Source for `Prot⛢`.
+
+### Reference 42
+
+Warwick, J.W., et al. (1989). "Voyager Planetary Radio Astronomy at Neptune". Science, 246(4936), 1498–1501. DOI: 10.1126/science.246.4936.1498 — Radio rotation period of Neptune, 16.11 ± 0.05 h, source for `Prot♆`.
 
 ### Particle physics data
 
