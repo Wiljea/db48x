@@ -2304,11 +2304,11 @@ static const cstring basic_constants[] =
     "RAir",     "[ 'ROUND(CONVERT(ⒸcpAir-ⒸcvAir;1_J/(kg*K));XPON(UVAL(ⓇRAir*(ⒸcpAir-ⒸcvAir)))-XPON(UVAL(ⒸcpAir-ⒸcvAir))-2)' "
                 "  'CONVERT(ROUND(UBASE(ⓇRAir*ⒸRAir);-2);1_J/(kg*K))' "
                 "  'ROUND((ⓈcpAir+ⓈcvAir)/ABS(ⒸcpAir-ⒸcvAir);-2)' ]",
-    // *Dry air electric permittivity - Measurement [M1] [M2]
-    "εAir",     "[ 8.8542E-12_F/m "
-                "  0.0005E-12_F/m "
+    // *Dry air electric permittivity at 20 °C and 1 atm - Measurement [M29]
+    "εAir",     "[ 8.858937E-12_F/m "
+                "  0.0000027E-12_F/m "
                 "  'ROUND(ⓈεAir/ⒸεAir;-2)' "
-                "  8.854E-12_F/m ]",
+                "  8.859E-12_F/m ]",
     // *Dry air magnetic permeability - Measurement [M1] [M2]
     "μAir",     "[ 1.2566E-6_H/m "
                 "  0.0001E-6_H/m "
@@ -2347,9 +2347,9 @@ static const cstring basic_constants[] =
                 "  'ROUND((ⓈcpN2+ⓈcvN2)/ABS(ⒸcpN2-ⒸcvN2);-2)' ]",
 
     // ------------------------------------------------------------------------
-    // *Dinitrogen N2 electric permittivity - Measurement [M2]
-    "εN2",      "[ 8.859E-12_F/m "        // εr ≈ 1.000580 at STP
-                "  0.001E-12_F/m "
+    // *Dinitrogen N2 electric permittivity at 20 °C and 1 atm - Measurement [M29]
+    "εN2",      "[ 8.859040E-12_F/m "
+                "  0.0000044E-12_F/m "
                 "  'ROUND(ⓈεN2/ⒸεN2;-2)' ]",
     // *Dinitrogen N2 magnetic permeability - Measurement [M2]
     "μN2",      "[ 1.2566E-6_H/m "        // μr ≈ 1.0000000 (diamagnetic)
@@ -2389,9 +2389,9 @@ static const cstring basic_constants[] =
                 "  'ROUND((ⓈcpO2+ⓈcvO2)/ABS(ⒸcpO2-ⒸcvO2);-2)' ]",
 
     // ------------------------------------------------------------------------
-    // *Dioxygen O2 electric permittivity - Measurement [M2]
-    "εO2",      "[ 8.859E-12_F/m "        // εr ≈ 1.000530 at STP
-                "  0.001E-12_F/m "
+    // *Dioxygen O2 electric permittivity at 20 °C and 1 atm - Measurement [M29]
+    "εO2",      "[ 8.858568E-12_F/m "
+                "  0.0000018E-12_F/m "
                 "  'ROUND(ⓈεO2/ⒸεO2;-2)' ]",
     // *Dioxygen O2 magnetic permeability - Measurement [M2]
     "μO2",      "[ 1.2566E-6_H/m "        // μr ≈ 1.0000019 (paramagnetic)
@@ -2431,9 +2431,9 @@ static const cstring basic_constants[] =
                 "  'ROUND((ⓈcpAr+ⓈcvAr)/ABS(ⒸcpAr-ⒸcvAr);-2)' ]",
 
     // ------------------------------------------------------------------------
-    // *Argon electric permittivity - Measurement [M2]
-    "εAr",      "[ 8.855E-12_F/m "        // εr ≈ 1.000516 at STP
-                "  0.001E-12_F/m "
+    // *Argon electric permittivity at 20 °C and 1 atm - Measurement [M29]
+    "εAr",      "[ 8.858767E-12_F/m "
+                "  0.0000035E-12_F/m "
                 "  'ROUND(ⓈεAr/ⒸεAr;-2)' ]",
     // *Argon magnetic permeability - Measurement [M2]
     "μAr",      "[ 1.2566E-6_H/m "        // μr ≈ 1.0000000 (diamagnetic)
@@ -2473,9 +2473,9 @@ static const cstring basic_constants[] =
                 "  'ROUND((ⓈcpCO2+ⓈcvCO2)/ABS(ⒸcpCO2-ⒸcvCO2);-2)' ]",
 
     // ------------------------------------------------------------------------
-    // *Carbon dioxide CO2 electric permittivity - Measurement [M2] [M3]
-    "εCO2",     "[ 8.920E-12_F/m "        // εr ≈ 1.000921 at STP
-                "  0.001E-12_F/m "
+    // *Carbon dioxide CO2 electric permittivity at 20 °C and 1 atm - Measurement [M29]
+    "εCO2",     "[ 8.862351E-12_F/m "
+                "  0.0000089E-12_F/m "
                 "  'ROUND(ⓈεCO2/ⒸεCO2;-2)' ]",
     // *Carbon dioxide CO2 magnetic permeability - Measurement [M2]
     "μCO2",     "[ 1.2566E-6_H/m "        // μr ≈ 1.0000000 (diamagnetic)

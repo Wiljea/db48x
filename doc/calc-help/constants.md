@@ -2865,12 +2865,13 @@ Exact calculation: `R/M_Air`. Specific gas constant of dry air,
 
 Electric permittivity of dry air
 
-Measured. Electric permittivity of dry airat STP. The relative
-permittivity `εr≈1.000536` is very close to vacuum permittivity `ε₀`.
-It is a measure of how dense an electric field is "permitted" to
-form in response to electric charges.
-[Materials 1](#materials-1)
-[Materials 2](#materials-2)
+Measured. Electric permittivity of dry air (free of CO2) at 20 °C and 1 atm, ε₀·(1 + (ε−1)),
+with ε − 1 = 536.4×10⁻⁶. This is the mean of the best measurements
+(radio frequency, microwave and optical); their average deviation,
+0.3×10⁻⁶, is taken as the standard uncertainty. At other temperatures
+and pressures, ε − 1 is proportional to the density of the gas, p/T.
+[Materials 29](#materials-29)
+
 
 ### μAir constant
 
@@ -2956,10 +2957,13 @@ where `M_N2=28.014 g/mol`. [Materials 2](#materials-2)
 
 Electric permittivity of N2
 
-Measured. Electric permittivity of N2 at STP. Relative permittivity
-`εr≈1.000580`; N2 is widely used as an insulating gas in high-voltage
-equipment. It is a measure of how dense an electric field is "permitted"
-to form in response to electric charges. [Materials 2](#materials-2)
+Measured. Electric permittivity of nitrogen at 20 °C and 1 atm, ε₀·(1 + (ε−1)),
+with ε − 1 = 548×10⁻⁶. This is the mean of the best measurements
+(radio frequency, microwave and optical); their average deviation,
+0.5×10⁻⁶, is taken as the standard uncertainty. At other temperatures
+and pressures, ε − 1 is proportional to the density of the gas, p/T.
+[Materials 29](#materials-29)
+
 
 ### μN2 constant
 
@@ -3037,9 +3041,13 @@ where `M_O2=31.999 g/mol`. [Materials 2](#materials-2)
 
 Electric permittivity of O2
 
-Measured. Electric permittivity of O2 at STP. Relative permittivity
-`εr≈1.000530`, comparable to N2. It is a measure of how dense an electric
-field is "permitted" to form in response to electric charges. [Materials 2](#materials-2)
+Measured. Electric permittivity of oxygen at 20 °C and 1 atm, ε₀·(1 + (ε−1)),
+with ε − 1 = 494.7×10⁻⁶. This is the mean of the best measurements
+(radio frequency, microwave and optical); their average deviation,
+0.2×10⁻⁶, is taken as the standard uncertainty. At other temperatures
+and pressures, ε − 1 is proportional to the density of the gas, p/T.
+[Materials 29](#materials-29)
+
 
 ### μO2 constant
 
@@ -3106,10 +3114,13 @@ Exact calculation. Specific gas constant of argon, `RAr=R/M_Ar`, where
 
 Electric permittivity of Ar
 
-Measured. Electric permittivity of Ar at STP. Relative permittivity
-`εr≈1.000516`; used as an inert dielectric medium. It is a measure of how
-dense an electric field is "permitted" to form in response to electric charges.
-[Materials 2](#materials-2)
+Measured. Electric permittivity of argon at 20 °C and 1 atm, ε₀·(1 + (ε−1)),
+with ε − 1 = 517.2×10⁻⁶. This is the mean of the best measurements
+(radio frequency, microwave and optical); their average deviation,
+0.4×10⁻⁶, is taken as the standard uncertainty. At other temperatures
+and pressures, ε − 1 is proportional to the density of the gas, p/T.
+[Materials 29](#materials-29)
+
 
 ### μAr constant
 
@@ -3188,12 +3199,13 @@ where `M_CO2=44.010 g/mol`. [Materials 2](#materials-2)
 
 Electric permittivity of CO2
 
-Measured. Electric permittivity of CO2 at STP. Relative permittivity `εr≈1.000921`,
-slightly higher than N2 and Ar due to CO2's quadrupole moment. It is a measure
-of how dense an electric field is "permitted" to form in response to electric
-charges.
-[Materials 2](#materials-2)
-[Materials 3](#materials-3)
+Measured. Electric permittivity of carbon dioxide at 20 °C and 1 atm, ε₀·(1 + (ε−1)),
+with ε − 1 = 922×10⁻⁶. This is the mean of the best measurements
+(radio frequency, microwave and optical); their average deviation,
+1×10⁻⁶, is taken as the standard uncertainty. At other temperatures
+and pressures, ε − 1 is proportional to the density of the gas, p/T.
+[Materials 29](#materials-29)
+
 
 ### μCO2 constant
 
@@ -4311,3 +4323,7 @@ IAPWS (2024). R11-24, "Revised Release on the Ionization Constant of H₂O". Int
 ### Materials 28
 
 Goldberg, R.N., Kishore, N., & Lennen, R.M. (2002). "Thermodynamic Quantities for the Ionization Reactions of Buffers". J. Phys. Chem. Ref. Data, 31(2), 231–370. DOI: 10.1063/1.1416902
+
+### Materials 29
+
+Maryott, A.A., & Buckley, F. (1953). Table of Dielectric Constants and Electric Dipole Moments of Substances in the Gaseous State. National Bureau of Standards Circular 537, Washington, D.C. [Source](https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular537.pdf) — Table 2.2, recommended values of ε − 1 for the reference gases at 20 °C and 1 atm.
