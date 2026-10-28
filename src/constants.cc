@@ -2457,11 +2457,11 @@ static const cstring basic_constants[] =
                 "  'ROUND(ⓈρvCO2/ⒸρvCO2;-2)' ]",
     // *Carbon dioxide CO2 specific heat cp - Measurement [M2] [M3]
     "cpCO2",    "[ 819._J/(kg*K) "
-                "  2._J/(kg*K) "
+                "  1.2_J/(kg*K) "
                 "  'ROUND(ⓈcpCO2/ⒸcpCO2;-2)' ]",
     // *Carbon dioxide CO2 specific heat cv - Measurement [M2] [M3]
     "cvCO2",    "[ 630._J/(kg*K) "
-                "  2._J/(kg*K) "
+                "  1.2_J/(kg*K) "
                 "  'ROUND(ⓈcvCO2/ⒸcvCO2;-2)' ]",
     // *Carbon dioxide CO2 adiabatic index - Calculation: γ=cp/cv [M2] [M3]
     "γCO2",     "[ 'ROUND(ⒸcpCO2/ⒸcvCO2;XPON(UVAL(ⓇγCO2*ⒸcpCO2/ⒸcvCO2))-XPON(UVAL(ⒸcpCO2/ⒸcvCO2))-2)' "
@@ -2506,7 +2506,7 @@ static const cstring basic_constants[] =
                 "  'ROUND(ⓈρvH2O/ⒸρvH2O;-2)' ]",
     // *Liquid water refractive index - Measurement [M4]
     "nH2O",     "[ 1.3330 "
-                "  0.0005 "
+                "  0.00029 "
                 "  'ROUND(ⓈnH2O/ⒸnH2O;-2)' "
                 "  1.333 ]",
     // *Liquid water specific heat cp - Measurement [M4] [M2]
@@ -2549,13 +2549,13 @@ static const cstring basic_constants[] =
     "ρvSi",      "[ 2330._kg/m³ "
                 "  0.58_kg/m³ "
                 "  'ROUND(ⓈρvSi/ⒸρvSi;-2)' ]",
-    // *Crystalline silicon refractive index - Measurement [M11]
-    "nSi",      "[ 3.4179 "
-                "  0.0002 "
+    // *Crystalline silicon refractive index at 1550 nm - Measurement [M30]
+    "nSi",      "[ 3.4757 "
+                "  0.00012 "
                 "  'ROUND(ⓈnSi/ⒸnSi;-2)' ]",
     // *Crystalline silicon specific heat - Measurement [M10]
     "cpSi",     "[ 711._J/(kg*K) "
-                "  2._J/(kg*K) "
+                "  1.2_J/(kg*K) "
                 "  'ROUND(ⓈcpSi/ⒸcpSi;-2)' ]",
     // *Dielectric constant of silicon - Definition convention [HP50g manual]
     "εsi",      "[ 11.9 "
@@ -2570,15 +2570,15 @@ static const cstring basic_constants[] =
 
     // *Fused silica volumetric density - Measurement [M7]
     "ρvSiO2",    "[ 2201._kg/m³ "
-                "  2._kg/m³ "
+                "  1.2_kg/m³ "
                 "  'ROUND(ⓈρvSiO2/ⒸρvSiO2;-2)' ]",
     // *Fused silica refractive index - Measurement [M5]
-    "nSiO2",    "[ 1.45701 "
-                "  0.00005 "
+    "nSiO2",    "[ 1.45840 "
+                "  0.000029 "
                 "  'ROUND(ⓈnSiO2/ⒸnSiO2;-2)' ]",
     // *Fused silica specific heat - Measurement [M7]
     "cpSiO2",   "[ 703._J/(kg*K) "
-                "  5._J/(kg*K) "
+                "  2.9_J/(kg*K) "
                 "  'ROUND(ⓈcpSiO2/ⒸcpSiO2;-2)' ]",
     // *Dielectric constant of SiO2 - Definition convention [HP50g manual]
     "εox",      "[ 3.9 "
@@ -2597,15 +2597,15 @@ static const cstring basic_constants[] =
 
     // *Germanate glass volumetric density - Measurement [M8] [M9]
     "ρvGeO2",    "[ 3650._kg/m³ "
-                "  10._kg/m³ "
+                "  5.8_kg/m³ "
                 "  'ROUND(ⓈρvGeO2/ⒸρvGeO2;-2)' ]",
     // *Germanate glass refractive index - Measurement [M8]
     "nGeO2",    "[ 1.607 "
-                "  0.002 "
+                "  0.0012 "
                 "  'ROUND(ⓈnGeO2/ⒸnGeO2;-2)' ]",
     // *Germanate glass specific heat - Measurement [M9]
     "cpGeO2",   "[ 440._J/(kg*K) "
-                "  10._J/(kg*K) "
+                "  5.8_J/(kg*K) "
                 "  'ROUND(ⓈcpGeO2/ⒸcpGeO2;-2)' ]",
     // *Germanate glass resistivity - Measurement [M9]
     "ρGeO2",    "[ 1.0E12_Ω·m "           // pure GeO2 glass; lower than SiO2
@@ -2620,15 +2620,15 @@ static const cstring basic_constants[] =
 
     // *Silicon nitride volumetric density - Measurement [M18] [M19]
     "ρvSi3N4",   "[ 3170._kg/m³ "
-                "  10._kg/m³ "
+                "  5.8_kg/m³ "
                 "  'ROUND(ⓈρvSi3N4/ⒸρvSi3N4;-2)' ]",
     // *LPCVD Si3N4 refractive index - Measurement [M18]
     "nSi3N4",   "[ 2.016 "
-                "  0.005 "
+                "  0.0029 "
                 "  'ROUND(ⓈnSi3N4/ⒸnSi3N4;-2)' ]",
     // *Silicon nitride specific heat - Measurement [M19]
     "cpSi3N4",  "[ 691._J/(kg*K) "
-                "  10._J/(kg*K) "
+                "  5.8_J/(kg*K) "
                 "  'ROUND(ⓈcpSi3N4/ⒸcpSi3N4;-2)' ]",
     // *Silicon nitride resistivity - Measurement [M19]
     "ρSi3N4",   "[ 1.0E14_Ω·m "           // LPCVD Si3N4; good insulator
@@ -2647,15 +2647,15 @@ static const cstring basic_constants[] =
 
     // *Schott BK7 glass volumetric density - Measurement [M15]
     "ρvBK7",     "[ 2510._kg/m³ "
-                "  5._kg/m³ "
+                "  2.9_kg/m³ "
                 "  'ROUND(ⓈρvBK7/ⒸρvBK7;-2)' ]",
     // *Schott BK7 glass refractive index - Measurement [M15]
     "nBK7",     "[ 1.51680 "
-                "  0.00002 "
+                "  0.000012 "
                 "  'ROUND(ⓈnBK7/ⒸnBK7;-2)' ]",
     // *Schott BK7 glass specific heat - Measurement [M15]
     "cpBK7",    "[ 858._J/(kg*K) "
-                "  10._J/(kg*K) "
+                "  5.8_J/(kg*K) "
                 "  'ROUND(ⓈcpBK7/ⒸcpBK7;-2)' ]",
     // *Schott BK7 glass resistivity - Measurement [M15]
     "ρBK7",     "[ 1.0E13_Ω·m "           // borosilicate glass at 20°C
@@ -2674,15 +2674,15 @@ static const cstring basic_constants[] =
 
     // *Sapphire volumetric density - Measurement [M16]
     "ρvAl2O3",   "[ 3980._kg/m³ "
-                "  5._kg/m³ "
+                "  2.9_kg/m³ "
                 "  'ROUND(ⓈρvAl2O3/ⒸρvAl2O3;-2)' ]",
     // *Sapphire ordinary refractive index - Measurement [M16]
-    "nAl2O3",   "[ 1.7659 "
-                "  0.0002 "
+    "nAl2O3",   "[ 1.76808 "
+                "  0.00012 "
                 "  'ROUND(ⓈnAl2O3/ⒸnAl2O3;-2)' ]",
     // *Sapphire specific heat - Measurement [M16] [M2]
     "cpAl2O3",  "[ 765._J/(kg*K) "
-                "  5._J/(kg*K) "
+                "  2.9_J/(kg*K) "
                 "  'ROUND(ⓈcpAl2O3/ⒸcpAl2O3;-2)' ]",
     // *Sapphire resistivity - Measurement [M16]
     "ρAl2O3",   "[ 1.0E14_Ω·m "           // single-crystal sapphire at 20°C
@@ -2697,15 +2697,15 @@ static const cstring basic_constants[] =
 
     // *Calcium fluoride volumetric density - Measurement [M17] [M15]
     "ρvCaF2",    "[ 3180._kg/m³ "
-                "  5._kg/m³ "
+                "  2.9_kg/m³ "
                 "  'ROUND(ⓈρvCaF2/ⒸρvCaF2;-2)' ]",
     // *Calcium fluoride refractive index - Measurement [M17]
     "nCaF2",    "[ 1.43381 "
-                "  0.00005 "
+                "  0.000029 "
                 "  'ROUND(ⓈnCaF2/ⒸnCaF2;-2)' ]",
     // *Calcium fluoride specific heat - Measurement [M15]
     "cpCaF2",   "[ 854._J/(kg*K) "
-                "  5._J/(kg*K) "
+                "  2.9_J/(kg*K) "
                 "  'ROUND(ⓈcpCaF2/ⒸcpCaF2;-2)' ]",
     // *Calcium fluoride resistivity - Measurement [M17]
     "ρCaF2",    "[ 1.0E15_Ω·m "           // single-crystal CaF2 at 20°C
@@ -2723,12 +2723,12 @@ static const cstring basic_constants[] =
                 "  0.58_kg/m³ "
                 "  'ROUND(ⓈρvC/ⒸρvC;-2)' ]",
     // *Diamond refractive index - Measurement [M14]
-    "nC",       "[ 2.4180 "
-                "  0.0002 "
+    "nC",       "[ 2.41726 "
+                "  0.00012 "
                 "  'ROUND(ⓈnC/ⒸnC;-2)' ]",
     // *Diamond specific heat - Measurement [M13]
     "cpC",      "[ 502._J/(kg*K) "
-                "  2._J/(kg*K) "
+                "  1.2_J/(kg*K) "
                 "  'ROUND(ⓈcpC/ⒸcpC;-2)' ]",
     // *Diamond resistivity - Measurement [M13] [M14]
     "ρC",       "[ 1.0E13_Ω·m "           // type IIa natural diamond; ~10¹¹–10¹⁴ Ω·m
@@ -2754,11 +2754,11 @@ static const cstring basic_constants[] =
                 "  'ROUND(ⓈρvAl/ⒸρvAl;-2)' ]",
     // *Aluminium specific heat - Measurement [M12] [M2]
     "cpAl",     "[ 902._J/(kg*K) "
-                "  2._J/(kg*K) "
+                "  1.2_J/(kg*K) "
                 "  'ROUND(ⓈcpAl/ⒸcpAl;-2)' ]",
     // *Aluminium thermal conductivity at 300 K - Measurement [M12]
     "kAl",       "[ 237._W/(m*K) "
-                "  4._W/(m*K) "
+                "  2.3_W/(m*K) "
                 "  'ROUND(ⓈkAl/ⒸkAl;-2)' ]",
     // *Aluminium electrical resistivity at 300 K - Measurement [M22]
     "ρAl",       "[ 2.733E-8_Ω·m "
@@ -2777,7 +2777,7 @@ static const cstring basic_constants[] =
 
     // *Copper volumetric density - Measurement [M12] [M2]
     "ρvCu",      "[ 8960._kg/m³ "
-                "  5._kg/m³ "
+                "  2.9_kg/m³ "
                 "  'ROUND(ⓈρvCu/ⒸρvCu;-2)' ]",
     // *Copper specific heat - Measurement [M12] [M2]
     "cpCu",     "[ 385._J/(kg*K) "
@@ -2793,7 +2793,7 @@ static const cstring basic_constants[] =
                 "  'ROUND(ⓈνCu/ⒸνCu;-2)' ]",
     // *Copper thermal conductivity at 300 K - Measurement [M12]
     "kCu",       "[ 401._W/(m*K) "
-                "  5._W/(m*K) "
+                "  2.9_W/(m*K) "
                 "  'ROUND(ⓈkCu/ⒸkCu;-2)' ]",
     // *Copper electrical resistivity at 300 K - Measurement [M23]
     "ρCu",       "[ 1.725E-8_Ω·m "
@@ -2812,11 +2812,11 @@ static const cstring basic_constants[] =
 
     // *Iron volumetric density (α phase) - Measurement [M12] [M2]
     "ρvFe",      "[ 7874._kg/m³ "
-                "  3._kg/m³ "
+                "  1.7_kg/m³ "
                 "  'ROUND(ⓈρvFe/ⒸρvFe;-2)' ]",
     // *Iron specific heat (α phase, BCC) - Measurement [M12] [M2]
     "cpFe",     "[ 450._J/(kg*K) "
-                "  2._J/(kg*K) "
+                "  1.2_J/(kg*K) "
                 "  'ROUND(ⓈcpFe/ⒸcpFe;-2)' ]",
     // *Iron Young modulus (polycrystal) - Measurement [M21]
     "EFe",       "[ 205._GPa "
@@ -2828,7 +2828,7 @@ static const cstring basic_constants[] =
                 "  'ROUND(ⓈνFe/ⒸνFe;-2)' ]",
     // *Iron thermal conductivity at 300 K - Measurement [M12]
     "kFe",       "[ 80.2_W/(m*K) "
-                "  1.4_W/(m*K) "
+                "  0.81_W/(m*K) "
                 "  'ROUND(ⓈkFe/ⒸkFe;-2)' ]",
     // *Iron electrical resistivity at 300 K - Measurement [M24]
     "ρFe",       "[ 10.50E-8_Ω·m "

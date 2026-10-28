@@ -3263,6 +3263,9 @@ Carbon dioxide CO2 specific heat cp
 
 Measured. Specific heat of CO2 at constant pressure at `300 K`.
 Strongly temperature-dependent.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
 [Materials 2](#materials-2)
 [Materials 3](#materials-3)
 
@@ -3272,6 +3275,9 @@ Strongly temperature-dependent.
 Carbon dioxide CO2 specific heat cv
 
 Measured. Specific heat of CO2 at constant volume at `300 K`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
 [Materials 2](#materials-2)
 [Materials 3](#materials-3)
 
@@ -3369,6 +3375,9 @@ that bound divided by √3.
 Refractive index of liquid water
 
 Measured. Refractive index of liquid water at `589 nm` (sodium D line), `20°C`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
 [Materials 4](#materials-4)
 
 ### cpH2O constant
@@ -3453,13 +3462,22 @@ that bound divided by √3.
 Refractive index of crystalline silicon
 
 Measured (Silicon is transparent only for `λ > 1.1 µm`). Refractive
-index of crystalline silicon at `1150 nm`, `20°C`. [Materials 11](#materials-11)
+index of crystalline silicon at `1550 nm`, the wavelength of optical
+telecommunications and silicon photonics, `20°C`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 30](#materials-30)
 
 ### cpSi constant
 
 Specific heat of silicon
 
-Measured. Specific heat of crystalline silicon at `300 K`. [Materials 10](#materials-10)
+Measured. Specific heat of crystalline silicon at `300 K`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 10](#materials-10)
 
 ### εsi constant
 
@@ -3491,7 +3509,11 @@ Dielectric
 Fused silica density
 
 Measured. Volumetric density of amorphous fused silica (vitreous SiO2),
-the primary material for standard optical fibers. [Materials 7](#materials-7)
+the primary material for standard optical fibers.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 7](#materials-7)
 
 ### nSiO2 constant
 
@@ -3499,13 +3521,22 @@ Refractive index of fused silica
 
 Measured (Malitson 1965 Sellmeier fit). Refractive index of fused silica
 at `589.3 nm` (sodium D line), `20°C`. The Sellmeier-calibrated value
-from Malitson (1965) is the standard reference for fiber optic design. [Materials 5](#materials-5)
+from Malitson (1965) is the standard reference for fiber optic design.
+The value is computed with the Sellmeier dispersion formula of Malitson 1965.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 5](#materials-5)
 
 ### cpSiO2 constant
 
 Specific heat of fused silica
 
-Measured. Specific heat of fused silica at `20°C`. [Materials 7](#materials-7)
+Measured. Specific heat of fused silica at `20°C`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 7](#materials-7)
 
 ### εox constant
 
@@ -3551,7 +3582,11 @@ Germanate glass density
 
 Measured. Volumetric density of germanate glass (GeO2), used as a dopant
 in the core of standard single-mode optical fibers to raise the refractive
-index. [Materials 8](#materials-8) [Materials 9](#materials-9)
+index.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 8](#materials-8) [Materials 9](#materials-9)
 
 ### nGeO2 constant
 
@@ -3559,13 +3594,21 @@ Refractive index of germanate glass
 
 Measured. Refractive index of pure GeO2 glass at `589 nm`, `20°C`. The
 actual core index of a doped fiber is interpolated between nSiO2
-and nGeO2. [Materials 8](#materials-8)
+and nGeO2.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 8](#materials-8)
 
 ### cpGeO2 constant
 
 Specific heat of germanate glass
 
-Measured. Specific heat of germanate glass. [Materials 9](#materials-9)
+Measured. Specific heat of germanate glass.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 9](#materials-9)
 
 ### ρGeO2 constant
 
@@ -3602,6 +3645,9 @@ Silicon nitride density
 
 Measured. Volumetric density of silicon nitride (Si3N4) deposited by
 LPCVD, the standard platform for integrated photonic waveguides.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
 [Materials 18](#materials-18) [Materials 19](#materials-19)
 
 ### nSi3N4 constant
@@ -3610,13 +3656,21 @@ Refractive index of LPCVD Si3N4
 
 Measured; depends on deposition conditions. Refractive index of LPCVD Si3N4
 at `633 nm` (He-Ne laser), `20°C`. The value depends on deposition conditions
-and stoichiometry. [Materials 18](#materials-18)
+and stoichiometry.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 18](#materials-18)
 
 ### cpSi3N4 constant
 
 Specific heat of Si3N4
 
-Measured. Specific heat of silicon nitride. [Materials 19](#materials-19)
+Measured. Specific heat of silicon nitride.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 19](#materials-19)
 
 ### ρSi3N4 constant
 
@@ -3655,21 +3709,33 @@ Dielectric
 Schott BK7 glass density
 
 Measured. Volumetric density of Schott BK7 borosilicate glass, the
-most widely used optical glass for visible-range optics. [Materials 15](#materials-15)
+most widely used optical glass for visible-range optics.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 15](#materials-15)
 
 ### nBK7 constant
 
 Refractive index of Schott BK7 glass
 
 Measured (Schott catalogue nominal nd). Refractive index of Schott BK7 at
-`589.3 nm` (sodium d line), `20°C`. This is the nominal nd value used in
-optical design. [Materials 15](#materials-15)
+`587.6 nm` (helium d line), `20°C`. This is the nominal nd value used in
+optical design.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 15](#materials-15)
 
 ### cpBK7 constant
 
 Specific heat of BK7 glass
 
-Measured. Specific heat of BK7 glass. [Materials 15](#materials-15)
+Measured. Specific heat of BK7 glass.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 15](#materials-15)
 
 ### ρBK7 constant
 
@@ -3708,7 +3774,11 @@ Dielectric
 Sapphire density
 
 Measured. Volumetric density of single-crystal sapphire (alpha-Al2O3),
-used for UV-to-IR windows, substrates, and high-power laser rods. [Materials 16](#materials-16)
+used for UV-to-IR windows, substrates, and high-power laser rods.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 16](#materials-16)
 
 ### nAl2O3 constant
 
@@ -3716,13 +3786,22 @@ Ordinary refractive index of sapphire
 
 Measured (ordinary axis; birefringent material). Ordinary refractive index
 of sapphire at `589 nm`, `20°C`. Sapphire is birefringent; the extraordinary
-index is slightly higher. [Materials 16](#materials-16)
+index is slightly higher.
+The value is computed with the Sellmeier dispersion formula of Malitson & Dodge 1972.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 16](#materials-16)
 
 ### cpAl2O3 constant
 
 Specific heat of sapphire
 
-Measured. Specific heat of sapphire at `300 K`. [Materials 16](#materials-16) [Materials 2](#materials-2)
+Measured. Specific heat of sapphire at `300 K`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 16](#materials-16) [Materials 2](#materials-2)
 
 ### ρAl2O3 constant
 
@@ -3760,7 +3839,11 @@ Calcium fluoride density
 
 Measured. Volumetric density of calcium fluoride (CaF2), a key material
 for deep ultraviolet optics (`193` nm excimer lithography) and infrared
-windows. [Materials 17](#materials-17) [Materials 15](#materials-15)
+windows.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 17](#materials-17) [Materials 15](#materials-15)
 
 ### nCaF2 constant
 
@@ -3768,13 +3851,20 @@ Refractive index of CaF2
 
 Measured. Refractive index of CaF2 at `589 nm`, `20°C`. CaF2 is transparent
 from `130 nm` to `10 µm`, making it useful across a very wide spectral range.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
 [Materials 17](#materials-17)
 
 ### cpCaF2 constant
 
 Specific heat of CaF2
 
-Measured. Specific heat of calcium fluoride. [Materials 15](#materials-15)
+Measured. Specific heat of calcium fluoride.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 15](#materials-15)
 
 ### ρCaF2 constant
 
@@ -3822,13 +3912,22 @@ that bound divided by √3.
 Refractive index of diamond
 
 Measured (type IIa diamond). Refractive index of diamond at `589 nm`,
-`20°C`. [Materials 14](#materials-14)
+`20°C`.
+The value is computed with the Sellmeier dispersion formula of Peter 1923.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 14](#materials-14)
 
 ### cpC constant
 
 Specific heat of diamond
 
-Measured. Specific heat of diamond at `300 K`. [Materials 13](#materials-13)
+Measured. Specific heat of diamond at `300 K`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 13](#materials-13)
 
 ### ρC constant
 
@@ -3881,7 +3980,11 @@ that bound divided by √3.
 
 Specific heat of aluminium
 
-Measured. Specific heat of pure aluminium at `20°C`. [Materials 12](#materials-12) [Materials 2](#materials-2)
+Measured. Specific heat of pure aluminium at `20°C`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 12](#materials-12) [Materials 2](#materials-2)
 
 ### kAl constant
 
@@ -3890,7 +3993,11 @@ Thermal conductivity of aluminium
 Measured. Recommended value for well-annealed, high-purity aluminium at
 `300 K`, `237 W/(m·K)`, given by the source to within ±3 % near room
 temperature: that bound is taken as a rectangular distribution, whose standard
-uncertainty is ±3 %/√3. Alloys conduct markedly less. [Materials 12](#materials-12), p. 302
+uncertainty is ±3 %/√3. Alloys conduct markedly less.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 12](#materials-12), p. 302
 
 
 ### ρAl constant
@@ -3935,7 +4042,11 @@ Metal
 Copper density
 
 Measured. Volumetric density of copper, the reference material for
-thermal and electrical conductivity in engineering. [Materials 12](#materials-12) [Materials 2](#materials-2)
+thermal and electrical conductivity in engineering.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 12](#materials-12) [Materials 2](#materials-2)
 
 ### cpCu constant
 
@@ -3971,7 +4082,11 @@ Thermal conductivity of copper
 Measured. Recommended value for well-annealed, high-purity copper at
 `300 K`, `401 W/(m·K)`, given by the source to within ±2 % near room
 temperature: that bound is taken as a rectangular distribution, whose standard
-uncertainty is ±2 %/√3. Alloys conduct markedly less. [Materials 12](#materials-12), p. 332
+uncertainty is ±2 %/√3. Alloys conduct markedly less.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 12](#materials-12), p. 332
 
 
 ### ρCu constant
@@ -4017,13 +4132,20 @@ Metal
 Iron density (alpha phase)
 
 Measured (alpha phase, BCC). Volumetric density of iron in its alpha
-phase (body-centred cubic), stable below `912°C`. [Materials 12](#materials-12) [Materials 2](#materials-2)
+phase (body-centred cubic), stable below `912°C`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 12](#materials-12) [Materials 2](#materials-2)
 
 ### cpFe constant
 
 Specific heat of iron (alpha phase, BCC)
 
 Measured (alpha phase). Specific heat of iron (alpha phase) at `20°C`.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
 [Materials 12](#materials-12) [Materials 2](#materials-2)
 
 
@@ -4052,7 +4174,11 @@ Thermal conductivity of iron
 Measured. Recommended value for well-annealed, high-purity iron at
 `300 K`, `80.2 W/(m·K)`, given by the source to within ±3 % near room
 temperature: that bound is taken as a rectangular distribution, whose standard
-uncertainty is ±3 %/√3. Alloys conduct markedly less. [Materials 12](#materials-12), p. 354
+uncertainty is ±3 %/√3. Alloys conduct markedly less.
+The source gives no standard uncertainty: the uncertainty shown is our estimate
+of the spread between sources and samples, taken as the bound of a uniform
+distribution and divided by √3.
+[Materials 12](#materials-12), p. 354
 
 
 ### ρFe constant
@@ -4541,3 +4667,7 @@ Goldberg, R.N., Kishore, N., & Lennen, R.M. (2002). "Thermodynamic Quantities fo
 ### Materials 29
 
 Maryott, A.A., & Buckley, F. (1953). Table of Dielectric Constants and Electric Dipole Moments of Substances in the Gaseous State. National Bureau of Standards Circular 537, Washington, D.C. [Source](https://nvlpubs.nist.gov/nistpubs/Legacy/circ/nbscircular537.pdf) — Table 2.2, recommended values of ε − 1 for the reference gases at 20 °C and 1 atm.
+
+### Materials 30
+
+Li, H.H. (1980). "Refractive index of silicon and germanium and its wavelength and temperature derivatives". Journal of Physical and Chemical Reference Data, 9(3), 561–658. DOI: 10.1063/1.555624 — Refractive index of silicon at 293 K, 3.4757 at 1.55 µm, source for `nSi`.
