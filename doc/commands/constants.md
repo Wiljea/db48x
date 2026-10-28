@@ -135,12 +135,13 @@ Return a constant as an uncertain number, its value with its standard
 uncertainty. This is what the right-shifted key of a constant does in the
 constants menus.
 
+**1)**
 ```rpl
 Ⓒμ₀ ConstantRange
 @ Expecting 1.25663 70612 7⁳⁻⁶±σ2.⁳⁻¹⁶ H/m
 ```
 
-It can also be written in an algebraic expression, and the result can be used
+**2)** It can also be written in an algebraic expression, and the result can be used
 in further computations with uncertain numbers:
 
 ```rpl
