@@ -27,7 +27,7 @@ measured value with a standard uncertainty is written `a±σb`: `b` is a
 standard deviation, and the true value lies outside `±σ` about one time in
 three. DB48X keeps the two kinds apart, and its arithmetic does not mix them.
 
-**Bounds: interval arithmetic.** On the stack, an operation on bounds gives
+**1)** **Bounds: interval arithmetic.** On the stack, an operation on bounds gives
 the bounds of the result:
 
 ```rpl
@@ -35,7 +35,7 @@ the bounds of the result:
 @ Expecting 18…33
 ```
 
-Each operand is taken as independent, even when it is the same value: `x−x`
+**2)** Each operand is taken as independent, even when it is the same value: `x−x`
 gives `−2…2` for `x` in `3…5`, not 0. For a function where a variable comes
 back more than once, ΔRf (one variable) and ΔRFxjxi
 (several) search the true lowest and highest values instead:
@@ -45,7 +45,7 @@ back more than once, ΔRf (one variable) and ΔRFxjxi
 @ Expecting 0…0
 ```
 
-**Standard uncertainties: quadratic sum.** On the stack, an operation on
+**3)** **Standard uncertainties: quadratic sum.** On the stack, an operation on
 `a±σb` values combines their standard uncertainties in quadrature, as the GUM
 does for independent inputs:
 
@@ -54,7 +54,7 @@ does for independent inputs:
 @ Expecting 22±σ1.41421 35623 7
 ```
 
-A correlation between the two values is given by the variable `ρ`, from −1 to
+**4)** A correlation between the two values is given by the variable `ρ`, from −1 to
 1. Purge it afterwards, or it weighs on every later calculation:
 
 ```rpl
@@ -62,7 +62,7 @@ A correlation between the two values is given by the variable `ρ`, from −1 to
 @ Expecting 22±σ2.
 ```
 
-The same value used twice is still taken as two independent values: `x·x`
+**5)** The same value used twice is still taken as two independent values: `x·x`
 gives `100±σ14.1` for `x = 10±σ1`, where the uncertainty is 20.
 σRf and σRFxjxi differentiate the function instead:
 
@@ -75,7 +75,7 @@ The quadratic sum is a first-order approximation: for a strongly non-linear
 model, or to get a coverage interval directly, use
 MCPropagate.
 
-**From one kind to the other.** A bound is not a standard deviation. To use a
+**6)** **From one kind to the other.** A bound is not a standard deviation. To use a
 bound as a standard uncertainty, a law must be chosen: Bound→σ
 does it, here with the rectangular law, which divides the half-width by √3
 (GUM 4.3.7):
