@@ -5385,7 +5385,8 @@ runway, time, speed and distance, fuel, weight and balance, altitudes,
 airspeeds, climb and descent, and the decision points of a flight. Its second
 part, [Performance](#performance), gives the performance of the aircraft from
 its drag polar: lift and drag, stall, turns, glide, climb, range and
-endurance, takeoff and landing.
+endurance, takeoff and landing. Its third part, [Design](#design), gives
+the geometry of the wing, its lift slope and its induced drag.
 
 **Units.** The examples use the units of the FAA handbooks (knot, nmi, gal,
 lb, ft, inHg); every equation also accepts SI units.
@@ -6766,4 +6767,197 @@ in proportion to it, and both with the square of the speed.
 s0=1600_ft Wt=2400_lb Wt0=2400_lb xW=1 Vact=80_knot Vref=70_knot
 @ Expecting [ fW=1 fV=1.30612 24489 8 sCor=2 089.79591 837 ft ]
 'ROOT(ⒺWeight & Speed Corrections;[fW;fV;sCor];[1;1;1_ft])'
+```
+
+### Design
+
+The aircraft as it is designed: the geometry of its wing, and the lift and
+the induced drag that follow from it, in two submenus:
+[Wing Geometry](#wing geometry) and
+[Airfoil & Wing](#airfoil & wing).
+
+**Lengths.** The lengths are in ft in the equations, as the wingspan `bw` and
+the wing area `Sw` of [Performance](#performance); the examples of the source
+in metres are entered in m, and DB48x converts.
+
+**Lift slopes and angles.** The lift slopes `Clαs` and `CLα` are per radian:
+2π in theory. The angles are in degrees; an equation that multiplies a slope by
+an angle divides the angle by `(1_r)`.
+
+**Upper and lower case.** DB48x does not tell an upper case letter from a lower
+case one in a variable name: `CL` and `Cl` would be the same variable, and so
+would `CLα` and `Clα`. The lift slope of the airfoil is therefore `Clαs`, for
+*section*.
+
+The 16 variables in the Design section are:
+
+* `λt`: Taper ratio, tip chord over root chord
+* `Croot`: Root chord; for an elliptical wing, the chord at the center line
+  (dim.: length)
+* `Ctip`: Tip chord (dim.: length)
+* `cgeo`: Mean geometric chord, wing area over wingspan (dim.: length)
+* `MAC`: Mean aerodynamic chord, as in [CG in % MAC](#cg in % mac)
+  (dim.: length)
+* `yMAC`: Spanwise station of the mean aerodynamic chord, from the center
+  line (dim.: length)
+* `xMAC`: Distance of the leading edge of the mean aerodynamic chord behind
+  the leading edge at the root (dim.: length)
+* `ΛLE`: Sweep angle of the leading edge
+* `Clαs`: Lift slope of the airfoil, per radian: 2π in thin airfoil theory,
+  about 6 for real airfoils
+* `CLα`: Lift slope of the wing, per radian
+* `δsp`: Span efficiency penalty of the lift distribution: 0 for an
+  elliptical distribution, 0.05 to 0.15 for most wings
+* `αw`: Angle of attack of the wing
+* `α0`: Angle of attack at zero lift, negative for a cambered airfoil
+* `αi`: Induced angle of attack
+* `CDi`: Induced drag coefficient
+* `Dk2`: Growth of the profile drag of the wing with the square of the lift
+  coefficient
+
+The entries also use `Sw`, `bw`, `AR`, `CL`, `eO` and `Kind`, with the same
+meaning as in Performance.
+
+* References:
+  [1] J. G. Leishman, *Introduction to Aerospace Flight Vehicles*,
+  Embry-Riddle Aeronautical University, chapters *Wing Shapes &
+  Nomenclature*, *Finite Wing Characteristics*, *Lifting Line Theory* and
+  *Worked Examples: Airfoils & Wings*.
+
+#### Wing Geometry
+
+The area, aspect ratio and mean chords of a trapezoidal or an elliptical wing.
+
+Entries: [Trapezoidal Wing](#trapezoidal wing) and [Elliptical Wing](#elliptical wing).
+
+#### Trapezoidal Wing
+
+A wing whose chord decreases linearly from the root to the tip.
+
+* Main results: the taper ratio `λt`, the wing area `Sw`, the aspect ratio
+  `AR`, the mean geometric chord `cgeo`, the mean aerodynamic chord `MAC`, its
+  spanwise station `yMAC` and the position `xMAC` of its leading edge, from the
+  wingspan `bw`, the chords `Croot` and `Ctip`, and the sweep `ΛLE` of the
+  leading edge.
+* `yMAC` is both the centroid of the area of the half wing and the station
+  where the chord equals `MAC`. It is not the station where the chord equals
+  `cgeo`, which lies at mid span for a taper ratio of 0.5.
+* The weight and balance of the aircraft is given in percent of `MAC`, from
+  the leading edge of the mean aerodynamic chord: it lies `xMAC` behind the
+  leading edge at the root.
+
+* To calculate: `[λt;Sw;AR;cgeo;MAC;yMAC;xMAC]` (Taper ratio; Area; Aspect ratio; Geometric and aerodynamic mean chords; Station and position of the MAC) for a glider wing of 15 m, with chords of 1 m and 0.5 m, its leading edge swept by 5°. The source gives 11.25 m², 20 and 0.778 m, without the sweep [1]:
+```rpl
+bw=15_m Croot=1_m Ctip=0.5_m ΛLE=5_°
+@ Expecting [ λt=0.5 Sw=11.25 m↑2 AR=20. cgeo=0.75 m MAC=0.77777 77777 78 m yMAC=3.33333 33333 3 m xMAC=0.29162 88784 2 m ]
+'ROOT(ⒺTrapezoidal Wing;[λt;Sw;AR;cgeo;MAC;yMAC;xMAC];[0.5;1_m^2;10;1_m;1_m;1_m;1_m])'
+```
+
+* To calculate: `[λt;Sw;AR;cgeo;MAC;yMAC;xMAC]` for a flying wing of 235 ft, with chords of 35 ft and 12.25 ft. The source gives 5 552 ft² and 9.95 [1]:
+```rpl
+bw=235_ft Croot=35_ft Ctip=12.25_ft ΛLE=0_°
+@ Expecting [ λt=0.35 Sw=5 551.875 ft↑2 AR=9.94708 99470 9 cgeo=23.625 ft MAC=25.45061 7284 ft yMAC=49.32098 76543 ft xMAC=0. ft ]
+'ROOT(ⒺTrapezoidal Wing;[λt;Sw;AR;cgeo;MAC;yMAC;xMAC];[0.5;1_ft^2;10;1_ft;1_ft;1_ft;1_ft])'
+```
+
+* To calculate: `[λt;bw;Sw;cgeo;MAC;yMAC;xMAC]` (Taper ratio; Wingspan; Area; Mean chords; Station and position of the MAC) the other way: the wing of aspect ratio 12 whose chord decreases from 1 m to 0.84 m. The source gives 11.04 m and 10.16 m² [1]:
+```rpl
+AR=12 Croot=1_m Ctip=0.84_m ΛLE=0_°
+@ Expecting [ λt=0.84 bw=11.04 m Sw=10.1568 m↑2 cgeo=0.92 m MAC=0.92231 88405 8 m yMAC=2.68 m xMAC=0. m ]
+'ROOT(ⒺTrapezoidal Wing;[λt;bw;Sw;cgeo;MAC;yMAC;xMAC];[0.5;10_m;10_m^2;1_m;1_m;1_m;1_m])'
+```
+
+#### Elliptical Wing
+
+A wing whose chord follows an ellipse, the planform of the Spitfire: with an
+untwisted wing, it gives the elliptical lift distribution and the lowest
+induced drag.
+
+* Main results: the wing area `Sw`, the aspect ratio `AR`, the mean
+  aerodynamic chord `MAC` and the centroid `yMAC` of the half wing, from the
+  wingspan `bw` and the chord `Croot` at the center line.
+* Unlike a trapezoidal wing, the centroid `yMAC`, at 0.424 of the half span,
+  is not the station where the chord equals `MAC`, at 0.529 of the half span.
+
+* To calculate: `[Sw;AR;MAC;yMAC]` (Area; Aspect ratio; Mean aerodynamic chord; Centroid) for the Spitfire: a span of 445 in, a chord of 100 in at the center line. The source gives 242.71 ft² and 5.67 [1]:
+```rpl
+Croot=100_in bw=445_in
+@ Expecting [ Sw=242.70984 9105 ft↑2 AR=5.66591 59740 7 MAC=7.07355 30263 1 ft yMAC=7.86932 77417 7 ft ]
+'ROOT(ⒺElliptical Wing;[Sw;AR;MAC;yMAC];[1_ft^2;5;1_ft;1_ft])'
+```
+
+* To calculate: `[Sw;AR;MAC;yMAC]` for an elliptical wing of 30 ft with a chord of 6 ft at the center line. The source gives 141.37 ft², 6.366 and 5.093 ft [1]:
+```rpl
+Croot=6_ft bw=30_ft
+@ Expecting [ Sw=141.37166 9412 ft↑2 AR=6.36619 77236 8 MAC=5.09295 81789 4 ft yMAC=6.36619 77236 8 ft ]
+'ROOT(ⒺElliptical Wing;[Sw;AR;MAC;yMAC];[1_ft^2;5;1_ft;1_ft])'
+```
+
+#### Airfoil & Wing
+
+The lift slope of a wing of finite span, and its induced drag.
+
+Entries: [Finite Wing Lift Slope](#finite wing lift slope) and [Induced Drag & Span Efficiency](#induced drag & span efficiency).
+
+#### Finite Wing Lift Slope
+
+A wing of finite span lifts less than its airfoil: the vortices of its tips
+deflect the air downward, and lower the angle of attack that the wing really
+sees by the induced angle.
+
+* Main results: the lift slope `CLα` of the wing, its lift coefficient `CL`
+  and the induced angle `αi`, from the lift slope `Clαs` of the airfoil, the
+  aspect ratio `AR`, the span efficiency penalty `δsp`, the angle of attack
+  `αw` and the angle of zero lift `α0`.
+* The slopes are per radian. A slope of 0.1 per degree is 5.72958 per radian.
+* The lifting line theory holds for the straight wings of moderate to large
+  aspect ratio.
+
+* To calculate: `[CLα]` (Lift slope of the wing) for an airfoil of 0.10 per degree, on a wing of aspect ratio 7.2 with a penalty of 0.1. The source gives 4.48 per radian [1]:
+```rpl
+Clαs=5.72957795131 AR=7.2 δsp=0.1
+@ Expecting [ CLα=4.48101 74683 2 ]
+'ROOT(ⒺFinite Wing Lift Slope;[CLα];[1])'
+```
+
+* To calculate: `[CLα;CL;αi]` (Lift slope; Lift coefficient; Induced angle) for a wing of 10 m with an area of 8 m², an elliptical lift distribution, at 5° with a zero lift angle of −0.5°. The source gives 5.42 and 0.520 [1]:
+```rpl
+Clαs=6.28318530718 AR=12.5 δsp=0 αw=5_° α0=-0.5_°
+@ Expecting [ CLα=5.41653 90579 1 CL=0.51995 04234 29 αi=0.75862 06896 55 ° ]
+'ROOT(ⒺFinite Wing Lift Slope;[CLα;CL;αi];[1;0.5;1_°])'
+```
+
+#### Induced Drag & Span Efficiency
+
+The drag induced by the lift, and the Oswald factor that goes into the drag
+polar of the Performance section.
+
+* Main results: the induced drag coefficient `CDi` of the wing, from its
+  lift coefficient `CL`, its aspect ratio `AR` and the penalty `δsp`; the
+  Oswald factor `eO` and the induced drag factor `Kind` of the drag polar.
+* With `Dk2=0`, the Oswald factor is `1/(1+δsp)`: the induced drag of the wing
+  alone. The growth `Dk2` of the profile drag with the square of the lift
+  coefficient lowers it further.
+* The Oswald factor of a whole airplane, 0.7 to 0.85, is lower than that of
+  its wing.
+
+* To calculate: `[CDi]` (Induced drag coefficient) for the wing of the second example of the Finite Wing Lift Slope entry. The source gives 0.00689 [1]:
+```rpl
+CL=0.51995 AR=12.5 δsp=0
+@ Expecting [ CDi=6.88435 53524 6⁳⁻³ ]
+'ROOT(ⒺInduced Drag & Span Efficiency;[CDi];[0.01])'
+```
+
+* To calculate: `[eO;Dk2]` (Oswald factor; Growth of the profile drag) for the flying wing of the Trapezoidal Wing entry, whose drag polar has an induced drag factor of 0.040. The source gives 0.80 [1]:
+```rpl
+Kind=0.040 AR=9.94709 δsp=0
+@ Expecting [ eO=0.80000 75554 35 Dk2=7.99969 77825 9⁳⁻³ ]
+'ROOT(ⒺInduced Drag & Span Efficiency;[eO;Dk2];[0.8;0.01])'
+```
+
+* To calculate: `[eO;Kind]` (Oswald factor; Induced drag factor) for a wing of aspect ratio 7.2, with a penalty of 0.1 and a growth of the profile drag of 0.004:
+```rpl
+AR=7.2 δsp=0.1 Dk2=0.004
+@ Expecting [ eO=0.83999 88160 42 Kind=0.05263 06770 56 ]
+'ROOT(ⒺInduced Drag & Span Efficiency;[eO;Kind];[0.8;0.05])'
 ```

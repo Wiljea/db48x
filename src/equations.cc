@@ -2459,6 +2459,43 @@ static const cstring basic_equations[] =
     "  '(sCor_ft)=(s0_ft)·fW·fV' "
     "}",
 
+    "Aeronautics/Design", nullptr,
+    // ------------------------------------------------------------------------
+    // The aircraft as it is designed: wing geometry and aerodynamics.
+    // Lift slopes are per radian (2π in theory): an angle in degrees is
+    // divided by (1_r). DB48x does not tell CL from Cl, nor CLα from Clα
+    // (a to z are compared in capitals): the airfoil slope is Clαs.
+    "Aeronautics/Design/Wing Geometry", nullptr,
+    "Trapezoidal Wing",  "{ "
+    "  'λt=(Ctip_ft)/(Croot_ft)' "
+    "  '(Sw_ft²)=((Croot_ft)+(Ctip_ft))·(bw_ft)/2' "
+    "  'AR=(bw_ft)²/(Sw_ft²)' "
+    // The same aspect ratio without the area: lets the solver find bw from AR
+    "  'AR=2·(bw_ft)/((Croot_ft)+(Ctip_ft))' "
+    "  '(cgeo_ft)=(Sw_ft²)/(bw_ft)' "
+    "  '(MAC_ft)=2/3·(Croot_ft)·(1+λt+(λt)²)/(1+λt)' "
+    "  '(yMAC_ft)=(bw_ft)/6·(1+2·λt)/(1+λt)' "
+    "  '(xMAC_ft)=(yMAC_ft)·TAN(ΛLE_°)' "
+    "}",
+    "Elliptical Wing",  "{ "
+    "  '(Sw_ft²)=Ⓒπ·(Croot_ft)·(bw_ft)/4' "
+    "  'AR=(bw_ft)²/(Sw_ft²)' "
+    "  '(MAC_ft)=8·(Croot_ft)/(3·Ⓒπ)' "
+    "  '(yMAC_ft)=2·(bw_ft)/(3·Ⓒπ)' "
+    "}",
+    "Aeronautics/Design/Airfoil & Wing", nullptr,
+    // Lifting line theory; δsp is 0 for the elliptic lift distribution
+    "Finite Wing Lift Slope",  "{ "
+    "  'CLα=Clαs/(1+(1+δsp)·Clαs/(Ⓒπ·AR))' "
+    "  'CL=CLα·((αw_°)-(α0_°))/(1_r)' "
+    "  '(αi_°)=(1_r)·CL/(Ⓒπ·AR)' "
+    "}",
+    "Induced Drag & Span Efficiency",  "{ "
+    "  'CDi=(1+δsp)·(CL)²/(Ⓒπ·AR)' "
+    "  'Kind=1/(Ⓒπ·AR·eO)' "
+    "  'eO=1/(Ⓒπ·AR·Dk2+1+δsp)' "
+    "}",
+
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
     // As of 24-12-18: Total 725 vars, 669 eqns, 188 sims in 158 subsections, 18 sections (669/315=2.12; 725/397=1.83)
