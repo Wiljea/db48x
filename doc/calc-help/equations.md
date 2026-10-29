@@ -6771,10 +6771,12 @@ s0=1600_ft Wt=2400_lb Wt0=2400_lb xW=1 Vact=80_knot Vref=70_knot
 
 ### Design
 
-The aircraft as it is designed: the geometry of its wing, and the lift and
-the induced drag that follow from it, in two submenus:
-[Wing Geometry](#wing geometry) and
-[Airfoil & Wing](#airfoil & wing).
+The aircraft as it is designed: the geometry of its wing, the lift and the
+induced drag that follow from it, and its stability in pitch, in three
+submenus:
+[Wing Geometry](#wing geometry),
+[Airfoil & Wing](#airfoil & wing) and
+[Stability](#stability).
 
 **Lengths.** The lengths are in ft in the equations, as the wingspan `bw` and
 the wing area `Sw` of [Performance](#performance); the examples of the source
@@ -6789,7 +6791,7 @@ case one in a variable name: `CL` and `Cl` would be the same variable, and so
 would `CLα` and `Clα`. The lift slope of the airfoil is therefore `Clαs`, for
 *section*.
 
-The 16 variables in the Design section are:
+The 37 variables in the Design section are:
 
 * `λt`: Taper ratio, tip chord over root chord
 * `Croot`: Root chord; for an elliptical wing, the chord at the center line
@@ -6814,15 +6816,37 @@ The 16 variables in the Design section are:
 * `CDi`: Induced drag coefficient
 * `Dk2`: Growth of the profile drag of the wing with the square of the lift
   coefficient
+* `SHT`, `SVT`: Areas of the horizontal and vertical tails (dim.: area)
+* `lH`, `lV`: Lever arms of the horizontal and vertical tails
+  (dim.: length)
+* `VHT`, `VVT`: Horizontal and vertical tail volume coefficients
+* `KT`: Tail factor, the share of the tail in the lift slope of the
+  airplane
+* `dεdα`: Downwash gradient at the tail, about 0.1 to 0.5
+* `CLαw`, `CLαt`: Lift slopes of the wing and of the horizontal tail,
+  per radian
+* `xacw`: Aerodynamic center of the wing, about 0.25 of the MAC
+* `xnp`: Neutral point, in fraction of the MAC
+* `xcg`: Center of gravity, in fraction of the MAC
+* `SMarg`: Static margin, in fraction of the MAC, typically 0.05 to 0.15
+* `Cmα`: Pitch stiffness, slope of the pitching moment coefficient, per
+  radian
+* `Cm0`: Pitching moment coefficient at zero lift
+* `αtr`: Trim angle of attack, from zero lift
+* `Cmac`: Pitching moment coefficient of the wing about its aerodynamic
+  center
+* `CLw`, `CLt`: Lift coefficients of the wing and of the horizontal tail
+* `ηt`: Tail efficiency, the dynamic pressure at the tail over that of the
+  free stream
 
 The entries also use `Sw`, `bw`, `AR`, `CL`, `eO` and `Kind`, with the same
-meaning as in Performance.
+meaning as in Performance, and `PMAC` as in Flight Management.
 
 * References:
   [1] J. G. Leishman, *Introduction to Aerospace Flight Vehicles*,
   Embry-Riddle Aeronautical University, chapters *Wing Shapes &
   Nomenclature*, *Finite Wing Characteristics*, *Lifting Line Theory* and
-  *Worked Examples: Airfoils & Wings*.
+  *Worked Examples: Airfoils & Wings* and *Aircraft Stability & Control*.
 
 #### Wing Geometry
 
@@ -6833,6 +6857,8 @@ Entries: [Trapezoidal Wing](#trapezoidal wing) and [Elliptical Wing](#elliptic
 #### Trapezoidal Wing
 
 A wing whose chord decreases linearly from the root to the tip.
+
+![Trapezoidal wing](img/TrapezoidalWing.bmp)
 
 * Main results: the taper ratio `λt`, the wing area `Sw`, the aspect ratio
   `AR`, the mean geometric chord `cgeo`, the mean aerodynamic chord `MAC`, its
@@ -6873,6 +6899,8 @@ A wing whose chord follows an ellipse, the planform of the Spitfire: with an
 untwisted wing, it gives the elliptical lift distribution and the lowest
 induced drag.
 
+![Elliptical wing](img/EllipticalWing.bmp)
+
 * Main results: the wing area `Sw`, the aspect ratio `AR`, the mean
   aerodynamic chord `MAC` and the centroid `yMAC` of the half wing, from the
   wingspan `bw` and the chord `Croot` at the center line.
@@ -6905,6 +6933,8 @@ A wing of finite span lifts less than its airfoil: the vortices of its tips
 deflect the air downward, and lower the angle of attack that the wing really
 sees by the induced angle.
 
+![Lift slope](img/LiftSlope.bmp)
+
 * Main results: the lift slope `CLα` of the wing, its lift coefficient `CL`
   and the induced angle `αi`, from the lift slope `Clαs` of the airfoil, the
   aspect ratio `AR`, the span efficiency penalty `δsp`, the angle of attack
@@ -6931,6 +6961,8 @@ Clαs=6.28318530718 AR=12.5 δsp=0 αw=5_° α0=-0.5_°
 
 The drag induced by the lift, and the Oswald factor that goes into the drag
 polar of the Performance section.
+
+![Induced drag](img/InducedAngle.bmp)
 
 * Main results: the induced drag coefficient `CDi` of the wing, from its
   lift coefficient `CL`, its aspect ratio `AR` and the penalty `δsp`; the
@@ -6960,4 +6992,88 @@ Kind=0.040 AR=9.94709 δsp=0
 AR=7.2 δsp=0.1 Dk2=0.004
 @ Expecting [ eO=0.83999 88160 42 Kind=0.05263 06770 56 ]
 'ROOT(ⒺInduced Drag & Span Efficiency;[eO;Kind];[0.8;0.05])'
+```
+
+#### Stability
+
+The static longitudinal stability of the airplane: the size of its tails, its
+neutral point and static margin, and its trim.
+
+Entries: [Tail Volume Coefficients](#tail volume coefficients), [Neutral Point & Static Margin](#neutral point & static margin) and [Pitch Stiffness & Trim](#pitch stiffness & trim).
+
+#### Tail Volume Coefficients
+
+The tail volume coefficients compare the area of a tail times its lever arm
+with the area of the wing times its mean aerodynamic chord, or its wingspan
+for the vertical tail. They size the tails of a new design from those of
+similar airplanes.
+
+* Main results: the horizontal and vertical tail volume coefficients `VHT`
+  and `VVT`, from the tail areas `SHT` and `SVT`, their lever arms `lH` and
+  `lV`, and the area `Sw`, mean aerodynamic chord `MAC` and wingspan `bw` of
+  the wing; or the tail areas for given coefficients.
+* Typical values: `VHT` 0.4 to 1.1, `VVT` 0.03 to 0.09.
+* For sizing, the lever arms are measured between the aerodynamic centers of
+  the wing and of the tail; in a balance of moments, from the center of
+  gravity.
+
+* To calculate: `[SHT;SVT]` (Horizontal and vertical tail areas) for a turboprop of 46 ft, with a wing of 300 ft², 70 ft of span and a mean aerodynamic chord of 5.2 ft, tail lever arms of 53 % of its length, and coefficients of 0.80 and 0.03. The source gives 51.2 ft² and 25.8 ft² [1]:
+```rpl
+Sw=300_ft^2 MAC=5.2_ft bw=70_ft lH=24.38_ft lV=24.38_ft VHT=0.80 VVT=0.03
+@ Expecting [ SHT=51.18949 95898 ft↑2 SVT=25.84085 31583 ft↑2 ]
+'ROOT(ⒺTail Volume Coefficients;[SHT;SVT];[50_ft^2;25_ft^2])'
+```
+
+#### Neutral Point & Static Margin
+
+The neutral point is the center of gravity at which the airplane would be
+neutrally stable in pitch. The airplane is stable when its center of gravity
+is ahead of it; the distance between them, in fractions of the mean
+aerodynamic chord, is the static margin.
+
+![Static margin](img/StaticMargin.bmp)
+
+* Main results: the tail efficiency factor `KT`, the neutral point `xnp`,
+  the center of gravity `xcg` and the static margin `SMarg`, from the lift
+  slopes `CLαw` and `CLαt` of the wing and of the tail, the downwash gradient
+  `dεdα`, the areas `Sw` and `SHT`, the lever arm `lH`, the mean aerodynamic
+  chord `MAC`, the aerodynamic center `xacw` of the wing and the CG in % MAC
+  `PMAC` of the weight and balance.
+* Positions are fractions of `MAC` from its leading edge: `xcg` is
+  `PMAC/100`.
+* Solved the other way, a minimum static margin gives the aft limit of the
+  center of gravity.
+
+* To calculate: `[KT;xnp;xcg;SMarg]` (Tail factor; Neutral point; Center of gravity; Static margin) for a wing of 0.08 per degree and a tail of 0.06 per degree, a downwash gradient of 0.1, a tail of 20 % of the wing area and a lever arm of 2.5 mean chords, the wing aerodynamic center at 25 % and the CG at 36 % of the MAC. The source gives 0.547 and 0.19 [1]:
+```rpl
+CLαw=4.58366236105 CLαt=3.43774677078 dεdα=0.1 Sw=100_ft^2 SHT=20_ft^2 MAC=4_ft lH=10_ft xacw=0.25 PMAC=36
+@ Expecting [ KT=0.135 xnp=0.54735 68281 93 xcg=0.36 SMarg=0.18735 68281 93 ]
+'ROOT(ⒺNeutral Point & Static Margin;[KT;xnp;xcg;SMarg];[0.1;0.5;0.3;0.2])'
+```
+
+* To calculate: `[KT;xnp;xcg;PMAC]` (Tail factor; Neutral point; Center of gravity; CG in % MAC) for the aft limit of the center of gravity of the same airplane, with a static margin of 5 %:
+```rpl
+CLαw=4.58366236105 CLαt=3.43774677078 dεdα=0.1 Sw=100_ft^2 SHT=20_ft^2 MAC=4_ft lH=10_ft xacw=0.25 SMarg=0.05
+@ Expecting [ KT=0.135 xnp=0.54735 68281 93 xcg=0.49735 68281 93 PMAC=49.73568 28193 ]
+'ROOT(ⒺNeutral Point & Static Margin;[KT;xnp;xcg;PMAC];[0.1;0.5;0.3;30])'
+```
+
+#### Pitch Stiffness & Trim
+
+The pitching moment of a stable airplane decreases as its angle of attack
+increases, and it flies trimmed at the angle where the moment is zero.
+
+* Main results: the pitch stiffness `Cmα` and the trim angle `αtr`,
+  counted from zero lift; the lift coefficient `CLt` the horizontal tail
+  must give to balance the moment of the wing.
+* `Cmα` is per radian, as `CLαw`; it is negative for a stable airplane.
+* In the balance of moments, `VHT` is computed with the lever arm from the
+  center of gravity.
+* The examples are computed, not taken from the source.
+
+* To calculate: `[Cmα;αtr;CLt]` (Pitch stiffness; Trim angle; Tail lift coefficient) for the airplane of the Neutral Point & Static Margin entry, with a moment coefficient of 0.05 at zero lift, a wing moment of −0.05 about its aerodynamic center, a wing lift coefficient of 0.5, a tail volume coefficient of 0.5 and a tail efficiency of 0.9:
+```rpl
+CLαw=4.58366236105 KT=0.135 SMarg=0.187357 Cm0=0.05 Cmac=-0.05 CLw=0.5 xcg=0.36 xacw=0.25 VHT=0.5 ηt=0.9
+@ Expecting [ Cmα=-0.97471 66948 91 αtr=2.93909 91153 3 ° CLt=1.11111 11111 1⁳⁻² ]
+'ROOT(ⒺPitch Stiffness & Trim;[Cmα;αtr;CLt];[-1;3_°;0.01])'
 ```

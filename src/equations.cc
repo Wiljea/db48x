@@ -2495,6 +2495,27 @@ static const cstring basic_equations[] =
     "  'Kind=1/(Ⓒπ·AR·eO)' "
     "  'eO=1/(Ⓒπ·AR·Dk2+1+δsp)' "
     "}",
+    "Aeronautics/Design/Stability", nullptr,
+    // Static longitudinal stability of the wing and the horizontal tail.
+    // Positions are fractions of the MAC from its leading edge; PMAC is the
+    // CG in % MAC of Flight Management. SHT, SVT and SMarg, not SH, SV and
+    // SM, which DB48x would take for sh (Weibull) and sm (Waves).
+    "Tail Volume Coefficients",  "{ "
+    "  'VHT=(SHT_ft²)·(lH_ft)/((Sw_ft²)·(MAC_ft))' "
+    "  'VVT=(SVT_ft²)·(lV_ft)/((Sw_ft²)·(bw_ft))' "
+    "}",
+    "Neutral Point & Static Margin",  "{ "
+    "  'KT=(1-dεdα)·CLαt/CLαw·(SHT_ft²)/(Sw_ft²)' "
+    "  'xnp=xacw+KT/(1+KT)·(lH_ft)/(MAC_ft)' "
+    "  'xcg=PMAC/100' "
+    "  'SMarg=xnp-xcg' "
+    "}",
+    // Cmα and CLαw per radian; αtr from the zero lift attitude
+    "Pitch Stiffness & Trim",  "{ "
+    "  'Cmα=-CLαw·(1+KT)·SMarg' "
+    "  '(αtr_°)=-(1_r)·Cm0/Cmα' "
+    "  'Cmac+CLw·(xcg-xacw)=ηt·VHT·CLt' "
+    "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
