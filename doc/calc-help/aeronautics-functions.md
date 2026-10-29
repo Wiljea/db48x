@@ -322,6 +322,8 @@ The area, the aspect ratio and the mean aerodynamic chord of a wing made of
 several straight tapered panels, such as a wing with a constant chord inboard
 and a tapered outer part, or a wing with a crank in its leading edge.
 
+![Wing panels](img/WingPanels.bmp)
+
 Stack: a list of stations of the half wing, from the root to the tip, one
 `{ y c xLE }` list each ▶ `Sw` `AR` `MAC` `yMAC` `xMAC`, tagged: the spanwise
 position, the chord and the position of the leading edge, positive aft, 0 when
