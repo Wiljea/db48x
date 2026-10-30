@@ -12,8 +12,8 @@ Library.
 * [Aircraft Performance](#aircraft-performancelibrary): the drag polar
   from measurements, the speeds of best climb, and the takeoff roll.
 * [Aircraft Design](#aircraft-designlibrary): the area, aspect ratio and
-  mean aerodynamic chord of a wing made of several panels, and the lift and
-  moments of a NACA airfoil.
+  mean aerodynamic chord of a wing made of several panels, the lift and
+  moments of a NACA airfoil, and the V-n diagram.
 
 ## Flight ManagementLibrary
 
@@ -312,12 +312,14 @@ the Equation Library.
 ## Aircraft DesignLibrary
 
 The design of the aircraft, where the equation solver is not enough: a wing
-made of a variable number of panels, and an airfoil given by its digits.
+made of a variable number of panels, an airfoil given by its digits, and a
+diagram drawn on the screen.
 
 * [WingPanels](#wingpanels): the area, aspect ratio and mean aerodynamic
   chord of a wing made of several straight tapered panels;
 * [NACA4](#naca4): the zero lift angle, the lift and the moments of a NACA
-  4-digit airfoil.
+  4-digit airfoil;
+* [VnPlot](#vnplot): the maneuver and gust envelope of an airplane.
 
 ## WingPanels
 
@@ -426,3 +428,42 @@ DROP DROP
 ```
 
 See also: the Thin Airfoil equation of the Equation Library.
+
+## VnPlot
+
+The maneuver and gust envelope of an airplane, drawn on the screen: the V-n diagram
+of 14 CFR Part 23 before amendment 23-64 of 2017.
+
+![Maneuver envelope](img/ManeuverEnvelope.bmp)
+
+Stack: `Wt` `Sw` `CLmax` `CLmxn` `nlim` `kneg` `kVC` `kVD` `cgeo` `CLα` ▶ `Vst` `VA`
+`VC` `VD` `nGC` `nGD`, tagged: the mass, the wing area, the maximum and most
+negative lift coefficients, the limit load factor, the ratio of the negative one
+to it, the factors of the design speeds, the mean geometric chord and the lift
+slope of the wing, per radian. Values with units are converted; plain numbers are
+in SI units. The results are the stall speed, the maneuvering speed, the design
+cruising and dive speeds, in knots, equivalent airspeed, and the load factors in an
+upward gust of 50 ft/s at `VC` and of 25 ft/s at `VD`.
+
+The diagram stays on the screen until the next key: thick lines for the maneuvers,
+thin lines for the gusts. An airframe must withstand the larger of the two. The
+factors are those of the Maneuver Envelope equation of the Equation Library, whose
+sheet gives their values for each category.
+
+A light airplane of 2 450 lb in the normal category, with a wing of 174 ft². It
+gives 50.98, 99.39, 123.83 and 173.36 kt, and gust load factors of 3.651 and 2.856,
+computed from the rules, as with the Maneuver Envelope and Gust Load Factor
+equations:
+
+```rpl
+2450_lb 174_ft^2 1.6 -1.2 3.8 0.4 33 1.4 4.83333_ft 4.48 ⓁVnPlot
+```
+
+The same airplane in the aerobatic category:
+
+```rpl
+2450_lb 174_ft^2 1.6 -1.2 6 0.5 36 1.55 4.83333_ft 4.48 ⓁVnPlot
+```
+
+See also: the Maneuver Envelope and Gust Load Factor equations of the Equation
+Library.
