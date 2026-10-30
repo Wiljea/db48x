@@ -5387,7 +5387,7 @@ part, [Performance](#performance), gives the performance of the aircraft from
 its drag polar: lift and drag, stall, turns, glide, climb, range and
 endurance, takeoff and landing. Its third part, [Design](#design), gives
 the geometry of the wing, its lift slope and its induced drag, the stability
-in pitch and the propeller.
+in pitch, the propeller and the first sizing of the airplane.
 
 **Units.** The examples use the units of the FAA handbooks (knot, nmi, gal,
 lb, ft, inHg); every equation also accepts SI units.
@@ -6773,12 +6773,13 @@ s0=1600_ft Wt=2400_lb Wt0=2400_lb xW=1 Vact=80_knot Vref=70_knot
 ### Design
 
 The aircraft as it is designed: the geometry of its wing, the lift and the
-induced drag that follow from it, its stability in pitch and its propeller,
-in four submenus:
+induced drag that follow from it, its stability in pitch, its propeller and
+its first sizing, in five submenus:
 [Wing Geometry](#wing geometry),
 [Airfoil & Wing](#airfoil & wing),
-[Stability](#stability) and
-[Propeller](#propeller).
+[Stability](#stability),
+[Propeller](#propeller) and
+[Sizing](#sizing).
 
 **Lengths.** The lengths are in ft in the equations, as the wingspan `bw` and
 the wing area `Sw` of [Performance](#performance); the examples of the source
@@ -6796,7 +6797,7 @@ case one in a variable name: `CL` and `Cl` would be the same variable, and so
 would `CLα` and `Clα`. The lift slope of the airfoil is therefore `Clαs`, for
 *section*, and its lift coefficient `Cls`.
 
-The 57 variables in the Design section are:
+The 78 variables in the Design section are:
 
 * `λt`: Taper ratio, tip chord over root chord
 * `Croot`: Root chord; for an elliptical wing, the chord at the center line
@@ -6861,9 +6862,28 @@ The 57 variables in the Design section are:
 * `vind`: Induced velocity at the disk (dim.: speed)
 * `ηi`: Ideal efficiency, the upper limit of `ηp`
 * `Vwake`: Speed of the wake far behind the disk (dim.: speed)
+* `WoS`: Wing loading, weight over wing area (dim.: pressure)
+* `TWr`: Thrust to weight ratio of a flight case
+* `TWsl`: The same ratio brought back to the takeoff weight and thrust
+* `βW`, `βT`: Weight and thrust of the flight case over those at takeoff
+* `PWr`: Shaft power per unit of mass (dim.: power/mass)
+* `dVdt`: Acceleration along the flight path (dim.: acceleration)
+* `RavW`: Average resistance on the runway over the weight
+* `kneg`: Negative load factor over the limit load factor
+* `nneg`: Negative limit load factor
+* `kVC`, `kVD`: Factors of the design cruising and dive speeds
+* `VCmin`, `VDmin`: Lowest design cruising and dive speeds (dim.: speed)
+* `CLmxn`: Most negative lift coefficient
+* `Vsn`: Speed where the negative stall reaches `nneg` (dim.: speed)
+* `μgst`: Airplane mass ratio in a gust
+* `Kgust`: Gust alleviation factor
+* `Ude`: Derived gust velocity (dim.: speed)
+* `EAS`: Equivalent airspeed (dim.: speed)
+* `ngst`: Load factor in an upward gust
 
-The entries also use `Sw`, `bw`, `AR`, `CL`, `eO`, `Kind`, `Thr`, `Psh`, `ηp`
-and `ρa`, with the same meaning as in Performance, and `PMAC` and `TAS` as in
+The entries also use `Sw`, `bw`, `AR`, `CL`, `eO`, `Kind`, `CD0`, `qd`, `nLF`,
+`Vst`, `CLmax`, `nlim`, `fLO`, `sLO`, `fTD`, `sLD`, `Thr`, `Psh`, `ηp` and `ρa`,
+with the same meaning as in Performance, and `Wt`, `VS`, `PMAC` and `TAS` as in
 Flight Management.
 
 * References:
@@ -6872,7 +6892,12 @@ Flight Management.
   Nomenclature*, *Finite Wing Characteristics*, *Lifting Line Theory* and
   *Airfoil Characteristics*, *Classic Airfoil Theory*,
   *Worked Examples: Airfoils & Wings*, *Aircraft Stability & Control*,
-  *Propellers* and *Worked Examples: Propulsion*.
+  *Propellers*, *Worked Examples: Propulsion*, *Principles of Aerospace Design*,
+  *Maneuvers & Gusts* and *Takeoff & Landing Performance* ;
+  [2] 14 CFR 23.333, 23.335, 23.337 and 23.341, before amendment 23-64 of 2017 ;
+  [3] K. G. Pratt and W. G. Walker, *A revised gust-load formula and a
+  re-evaluation of V-G data taken on civil transport airplanes from 1933 to 1950*,
+  NACA Report 1206, 1954.
 
 #### Wing Geometry
 
@@ -7234,4 +7259,182 @@ Thr=234.4_lbf TAS=291.667_ft/s ρa=0.001869_slug/ft^3 Dprop=7_ft
 Thr=234.4_lbf TAS=0_knot ρa=0.001869_slug/ft^3 Dprop=7_ft
 @ Expecting [ Adisk=38.48451 00065 ft↑2 vind=40.36604 26236 ft/s ηi=0. Vwake=80.73208 52472 ft/s ]
 'ROOT(ⒺActuator Disk;[Adisk;vind;ηi;Vwake];[30_ft^2;30_ft/s;0.5;60_ft/s])'
+```
+
+#### Sizing
+
+The first sizing of an airplane: its wing loading and its thrust or power
+loading, the constraints that each flight case puts on them, and the load
+factors in maneuver and in gusts.
+
+![Constraint diagram](img/ConstraintDiagram.bmp)
+
+Entries: [Wing Loading](#wing loading), [Stall Constraint](#stall constraint), [Thrust & Power Loading](#thrust & power loading), [Takeoff Constraint](#takeoff constraint), [Landing Constraint](#landing constraint), [Maneuver Envelope](#maneuver envelope) and [Gust Load Factor](#gust load factor).
+
+#### Wing Loading
+
+The wing loading is the weight carried by each unit of wing area.
+
+* Main result: the wing loading `WoS`, from the mass `Wt` and the wing area `Sw`.
+* Typical values: light airplanes 10 to 20 lbf/ft², airliners 80 to 150, gliders
+  4 to 8.
+
+* To calculate: `[WoS]` (Wing loading) for a Cessna 172 of 2 076 lb with a wing of 174 ft²:
+```rpl
+Wt=2076_lb Sw=174_ft^2
+@ Expecting [ WoS=11.93103 44828 lbf/ft↑2 ]
+'ROOT(ⒺWing Loading;[WoS];[10_lbf/ft^2])'
+```
+
+#### Stall Constraint
+
+A given stall speed limits the wing loading.
+
+* Main results: the stall speed `Vst` for a wing loading `WoS`, or the highest
+  wing loading for a stall speed, from the air density `ρa` and the maximum lift
+  coefficient `CLmax`.
+
+* To calculate: `[Vst]` (Stall speed) for a wing loading of 76.84 lbf/ft², with a maximum lift coefficient of 3.2, at 5 000 ft. The source gives 90.7 kt [1]:
+```rpl
+WoS=76.84_lbf/ft^2 ρa=0.002048_slug/ft^3 CLmax=3.2
+@ Expecting [ Vst=90.72880 51951 knot ]
+'ROOT(ⒺStall Constraint;[Vst];[90_knot])'
+```
+
+* To calculate: `[WoS]` (Wing loading) the other way, for the rounded speed of 90.7 kt:
+```rpl
+Vst=90.7_knot ρa=0.002048_slug/ft^3 CLmax=3.2
+@ Expecting [ WoS=76.79121 63789 lbf/ft↑2 ]
+'ROOT(ⒺStall Constraint;[WoS];[70_lbf/ft^2])'
+```
+
+#### Thrust & Power Loading
+
+The thrust that a flight case demands for each unit of weight, as a function of
+the wing loading: the master equation of sizing, one curve per flight case.
+
+* Main results: the dynamic pressure `qd`, the thrust to weight ratio `TWr`, the
+  shaft power per unit of mass `PWr` and the thrust to weight ratio at takeoff
+  `TWsl`, from the wing loading `WoS`, the true airspeed `TAS`, the air density
+  `ρa`, the drag polar `CD0` and `Kind`, the load factor `nLF`, the rate of climb
+  `VS`, the acceleration `dVdt` and the propeller efficiency `ηp`.
+* In cruise, `nLF=1`, `VS` and `dVdt` are zero, and `TWr` is one over the lift
+  to drag ratio. For a level turn, `nLF` is one over the cosine of the bank angle.
+* The airplane must satisfy all of its flight cases at the same wing loading.
+* `βW` is the weight of the flight case over the takeoff weight, and `βT` its
+  thrust over the takeoff thrust.
+
+* To calculate: `[qd;TWr;PWr]` (Dynamic pressure; Thrust to weight ratio; Power per mass) for the Cessna 172 of the Wing Loading entry in cruise at 120 kt, in air of 0.00216 slug/ft³. The source gives 183.7 lbf and 79.6 hp, or 0.0885 and 0.0383 hp/lb for its 2 076 lb [1]:
+```rpl
+WoS=11.93103_lbf/ft^2 TAS=120_knot ρa=0.00216_slug/ft^3 CD0=0.02 Kind=0.05276055498 nLF=1 VS=0_ft/min dVdt=0_ft/s^2 ηp=0.85
+@ Expecting [ qd=2 121.23984 487 Pa TWr=8.84738 86979 8⁳⁻² PWr=0.03832 99504 28 hp/lb ]
+'ROOT(ⒺThrust & Power Loading;[qd;TWr;PWr];[1000_Pa;0.1;0.05_hp/lb])'
+```
+
+* To calculate: `[qd;TWr;PWr]` for the same airplane in a level turn at 60° of bank, with a load factor of 2:
+```rpl
+WoS=11.93103_lbf/ft^2 TAS=120_knot ρa=0.00216_slug/ft^3 CD0=0.02 Kind=0.05276055498 nLF=2 VS=0_ft/min dVdt=0_ft/s^2 ηp=0.85
+@ Expecting [ qd=2 121.23984 487 Pa TWr=0.13109 99538 79 PWr=0.05679 70381 41 hp/lb ]
+'ROOT(ⒺThrust & Power Loading;[qd;TWr;PWr];[1000_Pa;0.1;0.05_hp/lb])'
+```
+
+* To calculate: `[qd;TWr;PWr;TWsl]` for the same airplane climbing at 500 ft/min, at 95 % of its takeoff weight and 80 % of its takeoff thrust:
+```rpl
+WoS=11.93103_lbf/ft^2 TAS=120_knot ρa=0.00216_slug/ft^3 CD0=0.02 Kind=0.05276055498 nLF=1 VS=500_ft/min dVdt=0_ft/s^2 ηp=0.85 βW=0.95 βT=0.8
+@ Expecting [ qd=2 121.23984 487 Pa TWr=0.12961 85954 03 PWr=5.61552 62370 5⁳⁻² hp/lb TWsl=0.15392 20820 41 ]
+'ROOT(ⒺThrust & Power Loading;[qd;TWr;PWr;TWsl];[1000_Pa;0.1;0.05_hp/lb;0.2])'
+```
+
+#### Takeoff Constraint
+
+The thrust to weight ratio for a takeoff ground roll: the Takeoff Ground Roll
+equation of the Performance section, the other way.
+
+* Main result: the thrust to weight ratio `TWr`, from the wing loading `WoS`, the
+  air density `ρa`, the maximum lift coefficient `CLmax`, the ground roll `sLO`,
+  the liftoff speed factor `fLO` and the average resistance over the weight
+  `RavW`.
+
+* To calculate: `[TWr]` (Thrust to weight ratio) for an airplane of 6 600 lb with a wing of 160 ft², a roll of 3 273 ft and a resistance of 221.6 lbf. Its thrust is 1 200 lbf, or 0.1818 [1]:
+```rpl
+WoS=41.25_lbf/ft^2 ρa=0.002378_slug/ft^3 CLmax=1.6 fLO=1.2 sLO=3273.38_ft RavW=0.03358273
+@ Expecting [ TWr=0.18181 83159 97 ]
+'ROOT(ⒺTakeoff Constraint;[TWr];[0.2])'
+```
+
+#### Landing Constraint
+
+The highest wing loading for a landing ground roll: the Landing Ground Roll
+equation of the Performance section, the other way.
+
+* Main result: the wing loading `WoS`, from the ground roll `sLD`, the air density
+  `ρa`, the maximum lift coefficient `CLmax`, the touchdown speed factor `fTD` and
+  the average resistance over the weight `RavW`.
+
+* To calculate: `[WoS]` (Wing loading) for an airplane of 5 200 lb with a wing of 160 ft², a roll of 814 ft and a resistance of 2 183 lbf. Its wing loading is 32.5 lbf/ft² [1]:
+```rpl
+sLD=814.474_ft ρa=0.002378_slug/ft^3 CLmax=2.1 fTD=1.3 RavW=0.41971731
+@ Expecting [ WoS=32.50006 72184 lbf/ft↑2 ]
+'ROOT(ⒺLanding Constraint;[WoS];[30_lbf/ft^2])'
+```
+
+#### Maneuver Envelope
+
+The V-n diagram of 14 CFR Part 23 before amendment 23-64 of 2017: the load factors
+that the airframe must withstand, as a function of the speed.
+
+![Maneuver envelope](img/ManeuverEnvelope.bmp)
+
+* Main results: the wing loading `WoS`, the negative limit load factor `nneg`, the
+  lowest design cruising and dive speeds `VCmin` and `VDmin`, and the speed `Vsn`
+  where the negative stall reaches `nneg`, from the mass `Wt`, the wing area `Sw`,
+  the air density `ρa`, the limit load factor `nlim`, the factors `kneg`, `kVC` and
+  `kVD`, and the most negative lift coefficient `CLmxn`.
+* `kneg` is 0.4 in the normal, utility and commuter categories, 0.5 in the
+  aerobatic one.
+* `kVC` is 33, in knots for a wing loading in lbf/ft², and 36 in the aerobatic
+  category. Above 20 lbf/ft², it decreases linearly to 28.6 at 100 lbf/ft².
+* `kVD` is 1.40 in the normal category, 1.50 in the utility one, 1.55 in the
+  aerobatic one.
+* The speeds are equivalent airspeeds: give the sea level density. The Limit Load
+  Factor and the Maneuvering Speed & Weight entries of the Performance section give
+  `nlim` and the maneuvering speed.
+* The example is computed from the rules.
+
+* To calculate: `[WoS;nneg;VCmin;VDmin;Vsn]` (Wing loading; Negative load factor; Cruising and dive speeds; Negative stall speed at that factor) for a light airplane of 2 450 lb in the normal category, with a wing of 174 ft² and a most negative lift coefficient of −1.2:
+```rpl
+Wt=2450_lb Sw=174_ft^2 ρa=1.225_kg/m^3 nlim=3.8 kneg=0.4 kVC=33 kVD=1.4 CLmxn=-1.2
+@ Expecting [ WoS=14.08045 97701 lbf/ft↑2 nneg=-1.52 VCmin=123.82899 7774 knot VDmin=173.36059 6883 knot Vsn=72.58156 13389 knot ]
+'ROOT(ⒺManeuver Envelope;[WoS;nneg;VCmin;VDmin;Vsn];[10_lbf/ft^2;-1;100_knot;150_knot;70_knot])'
+```
+
+#### Gust Load Factor
+
+The load factor in a vertical gust, by the formula of Pratt and Walker: a gust
+changes the angle of attack, and the alleviation factor accounts for the time that
+the airplane takes to enter it.
+
+* Main results: the mass ratio `μgst`, the gust alleviation factor `Kgust` and the
+  load factor `ngst` in an upward gust, from the wing loading `WoS`, the air density
+  `ρa`, the mean geometric chord `cgeo`, the lift slope `CLα` of the wing, per
+  radian, the derived gust velocity `Ude` and the equivalent airspeed `EAS`.
+* In a downward gust, the load factor is `2-ngst`.
+* Up to 20 000 ft, the rules take `Ude` of 50 ft/s at the cruising speed and 25 ft/s
+  at the dive speed, decreasing linearly to 25 and 12.5 ft/s at 50 000 ft.
+* 14 CFR 23.341, before amendment 23-64 of 2017, rounds the constant of the formula
+  to 498 in its units, for 498.54: its result is slightly higher. The examples are
+  computed.
+
+* To calculate: `[μgst;Kgust;ngst]` (Mass ratio; Alleviation factor; Load factor) for the airplane of the Maneuver Envelope entry, with a mean chord of 4.83 ft and a lift slope of 4.48 per radian, in a gust of 50 ft/s at its cruising speed. The rounded constant gives 3.654:
+```rpl
+WoS=14.08046_lbf/ft^2 ρa=1.225_kg/m^3 cgeo=4.83333_ft CLα=4.48 Ude=50_ft/s EAS=123.829_knot
+@ Expecting [ μgst=17.00619 44568 Kgust=0.67091 00985 81 ngst=3.65106 82977 3 ]
+'ROOT(ⒺGust Load Factor;[μgst;Kgust;ngst];[10;0.5;3])'
+```
+
+* To calculate: `[μgst;Kgust;ngst]` in a gust of 25 ft/s at its dive speed. The rounded constant gives 2.858:
+```rpl
+WoS=14.08046_lbf/ft^2 ρa=1.225_kg/m^3 cgeo=4.83333_ft CLα=4.48 Ude=25_ft/s EAS=173.361_knot
+@ Expecting [ μgst=17.00619 44568 Kgust=0.67091 00985 81 ngst=2.85575 20902 3 ]
+'ROOT(ⒺGust Load Factor;[μgst;Kgust;ngst];[10;0.5;3])'
 ```

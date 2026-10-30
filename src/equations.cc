@@ -2547,6 +2547,33 @@ static const cstring basic_equations[] =
     "  'ηi·((TAS_knot)+(vind_(ft/s)))=(TAS_knot)' "
     "  '(Vwake_(ft/s))=(TAS_knot)+2·(vind_(ft/s))' "
     "}",
+    "Aeronautics/Design/Sizing", nullptr,
+    // Each constraint on the wing loading WoS is its own entry: the solver
+    // takes the first eligible equation, and would use a value left by another
+    "Wing Loading",  "'(WoS_(lbf/ft^2))·(Sw_ft²)=(Wt_lb)·Ⓒg'",
+    "Stall Constraint",  "'(WoS_(lbf/ft^2))=(ρa_(kg/m^3))·(Vst_knot)²·CLmax/2'",
+    "Thrust & Power Loading",  "{ "
+    "  '(qd_Pa)=(ρa_(kg/m^3))·(TAS_knot)²/2' "
+    "  'TWr·(WoS_Pa)=(qd_Pa)·CD0+Kind·(nLF)²·(WoS_Pa)²/(qd_Pa)+(WoS_Pa)·(VS_ft/min)/(TAS_knot)+(WoS_Pa)·(dVdt_ft/s²)/Ⓒg' "
+    "  '(PWr_hp/lb)·ηp=TWr·Ⓒg·(TAS_knot)' "
+    "  'TWsl·βT=βW·TWr' "
+    "}",
+    // Inverses of Takeoff Ground Roll and Landing Ground Roll; RavW is Rav/W
+    "Takeoff Constraint",  "'(TWr-RavW)·(ρa_(kg/m^3))·Ⓒg·CLmax·(sLO_ft)=(fLO)²·(WoS_Pa)'",
+    "Landing Constraint",  "'(WoS_Pa)·(fTD)²=(sLD_ft)·(ρa_(kg/m^3))·Ⓒg·CLmax·RavW'",
+    // 14 CFR 23.333 to 23.341, before amendment 23-64 (2017)
+    "Maneuver Envelope",  "{ "
+    "  '(WoS_(lbf/ft^2))·(Sw_ft²)=(Wt_lb)·Ⓒg' "
+    "  'nneg=-kneg·nlim' "
+    "  '(VCmin_knot)=kVC·√((WoS_(lbf/ft^2))/(1_(lbf/ft^2)))·(1_knot)' "
+    "  '(VDmin_knot)=kVD·(VCmin_knot)' "
+    "  '(Vsn_knot)=√(2·(Wt_lb)·Ⓒg·nneg/((ρa_(kg/m^3))·(Sw_ft²)·CLmxn))' "
+    "}",
+    "Gust Load Factor",  "{ "
+    "  'μgst·(ρa_(kg/m^3))·(cgeo_ft)·CLα·Ⓒg=2·(WoS_Pa)' "
+    "  'Kgust=0.88·μgst/(5.3+μgst)' "
+    "  '(ngst-1)·2·(WoS_Pa)=Kgust·(1.225_(kg/m^3))·(Ude_(ft/s))·(EAS_knot)·CLα' "
+    "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
