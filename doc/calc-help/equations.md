@@ -6797,7 +6797,7 @@ case one in a variable name: `CL` and `Cl` would be the same variable, and so
 would `CLα` and `Clα`. The lift slope of the airfoil is therefore `Clαs`, for
 *section*, and its lift coefficient `Cls`.
 
-The 78 variables in the Design section are:
+The 103 variables in the Design section are:
 
 * `λt`: Taper ratio, tip chord over root chord
 * `Croot`: Root chord; for an elliptical wing, the chord at the center line
@@ -6811,6 +6811,25 @@ The 78 variables in the Design section are:
 * `xMAC`: Distance of the leading edge of the mean aerodynamic chord behind
   the leading edge at the root (dim.: length)
 * `ΛLE`: Sweep angle of the leading edge
+* `Λm`, `Λn`: Sweep of the chord lines at the fractions `xcm` and `xcn` of the
+  chord
+* `Mnrm`: Mach number normal to the wing
+* `xfl`: Hinge position of the flap, in fraction of the chord
+* `ηf`: Deflection of the flap
+* `θf`: Hinge angle of thin airfoil theory
+* `ΔCl`, `ΔCm4`: Changes of lift and moment due to the flap
+* `τf`: Flap efficiency, the change of the zero lift angle per degree of flap
+* `Clα0`, `ClαM`: Lift slopes of the airfoil at low speed and at the Mach number
+* `Cp0`, `CpM`: Pressure coefficients at low speed and at the Mach number
+* `βpg`: Compressibility factor, √(1−Mach²)
+* `hwl`: Height of the winglet (dim.: length)
+* `ηwl`: Winglet height over half the span
+* `φwl`: Cant of the winglet from the vertical
+* `Kwl`: Factor of the linear estimate of the winglets
+* `ARef`, `ARlin`: Effective aspect ratio, and its linear estimate
+* `ωph`: Angular frequency of the phugoid (dim.: angular speed)
+* `Tphg`: Period of the phugoid (dim.: time)
+* `ζph`: Damping ratio of the phugoid
 * `Clαs`: Lift slope of the airfoil, per radian: 2π in thin airfoil theory,
   about 6 for real airfoils
 * `Cls`: Lift coefficient of the airfoil
@@ -6882,8 +6901,9 @@ The 78 variables in the Design section are:
 * `ngst`: Load factor in an upward gust
 
 The entries also use `Sw`, `bw`, `AR`, `CL`, `eO`, `Kind`, `CD0`, `qd`, `nLF`,
-`Vst`, `CLmax`, `nlim`, `fLO`, `sLO`, `fTD`, `sLD`, `Thr`, `Psh`, `ηp` and `ρa`,
-with the same meaning as in Performance, and `Wt`, `VS`, `PMAC` and `TAS` as in
+`Vst`, `CLmax`, `nlim`, `fLO`, `sLO`, `fTD`, `sLD`, `Thr`, `Psh`, `ηp`, `LD` and
+`ρa`, with the same meaning as in Performance, and `Wt`, `VS`, `PMAC`, `TAS` and
+`Mach` as in
 Flight Management.
 
 * References:
@@ -6897,13 +6917,15 @@ Flight Management.
   [2] 14 CFR 23.333, 23.335, 23.337 and 23.341, before amendment 23-64 of 2017 ;
   [3] K. G. Pratt and W. G. Walker, *A revised gust-load formula and a
   re-evaluation of V-G data taken on civil transport airplanes from 1933 to 1950*,
-  NACA Report 1206, 1954.
+  NACA Report 1206, 1954 ;
+  [4] E. C. Polhamus, *A simple method of estimating the subsonic lift and damping
+  in roll of sweptback wings*, NACA Technical Note 1862, 1949.
 
 #### Wing Geometry
 
 The area, aspect ratio and mean chords of a trapezoidal or an elliptical wing.
 
-Entries: [Trapezoidal Wing](#trapezoidal wing) and [Elliptical Wing](#elliptical wing).
+Entries: [Trapezoidal Wing](#trapezoidal wing), [Elliptical Wing](#elliptical wing) and [Sweep Conversion & Normal Mach](#sweep conversion & normal mach).
 
 #### Trapezoidal Wing
 
@@ -6972,12 +6994,41 @@ Croot=6_ft bw=30_ft
 'ROOT(ⒺElliptical Wing;[Sw;AR;MAC;yMAC];[1_ft^2;5;1_ft;1_ft])'
 ```
 
+#### Sweep Conversion & Normal Mach
+
+The sweep angle of a tapered wing differs from one chord line to another, and the
+flow over a swept wing sees only the component of the Mach number normal to the
+wing.
+
+![Sweep conversion](img/SweepConversion.bmp)
+
+* Main results: the sweep `Λn` of the chord line at the fraction `xcn` of the
+  chord, from the sweep `Λm` of the chord line at the fraction `xcm`, the aspect
+  ratio `AR` and the taper ratio `λt`; the normal Mach number `Mnrm`.
+* The fractions go from 0 at the leading edge to 1 at the trailing edge; the quarter
+  chord is 0.25.
+* This is the geometry of a trapezoidal wing, and the examples are computed.
+
+* To calculate: `[Λn;Mnrm]` (Sweep; Normal Mach number) for the leading edge of an airliner wing of aspect ratio 9.5, taper ratio 0.24 and quarter chord sweep 25°, at Mach 0.78:
+```rpl
+AR=9.5 λt=0.24 Λm=25_° xcm=0.25 xcn=0 Mach=0.78
+@ Expecting [ Λn=27.96042 58769 ° Mnrm=0.70692 00738 89 ]
+'ROOT(ⒺSweep Conversion & Normal Mach;[Λn;Mnrm];[20_°;0.7])'
+```
+
+* To calculate: `[Λn;Mnrm]` for the mid chord of the same wing:
+```rpl
+AR=9.5 λt=0.24 Λm=25_° xcm=0.25 xcn=0.5 Mach=0.78
+@ Expecting [ Λn=21.88984 3627 ° Mnrm=0.70692 00738 89 ]
+'ROOT(ⒺSweep Conversion & Normal Mach;[Λn;Mnrm];[20_°;0.7])'
+```
+
 #### Airfoil & Wing
 
 The lift and the moment of an airfoil, the lift slope of a wing of finite span,
 and its induced drag.
 
-Entries: [Thin Airfoil](#thin airfoil), [Finite Wing Lift Slope](#finite wing lift slope) and [Induced Drag & Span Efficiency](#induced drag & span efficiency).
+Entries: [Thin Airfoil](#thin airfoil), [Plain Flap](#plain flap), [Prandtl Glauert Correction](#prandtl glauert correction), [Finite Wing Lift Slope](#finite wing lift slope), [Swept Wing Lift Slope](#swept wing lift slope), [Induced Drag & Span Efficiency](#induced drag & span efficiency) and [Winglets](#winglets).
 
 #### Thin Airfoil
 
@@ -7015,6 +7066,52 @@ Cls=0.776106 Cm4=-0.0531195 Clαs=6.28318530718 αw=5_°
 'ROOT(ⒺThin Airfoil;[α0;CmLE;xcps];[-2_°;-0.2;0.3])'
 ```
 
+#### Plain Flap
+
+A deflected flap acts as added camber: thin airfoil theory gives the changes of
+lift and moment.
+
+![Plain flap](img/PlainFlap.bmp)
+
+* Main results: the hinge angle `θf`, the change of lift `ΔCl`, the change of moment
+  about the quarter chord `ΔCm4` and the flap efficiency `τf`, from the hinge
+  position `xfl`, in fraction of the chord, and the deflection `ηf`.
+* The theory overestimates the effect of a real flap, on which the flow separates.
+* The examples are computed from the formulas of the source.
+
+* To calculate: `[θf;ΔCl;ΔCm4;τf]` (Hinge angle; Lift change; Moment change; Efficiency) for a flap of 25 % of the chord deflected by 10°:
+```rpl
+xfl=0.75 ηf=10_°
+@ Expecting [ θf=120. ° ΔCl=0.66784 07977 83 ΔCm4=-0.11336 24602 65 τf=0.60899 77810 44 ]
+'ROOT(ⒺPlain Flap;[θf;ΔCl;ΔCm4;τf];[100_°;0.5;-0.1;0.5])'
+```
+
+* To calculate: `[θf;ΔCl;ΔCm4;τf]` for a flap of 20 % of the chord deflected by 20°:
+```rpl
+xfl=0.8 ηf=20_°
+@ Expecting [ θf=126.86989 7646 ° ΔCl=1.20587 95483 2 ΔCm4=-0.22340 21442 55 τf=0.54981 51442 48 ]
+'ROOT(ⒺPlain Flap;[θf;ΔCl;ΔCm4;τf];[100_°;0.5;-0.1;0.5])'
+```
+
+#### Prandtl Glauert Correction
+
+Compressibility raises the lift slope of an airfoil and its pressure coefficient
+as the Mach number grows.
+
+* Main results: the lift slope `ClαM` and the pressure coefficient `CpM` at the
+  Mach number `Mach`, from their values `Clα0` and `Cp0` at low speed.
+* It holds up to the critical Mach number only. For a finite wing, the Swept Wing
+  Lift Slope entry applies the full transformation, which also changes the aspect
+  ratio and the sweep.
+* The examples are computed: the correction is an exact rule of linearized theory.
+
+* To calculate: `[ClαM;CpM]` (Lift slope; Pressure coefficient) at Mach 0.6, from 2π and −0.5:
+```rpl
+Clα0=6.28318530718 Cp0=-0.5 Mach=0.6
+@ Expecting [ ClαM=7.85398 16339 8 CpM=-0.625 ]
+'ROOT(ⒺPrandtl Glauert Correction;[ClαM;CpM];[7;-0.6])'
+```
+
 #### Finite Wing Lift Slope
 
 A wing of finite span lifts less than its airfoil: the vortices of its tips
@@ -7043,6 +7140,42 @@ Clαs=5.72957795131 AR=7.2 δsp=0.1
 Clαs=6.28318530718 AR=12.5 δsp=0 αw=5_° α0=-0.5_°
 @ Expecting [ CLα=5.41653 90579 1 CL=0.51995 04234 29 αi=0.75862 06896 55 ° ]
 'ROOT(ⒺFinite Wing Lift Slope;[CLα;CL;αi];[1;0.5;1_°])'
+```
+
+#### Swept Wing Lift Slope
+
+The formula of Helmbold and Polhamus for the lift slope of a swept wing of any
+aspect ratio, with compressibility.
+
+* Main results: the compressibility factor `βpg` and the lift slope `CLα` of the
+  wing, from the lift slope `Clαs` of the airfoil, the aspect ratio `AR`, the sweep
+  `Λm` of the quarter chord and the Mach number `Mach`.
+* The sweep and the compressibility work in opposite directions: sweep lowers the
+  slope, and the Mach number raises it.
+* It holds below the critical Mach number, and gives the same value for a forward
+  sweep, a limit that the source points out.
+* NACA Technical Note 1862 announces a ratio of 0.698 between the two slopes of the
+  first two examples, whose formula gives 0.6935: the 0.6 % gap is unexplained.
+
+* To calculate: `[βpg;CLα]` (Compressibility factor; Lift slope) for a straight wing of aspect ratio 3, at low speed:
+```rpl
+Clαs=6.28318530718 AR=3 Λm=0_° Mach=0
+@ Expecting [ βpg=1 CLα=3.36265 87279 7 ]
+'ROOT(ⒺSwept Wing Lift Slope;[βpg;CLα];[1;3])'
+```
+
+* To calculate: `[βpg;CLα]` for the same wing swept by 60° [4]:
+```rpl
+Clαs=6.28318530718 AR=3 Λm=60_° Mach=0
+@ Expecting [ βpg=1 CLα=2.33206 85039 2 ]
+'ROOT(ⒺSwept Wing Lift Slope;[βpg;CLα];[1;3])'
+```
+
+* To calculate: `[βpg;CLα]` for an airliner wing of aspect ratio 9.5, swept by 25°, at Mach 0.7:
+```rpl
+Clαs=6.28318530718 AR=9.5 Λm=25_° Mach=0.7
+@ Expecting [ βpg=0.71414 28428 54 CLα=5.80993 96000 2 ]
+'ROOT(ⒺSwept Wing Lift Slope;[βpg;CLα];[1;5])'
 ```
 
 #### Induced Drag & Span Efficiency
@@ -7082,12 +7215,33 @@ AR=7.2 δsp=0.1 Dk2=0.004
 'ROOT(ⒺInduced Drag & Span Efficiency;[eO;Kind];[0.8;0.05])'
 ```
 
+#### Winglets
+
+A winglet acts on the induced drag as a larger aspect ratio.
+
+![Winglet](img/Winglet.bmp)
+
+* Main results: the winglet height ratio `ηwl`, the effective aspect ratio `ARef`,
+  and the simple linear estimate `ARlin`, from the winglet height `hwl`, the span
+  `bw`, the aspect ratio `AR`, the cant `φwl` from the vertical, and the factor
+  `Kwl`, which is the sine of the cant in that estimate, or about 1 for the winglets
+  of Whitcomb.
+* In the Drag Polar entry, `ARef` replaces `AR`; the induced drag is multiplied by
+  `AR/ARef`.
+
+* To calculate: `[ηwl;ARef;ARlin]` (Height ratio; Effective aspect ratio; Linear estimate) for a wing of 60 ft and aspect ratio 9.5, with winglets of 2 ft canted by 25°. The source gives ratios of 1.032 and 1.028, and 9.80 [1]:
+```rpl
+bw=60_ft hwl=2_ft φwl=25_° AR=9.5 Kwl=0.422618
+@ Expecting [ ηwl=0.06666 66666 67 ARef=9.80138 89562 1 ARlin=9.76765 80666 7 ]
+'ROOT(ⒺWinglets;[ηwl;ARef;ARlin];[0.1;10;10])'
+```
+
 #### Stability
 
 The static longitudinal stability of the airplane: the size of its tails, its
 neutral point and static margin, and its trim.
 
-Entries: [Tail Volume Coefficients](#tail volume coefficients), [Neutral Point & Static Margin](#neutral point & static margin) and [Pitch Stiffness & Trim](#pitch stiffness & trim).
+Entries: [Tail Volume Coefficients](#tail volume coefficients), [Neutral Point & Static Margin](#neutral point & static margin), [Pitch Stiffness & Trim](#pitch stiffness & trim) and [Phugoid](#phugoid).
 
 #### Tail Volume Coefficients
 
@@ -7164,6 +7318,24 @@ increases, and it flies trimmed at the angle where the moment is zero.
 CLαw=4.58366236105 KT=0.135 SMarg=0.187357 Cm0=0.05 Cmac=-0.05 CLw=0.5 xcg=0.36 xacw=0.25 VHT=0.5 ηt=0.9
 @ Expecting [ Cmα=-0.97471 66948 91 αtr=2.93909 91153 3 ° CLt=1.11111 11111 1⁳⁻² ]
 'ROOT(ⒺPitch Stiffness & Trim;[Cmα;αtr;CLt];[-1;3_°;0.01])'
+```
+
+#### Phugoid
+
+The slow oscillation of speed and height of an airplane, at nearly constant angle
+of attack: Lanchester's approximation.
+
+* Main results: the angular frequency `ωph`, the period `Tphg` and the damping ratio
+  `ζph`, from the true airspeed `TAS` and the lift to drag ratio `LD`.
+* The period depends on the speed only: about 0.233 s per knot. The damping is small
+  for an efficient airplane.
+* The example is computed.
+
+* To calculate: `[ωph;Tphg;ζph]` (Angular frequency; Period; Damping ratio) at 120 kt with a lift to drag ratio of 11.39:
+```rpl
+TAS=120_knot LD=11.39
+@ Expecting [ ωph=0.22465 49259 95 r/s Tphg=27.96816 17456 s ζph=6.20813 67970 7⁳⁻² ]
+'ROOT(ⒺPhugoid;[ωph;Tphg;ζph];[0.2_r/s;30_s;0.06])'
 ```
 
 #### Propeller

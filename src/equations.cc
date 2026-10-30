@@ -2483,6 +2483,11 @@ static const cstring basic_equations[] =
     "  '(MAC_ft)=8·(Croot_ft)/(3·Ⓒπ)' "
     "  '(yMAC_ft)=2·(bw_ft)/(3·Ⓒπ)' "
     "}",
+    // Straight chord lines of a trapezoidal wing; x are fractions of the chord
+    "Sweep Conversion & Normal Mach",  "{ "
+    "  'TAN(Λn_°)=TAN(Λm_°)-4/AR·(xcn-xcm)·(1-λt)/(1+λt)' "
+    "  'Mnrm=Mach·COS(Λm_°)' "
+    "}",
     "Aeronautics/Design/Airfoil & Wing", nullptr,
     // Cls and xcps, not Cl and xcp, which DB48x would take for CL and XCP
     "Thin Airfoil",  "{ "
@@ -2490,16 +2495,37 @@ static const cstring basic_equations[] =
     "  'Cm4=CmLE+Cls/4' "
     "  'xcps=1/4-Cm4/Cls' "
     "}",
+    // xfl, not xf, which DB48x would take for XF
+    "Plain Flap",  "{ "
+    "  'COS(θf_°)=1-2·xfl' "
+    "  'ΔCl·(1_r)²=2·(ηf_°)·(Ⓒπ·(1_r)-(θf_°)+SIN(θf_°)·(1_r))' "
+    "  'ΔCm4·(1_r)=(ηf_°)/4·(SIN(2·(θf_°))-2·SIN(θf_°))' "
+    "  'τf·Ⓒπ·(1_r)=Ⓒπ·(1_r)-(θf_°)+SIN(θf_°)·(1_r)' "
+    "}",
+    "Prandtl Glauert Correction",  "{ "
+    "  'ClαM=Clα0/√(1-(Mach)²)' "
+    "  'CpM=Cp0/√(1-(Mach)²)' "
+    "}",
     // Lifting line theory; δsp is 0 for the elliptic lift distribution
     "Finite Wing Lift Slope",  "{ "
     "  'CLα=Clαs/(1+(1+δsp)·Clαs/(Ⓒπ·AR))' "
     "  'CL=CLα·((αw_°)-(α0_°))/(1_r)' "
     "  '(αi_°)=(1_r)·CL/(Ⓒπ·AR)' "
     "}",
+    // Helmbold and Polhamus (NACA TN 1862), with the Prandtl-Glauert transformation
+    "Swept Wing Lift Slope",  "{ "
+    "  'βpg=√(1-(Mach)²)' "
+    "  'CLα=Clαs·AR/(√((AR)²·((βpg)²+(TAN(Λm_°))²)+4·(βpg)²/((βpg)²+(TAN(Λm_°))²))+Clαs/Ⓒπ)' "
+    "}",
     "Induced Drag & Span Efficiency",  "{ "
     "  'CDi=(1+δsp)·(CL)²/(Ⓒπ·AR)' "
     "  'Kind=1/(Ⓒπ·AR·eO)' "
     "  'eO=1/(Ⓒπ·AR·Dk2+1+δsp)' "
+    "}",
+    "Winglets",  "{ "
+    "  'ηwl=(hwl_ft)/((bw_ft)/2)' "
+    "  'ARef=AR·(1+2·ηwl·SIN(φwl_°)+(ηwl)²)/(1+ηwl·SIN(φwl_°))' "
+    "  'ARlin=AR·(1+Kwl·ηwl)' "
     "}",
     "Aeronautics/Design/Stability", nullptr,
     // Static longitudinal stability of the wing and the horizontal tail.
@@ -2521,6 +2547,12 @@ static const cstring basic_equations[] =
     "  'Cmα=-CLαw·(1+KT)·SMarg' "
     "  '(αtr_°)=-(1_r)·Cm0/Cmα' "
     "  'Cmac+CLw·(xcg-xacw)=ηt·VHT·CLt' "
+    "}",
+    // Lanchester's approximation
+    "Phugoid",  "{ "
+    "  '(ωph_(r/s))=√2·Ⓒg/(TAS_knot)·(1_r)' "
+    "  '(Tphg_s)·(ωph_(r/s))=2·Ⓒπ·(1_r)' "
+    "  'ζph=1/(√2·LD)' "
     "}",
     "Aeronautics/Design/Propeller", nullptr,
     // The rotation nrot is in rpm, a unit of angle per time: the coefficients
