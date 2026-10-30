@@ -2473,8 +2473,8 @@ static const cstring basic_equations[] =
     // The same aspect ratio without the area: lets the solver find bw from AR
     "  'AR=2·(bw_ft)/((Croot_ft)+(Ctip_ft))' "
     "  '(cgeo_ft)=(Sw_ft²)/(bw_ft)' "
-    "  '(MAC_ft)=2/3·(Croot_ft)·(1+λt+(λt)²)/(1+λt)' "
-    "  '(yMAC_ft)=(bw_ft)/6·(1+2·λt)/(1+λt)' "
+    "  '(MAC_ft)=2/3·((Croot_ft)²+(Croot_ft)·(Ctip_ft)+(Ctip_ft)²)/((Croot_ft)+(Ctip_ft))' "
+    "  '(yMAC_ft)=(bw_ft)/6·((Croot_ft)+2·(Ctip_ft))/((Croot_ft)+(Ctip_ft))' "
     "  '(xMAC_ft)=(yMAC_ft)·TAN(ΛLE_°)' "
     "}",
     "Elliptical Wing",  "{ "
