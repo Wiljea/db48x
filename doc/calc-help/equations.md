@@ -6794,9 +6794,9 @@ propeller equations divide it by `(1_turn)`.
 **Upper and lower case.** DB48x does not tell an upper case letter from a lower
 case one in a variable name: `CL` and `Cl` would be the same variable, and so
 would `CLα` and `Clα`. The lift slope of the airfoil is therefore `Clαs`, for
-*section*.
+*section*, and its lift coefficient `Cls`.
 
-The 53 variables in the Design section are:
+The 57 variables in the Design section are:
 
 * `λt`: Taper ratio, tip chord over root chord
 * `Croot`: Root chord; for an elliptical wing, the chord at the center line
@@ -6812,6 +6812,10 @@ The 53 variables in the Design section are:
 * `ΛLE`: Sweep angle of the leading edge
 * `Clαs`: Lift slope of the airfoil, per radian: 2π in thin airfoil theory,
   about 6 for real airfoils
+* `Cls`: Lift coefficient of the airfoil
+* `Cm4`, `CmLE`: Moment coefficients of the airfoil about the quarter chord and
+  the leading edge
+* `xcps`: Center of pressure of the airfoil, in fraction of the chord
 * `CLα`: Lift slope of the wing, per radian
 * `δsp`: Span efficiency penalty of the lift distribution: 0 for an
   elliptical distribution, 0.05 to 0.15 for most wings
@@ -6866,6 +6870,7 @@ Flight Management.
   [1] J. G. Leishman, *Introduction to Aerospace Flight Vehicles*,
   Embry-Riddle Aeronautical University, chapters *Wing Shapes &
   Nomenclature*, *Finite Wing Characteristics*, *Lifting Line Theory* and
+  *Airfoil Characteristics*, *Classic Airfoil Theory*,
   *Worked Examples: Airfoils & Wings*, *Aircraft Stability & Control*,
   *Propellers* and *Worked Examples: Propulsion*.
 
@@ -6944,9 +6949,46 @@ Croot=6_ft bw=30_ft
 
 #### Airfoil & Wing
 
-The lift slope of a wing of finite span, and its induced drag.
+The lift and the moment of an airfoil, the lift slope of a wing of finite span,
+and its induced drag.
 
-Entries: [Finite Wing Lift Slope](#finite wing lift slope) and [Induced Drag & Span Efficiency](#induced drag & span efficiency).
+Entries: [Thin Airfoil](#thin airfoil), [Finite Wing Lift Slope](#finite wing lift slope) and [Induced Drag & Span Efficiency](#induced drag & span efficiency).
+
+#### Thin Airfoil
+
+The results of thin airfoil theory: the lift grows linearly with the angle of
+attack from the zero lift angle, and the moment about the quarter chord does
+not depend on it.
+
+* Main results: the lift coefficient `Cls` of the airfoil, from its lift slope
+  `Clαs`, the angle of attack `αw` and the zero lift angle `α0`; the moment
+  coefficient `Cm4` about the quarter chord, from the moment coefficient `CmLE`
+  about the leading edge; the center of pressure `xcps`, in fraction of the chord.
+* A symmetrical airfoil has `α0` and `Cm4` of zero, and its center of pressure
+  stays at the quarter chord.
+* The theory gives a slope of 2π per radian; real airfoils have about 6. It
+  holds below the stall.
+
+* To calculate: `[Cls]` (Lift coefficient) for a cambered airfoil of 6.1 per radian, at 5° with a zero lift angle of −1.2°. The source gives 0.660 [1]:
+```rpl
+Clαs=6.1 αw=5_° α0=-1.2_°
+@ Expecting [ Cls=0.66008 35231 04 ]
+'ROOT(ⒺThin Airfoil;[Cls];[0.5])'
+```
+
+* To calculate: `[Cls]` for an airfoil of 0.105 per degree, at 10° with a zero lift angle of −2°. The source gives 1.26 [1]:
+```rpl
+Clαs=6.01606 αw=10_° α0=-2_°
+@ Expecting [ Cls=1.26000 06599 7 ]
+'ROOT(ⒺThin Airfoil;[Cls];[1])'
+```
+
+* To calculate: `[α0;CmLE;xcps]` (Zero lift angle; Moment about the leading edge; Center of pressure) for a NACA 2415 at 5°, with a lift coefficient of 0.776 and a quarter chord moment of −0.0531. The source gives −0.247 for the moment [1]:
+```rpl
+Cls=0.776106 Cm4=-0.0531195 Clαs=6.28318530718 αw=5_°
+@ Expecting [ α0=-2.07723 80696 7 ° CmLE=-0.24714 6 xcps=0.31844 36146 61 ]
+'ROOT(ⒺThin Airfoil;[α0;CmLE;xcps];[-2_°;-0.2;0.3])'
+```
 
 #### Finite Wing Lift Slope
 

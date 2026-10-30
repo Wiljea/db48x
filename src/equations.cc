@@ -2484,6 +2484,12 @@ static const cstring basic_equations[] =
     "  '(yMAC_ft)=2·(bw_ft)/(3·Ⓒπ)' "
     "}",
     "Aeronautics/Design/Airfoil & Wing", nullptr,
+    // Cls and xcps, not Cl and xcp, which DB48x would take for CL and XCP
+    "Thin Airfoil",  "{ "
+    "  'Cls=Clαs·((αw_°)-(α0_°))/(1_r)' "
+    "  'Cm4=CmLE+Cls/4' "
+    "  'xcps=1/4-Cm4/Cls' "
+    "}",
     // Lifting line theory; δsp is 0 for the elliptic lift distribution
     "Finite Wing Lift Slope",  "{ "
     "  'CLα=Clαs/(1+(1+δsp)·Clαs/(Ⓒπ·AR))' "

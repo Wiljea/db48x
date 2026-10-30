@@ -12,7 +12,8 @@ Library.
 * [Aircraft Performance](#aircraft-performancelibrary): the drag polar
   from measurements, the speeds of best climb, and the takeoff roll.
 * [Aircraft Design](#aircraft-designlibrary): the area, aspect ratio and
-  mean aerodynamic chord of a wing made of several panels.
+  mean aerodynamic chord of a wing made of several panels, and the lift and
+  moments of a NACA airfoil.
 
 ## Flight ManagementLibrary
 
@@ -311,10 +312,12 @@ the Equation Library.
 ## Aircraft DesignLibrary
 
 The design of the aircraft, where the equation solver is not enough: a wing
-made of a variable number of panels.
+made of a variable number of panels, and an airfoil given by its digits.
 
 * [WingPanels](#wingpanels): the area, aspect ratio and mean aerodynamic
-  chord of a wing made of several straight tapered panels.
+  chord of a wing made of several straight tapered panels;
+* [NACA4](#naca4): the zero lift angle, the lift and the moments of a NACA
+  4-digit airfoil.
 
 ## WingPanels
 
@@ -368,3 +371,58 @@ aerodynamic chord is 0.292 m aft, as with the Trapezoidal Wing equation.
 
 See also: the Trapezoidal Wing and Elliptical Wing equations of the Equation
 Library.
+
+## NACA4
+
+The zero lift angle, the lift and the moments of a NACA 4-digit airfoil, by
+thin airfoil theory.
+
+![NACA camber line](img/NACACamber.bmp)
+
+Stack: the digits of the airfoil as a number, and the angle of attack ▶ `α0`
+`Cl` `Cm4` `CmLE`, tagged: the zero lift angle, the lift coefficient, and the
+moment coefficients about the quarter chord and the leading edge. A NACA 0012 is
+entered as 12. The angle is a value with an angle unit, or a plain number of
+degrees.
+
+The first digit is the maximum camber, in % of the chord, and the second its
+position, in tenths of the chord. The last two digits, the thickness, play no
+part in this theory: a NACA 2412 gives the same results as a NACA 2415. The
+integrals over the camber line are computed in closed form.
+
+A NACA 2415 at 5°. The source finds a lift coefficient of 0.776, moments of
+−0.0531 and −0.247 (J. G. Leishman, *Introduction to Aerospace Flight Vehicles*,
+Embry-Riddle Aeronautical University, *Classic Airfoil Theory*):
+
+```rpl
+2415 5_° ⓁNACA4
+@ Expecting CmLE:-0.24714 60774 82
+```
+
+Its zero lift angle:
+
+```rpl
+2415 5_° ⓁNACA4
+DROP DROP DROP
+@ Expecting α0:-2.07724 04049 °
+```
+
+The moment about the quarter chord of a NACA 4412, with twice the camber at the
+same position, is twice as large:
+
+```rpl
+4412 5_° ⓁNACA4
+DROP
+@ Expecting Cm4:-0.10623 90269 2
+```
+
+A symmetrical NACA 0012 at 5 degrees: the lift coefficient is 2π times the angle
+in radians.
+
+```rpl
+12 5 ⓁNACA4
+DROP DROP
+@ Expecting Cl:0.54831 13556 16
+```
+
+See also: the Thin Airfoil equation of the Equation Library.
