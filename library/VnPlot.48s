@@ -3,7 +3,7 @@
 @@ VnPlot — the maneuver and gust envelope of an airplane: the V-n
 @@ diagram of 14 CFR Part 23 before amendment 23-64 (2017).
 @@
-@@ Input:  Wt Sw — the mass and the wing area;
+@@ Input:  Wt Sw — the mass, or a weight such as 2450_lbf, and the wing area;
 @@         CLmax CLmxn — the maximum and most negative lift coefficients;
 @@         nlim kneg — the limit load factor, and nneg over it;
 @@         kVC kVD — the factors of the design speeds;
@@ -20,7 +20,20 @@
   → wtm swa clp cln nli kng kvc kvd cgm cla
   «
     IF cln 0 ≥ THEN "VnPlot: the most negative lift coefficient must be negative" DoError END
-    wtm IF DUP TypeName "unit" == THEN 1_kg CONVERT UVAL END →Num 9.80665 *
+    wtm
+    IF DUP TypeName "unit" == THEN
+      IF DUP 1_kg / UBASE TypeName "unit" ≠ THEN
+        1_kg CONVERT UVAL →Num 9.80665 *
+      ELSE
+        IF DUP 1_N / UBASE TypeName "unit" ≠ THEN
+          1_N CONVERT UVAL →Num
+        ELSE
+          "VnPlot: Wt must be a mass or a weight" DoError
+        END
+      END
+    ELSE
+      →Num 9.80665 *
+    END
     swa IF DUP TypeName "unit" == THEN 1_m^2 CONVERT UVAL END →Num
     cgm IF DUP TypeName "unit" == THEN 1_m CONVERT UVAL END →Num
     → wnw sqm cgb

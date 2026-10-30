@@ -440,8 +440,8 @@ Stack: `Wt` `Sw` `CLmax` `CLmxn` `nlim` `kneg` `kVC` `kVD` `cgeo` `CLα` ▶ `Vs
 `VC` `VD` `nGC` `nGD`, tagged: the mass, the wing area, the maximum and most
 negative lift coefficients, the limit load factor, the ratio of the negative one
 to it, the factors of the design speeds, the mean geometric chord and the lift
-slope of the wing, per radian. Values with units are converted; plain numbers are
-in SI units. The results are the stall speed, the maneuvering speed, the design
+slope of the wing, per radian. `Wt` is a mass, or a weight such as `2450_lbf`.
+Values with units are converted; plain numbers are in SI units. The results are the stall speed, the maneuvering speed, the design
 cruising and dive speeds, in knots, equivalent airspeed, and the load factors in an
 upward gust of 50 ft/s at `VC` and of 25 ft/s at `VD`.
 
