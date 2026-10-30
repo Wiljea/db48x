@@ -701,6 +701,12 @@
 	"ClimbVxVy",	"="
 	"TORoll",	"="
 
+"Aeronautics/Aircraft Design"
+
+	"WingPanels",	"="
+	"NACA4",	"="
+	"VnPlot",	"="
+
 "Chemistry"
 
 "Chemistry/Elements"
