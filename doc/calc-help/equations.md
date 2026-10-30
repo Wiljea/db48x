@@ -5386,7 +5386,8 @@ airspeeds, climb and descent, and the decision points of a flight. Its second
 part, [Performance](#performance), gives the performance of the aircraft from
 its drag polar: lift and drag, stall, turns, glide, climb, range and
 endurance, takeoff and landing. Its third part, [Design](#design), gives
-the geometry of the wing, its lift slope and its induced drag.
+the geometry of the wing, its lift slope and its induced drag, the stability
+in pitch and the propeller.
 
 **Units.** The examples use the units of the FAA handbooks (knot, nmi, gal,
 lb, ft, inHg); every equation also accepts SI units.
@@ -6772,11 +6773,12 @@ s0=1600_ft Wt=2400_lb Wt0=2400_lb xW=1 Vact=80_knot Vref=70_knot
 ### Design
 
 The aircraft as it is designed: the geometry of its wing, the lift and the
-induced drag that follow from it, and its stability in pitch, in three
-submenus:
+induced drag that follow from it, its stability in pitch and its propeller,
+in four submenus:
 [Wing Geometry](#wing geometry),
-[Airfoil & Wing](#airfoil & wing) and
-[Stability](#stability).
+[Airfoil & Wing](#airfoil & wing),
+[Stability](#stability) and
+[Propeller](#propeller).
 
 **Lengths.** The lengths are in ft in the equations, as the wingspan `bw` and
 the wing area `Sw` of [Performance](#performance); the examples of the source
@@ -6786,12 +6788,15 @@ in metres are entered in m, and DB48x converts.
 2π in theory. The angles are in degrees; an equation that multiplies a slope by
 an angle divides the angle by `(1_r)`.
 
+**Rotation.** The rotation `nrot` is in rpm, a unit of angle per time; the
+propeller equations divide it by `(1_turn)`.
+
 **Upper and lower case.** DB48x does not tell an upper case letter from a lower
 case one in a variable name: `CL` and `Cl` would be the same variable, and so
 would `CLα` and `Clα`. The lift slope of the airfoil is therefore `Clαs`, for
 *section*.
 
-The 37 variables in the Design section are:
+The 53 variables in the Design section are:
 
 * `λt`: Taper ratio, tip chord over root chord
 * `Croot`: Root chord; for an elliptical wing, the chord at the center line
@@ -6838,15 +6843,31 @@ The 37 variables in the Design section are:
 * `CLw`, `CLt`: Lift coefficients of the wing and of the horizontal tail
 * `ηt`: Tail efficiency, the dynamic pressure at the tail over that of the
   free stream
+* `nrot`: Rotation of the propeller (dim.: angular speed)
+* `Dprop`: Diameter of the propeller (dim.: length)
+* `Jadv`: Advance ratio, the distance flown per turn in diameters
+* `CTp`, `CPp`, `CQp`: Thrust, power and torque coefficients of the propeller
+* `CSp`: Speed-power coefficient of the propeller
+* `Qsh`: Torque on the shaft (dim.: force·length)
+* `Vtip`: Rotational speed of the blade tip (dim.: speed)
+* `Vhel`: Helical speed of the blade tip (dim.: speed)
+* `Mhel`: Helical Mach number of the blade tip
+* `asnd`: Speed of sound (dim.: speed)
+* `Adisk`: Area of the propeller disk (dim.: area)
+* `vind`: Induced velocity at the disk (dim.: speed)
+* `ηi`: Ideal efficiency, the upper limit of `ηp`
+* `Vwake`: Speed of the wake far behind the disk (dim.: speed)
 
-The entries also use `Sw`, `bw`, `AR`, `CL`, `eO` and `Kind`, with the same
-meaning as in Performance, and `PMAC` as in Flight Management.
+The entries also use `Sw`, `bw`, `AR`, `CL`, `eO`, `Kind`, `Thr`, `Psh`, `ηp`
+and `ρa`, with the same meaning as in Performance, and `PMAC` and `TAS` as in
+Flight Management.
 
 * References:
   [1] J. G. Leishman, *Introduction to Aerospace Flight Vehicles*,
   Embry-Riddle Aeronautical University, chapters *Wing Shapes &
   Nomenclature*, *Finite Wing Characteristics*, *Lifting Line Theory* and
-  *Worked Examples: Airfoils & Wings* and *Aircraft Stability & Control*.
+  *Worked Examples: Airfoils & Wings*, *Aircraft Stability & Control*,
+  *Propellers* and *Worked Examples: Propulsion*.
 
 #### Wing Geometry
 
@@ -7076,4 +7097,99 @@ increases, and it flies trimmed at the angle where the moment is zero.
 CLαw=4.58366236105 KT=0.135 SMarg=0.187357 Cm0=0.05 Cmac=-0.05 CLw=0.5 xcg=0.36 xacw=0.25 VHT=0.5 ηt=0.9
 @ Expecting [ Cmα=-0.97471 66948 91 αtr=2.93909 91153 3 ° CLt=1.11111 11111 1⁳⁻² ]
 'ROOT(ⒺPitch Stiffness & Trim;[Cmα;αtr;CLt];[-1;3_°;0.01])'
+```
+
+#### Propeller
+
+The coefficients of a propeller, the speed of its blade tips, and the momentum
+theory of the actuator disk.
+
+Entries: [Propeller Coefficients](#propeller coefficients), [Helical Tip Mach](#helical tip mach) and [Actuator Disk](#actuator disk).
+
+#### Propeller Coefficients
+
+The dimensionless coefficients that describe a propeller in the charts of its
+maker: the advance ratio is the distance flown per turn, in propeller
+diameters.
+
+* Main results: the advance ratio `Jadv`, the thrust `Thr`, the shaft power
+  `Psh`, the torque `Qsh`, the propeller efficiency `ηp` and the speed-power
+  coefficient `CSp`, from the true airspeed `TAS`, the rotation `nrot`, the
+  diameter `Dprop`, the air density `ρa` and the thrust and power coefficients
+  `CTp` and `CPp`; `CQp` is the torque coefficient, `CPp/(2π)`.
+* `CSp` does not depend on the diameter: it is the coefficient to use to choose
+  a propeller, when the diameter is not known yet.
+* Coefficients read from charts are not exact: `Jadv·CTp/CPp` can differ from
+  the efficiency read on the chart.
+
+* To calculate: `[TAS;Thr;Psh;CQp;Qsh;ηp;CSp]` (True airspeed; Thrust; Shaft power; Torque coefficient; Torque; Efficiency; Speed-power coefficient) for a propeller of 7 ft at 2 000 rpm, at 8 000 ft, with an advance ratio of 1.25 and coefficients read on a chart at a pitch of 30°. The source gives 234.4 lbf and 137.5 hp. It prints 292.7 ft/s, but 1.25·233.33 is 291.67 ft/s, or 172.8 kt, and it reads an efficiency of 0.87 on its chart [1]:
+```rpl
+Dprop=7_ft nrot=2000_rpm ρa=0.001869_slug/ft^3 Jadv=1.25 CTp=0.047 CPp=0.065
+@ Expecting [ TAS=172.80777 5378 knot Thr=234.34560 3333 lbf Psh=137.49484 1414 hp CQp=1.03450 71301⁳⁻² Qsh=361.06923 0401 lbf·ft ηp=0.90384 61538 46 CSp=2.15937 13833 9 ]
+'ROOT(ⒺPropeller Coefficients;[TAS;Thr;Psh;CQp;Qsh;ηp;CSp];[100_knot;100_lbf;100_hp;0.01;100_lbf*ft;0.8;1])'
+```
+
+* To calculate: `[Dprop;CPp;CSp]` (Diameter; Power coefficient; Speed-power coefficient) for a drone at 45 mph, with 800 W at 7 000 rpm and an advance ratio of 0.60. The source gives 0.287 m and 0.821, from a speed rounded to 20.12 m/s [1]:
+```rpl
+TAS=45_mph nrot=7000_rpm ρa=1.225_kg/m^3 Psh=800_W Jadv=0.6
+@ Expecting [ Dprop=0.28738 28571 43 m CPp=0.20980 18137 72 CSp=0.81995 38373 66 ]
+'ROOT(ⒺPropeller Coefficients;[Dprop;CPp;CSp];[0.3_m;0.05;0.8])'
+```
+
+#### Helical Tip Mach
+
+The tip of a blade moves along a helix, at a speed that combines the rotation
+and the flight speed. Noise and losses grow quickly when its Mach number nears
+one, which limits the rotation of a propeller.
+
+![Helical tip speed](img/HelicalTip.bmp)
+
+* Main results: the rotational tip speed `Vtip`, the helical tip speed `Vhel`
+  and the helical tip Mach number `Mhel`, from the rotation `nrot`, the
+  diameter `Dprop`, the true airspeed `TAS` and the speed of sound `asnd`.
+* Solved the other way, a maximum `Mhel` gives the maximum rotation.
+
+* To calculate: `[Vtip;Vhel;Mhel]` (Rotational tip speed; Helical tip speed; Mach number) for the propeller of the Propeller Coefficients entry, at 291.67 ft/s. The source gives 788.9 ft/s and 0.73 [1]:
+```rpl
+nrot=2000_rpm Dprop=7_ft asnd=1085.3_ft/s TAS=291.667_ft/s
+@ Expecting [ Vtip=733.03828 5838 ft/s Vhel=788.93267 6084 ft/s Mhel=0.72692 58970 64 ]
+'ROOT(ⒺHelical Tip Mach;[Vtip;Vhel;Mhel];[700_ft/s;800_ft/s;0.7])'
+```
+
+* To calculate: `[Vhel;Vtip;nrot]` (Helical tip speed; Rotational tip speed; Rotation) for the maximum rotation of a propeller of 6.5 ft at 220 ft/s, with a limit of Mach 0.85. The source gives 918 ft/s, 891.3 ft/s and 2 618 rpm [1]:
+```rpl
+TAS=220_ft/s asnd=1080_ft/s Dprop=6.5_ft Mhel=0.85
+@ Expecting [ Vhel=918. ft/s Vtip=891.24856 2411 ft/s nrot=2 618.70672 427 rpm ]
+'ROOT(ⒺHelical Tip Mach;[Vhel;Vtip;nrot];[900_ft/s;800_ft/s;2000_rpm])'
+```
+
+#### Actuator Disk
+
+The momentum theory replaces the propeller by a disk that accelerates the air
+through it. Half of the gain of speed is reached at the disk, and the other half
+in the wake.
+
+![Actuator disk](img/ActuatorDisk.bmp)
+
+* Main results: the area of the disk `Adisk`, the induced velocity `vind`, the
+  ideal efficiency `ηi` and the speed of the wake `Vwake`, from the thrust
+  `Thr`, the true airspeed `TAS`, the air density `ρa` and the diameter `Dprop`.
+* `ηi` is an upper limit: a real propeller also loses energy to the drag and
+  the rotation of its blades, and its efficiency `ηp` is lower.
+* The larger the disk, the smaller `vind` and the higher `ηi`, for the same
+  thrust.
+* The examples are computed, not taken from the source.
+
+* To calculate: `[Adisk;vind;ηi;Vwake]` (Disk area; Induced velocity; Ideal efficiency; Wake speed) for the propeller of the Propeller Coefficients entry, with a thrust of 234.4 lbf at 291.67 ft/s:
+```rpl
+Thr=234.4_lbf TAS=291.667_ft/s ρa=0.001869_slug/ft^3 Dprop=7_ft
+@ Expecting [ Adisk=38.48451 00065 ft↑2 vind=5.48347 56482 8 ft/s ηi=0.98154 64685 48 Vwake=302.63395 1297 ft/s ]
+'ROOT(ⒺActuator Disk;[Adisk;vind;ηi;Vwake];[30_ft^2;5_ft/s;0.9;300_ft/s])'
+```
+
+* To calculate: `[Adisk;vind;ηi;Vwake]` for the same thrust at rest, where the ideal efficiency is zero:
+```rpl
+Thr=234.4_lbf TAS=0_knot ρa=0.001869_slug/ft^3 Dprop=7_ft
+@ Expecting [ Adisk=38.48451 00065 ft↑2 vind=40.36604 26236 ft/s ηi=0. Vwake=80.73208 52472 ft/s ]
+'ROOT(ⒺActuator Disk;[Adisk;vind;ηi;Vwake];[30_ft^2;30_ft/s;0.5;60_ft/s])'
 ```

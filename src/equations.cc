@@ -2516,6 +2516,31 @@ static const cstring basic_equations[] =
     "  '(αtr_°)=-(1_r)·Cm0/Cmα' "
     "  'Cmac+CLw·(xcg-xacw)=ηt·VHT·CLt' "
     "}",
+    "Aeronautics/Design/Propeller", nullptr,
+    // The rotation nrot is in rpm, a unit of angle per time: the coefficients
+    // want revolutions per second without an angle, hence (nrot_rpm)/(1_turn).
+    "Propeller Coefficients",  "{ "
+    "  'Jadv·(nrot_rpm)/(1_turn)·(Dprop_ft)=(TAS_knot)' "
+    "  '(Thr_lbf)=CTp·(ρa_(kg/m^3))·((nrot_rpm)/(1_turn))²·(Dprop_ft)^4' "
+    "  '(Psh_hp)=CPp·(ρa_(kg/m^3))·((nrot_rpm)/(1_turn))³·(Dprop_ft)^5' "
+    "  'CPp=2·Ⓒπ·CQp' "
+    "  '(Qsh_(lbf*ft))=CQp·(ρa_(kg/m^3))·((nrot_rpm)/(1_turn))²·(Dprop_ft)^5' "
+    "  'ηp=Jadv·CTp/CPp' "
+    "  'CSp=Jadv/CPp^0.2' "
+    "}",
+    "Helical Tip Mach",  "{ "
+    "  '(Vtip_(ft/s))=Ⓒπ·(nrot_rpm)/(1_turn)·(Dprop_ft)' "
+    "  '(Vhel_(ft/s))=√((Vtip_(ft/s))²+(TAS_knot)²)' "
+    "  'Mhel·(asnd_(ft/s))=(Vhel_(ft/s))' "
+    "}",
+    // Momentum theory: the speed through the disk is TAS+vind, in the wake
+    // TAS+2·vind; ηi is the upper limit of the propeller efficiency
+    "Actuator Disk",  "{ "
+    "  '(Adisk_ft²)=Ⓒπ·(Dprop_ft)²/4' "
+    "  '(Thr_lbf)=2·(ρa_(kg/m^3))·(Adisk_ft²)·((TAS_knot)+(vind_(ft/s)))·(vind_(ft/s))' "
+    "  'ηi·((TAS_knot)+(vind_(ft/s)))=(TAS_knot)' "
+    "  '(Vwake_(ft/s))=(TAS_knot)+2·(vind_(ft/s))' "
+    "}",
 
     // As of 24-11-12: Total 695 vars, 614 eqns, 163 sims in 18 sections (eqns: 614/315=1.95; vars: 693/397=1.75 )
     // As of 24-12-11: Total 724 vars, 644 eqns, 182 sims in 158 subsections, 18 sections (644/315=2.04; 724/397=1.82)
