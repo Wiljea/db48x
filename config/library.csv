@@ -676,6 +676,10 @@
 	"XYZ→LLH",	"=/library/XYZtoLLH.48s"
 	"RadialFix",	"="
 	"GCPoint",	"="
+	"LL→UTM",	"=/library/Navigation/LLtoUTM.48s"
+	"UTM→LL",	"=/library/Navigation/UTMtoLL.48s"
+	"LL→MGRS",	"=/library/Navigation/LLtoMGRS.48s"
+	"MGRS→LL",	"=/library/Navigation/MGRStoLL.48s"
 
 "Navigation/Route"
 
